@@ -43,16 +43,10 @@ git remote -v
 #### origin	https://github.com/najaeseong1/Dogether-Final-Project.git (push)
 fork한 로컬 프로젝트는 orgin으로 기본적으로 추가되어 있는 것을 확인할 수 있습니다.
 
-git remote remove orign
-
-원본 프로젝트의 경로를 삭제하고 fork한 본인 repository 경로를 origin이라는 이름으로 추가합니다
-#### 예시) git remote add upstream https://github.com/najaeseong1/
-
-git remote add [별칭] [원본url]
-
-#### 예시) git remote add upstream https://github.com/najaeseong1/Dogether-Final-Project.git
 원본 프로젝트를 원격 저장소로 등록해줍니다.
 보통 위에서 흐른다고 하여 원본 저장소를 upstream 별칭으로 지정합니다.
+git remote add [별칭] [원본url]
+#### 예시) git remote add upstream https://github.com/najaeseong1/Dogether-Final-Project.git
 
 branch 본격적으로 로컬에서 코드 작업을 수행하기 전에 로컬에서 작업하는 브랜치를 만들어서 진행합니다.
 
