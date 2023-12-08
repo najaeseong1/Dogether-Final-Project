@@ -9,7 +9,9 @@ function App() {
   return (
     <div className='wrapper'>
       <Header />
-      <div className='content-wrapper'></div>
+      <div className='content-wrapper'>
+        <Login />
+      </div>
       <Footer />
     </div>
   );
