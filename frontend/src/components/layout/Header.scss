@@ -29,7 +29,8 @@
     cursor: pointer;
   }
 
-  li > p {
+  li > p,
+  a {
     display: inline;
     margin: 20px;
     font-size: 20px;
