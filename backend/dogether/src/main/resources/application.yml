@@ -10,7 +10,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     database: mysql
   servlet:
     multipart:
@@ -23,7 +23,7 @@ logging.level:
 # swagger setting
 springdoc:
   swagger-ui:
-    path: /
+    path:
 
 jwt:
   secret:
