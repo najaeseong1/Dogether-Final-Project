@@ -1,22 +1,21 @@
 import React from 'react';
 import './Header.scss';
 import Login from '../user/Login';
-import { Route, Routes } from 'react-router-dom';
+import { Link, Route, Routes } from 'react-router-dom';
 
 const Header = () => {
   return (
     <>
       <div className="HeaderContainer1">
-        <Routes>
-          <ul>
-            <Route
-              path="/user/login"
-              element={<Login />}
-            />
-            <li>회원가입</li>
-            <li>마이페이지</li>
-          </ul>
-        </Routes>
+        <ul>
+          <li>
+            <Link to="/user/login">로그인</Link>
+          </li>
+          <li>
+            <Link to="/user/Join">회원가입</Link>
+          </li>
+          <li>마이페이지</li>
+        </ul>
       </div>
       <div className="Dogether">Dogether</div>
       <div className="HeaderContainer2">
