@@ -1,15 +1,16 @@
-// Board.scss
+/*헤더 글씨체 따옴*/
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&family=Jua&family=Noto+Sans+KR:wght@100&family=Poiret+One&display=swap');
 
 .board-container {
   width: 800px;
-
   padding: 20px;
-
   border-radius: 8px;
-
+  font-family: 'Noto Sans KR', sans-serif;
+  margin: 0 auto;
   div {
-    font-size: 20px;
+    font-size: 25px;
     margin-bottom: 20px;
+    text-align: center;
   }
 
   form {
@@ -20,6 +21,7 @@
       input,
       select,
       textarea {
+        font-family: 'Noto Sans KR', sans-serif;
         width: 100%;
         padding: 8px;
         box-sizing: border-box;

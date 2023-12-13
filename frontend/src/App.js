@@ -8,19 +8,55 @@ import Board from './components/Board/Board';
 import { Route, Routes } from 'react-router-dom';
 import BoardDetail from './components/Board/BoardDetail';
 import BoardList from './components/Board/BoardList';
+import PageNotFound from './components/pagenotfound/PageNotFound';
 
 function App() {
   return (
     <div className='wrapper'>
-      <Header />
-      <div className='content-wrapper'>
-        <Routes>
-          <Route path='/board' element={<BoardList />} />
+      <Routes>
+        <Route
+          path='/'
+          element={
+            <>
+              <Header />
 
-          <Route path='/boardRegist' element={<Board />}></Route>
-        </Routes>
-      </div>
-      <Footer />
+              <Footer />
+            </>
+          }
+        />
+
+        <Route
+          path='/board'
+          element={
+            <>
+              <Header />
+              <BoardList />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path='/boardRegist'
+          element={
+            <>
+              <Header />
+              <Board />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path='/boardDetail'
+          element={
+            <>
+              <Header />
+              <BoardDetail />
+              <Footer />
+            </>
+          }
+        />
+        <Route path='*' element={<PageNotFound />} />
+      </Routes>
     </div>
   );
 }

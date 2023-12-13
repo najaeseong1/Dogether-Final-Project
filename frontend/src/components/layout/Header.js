@@ -1,8 +1,13 @@
 import React from 'react';
 import './Header.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Header = () => {
+  const redirection = useNavigate();
+
+  const toBoard = () => {
+    redirection('/board');
+  };
   return (
     <>
       <div className='HeaderContainer1'>
@@ -21,9 +26,7 @@ const Header = () => {
             <p>입양 게시판</p>
           </li>
           <li>
-            <Link to={'/board'} style={{ textDecoration: 'none' }}>
-              <p>자유 게시판</p>
-            </Link>
+            <p onClick={toBoard}>자유 게시판</p>
           </li>
           <li>
             <p>자체 제작 상품</p>
