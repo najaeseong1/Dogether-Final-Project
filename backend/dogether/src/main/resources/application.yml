@@ -10,7 +10,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     database: mysql
   servlet:
     multipart:
@@ -30,4 +30,4 @@ jwt:
 
 # 업로드 파일 저장 경로
 upload:
-  path:
+  path: C:/board_image
