@@ -1,7 +1,14 @@
 package com.ictedu.dogether.userapi.dto.response;
 
 import com.ictedu.dogether.userapi.entity.User;
+import lombok.*;
 
+@Getter
+@ToString
+@EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class LoginResponseDTO {
 
     private String userId;

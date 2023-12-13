@@ -2,7 +2,6 @@ package com.ictedu.dogether.userapi.dto.request;
 
 import lombok.*;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 @Setter
@@ -18,7 +17,7 @@ public class LoginRequestDTO {
     private String userId;
 
     @NotBlank
-    private String password;
+    private String userPass;
 
 
 }

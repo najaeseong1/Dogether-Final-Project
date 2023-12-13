@@ -7,7 +7,6 @@ import com.ictedu.dogether.userapi.dto.response.UserSignUpResponseDTO;
 import com.ictedu.dogether.userapi.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -68,23 +67,32 @@ public class UserController {
 
     }
 
-//    @PostMapping("/signin")
-//    public ResponseEntity<?> signIn(
-//            @Validated @RequestBody LoginRequestDTO dto
-//    ) {
-//        try {
-//            LoginResponseDTO responseDTO
-//                    = userService.authenticate(dto);
-//
-//            return ResponseEntity.ok().body(responseDTO);
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return ResponseEntity.badRequest()
-//                    .body(e.getMessage());
-//        }
-//    }
+    // 로그인 요청
+    @PostMapping("/signin")
+    public ResponseEntity<?> signIn(
+            @Validated @RequestBody LoginRequestDTO dto,
+            BindingResult result
+    ) {
 
+        if (result.hasErrors()) {
+            log.warn(result.toString());
+            return ResponseEntity.badRequest()
+                    .body(result.getFieldError());
+        }
+
+        log.info("로그인요청!");
+        try {
+            LoginResponseDTO responseDTO
+                    = userService.authenticate(dto);
+
+            return ResponseEntity.ok().body(responseDTO);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest()
+                    .body(e.getMessage());
+        }
+    }
 
 
 

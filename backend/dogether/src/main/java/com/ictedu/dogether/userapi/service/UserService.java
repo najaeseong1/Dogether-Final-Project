@@ -1,6 +1,9 @@
 package com.ictedu.dogether.userapi.service;
 
+import com.ictedu.dogether.auth.TokenProvider;
+import com.ictedu.dogether.userapi.dto.request.LoginRequestDTO;
 import com.ictedu.dogether.userapi.dto.request.UserRequestSignUpDTO;
+import com.ictedu.dogether.userapi.dto.response.LoginResponseDTO;
 import com.ictedu.dogether.userapi.dto.response.UserSignUpResponseDTO;
 import com.ictedu.dogether.userapi.entity.User;
 import com.ictedu.dogether.userapi.repository.UserRepository;
@@ -15,6 +18,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserService {
 
+    private final TokenProvider tokenProvider;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -44,4 +48,31 @@ public class UserService {
     public boolean isDuplicate(String userId) {
         return userRepository.existsById(userId);
     }
+
+    public LoginResponseDTO authenticate(final LoginRequestDTO dto) {
+
+        // 아이디 통해 회원 정보 조회
+        User user = userRepository.findById(dto.getUserId())
+                .orElseThrow(
+                        () -> new RuntimeException("가입된 회원이 아닙니다.")
+                );
+
+        // 패스워드 검증
+        String rawPassword = dto.getUserPass(); // 입력한 비번
+        String encodedPassword = user.getUserPass(); // DB에 저장된 암호화된 비번
+
+        if(!passwordEncoder.matches(rawPassword, encodedPassword)) {
+            throw new RuntimeException("비밀번호가 틀렸습니다.");
+        }
+
+        log.info("{}님 로그인 성공!", user.getUserName());
+
+        // 로그인 성공 후에 클라이언트에게 뭘 리턴할 것인가???
+        // -> JWT를 클라이언트에게 발급해 주어야 한다!
+        String token = tokenProvider.createToken(user);
+
+        return new LoginResponseDTO(user, token);
+
+    }
+
 }
