@@ -1,7 +1,13 @@
 import React from 'react';
 import './Header.scss';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Header = () => {
+  const redirection = useNavigate();
+
+  const toBoard = () => {
+    redirection('/board');
+  };
   return (
     <>
       <div className='HeaderContainer1'>
@@ -11,14 +17,16 @@ const Header = () => {
           <li>마이페이지</li>
         </ul>
       </div>
-      <div className='Dogether'>Dogether</div>
+      <Link to={'/'} style={{ textDecoration: 'none' }}>
+        <div className='Dogether'>Dogether</div>
+      </Link>
       <div className='HeaderContainer2'>
         <ul>
           <li>
             <p>입양 게시판</p>
           </li>
           <li>
-            <p>자유 게시판</p>
+            <p onClick={toBoard}>자유 게시판</p>
           </li>
           <li>
             <p>자체 제작 상품</p>
@@ -26,7 +34,6 @@ const Header = () => {
           <li>
             <p>반려 백과</p>
           </li>
-
           <li>
             <p>반려 퀴즈</p>
           </li>

@@ -29,7 +29,8 @@
     cursor: pointer;
   }
 
-  li > p {
+  li > p,
+  a {
     display: inline;
     margin: 20px;
     font-size: 20px;
@@ -38,6 +39,7 @@
 
   p:hover {
     border-bottom: 5px solid #6e6e6d;
+    border-radius: 3px;
   }
 
   /* 수정된 부분 */
