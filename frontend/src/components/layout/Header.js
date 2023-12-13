@@ -1,5 +1,6 @@
 import React from 'react';
 import './Header.scss';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   return (
@@ -8,7 +9,9 @@ const Header = () => {
         <ul>
           <li>로그인</li>
           <li>회원가입</li>
-          <li>마이페이지</li>
+          <li>
+            <Link to='/user/mypage'>마이페이지</Link>
+          </li>
         </ul>
       </div>
       <div className='Dogether'>Dogether</div>
