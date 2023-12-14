@@ -1,0 +1,33 @@
+.popup {
+  position: absolute;
+
+  img {
+    height: 800px;
+    justify-content: flex-end;
+  }
+
+  .button-group {
+    position: absolute;
+    bottom: 30px;
+    right: 20px;
+
+    button {
+      &:hover {
+        color: #fefefe;
+      }
+    }
+  }
+}
+
+.wrap {
+  .content-1 {
+    border: 1px solid #f00;
+    height: 200px;
+    // overflow: hidden;
+
+    img {
+      max-width: 100%;
+      max-height: 90%;
+    }
+  }
+}
