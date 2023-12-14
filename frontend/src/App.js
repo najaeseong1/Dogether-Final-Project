@@ -1,11 +1,15 @@
-import logo from './logo.svg';
 import './App.css';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import MainTemplate from './components/main/MainTemplate';
+import { Router, Route, Routes } from 'react-router-dom';
+import MyPage from './components/user/MyPage';
+import Modify from './components/user/Modify';
+import LikeList from './components/user/LikeList';
+import AdoptionStatus from './components/user/AdoptionStatus';
 import Login from './components/user/Login';
+import Join from './components/user/Join';
 import Board from './components/Board/Board';
-import { Route, Routes } from 'react-router-dom';
 import BoardDetail from './components/Board/BoardDetail';
 import BoardList from './components/Board/BoardList';
 import PageNotFound from './components/pagenotfound/PageNotFound';
