@@ -8,11 +8,15 @@ const Header = () => {
   const toBoard = () => {
     redirection('/board');
   };
+
+  const tologin = () => {
+    redirection('/user/login');
+  };
   return (
     <>
       <div className='HeaderContainer1'>
         <ul>
-          <li>로그인</li>
+          <li onClick={tologin}>로그인</li>
           <li>회원가입</li>
           <li>마이페이지</li>
         </ul>

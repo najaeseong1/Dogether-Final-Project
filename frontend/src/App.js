@@ -12,18 +12,20 @@ import PageNotFound from './components/pagenotfound/PageNotFound';
 
 function App() {
   return (
-    <div className='wrapper'>
+    <>
       <Header />
-      <Routes>
-        <Route path='/' element={<MainTemplate />} />
-        <Route path='/board' element={<BoardList />} />
-        <Route path='/boardRegist' element={<Board />} />
-        <Route path='/boardDetail' element={<BoardDetail />} />
-        <Route path='/user/login' element={<Login />} />
-        <Route path='*' element={<PageNotFound />} />
-      </Routes>
+      <div className='wrapper'>
+        <Routes>
+          <Route path='/' element={<MainTemplate />} />
+          <Route path='/board' element={<BoardList />} />
+          <Route path='/boardRegist' element={<Board />} />
+          <Route path='/boardDetail' element={<BoardDetail />} />
+          <Route path='/user/login' element={<Login />} />
+          <Route path='*' element={<PageNotFound />} />
+        </Routes>
+      </div>
       <Footer />
-    </div>
+    </>
   );
 }
 
