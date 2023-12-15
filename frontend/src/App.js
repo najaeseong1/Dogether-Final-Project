@@ -1,15 +1,18 @@
-import './App.css';
-import Header from './components/layout/Header';
-import Footer from './components/layout/Footer';
-import MainTemplate from './components/main/MainTemplate';
-import Login from './components/user/Login';
-import AdoptionList from './components/adopt/AdoptionList';
-import { Route, Routes } from 'react-router-dom';
-import AdoptionListDetail from './components/adopt/AdoptionListDetail';
-import AdoptionApplication from './components/adopt/AdoptionApplication';
-import Knowledge from './components/knowledges/Knowledge';
-import Join from './components/user/Join';
-
+import "./App.css";
+import { Header, Footer } from "./components/layout";
+import MainTemplate from "./components/main/MainTemplate";
+import { Router, Route, Routes } from "react-router-dom";
+import {
+  AdoptionStatus,
+  Join,
+  LikeList,
+  Login,
+  Modify,
+  MyPage,
+} from "./components/user";
+import { Board, BoardDetail, BoardList } from "./components/Board";
+import PageNotFound from "./components/pagenotfound/PageNotFound";
+import { Knowledge, Quiz } from "./components/knowledges";
 
 function App() {
   return (
@@ -71,6 +74,9 @@ function App() {
         <Route 
           path='/Knowledge'
           element={<Knowledge/>}
+        <Route
+          path="/quiz"
+          element={<Quiz />}
         />
         <Route
           path="*"

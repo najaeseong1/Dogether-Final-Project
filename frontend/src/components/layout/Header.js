@@ -1,32 +1,13 @@
-import React from 'react';
-import './Header.scss';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import "./Header.scss";
+import { Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
-
-  const navigate = useNavigate();
-
-  // 클릭 시 로그인 페이지로
-  const goLogin = () => {
-    navigate("/Login")
-  }
-
-  // 클릭 시 회원가입 페이지로
-  const goJoin = () => {
-    navigate("/Join")
-  }
-
-  // 클릭 시 백과 페이지로 
-  const goKnowledge = () => {
-    navigate("/Knowledge")
-  }
+  const redirection = useNavigate();
   
-  // 클릭 시 입양 게시판
-  const goAdoptionList = () => {
-    navigate("/AdoptionList")
-  }
-
-  
+  const toLink = (loc) => {
+    redirection(loc);
+  };
   return (
     <>
       <div className="HeaderContainer1">
@@ -36,28 +17,25 @@ const Header = () => {
           <li>마이페이지</li>
         </ul>
       </div>
-      <Link
-        to={'/'}
-        style={{ textDecoration: 'none' }}
-      >
+      <Link to={"/"}>
         <div className="Dogether">Dogether</div>
       </Link>
       <div className="HeaderContainer2">
         <ul>
           <li>
-            <p onClick={goAdoptionList}>입양 게시판</p>
+            <p onClick={() => toLink('/adoptionList')}>입양 게시판</p>
           </li>
           <li>
-            <p onClick={toBoard}>자유 게시판</p>
+            <p onClick={() => toLink('/board')}>자유 게시판</p>
           </li>
           <li>
-            <p>자체 제작 상품</p>
+            <p onClick={() => toLink('/products')}>자체 제작 상품</p>
           </li>
           <li>
-            <p onClick={goKnowledge}>반려 백과</p>
+            <p onClick={() => toLink('/knowledge')}>반려 백과</p>
           </li>
           <li>
-            <p>반려 퀴즈</p>
+            <p onClick={() => toLink('/quiz')}>반려 퀴즈</p>
           </li>
         </ul>
       </div>
