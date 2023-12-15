@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
   const redirection = useNavigate();
-
+  
   const toLink = (loc) => {
     redirection(loc);
   };
@@ -12,11 +12,9 @@ const Header = () => {
     <>
       <div className="HeaderContainer1">
         <ul>
-          <li>로그인</li>
-          <li>회원가입</li>
-          <li>
-            <Link to="/user/mypage">마이페이지</Link>
-          </li>
+          <li onClick={goLogin}>로그인</li>
+          <li onClick={goJoin}>회원가입</li>
+          <li>마이페이지</li>
         </ul>
       </div>
       <Link to={"/"}>
@@ -25,7 +23,7 @@ const Header = () => {
       <div className="HeaderContainer2">
         <ul>
           <li>
-          <p>입양 게시판</p>
+            <p onClick={() => toLink('/adoptionList')}>입양 게시판</p>
           </li>
           <li>
             <p onClick={() => toLink('/board')}>자유 게시판</p>
@@ -34,10 +32,10 @@ const Header = () => {
             <p onClick={() => toLink('/products')}>자체 제작 상품</p>
           </li>
           <li>
-            <p onClick={() => toLink('/brainknowledge')}>반려 백과</p>
+            <p onClick={() => toLink('/knowledge')}>반려 백과</p>
           </li>
           <li>
-            <p onClick={() => toLink('/brainquiz')}>반려 퀴즈</p>
+            <p onClick={() => toLink('/quiz')}>반려 퀴즈</p>
           </li>
         </ul>
       </div>

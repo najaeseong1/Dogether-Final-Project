@@ -12,7 +12,7 @@ import {
 } from "./components/user";
 import { Board, BoardDetail, BoardList } from "./components/Board";
 import PageNotFound from "./components/pagenotfound/PageNotFound";
-import { BrainKnowledge, BrainQuiz } from "./components/brain";
+import { Knowledge, Quiz } from "./components/knowledges";
 
 function App() {
   return (
@@ -60,12 +60,23 @@ function App() {
           element={<AdoptionStatus />}
         />
         <Route
-          path="/brainknowledge"
-          element={<BrainKnowledge />}
+          path='/AdoptionList'
+          element={<AdoptionList />}
         />
         <Route
-          path="/brainquiz"
-          element={<BrainQuiz />}
+          path='/AdoptionListDetail'
+          element={<AdoptionListDetail />}
+        />
+        <Route 
+          path='/AdoptionApplication'
+          element={<AdoptionApplication />}
+        />
+        <Route 
+          path='/Knowledge'
+          element={<Knowledge/>}
+        <Route
+          path="/quiz"
+          element={<Quiz />}
         />
         <Route
           path="*"
