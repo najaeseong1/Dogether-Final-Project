@@ -1,19 +1,44 @@
-.popup {
-  position: absolute;
+/* Dogether 글씨체 */
+@import url('https://fonts.googleapis.com/css2?family=Courgette&display=swap');
 
-  img {
-    height: 800px;
-    justify-content: flex-end;
-  }
+/* 헤더 메뉴 글씨체 */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&family=Jua&family=Noto+Sans+KR:wght@100&family=Poiret+One&display=swap');
 
-  .button-group {
-    position: absolute;
-    bottom: 30px;
-    right: 20px;
+/* 로그인 글씨체 */
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@700;800&display=swap');
 
-    button {
-      &:hover {
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  .popup {
+    position: relative;
+    img {
+      height: 800px;
+    }
+    .button-group {
+      position: absolute;
+      display: inline-block;
+      bottom: 30px;
+      right: 20px;
+
+      button {
+        border: 0;
+        background-color: transparent;
+        margin: 10px 20px;
         color: #fefefe;
+        font-family: 'Noto Sans KR', sans-serif;
+        &:hover {
+          color: #dddddd;
+          cursor: pointer;
+        }
       }
     }
   }
@@ -21,13 +46,200 @@
 
 .wrap {
   .content-1 {
-    border: 1px solid #f00;
-    height: 200px;
-    // overflow: hidden;
+    position: relative;
+    background-color: #ffffffd7;
+    height: 500px;
+    overflow: hidden;
 
     img {
-      max-width: 100%;
-      max-height: 90%;
+      position: absolute;
+      object-fit: contain;
+      height: 100%; /* 높이를 div에 맞춤 */
+      width: 100%; /* 너비를 자동으로 설정하여 가로세로 비율을 유지 */
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
     }
   }
+
+  .content-2 {
+    position: relative;
+    height: 200px;
+    display: flex;
+    .title-2-1 {
+      font-family: 'Courgette', cursive;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 28px;
+
+      div {
+        color: #e89b93;
+        font-size: 55px;
+      }
+    }
+  }
+  .content-3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffffd7;
+    overflow: hidden;
+
+    .title-3-1 {
+      position: relative;
+      width: 1330px;
+      height: 300px;
+      .readMore {
+        position: absolute;
+        display: inline-block;
+        right: 0;
+        margin: 0 30px;
+      }
+
+      .adoptList {
+        height: 150px;
+        // border: 1px solid #f00;
+        display: flex;
+        overflow: hidden;
+        .image {
+          position: relative;
+          height: 130px;
+          width: 150px;
+          font-size: 16px;
+          margin-left: 40px;
+          div.category {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.7s; /* opacity 변경에 애니메이션 효과를 추가 */
+            color: #dddddd;
+          }
+          img {
+            height: 100%;
+            width: 100%;
+            transition: 0.7s;
+            border-radius: 20%;
+            &:hover {
+              filter: brightness(0.5);
+            }
+          }
+          &:hover div {
+            opacity: 1; /* 마우스 오버 시 div의 opacity를 1로 변경 */
+          }
+        }
+      }
+    }
+  }
+
+  .content-4 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffffd7;
+    overflow: hidden;
+
+    .title-4-1 {
+      position: relative;
+      width: 600px;
+      height: 400px;
+      margin: 0px 60px;
+      .readMore {
+        position: absolute;
+        display: inline-block;
+        right: 0;
+        margin: 0 30px;
+      }
+      .reviewList {
+        height: 150px;
+        // border: 1px solid #f00;
+        display: flex;
+        overflow: hidden;
+        .image {
+          position: relative;
+          height: 130px;
+          width: 150px;
+          font-size: 16px;
+          margin-left: 40px;
+          div.category {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.7s; /* opacity 변경에 애니메이션 효과를 추가 */
+            color: #dddddd;
+          }
+          img {
+            height: 100%;
+            width: 100%;
+            transition: 0.7s;
+            border-radius: 20%;
+            &:hover {
+              filter: brightness(0.5);
+            }
+          }
+          &:hover div {
+            opacity: 1; /* 마우스 오버 시 div의 opacity를 1로 변경 */
+          }
+        }
+      }
+
+      .boardList {
+        height: 150px;
+        // border: 1px solid #0f0;
+        div {
+          margin-top: 10px;
+          width: 100px;
+          display: inline-block;
+          vertical-align: middle;
+        }
+        .title {
+          width: 330px;
+          overflow: hidden;
+          word-wrap: normal;
+          word-break: break-all;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        .regDate {
+          margin-left: 5px;
+          font-size: 15px;
+        }
+      }
+    }
+  }
+  span {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    font-weight: 18px;
+  }
+
+  hr {
+    height: 3px;
+    background-color: #e89b93;
+    border-style: none;
+    border-radius: 20%;
+  }
+  a {
+    font-family: 'Noto Sans KR', sans-serif;
+    color: #222211;
+    font-size: 18px;
+    text-decoration: none;
+    &:hover {
+      color: #666667;
+    }
+  }
+  .content-1,
+  .content-2,
+  .content-3,
+  .content-4 {
+    margin-bottom: 60px;
+  }
+}
+
+@media (max-width: 600px) {
 }
