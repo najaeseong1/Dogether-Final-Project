@@ -2,17 +2,14 @@ import './App.css';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import MainTemplate from './components/main/MainTemplate';
-import { Router, Route, Routes } from 'react-router-dom';
-import MyPage from './components/user/MyPage';
-import Modify from './components/user/Modify';
-import LikeList from './components/user/LikeList';
-import AdoptionStatus from './components/user/AdoptionStatus';
 import Login from './components/user/Login';
+import AdoptionList from './components/adopt/AdoptionList';
+import { Route, Routes } from 'react-router-dom';
+import AdoptionListDetail from './components/adopt/AdoptionListDetail';
+import AdoptionApplication from './components/adopt/AdoptionApplication';
+import Knowledge from './components/knowledges/Knowledge';
 import Join from './components/user/Join';
-import Board from './components/Board/Board';
-import BoardDetail from './components/Board/BoardDetail';
-import BoardList from './components/Board/BoardList';
-import PageNotFound from './components/pagenotfound/PageNotFound';
+
 
 function App() {
   return (
@@ -58,6 +55,22 @@ function App() {
         <Route
           path="/user/adoptionstatus"
           element={<AdoptionStatus />}
+        />
+        <Route
+          path='/AdoptionList'
+          element={<AdoptionList />}
+        />
+        <Route
+          path='/AdoptionListDetail'
+          element={<AdoptionListDetail />}
+        />
+        <Route 
+          path='/AdoptionApplication'
+          element={<AdoptionApplication />}
+        />
+        <Route 
+          path='/Knowledge'
+          element={<Knowledge/>}
         />
         <Route
           path="*"
