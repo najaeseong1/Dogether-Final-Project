@@ -5,21 +5,35 @@ import { Link, useNavigate } from 'react-router-dom';
 const Header = () => {
   const redirection = useNavigate();
 
+  //
   const toBoard = () => {
     redirection('/board');
+  };
+  const toproduct = () => {
+    redirection('/product');
+  };
+  const toMyPage = () => {
+    redirection('/user/mypage');
+  };
+  const toLogin = () => {
+    redirection('/user/login');
+  };
+  const toJoin = () => {
+    redirection('/user/join');
   };
   return (
     <>
       <div className='HeaderContainer1'>
         <ul>
-          <li>로그인</li>
-          <li>회원가입</li>
-          <li>
-            <Link to='/user/mypage'>마이페이지</Link>
-          </li>
+          <li onClick={toLogin}>로그인</li>
+          <li onClick={toJoin}>회원가입</li>
+          <li onClick={toMyPage}>마이페이지</li>
         </ul>
       </div>
-      <Link to={'/'} style={{ textDecoration: 'none' }}>
+      <Link
+        to={'/'}
+        style={{ textDecoration: 'none' }}
+      >
         <div className='Dogether'>Dogether</div>
       </Link>
       <div className='HeaderContainer2'>
@@ -31,7 +45,7 @@ const Header = () => {
             <p onClick={toBoard}>자유 게시판</p>
           </li>
           <li>
-            <p>자체 제작 상품</p>
+            <p onClick={toproduct}>자체 제작 상품 </p>
           </li>
           <li>
             <p>반려 백과</p>

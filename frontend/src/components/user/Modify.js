@@ -19,11 +19,7 @@ const Modify = () => {
               alt='Rectangle'
               src='https://cdn.animaapp.com/projects/656ec6d75c84f45c76814d5f/releases/6572de57df8c3c94cf99e02d/img/rectangle-42@2x.png'
             />
-            <img
-              className='line'
-              alt='Line'
-              src='https://cdn.animaapp.com/projects/656ec6d75c84f45c76814d5f/releases/6572de57df8c3c94cf99e02d/img/line-6.svg'
-            />
+
             <button className='div'>
               <Link to='/user/modify'>개인정보변경</Link>
             </button>
