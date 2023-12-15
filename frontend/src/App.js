@@ -18,10 +18,12 @@ import {
   AdoptionApplication,
 } from './components/adopt';
 import { Knowledge } from './components/knowledges';
+import ProductDetail from './components/product/ProductDetail';
+import Product from './components/product/Product';
 
 function App() {
   return (
-    <div className='wrapper'>
+    <>
       <Header />
       <div className='content-wrapper'>
         <Routes>
@@ -42,13 +44,22 @@ function App() {
             element={<BoardDetail />}
           />
           <Route
+            path='/user/join'
+            element={<Join />}
+          />
+          <Route
             path='/user/login'
             element={<Login />}
           />
           <Route
-            path='/user/Join'
-            element={<Join />}
+            path='*'
+            element={<PageNotFound />}
           />
+          <Route
+            path='/'
+            element={<MainTemplate />}
+          />
+
           <Route
             path='/user/mypage'
             element={<MyPage />}
@@ -85,10 +96,18 @@ function App() {
             path='*'
             element={<PageNotFound />}
           />
+          <Route
+            path='/product'
+            element={<Product />}
+          />
+          <Route
+            path='/product/productdetail'
+            element={<ProductDetail />}
+          />
         </Routes>
       </div>
       <Footer />
-    </div>
+    </>
   );
 }
 
