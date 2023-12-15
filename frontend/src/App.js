@@ -1,18 +1,18 @@
-import './App.css';
-import Header from './components/layout/Header';
-import Footer from './components/layout/Footer';
-import MainTemplate from './components/main/MainTemplate';
-import { Router, Route, Routes } from 'react-router-dom';
-import MyPage from './components/user/MyPage';
-import Modify from './components/user/Modify';
-import LikeList from './components/user/LikeList';
-import AdoptionStatus from './components/user/AdoptionStatus';
-import Login from './components/user/Login';
-import Join from './components/user/Join';
-import Board from './components/Board/Board';
-import BoardDetail from './components/Board/BoardDetail';
-import BoardList from './components/Board/BoardList';
-import PageNotFound from './components/pagenotfound/PageNotFound';
+import "./App.css";
+import { Header, Footer } from "./components/layout";
+import MainTemplate from "./components/main/MainTemplate";
+import { Router, Route, Routes } from "react-router-dom";
+import {
+  AdoptionStatus,
+  Join,
+  LikeList,
+  Login,
+  Modify,
+  MyPage,
+} from "./components/user";
+import { Board, BoardDetail, BoardList } from "./components/Board";
+import PageNotFound from "./components/pagenotfound/PageNotFound";
+import { BrainKnowledge, BrainQuiz } from "./components/brain";
 
 function App() {
   return (
@@ -58,6 +58,14 @@ function App() {
         <Route
           path="/user/adoptionstatus"
           element={<AdoptionStatus />}
+        />
+        <Route
+          path="/brainknowledge"
+          element={<BrainKnowledge />}
+        />
+        <Route
+          path="/brainquiz"
+          element={<BrainQuiz />}
         />
         <Route
           path="*"
