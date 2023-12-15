@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
   const redirection = useNavigate();
-  
+
   const toLink = (loc) => {
     redirection(loc);
   };
@@ -12,9 +12,9 @@ const Header = () => {
     <>
       <div className="HeaderContainer1">
         <ul>
-          <li onClick={goLogin}>로그인</li>
-          <li onClick={goJoin}>회원가입</li>
-          <li>마이페이지</li>
+          <li onClick={() => toLink("/user/login")}>로그인</li>
+          <li onClick={() => toLink("/user/join")}>회원가입</li>
+          <li onClick={() => toLink("/user/mypage")}>마이페이지</li>
         </ul>
       </div>
       <Link to={"/"}>
@@ -23,19 +23,19 @@ const Header = () => {
       <div className="HeaderContainer2">
         <ul>
           <li>
-            <p onClick={() => toLink('/adoptionList')}>입양 게시판</p>
+            <p onClick={() => toLink("/adoptionList")}>입양 게시판</p>
           </li>
           <li>
-            <p onClick={() => toLink('/board')}>자유 게시판</p>
+            <p onClick={() => toLink("/board")}>자유 게시판</p>
           </li>
           <li>
-            <p onClick={() => toLink('/products')}>자체 제작 상품</p>
+            <p onClick={() => toLink("/products")}>자체 제작 상품</p>
           </li>
           <li>
-            <p onClick={() => toLink('/knowledge')}>반려 백과</p>
+            <p onClick={() => toLink("/knowledges/knowledge")}>반려 백과</p>
           </li>
           <li>
-            <p onClick={() => toLink('/quiz')}>반려 퀴즈</p>
+            <p onClick={() => toLink("/knowledges/quiz")}>반려 퀴즈</p>
           </li>
         </ul>
       </div>
