@@ -84,10 +84,13 @@
     font-family: 'Nanum Gothic', sans-serif;
   }
 }
-
-.HeaderContainer3 {
-  border: 1px solid #f3ded7;
+a {
+  text-decoration: none;
 }
+
+// .HeaderContainer3 {
+//   border: 1px solid #f3ded7;
+// }
 
 @media (max-width: 768px) {
   .HeaderContainer1 {

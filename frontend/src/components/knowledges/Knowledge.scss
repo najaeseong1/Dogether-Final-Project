@@ -1,0 +1,112 @@
+.knowledge {
+  position: relative;
+  top: 250px;
+}
+
+//강아지 사진
+.know1 {
+  //border: 1px solid green;
+  position: relative;
+  left: 20px;
+  bottom: 170px;
+  img {
+    width: 200px;
+  }
+}
+
+// 강아지 사진 옆 시작멘트
+.knowledge .startmsg {
+  //border: 1px solid green;
+  position: relative;
+  left: 300px;
+  bottom: 330px;
+  font-size: 30px;
+}
+
+//
+.knowledge .head1 {
+  position: relative;
+  border: 1px solid pink;
+  border-width: 30px;
+  border-radius: 20px;
+  width: 700px;
+  bottom: 220px;
+}
+
+.knowledge .head1info {
+  font-size: 25px;
+  color: white;
+  position: relative;
+  //border: 1px solid black;
+  bottom: 293px;
+  left: 60px;
+}
+
+.knowledge .text1 {
+  position: relative;
+  bottom: 250px;
+
+  p {
+    //border: 1px solid blue;
+    text-align: center;
+    font-size: 20px;
+  }
+}
+
+.knowledge .head2 {
+  position: relative;
+  border: 1px solid pink;
+  border-width: 30px;
+  border-radius: 20px;
+  width: 700px;
+  bottom: 200px;
+}
+
+.knowledge .head1info2 {
+  font-size: 25px;
+  color: white;
+  position: relative;
+  //border: 1px solid black;
+  bottom: 270px;
+  text-align: center;
+}
+
+.knowledge .text2 {
+  position: relative;
+  bottom: 220px;
+
+  p {
+    //border: 1px solid blue;
+    text-align: center;
+    font-size: 20px;
+  }
+}
+
+.knowledge .head3 {
+  position: relative;
+  border: 1px solid pink;
+  border-width: 30px;
+  border-radius: 20px;
+  width: 700px;
+  bottom: 170px;
+}
+
+.knowledge .head1info3 {
+  font-size: 25px;
+  color: white;
+  position: relative;
+  //border: 1px solid black;
+  bottom: 243px;
+  text-align: center;
+}
+
+.knowledge .text3 {
+  position: relative;
+  bottom: 190px;
+
+  p {
+    // border: 1px solid blue;
+    text-align: center;
+    font-size: 20px;
+  }
+}
