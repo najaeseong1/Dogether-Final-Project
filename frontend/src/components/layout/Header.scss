@@ -83,11 +83,17 @@
     color: #e89b93;
     font-family: 'Nanum Gothic', sans-serif;
   }
+  li:hover {
+    color: #e95f51;
+  }
+}
+a {
+  text-decoration: none;
 }
 
-.HeaderContainer3 {
-  border: 1px solid #f3ded7;
-}
+// .HeaderContainer3 {
+//   border: 1px solid #f3ded7;
+// }
 
 @media (max-width: 768px) {
   .HeaderContainer1 {

@@ -1,0 +1,38 @@
+.main .adopt-button {
+   // border: 1px solid pink;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    
+}
+
+.main .border{
+    border: 1px solid pink;
+    border-radius: 10%;
+    width: 1000px;
+    height: 800px;
+    top: 100px;   
+    position: relative
+    
+}
+
+
+
+// 강아지 정보 
+.main .dog-info {
+    //border: 1px solid pink;
+    position: relative;
+    width: 600px;
+    bottom: 110px;
+    left: 450px;
+}
+
+// 강아지 프로필 사진
+.main .dog-profileimg {
+    //border: 1px solid red;
+    position: relative;
+    width: 250px;
+    right: -170px;
+    top: 100px;
+    
+}
