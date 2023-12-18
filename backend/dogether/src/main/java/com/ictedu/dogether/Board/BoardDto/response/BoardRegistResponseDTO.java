@@ -1,4 +1,4 @@
-package com.ictedu.dogether.Board.dto.response;
+package com.ictedu.dogether.Board.BoardDto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ictedu.dogether.Board.Entity.Board;
@@ -14,6 +14,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class BoardRegistResponseDTO {
+
+
+
     private String title;
 
     private String content;
@@ -23,10 +26,18 @@ public class BoardRegistResponseDTO {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime registDate;
 
+    private String userId;
+
+    private String image;
+
+
+
     public BoardRegistResponseDTO(Board board) {
             this.title = board.getTitle();
             this.content = board.getContent();
             this.category = board.getCategory();
             this.registDate = board.getCreateDate();
+            this.userId =board.getUser().getUserId();
+            this.image = board.getImage();
     }
 }
