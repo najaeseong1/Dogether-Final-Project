@@ -1,5 +1,4 @@
-package com.ictedu.dogether.Board.dto.request;
-
+package com.ictedu.dogether.Board.ReplyDto.request;
 
 import lombok.*;
 
@@ -12,19 +11,16 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class boardModifyRequestDTO {
+public class ReplyModifyRequestDTO {
+
+    @NotBlank
+    private int replyNo;
+
+    @NotBlank
+    private String replyContent;
 
     @NotBlank
     private int boardNo;
-
-    @NotBlank
-    private String title;
-
-    @NotBlank
-    private String content;
-
-    @NotBlank
-    private String category;
 
 
 }

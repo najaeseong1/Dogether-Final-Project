@@ -1,7 +1,8 @@
-package com.ictedu.dogether.Board.dto.request;
+package com.ictedu.dogether.Board.ReplyDto.request;
 
 import com.ictedu.dogether.Board.Entity.Board;
 import com.ictedu.dogether.Board.Entity.Reply;
+import com.ictedu.dogether.userapi.entity.User;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -16,20 +17,19 @@ import javax.validation.constraints.NotBlank;
 public class ReplyRequestDTO {
 
 
-    //게시물 번호, 아이디 , 댓글 내용
+    //게시물 번호,  댓글 내용
     @NotBlank
     private int boardNo;
 
-    @NotBlank
-    private String userId;
 
     @NotBlank
     private String replyContent;
 
-    public Reply toEntity(Board board) {
+    public Reply toEntity(Board board, User user) {
         return Reply.builder()
                 .replyContent(this.replyContent)
                 .board(board)
+                .user(user)
                 .build();
         
     }
