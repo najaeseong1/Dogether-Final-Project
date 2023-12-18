@@ -1,5 +1,6 @@
 
 *.yml
+EmailConfig.java
 
 .gradle
 build/
