@@ -10,11 +10,4 @@ body {
   min-height: 60vh;
 }
 
-.content-wrapper {
-  flex: 1; /* 여기서 flex 속성 추가 */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 /* 추가적인 스타일을 필요에 따라 계속해서 작성할 수 있습니다. */
