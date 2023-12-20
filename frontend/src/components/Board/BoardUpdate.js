@@ -1,17 +1,13 @@
-import React, { useRef, useState } from 'react';
-import './Board.scss'; // SCSS 파일 import
+import React, { useEffect, useRef, useState } from 'react';
+import './BoardUpdate.scss'; // SCSS 파일 import
 import { useNavigate } from 'react-router-dom';
-
 const API_URL = 'http://localhost:8181/board/regist';
 
-const Board = () => {
-  const redirection = useNavigate();
-
-  const toLink = (loc) => {
-    redirection(loc);
-  };
+const BoardUpdate = () => {
   const $fileTag = useRef();
   const [imagePreview, setImagePreview] = useState(null); //이미지 프리뷰임
+
+  const redirection = useNavigate();
 
   // 상태 관리를 위한 useState
   const [title, setTitle] = useState('');
@@ -116,7 +112,7 @@ const Board = () => {
 
   return (
     <div className='board-container'>
-      <div className='boardTitle'>게시물 작성</div>
+      <div className='boardTitle'>게시물 수정</div>
       <form onSubmit={handleSubmit}>
         <label>
           제목
@@ -175,7 +171,7 @@ const Board = () => {
           <button
             type='button'
             className='boardButton'
-            onClick={() => toLink('/board')}
+            onClick={() => console.log('취소 버튼 클릭')}
           >
             취소
           </button>
@@ -185,4 +181,4 @@ const Board = () => {
   );
 };
 
-export default Board;
+export default BoardUpdate;

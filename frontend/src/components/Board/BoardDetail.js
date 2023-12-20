@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 import './BoardDetail.scss';
+import { useNavigate } from 'react-router-dom';
 
 let today = new Date();
 const BoardDetail = () => {
   const [comments, setComments] = useState([]); // 댓글 목록을 저장하는 상태, 배열로 아이디 내용을 담을 거임
   const [newComment, setNewComment] = useState(''); // 새로 작성 중인 댓글
+  const redirection = useNavigate();
+
+  const toLink = (loc) => {
+    redirection(loc);
+  };
 
   // 더미 데이터
   const post = {
@@ -12,7 +18,8 @@ const BoardDetail = () => {
     date: '2023-01-01',
     content:
       '고양이가 너무 귀욥네요 사실 키울 생각은 없었는데용 다들 고양이 어떻게 키우고 계신가요 궁금해요 저는 정말로 고양이 키울생각은 없엇는데 살다보니 이런일도 생기네요 ',
-    imageUrl: 'https://placekitten.com/800/400', // 예시 이미지 URL
+    imageUrl:
+      'https://www.fitpetmall.com/wp-content/uploads/2023/09/shutterstock_2205178589-1-1.png', // 예시 이미지 URL
     userId: '춘식이',
   };
 
@@ -48,6 +55,12 @@ const BoardDetail = () => {
     }
   };
 
+  // 게시물 삭제
+  const deleteBoard = async () => {
+    if (window.confirm('게시글을 삭제하시겠습니까?')) {
+    }
+  };
+
   return (
     <div className='post-detail'>
       <h2>{post.title}</h2>
@@ -55,9 +68,24 @@ const BoardDetail = () => {
         작성자:{post.userId} | 작성일: {post.date}
       </p>
       <div className='post-content'>
-        <img src={post.imageUrl} alt='게시물 이미지' />
+        <img
+          src={post.imageUrl}
+          alt='게시물 이미지'
+        />
         <p>{post.content}</p>
       </div>
+      <button
+        onClick={deleteBoard}
+        className='detail-btn'
+      >
+        삭제
+      </button>
+      <button
+        onClick={() => toLink('/boardupdate')}
+        className='detail-btn'
+      >
+        수정
+      </button>
       <div className='comment-section'>
         <h3>댓글</h3>
         <ul>
@@ -74,7 +102,10 @@ const BoardDetail = () => {
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
           />
-          <button id='replycomment' onClick={handleCommentSubmit}>
+          <button
+            id='replycomment'
+            onClick={handleCommentSubmit}
+          >
             댓글 작성
           </button>
         </div>
