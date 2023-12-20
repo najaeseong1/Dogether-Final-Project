@@ -7,7 +7,22 @@
     
 }
 
-.main .border{
+.main .border {
+  border: 1px solid pink;
+  border-radius: 10%;
+  width: 1000px;
+  height: 1000px;
+  top: 30px;
+  position: relative;
+}
+
+// 관심등록 버튼
+.main .likebtn {
+  position: relative;
+  left: 800px;
+  bottom: 80px;
+
+  button {
     border: 1px solid pink;
     border-radius: 10%;
     width: 1000px;
@@ -51,10 +66,9 @@
 
 // 강아지 프로필 사진
 .main .dog-profileimg {
-    //border: 1px solid red;
-    position: relative;
-    width: 250px;
-    right: -170px;
-    top: 100px;
-    
+  //border: 1px solid red;
+  position: relative;
+  width: 250px;
+  right: -170px;
+  top: 100px;
 }

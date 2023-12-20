@@ -268,7 +268,13 @@ const Join = () => {
       <div className="joinmsg">회원가입</div>
       
 
-      <div className="feelsudiv">필수 정보 입력</div>
+        {/* <form action='#'> */}
+          <div className='iddiv'>
+            <input
+              type='text'
+              placeholder='아이디를 입력하세요.'
+            ></input>
+          </div>
 
       {/* <form action="#"> */}
         <div className="iddiv">
@@ -326,9 +332,12 @@ const Join = () => {
 
         <div className="joogbokemail"><p className={`message ${isEmail ? "blue-message" : "red-message"}`}>{emailMessage}</p></div>
 
-        <div className="emailsendbtn">
-          <button>이메일 발송받기</button>
-        </div>
+          <div className='emailinput2'>
+            <input
+              type='email'
+              placeholder='인증메일을 입력하세요.'
+            ></input>
+          </div>
 
         <div className="emailinput2">
           <input

@@ -1,334 +1,303 @@
-.mypage-fixed a {
-  text-decoration: none;
-  color: inherit;
-}
-
-.mypage-fixed button {
-  border: none;
-  border-radius: 10px;
-  background-color: #fff; /* 여기에 원하는 배경색을 지정하세요 */
-  cursor: pointer;
-  padding: 0; /* 버튼 내부의 여백 제거 */
-}
-
-.mypage-fixed button:hover {
-  background-color: #f3c2bd; /* 호버 시에 변경될 텍스트 색상 설정 */
-}
-
 .mypage-fixed {
   background-color: #ffffff;
   display: flex;
   flex-direction: row;
   justify-content: center;
   width: 100%;
-}
 
-.mypage-fixed .group-wrapper {
-  background-color: #ffffff;
-  height: 800px;
-  width: 1440px;
-}
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
 
-.mypage-fixed .group {
-  height: 655px;
-  left: 83px;
-  position: relative;
-  width: 1277px;
-}
+  button {
+    border: none;
+    border-radius: 15px;
 
-.mypage-fixed .overlap {
-  height: 52px;
-  left: 95px;
-  position: absolute;
-  top: 389px;
-  width: 240px;
-}
+    height: 50px;
+    background-color: #fff;
+    cursor: pointer;
+    padding: 0;
+    transition: 0.4s;
+  }
 
-.mypage-fixed .rectangle {
-  background-color: #f3ded7;
-  border: 1px solid;
-  border-color: #e6e6e6;
-  border-radius: 10px;
-  height: 49px;
-  left: 38px;
-  position: absolute;
-  top: 0;
-  width: 168px;
-}
+  button:hover {
+    background-color: #f3c2bd;
+    color: white;
+  }
 
-.mypage-fixed .text-wrapper {
-  color: #000000;
-  font-family: 'Days One', Helvetica;
-  font-size: 30px;
-  font-weight: 400;
-  left: 0;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  text-align: center;
-  top: 10px;
-  width: 240px;
-}
+  .group-wrapper {
+    background-color: #ffffff;
+    height: 800px;
+    width: 1440px;
+  }
 
-.mypage-fixed .img {
-  height: 292px;
-  left: 80px;
-  object-fit: cover;
-  position: absolute;
-  top: 41px;
-  width: 268px;
-}
+  .group {
+    height: 655px;
+    left: 83px;
+    position: relative;
+    width: 1277px;
+  }
 
-.mypage-fixed .line {
-  height: 1px;
-  left: 0;
-  object-fit: cover;
-  position: absolute;
-  top: -1px;
-  width: 1255px;
-}
+  .overlap {
+    height: 52px;
+    left: 95px;
+    position: absolute;
+    top: 389px;
+    width: 240px;
+  }
+  .rectangle {
+    background-color: #f3ded7;
+    border: 1px solid;
+    border-color: #e6e6e6;
+    border-radius: 10px;
+    height: 49px;
+    left: 38px;
+    position: absolute;
+    top: 0;
+    width: 168px;
+  }
+  .mypage-tap {
+    color: #000000;
+    font-family: 'Days One', Helvetica;
+    font-size: 30px;
+    font-weight: 400;
 
-.mypage-fixed .line-2 {
-  height: 1px;
-  left: 426px;
-  object-fit: cover;
-  position: absolute;
-  top: 437px;
-  width: 792px;
-}
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 10px;
+    width: 240px;
+  }
+  .text-wrapper {
+    color: #000000;
+    font-family: 'Days One', Helvetica;
+    font-size: 30px;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 10px;
+    width: 240px;
+  }
 
-.mypage-fixed .div {
-  color: #000000;
-  font-family: 'Days One', Helvetica;
-  font-size: 30px;
-  font-weight: 400;
-  left: 95px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  text-align: center;
-  top: 542px;
-  width: 240px;
-}
+  .img {
+    height: 292px;
+    left: 80px;
+    object-fit: cover;
+    position: absolute;
+    top: 41px;
+    width: 268px;
+  }
 
-.mypage-fixed .text-wrapper-2 {
-  color: #000000;
-  font-family: 'Days One', Helvetica;
-  font-size: 30px;
-  font-weight: 400;
-  left: 95px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  text-align: center;
-  top: 613px;
-  width: 240px;
-}
+  .line-2 {
+    left: 426px;
+    object-fit: cover;
+    position: absolute;
+    top: 437px;
+    width: 792px;
+  }
 
-.mypage-fixed .text-wrapper-3 {
-  color: #000000;
-  font-family: 'Days One', Helvetica;
-  font-size: 30px;
-  font-weight: 400;
-  left: 95px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  text-align: center;
-  top: 470px;
-  width: 240px;
-}
+  .div {
+    color: #000000;
+    font-family: 'Days One', Helvetica;
+    font-size: 30px;
+    font-weight: 400;
+    left: 95px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 542px;
+    width: 240px;
+  }
 
-.mypage-fixed .overlap-group-wrapper {
-  height: 234px;
-  left: 966px;
-  position: absolute;
-  top: 54px;
-  width: 256px;
-}
+  .text-wrapper-2 {
+    color: #000000;
+    font-family: 'Days One', Helvetica;
+    font-size: 30px;
+    font-weight: 400;
+    left: 95px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 613px;
+    width: 240px;
+  }
 
-.mypage-fixed .overlap-group {
-  background-color: #ffffff;
-  border: 1px solid;
-  border-color: #f3ded7;
-  border-radius: 10px;
-  height: 234px;
-  position: relative;
-  width: 252px;
-}
+  .text-wrapper-3 {
+    color: #000000;
+    font-family: 'Days One', Helvetica;
+    font-size: 30px;
+    font-weight: 400;
+    left: 95px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 470px;
+    width: 240px;
+  }
 
-.mypage-fixed .text-wrapper-4 {
-  color: #000000;
-  font-family: 'Courgette', Helvetica;
-  font-size: 36px;
-  font-weight: 400;
-  left: 61px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  top: 37px;
-  width: 166px;
-}
+  .completion-group {
+    height: 234px;
+    left: 693px;
+    position: relative;
+    top: 54px;
+    background-color: #ffffff;
+    border: 1px solid;
+    border-color: #f3ded7;
+    border-radius: 10px;
+    height: 234px;
+    position: absolute;
+    width: 252px;
 
-.mypage-fixed .element {
-  color: transparent;
-  font-family: 'Courgette', Helvetica;
-  font-size: 36px;
-  font-weight: 400;
-  left: 84px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  top: 100px;
-  width: 95px;
-}
+    .completion {
+      position: relative;
+      color: #000000;
+      font-family: 'Courgette', Helvetica;
+      font-size: 40px;
+      top: 20px;
+      text-align: center;
+    }
+    .completion-status {
+      position: relative;
+      color: #e89b93;
+      font-family: 'Courgette', Helvetica;
+      font-size: 36px;
+      letter-spacing: 0;
+      line-height: normal;
+      text-align: center;
+    }
+  }
 
-.mypage-fixed .span {
-  color: #e89b93;
-}
+  .know-group {
+    border: 1px solid #f3ded7;
+    border-radius: 10px;
+    height: 234px;
+    left: 420px;
+    position: absolute;
+    top: 53px;
+    width: 252px;
 
-.mypage-fixed .text-wrapper-5 {
-  color: #000000;
-}
+    .knowledge {
+      position: relative;
+      color: #000000;
+      font-family: 'Courgette', Helvetica;
+      font-size: 40px;
+      top: 20px;
+      text-align: center;
+    }
 
-.mypage-fixed .overlap-wrapper {
-  height: 234px;
-  left: 693px;
-  position: absolute;
-  top: 54px;
-  width: 256px;
-}
+    .knowledgecon {
+      position: relative;
+      color: #e89b93;
+      font-family: 'Courgette', Helvetica;
+      font-size: 36px;
+      letter-spacing: 0;
+      line-height: normal;
+      text-align: center;
+    }
+  }
+  .quiz-group {
+    border: 1px solid #f3ded7;
+    border-radius: 10px;
+    height: 234px;
+    left: 966px;
+    position: absolute;
+    top: 54px;
+    width: 256px;
 
-.mypage-fixed .text-wrapper-6 {
-  color: #e89b93;
-  font-family: 'Courgette', Helvetica;
-  font-size: 40px;
-  font-weight: 400;
-  left: 92px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  top: 120px;
-  white-space: nowrap;
-  width: 103px;
-}
+    .quiz {
+      position: relative;
+      color: #000000;
+      font-family: 'Courgette', Helvetica;
+      font-size: 40px;
+      top: 20px;
+      text-align: center;
+    }
 
-.mypage-fixed .overlap-2 {
-  border-radius: 10px;
-  height: 234px;
-  left: 420px;
-  position: absolute;
-  top: 53px;
-  width: 252px;
-}
+    .quiz-score {
+      position: relative;
+      color: #e89b93;
+      font-family: 'Courgette', Helvetica;
+      font-size: 36px;
+      letter-spacing: 0;
+      line-height: normal;
+      text-align: center;
+    }
+  }
 
-.mypage-fixed .rectangle-2 {
-  background-color: #ffffff;
-  border: 1px solid;
-  border-color: #f3ded7;
-  border-radius: 10px;
-  height: 234px;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 252px;
-}
+  .rectangle-2 {
+    background-color: #ffffff;
+    border: 1px solid;
+    border-color: #f3ded7;
+    border-radius: 10px;
+    height: 234px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 252px;
+  }
+  .text-wrapper-12 {
+    padding-bottom: 7px;
+    border-bottom: 5px solid pink;
+    color: #000000;
+    font-size: 30px;
+    font-weight: 400;
+    left: 420px;
+    position: absolute;
+    top: 384px;
+    width: 790px;
+    margin-bottom: 5px;
+  }
+  .overlap-3 {
+    margin-top: 5px;
+    left: 450px;
+    position: absolute;
+    top: 443px;
+    font-size: 20px;
+  }
 
-.mypage-fixed .text-wrapper-7 {
-  color: #000000;
-  font-family: 'Courgette', Helvetica;
-  font-size: 40px;
-  font-weight: 400;
-  left: 58px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  top: 39px;
-  width: 166px;
-}
+  .text-wrapper-9 {
+    color: #000000;
+    font-family: 'Courgette', Helvetica;
+    font-size: 30px;
+    font-weight: 400;
+    left: 427px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 3px;
+    width: 213px;
+  }
 
-.mypage-fixed .text-wrapper-8 {
-  color: #e89b93;
-  font-family: 'Courgette', Helvetica;
-  font-size: 36px;
-  font-weight: 400;
-  left: 48px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  top: 140px;
-  width: 155px;
-}
+  .text-wrapper-10 {
+    color: #000000;
+    font-family: 'Courgette', Helvetica;
+    font-size: 30px;
+    font-weight: 400;
+    left: 613px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 0;
+    width: 94px;
+  }
 
-.mypage-fixed .overlap-3 {
-  height: 51px;
-  left: 432px;
-  position: absolute;
-  top: 443px;
-  width: 786px;
-}
-
-.mypage-fixed .p {
-  color: #000000;
-  font-family: 'Courgette', Helvetica;
-  font-size: 30px;
-  font-weight: 400;
-  left: 0;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  top: 9px;
-  width: 515px;
-}
-
-.mypage-fixed .text-wrapper-9 {
-  color: #000000;
-  font-family: 'Courgette', Helvetica;
-  font-size: 30px;
-  font-weight: 400;
-  left: 427px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  top: 3px;
-  width: 213px;
-}
-
-.mypage-fixed .text-wrapper-10 {
-  color: #000000;
-  font-family: 'Courgette', Helvetica;
-  font-size: 30px;
-  font-weight: 400;
-  left: 613px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  top: 0;
-  width: 94px;
-}
-
-.mypage-fixed .text-wrapper-11 {
-  color: #000000;
-  font-family: 'Courgette', Helvetica;
-  font-size: 30px;
-  font-weight: 400;
-  left: 701px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  top: 0;
-  width: 85px;
-}
-
-.mypage-fixed .text-wrapper-12 {
-  color: #000000;
-  font-family: 'Courgette', Helvetica;
-  font-size: 30px;
-  font-weight: 400;
-  left: 420px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  top: 384px;
-  width: 426px;
+  .text-wrapper-11 {
+    color: #000000;
+    font-family: 'Courgette', Helvetica;
+    font-size: 30px;
+    font-weight: 400;
+    left: 701px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 0;
+    width: 85px;
+  }
 }

@@ -1,8 +1,10 @@
 package com.ictedu.dogether.userapi.service;
 
 import com.ictedu.dogether.auth.TokenProvider;
+import com.ictedu.dogether.auth.TokenUserInfo;
 import com.ictedu.dogether.userapi.dto.request.LoginRequestDTO;
 import com.ictedu.dogether.userapi.dto.request.UserRequestSignUpDTO;
+import com.ictedu.dogether.userapi.dto.request.UserUpdateRequestDTO;
 import com.ictedu.dogether.userapi.dto.response.LoginResponseDTO;
 import com.ictedu.dogether.userapi.dto.response.UserSignUpResponseDTO;
 import com.ictedu.dogether.userapi.entity.User;
@@ -11,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 
 @Service
 @Slf4j
@@ -75,4 +76,29 @@ public class UserService {
 
     }
 
+    //개인정보 변경 페이지
+    public  UserSignUpResponseDTO getUserInfo(TokenUserInfo userInfo) {
+        User finduser = userRepository.findById(userInfo.getUserId()).orElseThrow(
+                () -> new RuntimeException("가입된 회원이 아닙니다.")
+        );
+        return new UserSignUpResponseDTO(finduser);
+
+    }
+
+    //개인정보 변경 수정 페이지
+    public UserSignUpResponseDTO updateInfo(UserUpdateRequestDTO dto, TokenUserInfo userInfo) {
+
+        User findUser = userRepository.findById(userInfo.getUserId()).orElseThrow(
+                () -> new RuntimeException("동일한 회원이 아닙니다.")
+        );
+        findUser.setUserPhone(dto.getUserPhone());
+        findUser.setUserPass(dto.getUserPass());
+        findUser.setPostAddr(dto.getPostAddr());
+
+        User saveInfo = userRepository.save(findUser);
+
+        //dto 재활용함
+        return new UserSignUpResponseDTO(saveInfo);
+
+    }
 }

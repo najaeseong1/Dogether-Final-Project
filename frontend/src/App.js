@@ -1,7 +1,7 @@
-import "./App.css";
-import { Header, Footer } from "./components/layout";
-import MainTemplate from "./components/main/MainTemplate";
-import { Router, Route, Routes } from "react-router-dom";
+import './App.css';
+import { Header, Footer } from './components/layout';
+import MainTemplate from './components/main/MainTemplate';
+import { Router, Route, Routes } from 'react-router-dom';
 import {
   AdoptionStatus,
   Join,
@@ -9,81 +9,140 @@ import {
   Login,
   Modify,
   MyPage,
-} from "./components/user";
-import { Board, BoardDetail, BoardList } from "./components/Board";
-import PageNotFound from "./components/pagenotfound/PageNotFound";
+} from './components/user';
+import { Board, BoardDetail, BoardList } from './components/Board';
+import PageNotFound from './components/pagenotfound/PageNotFound';
 import {
   AdoptionList,
   AdoptionListDetail,
   AdoptionApplication,
-} from "./components/adopt";
-import { Knowledge } from "./components/knowledges";
+} from './components/adopt';
+import { Knowledge, Quiz } from './components/knowledges';
+import ProductDetail from './components/product/ProductDetail';
+import Product from './components/product/Product';
+import BoardUpdate from './components/Board/BoardUpdate';
+import AdminMain from './components/admin/AdminMain';
+import AdoptionManagement from './components/admin/AdoptionManagement';
+import FindId from './components/user/FindId';
+import FindPassword from './components/user/FindPassword';
+import ScrollToTop from './global/ScrollToTop';
 
 function App() {
   return (
-    <div className="wrapper">
+    <div className='wrapper'>
       <Header />
-      <div className="content-wrapper">
+      <div className='content-wrapper'>
+        <ScrollToTop />
         <Routes>
           <Route
-            path="/"
+            path='/'
             element={<MainTemplate />}
           />
           <Route
-            path="/board"
+            path='/board'
             element={<BoardList />}
           />
           <Route
-            path="/boardRegist"
+            path='/boardRegist'
             element={<Board />}
           />
           <Route
-            path="/boardDetail"
+            path='/boardDetail'
             element={<BoardDetail />}
           />
           <Route
-            path="/user/login"
-            element={<Login />}
+            path='/boardupdate'
+            element={<BoardUpdate />}
           />
           <Route
-            path="/user/Join"
+            path='/user/join'
             element={<Join />}
           />
           <Route
-            path="/user/mypage"
+            path='/user/login'
+            element={<Login />}
+          />
+          <Route
+            path='user/findid'
+            element={<FindId />}
+          />
+          <Route
+            path='/user/findpassword'
+            element={<FindPassword />}
+          />
+
+          <Route
+            path='/'
+            element={<MainTemplate />}
+          />
+          <Route
+            path='/user/mypage'
             element={<MyPage />}
           />
           <Route
-            path="/user/modify"
+            path='/user/modify'
             element={<Modify />}
           />
           <Route
-            path="/user/likelist"
+            path='/user/likelist'
             element={<LikeList />}
           />
           <Route
-            path="/user/adoptionstatus"
+            path='/user/adoptionstatus'
             element={<AdoptionStatus />}
           />
           <Route
-            path="/adoptionlist"
+            path='/adoptionlist'
             element={<AdoptionList />}
           />
           <Route
-            path="/adoptionlistdetail"
+            path='/adoptionlistdetail'
             element={<AdoptionListDetail />}
           />
           <Route
-            path="/adoptionapplication"
+            path='/adoptionapplication'
             element={<AdoptionApplication />}
           />
           <Route
-            path="/knowledges/knowledge"
+            path='/knowledges/knowledge'
             element={<Knowledge />}
           />
           <Route
-            path="*"
+            path='/knowledges/quiz'
+            element={<Quiz />}
+          />
+
+          <Route
+            path='*'
             element={<PageNotFound />}
+          />
+          <Route
+            path='/product'
+            element={<Product />}
+          />
+          <Route
+            path='/product/productdetail'
+            element={<ProductDetail />}
+          />
+          <Route
+            path='/adminmain'
+            element={<AdminMain />}
+          />
+          <Route
+            path='/AdoptionManagement'
+            element={<AdoptionManagement />}
+          />
+          <Route
+            path='*'
+            element={<PageNotFound />}
+          />
+          <Route
+            path='/product'
+            element={<Product />}
+          />
+          <Route
+            path='/product/productdetail'
+            element={<ProductDetail />}
           />
         </Routes>
       </div>

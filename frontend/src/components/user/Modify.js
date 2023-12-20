@@ -19,11 +19,7 @@ const Modify = () => {
               alt='Rectangle'
               src='https://cdn.animaapp.com/projects/656ec6d75c84f45c76814d5f/releases/6572de57df8c3c94cf99e02d/img/rectangle-42@2x.png'
             />
-            <img
-              className='line'
-              alt='Line'
-              src='https://cdn.animaapp.com/projects/656ec6d75c84f45c76814d5f/releases/6572de57df8c3c94cf99e02d/img/line-6.svg'
-            />
+
             <button className='div'>
               <Link to='/user/modify'>개인정보변경</Link>
             </button>
@@ -36,77 +32,82 @@ const Modify = () => {
           </div>
         </div>
       </div>
-      <form
-        action='/'
-        method='POST'
-        class='joinForm'
-        onsubmit='DoJoinForm__submit(this); return false;'
-      >
-        <h1> 개인정보 변경</h1>
-        <div class='textForm whiteSpace'>
+      <div className='userinfo-title'>
+        <span className='text'> </span>
+      </div>
+      <div className='joinform-box'>
+        <form
+          action='/'
+          method='POST'
+          class='joinForm'
+          onsubmit='DoJoinForm__submit(this); return false;'
+        >
+          <div class='textForm'>
+            <input
+              name='loginId'
+              type='text'
+              class='id'
+              placeholder='hunmo0926'
+              readOnly
+            ></input>
+          </div>
+          <div class='textForm'>
+            <input
+              name='loginPw'
+              type='password'
+              class='pw'
+              placeholder='비밀번호'
+            />
+          </div>
+          <div class='textForm'>
+            <input
+              name='loginPwConfirm'
+              type='password'
+              class='pwcheck'
+              placeholder='비밀번호 확인'
+            />
+          </div>
+          <div class='textForm '>
+            <input
+              name='name'
+              type='text'
+              class='name'
+              placeholder='나춘식'
+              readOnly
+            />
+          </div>
+          <div class='textForm'>
+            <input
+              name='number'
+              type='number'
+              class='phone-num'
+              placeholder='핸드폰번호'
+            />
+          </div>
+          <div class='textForm'>
+            <input
+              name='email'
+              type='text'
+              class='address'
+              placeholder='주소'
+            />
+          </div>
+          <div class='textForm'>
+            <input
+              name='payment'
+              type='text'
+              class='payment '
+              placeholder='결제수단등록'
+            />
+            <input placeholder='카카오뱅크 1234 **** **** ****' />
+          </div>
           <input
-            name='loginId'
-            type='text'
-            class='id'
-            placeholder='hunmo0926'
-            disabled
-          ></input>
-        </div>
-        <div class='textForm'>
-          <input
-            name='loginPw'
-            type='password'
-            class='pw'
-            placeholder='비밀번호'
+            type='submit'
+            class='btn'
+            value='수정'
           />
-        </div>
-        <div class='textForm'>
-          <input
-            name='loginPwConfirm'
-            type='password'
-            class='pw'
-            placeholder='비밀번호 확인'
-          />
-        </div>
-        <div class='textForm whiteSpace'>
-          <input
-            name='name'
-            type='text'
-            class='name'
-            placeholder='이름'
-          />
-        </div>
-        <div class='textForm2'>
-          <input
-            name='number'
-            type='number'
-            class='name'
-            placeholder='핸드폰번호'
-          />
-        </div>
-        <div class='textForm2'>
-          <input
-            name='email'
-            type='text'
-            class='address'
-            placeholder='주소'
-          />
-        </div>
-        <div class='textForm2 whiteSpace'>
-          <input
-            name='payment'
-            type='text'
-            class='payment '
-            placeholder='결제수단등록'
-          />
-          <input placeholder='카카오뱅크 1234 **** **** ****' />
-        </div>
-        <input
-          type='submit'
-          class='btn'
-          value='수정'
-        />
-      </form>
+        </form>
+      </div>
     </>
   );
 };

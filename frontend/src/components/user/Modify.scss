@@ -1,197 +1,81 @@
-.mypage-fixed {
-  background-color: #ffffff;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  width: 100%;
-}
-
-.mypage-fixed .group-wrapper {
-  background-color: #ffffff;
-  height: 800px;
-  width: 1440px;
-}
-
-.mypage-fixed .group {
-  height: 655px;
-  left: 83px;
-  position: relative;
-  width: 1277px;
-}
-
-.mypage-fixed .overlap {
-  height: 52px;
-  left: 95px;
-  position: absolute;
-  top: 389px;
-  width: 240px;
-}
-
-.mypage-fixed .rectangle {
-  background-color: #f3ded7;
-  border: 1px solid;
-  border-color: #e6e6e6;
-  border-radius: 10px;
-  height: 49px;
-  left: 38px;
-  position: absolute;
-  top: 0;
-  width: 168px;
-}
-
-.mypage-fixed .mypage-tap {
-  color: #000000;
-  font-family: 'Days One', Helvetica;
-  font-size: 30px;
-  font-weight: 400;
-  left: 0;
-  letter-spacing: 0;
-  line-height: normal;
+.userinfo-title {
   position: absolute;
   text-align: center;
-  top: 10px;
-  width: 240px;
+  font-size: 30px;
+  top: 300px;
 }
 
-.mypage-fixed .img {
-  height: 292px;
-  left: 80px;
-  object-fit: cover;
-  position: absolute;
-  top: 41px;
-  width: 268px;
-}
-
-.mypage-fixed .line {
-  height: 1px;
-  left: 0;
-  object-fit: cover;
-  position: absolute;
-  top: -1px;
-  width: 1255px;
-}
-
-.joinForm {
+.joinform-box {
   position: absolute;
   width: 600px;
   height: 700px;
-  padding: 30px, 20px;
+  padding: 30px 20px;
   text-align: center;
-  top: 70%;
+  top: 50%;
   left: 60%;
   transform: translate(-50%, -50%);
   border-radius: 15px;
 }
 
-.joinForm h2 {
-  text-align: center;
-  margin: 30px;
-}
-
-.textForm {
-  border: 2px solid #adadad;
-  padding: 10px 10px;
-  margin: 5px;
-}
-.textForm2 {
-  border: 2px solid #adadad;
-  padding: 10px 10px;
-  margin: 5px;
-  margin-top: 10px;
-}
-
-.whiteSpace {
-  margin-top: 40px;
-}
-
-.id {
-  width: 100%;
-  border: none;
-  outline: none;
-  color: #636e72;
-  font-size: 16px;
-  height: 25px;
-  background: #d3d3d3;
-}
-
-.pw {
-  width: 100%;
-  border: none;
-  outline: none;
-  color: #636e72;
-  font-size: 16px;
-  height: 25px;
-  background: none;
-}
-
-.name {
-  width: 100%;
-  border: none;
-  outline: none;
-  color: #636e72;
-  font-size: 16px;
-  height: 25px;
-  background: none;
-}
-
-.email {
-  width: 100%;
-  border: none;
-  outline: none;
-  color: #636e72;
-  font-size: 16px;
-  height: 25px;
-  background: none;
-}
-
-.address {
-  width: 100%;
-  border: none;
-  outline: none;
-  color: #636e72;
-  font-size: 16px;
-  height: 25px;
-  background: none;
-}
-.payment {
-  width: 100%;
-  border: none;
-  outline: none;
-  color: #636e72;
-  font-size: 16px;
-  height: 25px;
-  background: none;
-}
-
-.cellphoneNo {
-  width: 100%;
-  border: none;
-  outline: none;
-  color: #636e72;
-  font-size: 16px;
-  height: 25px;
-  background: none;
-}
-
-.btn {
-  margin-top: 20px;
+.joinForm {
   position: relative;
-  left: 40%;
-  transform: translateX(-50%);
-  margin-bottom: 40px;
-  width: 80%;
-  height: 40px;
-  background: linear-gradient(125deg, #ec81de, #866f86, #f807e4);
-  background-position: left;
-  background-size: 200%;
-  color: white;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-  transition: 0.4s;
-  display: inline;
-}
+  height: 700px;
+  text-align: center;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 15px;
+  left: 300px;
 
-.btn:hover {
-  background-position: right;
+  .textForm {
+    border: 2px solid #adadad;
+    margin: 15px;
+    height: 40px;
+    padding: 0px;
+  }
+  .id,
+  .name,
+  .phone-num,
+  .email,
+  .address,
+  .payment,
+  .cellphoneNo {
+    width: 95%;
+    border: none;
+    outline: none;
+    color: #636e72;
+    font-size: 16px;
+  }
+
+  .pw,
+  .pwcheck {
+    width: 95%;
+    border: none;
+    outline: none;
+    color: #636e72;
+    font-size: 16px;
+    height: 25px;
+  }
+
+  .pwcheck {
+    margin-bottom: 20px; /* 조절하고자 하는 간격으로 변경 */
+  }
+
+  .btn {
+    position: relative;
+    background-color: #f3ded7;
+    height: 50px;
+    border-radius: 10px;
+    width: 80%;
+    background-size: 200%;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    transition: 0.4s;
+  }
+
+  .btn:hover {
+    background-color: #e89b93;
+  }
 }
