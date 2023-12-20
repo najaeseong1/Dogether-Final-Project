@@ -1,5 +1,5 @@
 import React from 'react';
-import './Mypage.scss';
+import './MyPage.scss';
 import { Link } from 'react-router-dom';
 const MyPage = () => {
   return (
