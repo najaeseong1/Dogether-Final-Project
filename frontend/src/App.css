@@ -2,12 +2,16 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Arial', sans-serif;
+ 
 }
 
 .wrapper {
   display: flex;
   flex-direction: column;
-  min-height: 300vh;
+  min-height: 60vh;
+  
+  
+ 
 }
 
 .content-wrapper {
@@ -15,6 +19,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  
 }
+
 
 /* 추가적인 스타일을 필요에 따라 계속해서 작성할 수 있습니다. */

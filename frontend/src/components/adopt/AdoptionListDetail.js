@@ -15,10 +15,16 @@ const AdoptionListDetail = () => {
       <div className="border">
         <div className="dog-profileimg">
           <img
-            src="/img/dog/pic/dogdog.jpeg"
+            src="/img/dogPic/dogdog.jpeg"
             alt="profile"
           />
         </div>
+
+        {/* 관심등록 버튼 */}
+        <div className="likebtn">
+          <button>관심 등록</button>
+        </div>
+
         <div className="dog-info">
           <div className="dog-info1">
             {" "}

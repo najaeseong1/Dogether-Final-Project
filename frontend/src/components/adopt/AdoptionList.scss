@@ -13,8 +13,29 @@
     overflow: hidden;
     position: relative;
     width: 1500px;
+    left: 30px;
     
   }
+
+  .index .category {
+    border: 2px solid black;
+    border-radius: 10px;
+    position: relative;
+    left: 450px;
+    height: 30px;
+    width: 100px;
+  }
+
+  .index .searchbar {
+    border: 2px solid pink;
+    border-radius: 10px;
+    //border-color: pink;
+    position: relative;
+    left: 500px;
+    height: 30px;
+    width: 400px;
+  }
+
   
   // 첫번째 사진 프레임
   .index .frame-1 {
@@ -27,7 +48,7 @@
     left: 300px;
     overflow: hidden;
     position: relative;
-    top: 137px;
+    top: 107px;
     width: 150px;
 
    
@@ -330,460 +351,17 @@
     width: 150px;
   }
 
-  
-  .index .rectangle {
-    background-color: #d9d9d9;
-    border-radius: 10px;
-    height: 71px;
-    left: 558px;
-    position: absolute;
-    top: 106px;
-    width: 13px;
-  }
-  
-  //검색 바
-  .index .overlap-2 {
-    border-radius: 5px;
-    height: 20px;
+  .index .pageNum {
+    //border: 1px solid pink;
+    display: inline-block;
+    position: relative;
+    
+
     left: 650px;
-    position: absolute;
-    top: 93px;
-    width: 225px;
+    top: 750px;
+      
+
   }
   
-  .index .view {
-    background-color: #ffffff;
-    border: 2px solid;
-    border-color: #f3ded7;
-    border-radius: 5px;
-    height: 20px;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 225px;
-  }
   
-  .index .rectangle-2 {
-    background-color: #f3ded7;
-    border-radius: 5px;
-    height: 20px;
-    left: 205px;
-    position: relative;
-    top: -2px;
-    width: 18px;
-  }
-  
-  .index .image-10 {
-    height: 8px;
-    left: 212px;
-    object-fit: cover;
-    position: absolute;
-    top: 6px;
-    width: 8px;
-  }
-  
-  // 페이지 넘버
-  .index .element {
-    color: #000000;
-    font-family: "Inter", Helvetica;
-    font-size: 20px;
-    font-weight: 400;
-    height: 9px;
-    left: 600px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    text-align: center;
-    top: 900px;
-    white-space: nowrap;
-    width: 453px;
-  }
-  
-  .index .text-wrapper {
-    font-weight: 300;
-  }
-  
-  .index .span {
-    font-weight: 700;
-  }
-  
-  .index .navbar {
-    height: 48px;
-    left: -4px;
-    position: absolute;
-    top: 6px;
-    width: 585px;
-  }
-  
-  .index .group {
-    height: 17px;
-    left: 259px;
-    position: absolute;
-    top: 29px;
-    width: 95px;
-  }
-  
-  .index .text-wrapper-2 {
-    color: #e89b93;
-    font-family: "Courgette", Helvetica;
-    font-size: 20px;
-    font-weight: 400;
-    left: 0;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 0;
-    white-space: nowrap;
-    width: 93px;
-  }
-  
-  .index .group-2 {
-    height: 47px;
-    left: 0;
-    position: absolute;
-    top: 1px;
-    width: 585px;
-  }
-  
-  .index .text-wrapper-3 {
-    color: #000000;
-    font-family: "Cormorant", Helvetica;
-    font-size: 8px;
-    font-weight: 500;
-    left: 371px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 36px;
-    width: 42px;
-  }
-  
-  .index .text-wrapper-4 {
-    color: #000000;
-    font-family: "Cormorant", Helvetica;
-    font-size: 8px;
-    font-weight: 500;
-    left: 456px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 35px;
-    width: 42px;
-  }
-  
-  .index .text-wrapper-5 {
-    color: #000000;
-    font-family: "Cormorant", Helvetica;
-    font-size: 8px;
-    font-weight: 500;
-    left: 185px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 36px;
-    width: 42px;
-  }
-  
-  .index .text-wrapper-6 {
-    color: #000000;
-    font-family: "Cormorant", Helvetica;
-    font-size: 8px;
-    font-weight: 500;
-    left: 96px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 36px;
-    width: 42px;
-  }
-  
-  .index .text-wrapper-7 {
-    color: #e89b93;
-    font-family: "Cormorant", Helvetica;
-    font-size: 8px;
-    font-weight: 500;
-    left: 494px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 0;
-    width: 32px;
-  }
-  
-  .index .text-wrapper-8 {
-    color: #e89b93;
-    font-family: "Cormorant", Helvetica;
-    font-size: 8px;
-    font-weight: 500;
-    left: 529px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 0;
-    width: 32px;
-  }
-  
-  .index .text-wrapper-9 {
-    color: #e89b93;
-    font-family: "Cormorant", Helvetica;
-    font-size: 8px;
-    font-weight: 500;
-    left: 445px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 0;
-    width: 41px;
-  }
-  
-  .index .text-wrapper-10 {
-    color: #e89b93;
-    font-family: "Cormorant", Helvetica;
-    font-size: 10px;
-    font-weight: 700;
-    left: 486px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 0;
-    transform: rotate(180deg);
-    width: 3px;
-  }
-  
-  .index .text-wrapper-11 {
-    color: #e89b93;
-    font-family: "Cormorant", Helvetica;
-    font-size: 10px;
-    font-weight: 700;
-    left: 520px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 0;
-    transform: rotate(180deg);
-    width: 3px;
-  }
-  
-  .index .div-wrapper {
-    height: 46px;
-    left: 0;
-    position: absolute;
-    top: 2px;
-    width: 573px;
-  }
-  
-  .index .text-wrapper-12 {
-    color: #000000;
-    font-family: "Cormorant", Helvetica;
-    font-size: 8px;
-    font-weight: 500;
-    left: 185px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 35px;
-    width: 42px;
-  }
-  
-  .index .rectangle-3 {
-    background-color: #6e6e6d;
-    border-radius: 100px;
-    height: 3px;
-    left: 83px;
-    position: absolute;
-    top: 54px;
-    width: 56px;
-  }
-  
-  .index .overlap-3 {
-    height: 29px;
-    left: 0;
-    position: absolute;
-    top: 551px;
-    width: 571px;
-  }
-  
-  .index .rectangle-4 {
-    background-color: #f3ded7;
-    height: 27px;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 571px;
-  }
-  
-  .index .rectangle-5 {
-    background-color: #f3ded7;
-    height: 28px;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 571px;
-  }
-  
-  .index .rectangle-6 {
-    background-color: #f3ded7;
-    height: 29px;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 571px;
-  }
-  
-  .index .navbar-2 {
-    height: 9px;
-    left: 33px;
-    position: absolute;
-    top: 452px;
-    width: 61px;
-  }
-  
-  .index .text-wrapper-13 {
-    color: #000000;
-    font-family: "Cormorant", Helvetica;
-    font-size: 6px;
-    font-weight: 500;
-    left: 0;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 0;
-    white-space: nowrap;
-  }
-  
-  .index .text-wrapper-14 {
-    color: #000000;
-    font-family: "Cormorant", Helvetica;
-    font-size: 6px;
-    font-weight: 500;
-    left: 0;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 0;
-    width: 61px;
-  }
-  
-  .index .navbar-3 {
-    height: 67px;
-    left: 29px;
-    position: absolute;
-    top: 461px;
-    width: 314px;
-  }
-  
-  .index .dogether {
-    color: transparent;
-    font-family: "Cormorant", Helvetica;
-    font-size: 6px;
-    font-weight: 400;
-    left: 0;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 17px;
-  }
-  
-  .index .text-wrapper-15 {
-    color: #797272;
-    font-weight: 500;
-  }
-  
-  .index .text-wrapper-16 {
-    color: #e89b93;
-    font-family: "Courgette", Helvetica;
-  }
-  
-  .index .text-wrapper-17 {
-    color: #797272;
-    font-family: "Dangrek", Helvetica;
-  }
-  
-  .index .text-wrapper-18 {
-    color: #797272;
-    font-size: 4px;
-    font-weight: 500;
-  }
-  
-  .index .text-wrapper-19 {
-    color: #797272;
-    font-family: "Convergence", Helvetica;
-    font-size: 4px;
-  }
-  
-  .index .text-wrapper-20 {
-    color: #797272;
-    font-size: 5px;
-  }
-  
-  .index .text-wrapper-21 {
-    color: #e89b93;
-    font-size: 5px;
-  }
-  
-  .index .text-wrapper-22 {
-    color: #7a7272;
-    font-size: 5px;
-  }
-  
-  .index .text-wrapper-23 {
-    color: #e89b93;
-    font-family: "Courgette", Helvetica;
-    font-size: 5px;
-  }
-  
-  .index .p {
-    color: transparent;
-    font-family: "Cormorant", Helvetica;
-    font-size: 6px;
-    font-weight: 400;
-    left: 0;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 17px;
-    width: 314px;
-  }
-  
-  // 카테고리 영역
-  .index .overlap-wrapper {
-    height: 18px;
-    left: 560px;
-    position: absolute;
-    top: 94px;
-    width: 61px;
-  }
-  
-  .index .overlap-4 {
-    background-color: #ffffff;
-    border: 2px solid;
-    border-color: #6e6e6d;
-    border-radius: 5px;
-    height: 18px;
-    position: relative;
-    width: 59px;
-  }
-  
-  .index .text-wrapper-24 {
-    color: #b5b5b5;
-    font-family: "Copse", Helvetica;
-    font-size: 7px;
-    font-weight: 400;
-    height: 9px;
-    left: 17px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    text-align: center;
-    top: 3px;
-  }
-  
-  .index .sss {
-    height: 11px;
-    left: 4px;
-    object-fit: cover;
-    position: absolute;
-    top: 2px;
-    width: 11px;
-  }
   

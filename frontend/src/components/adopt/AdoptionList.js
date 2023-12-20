@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './AdoptionList.scss';
 import { useNavigate } from 'react-router-dom';
+import { Pagination, Stack } from '@mui/material';
 
 const AdoptionList = () => {
 
@@ -12,9 +13,12 @@ const AdoptionList = () => {
     navigate("/AdoptionListDetail");
   }
 
-  const goAdoptionApplication = () => {
-    navigate("/AdoptionApplication");
-  }
+    //  api 요청을 통해 사진 불러오기
+
+
+  const [images, setImages] = useState([
+
+  ])
 
 
 
@@ -23,27 +27,20 @@ const AdoptionList = () => {
 
     <div className="div">
 
-    <div className="overlap-wrapper">
-        <div className="overlap-4">
-          <div className="text-wrapper-24">카테고리</div>
-          <img
-            className="sss"
-            alt="Image"
-            src="https://cdn.animaapp.com/projects/6572e8d0c2e3a066593b0ad6/releases/6572e8fc3bb4f21fb184c67c/img/image-36.png"
-          />
-        </div>
-      </div>
+        <form>
+        <label>  
+          <select className='category' >
+            <option value=''>카테고리 </option>
+            <option value='category1'>서울</option>
+            <option value='category2'>부산</option>
+          </select>
+        </label>
 
-    <div className="overlap-2">
-        <div className="view">
-          <div className="rectangle-2" />
-        </div>
-        <img
-          className="image-10"
-          alt="Image"
-          src="https://cdn.animaapp.com/projects/6572e8d0c2e3a066593b0ad6/releases/6572e8fc3bb4f21fb184c67c/img/image-26.png"
-        />
-      </div>
+        <label>
+          <input className='searchbar' type='text' placeholder=''></input>
+        </label>
+        </form>
+    
 
       {/* 첫번째 사진 프레임 */}
       <div className="frame-1" onClick={goAdoptionListDetail}>
@@ -71,21 +68,26 @@ const AdoptionList = () => {
       {/* 두번째 사진 프레임 */}
       <div className="img-wrapper" onClick={goAdoptionListDetail}>
         {/* 두번째 사진 이미지 */}
-        <img
+        {/* <img
           className="image-2"
           alt="Image"
-          src="https://cdn.animaapp.com/projects/6572e8d0c2e3a066593b0ad6/releases/6572e8fc3bb4f21fb184c67c/img/image-12.png"
-        />
+          src='/img/dogPic/dogdog.jpeg'
+        /> */}
+        <img
+            className='image-2'
+            src="/img/dogPic/dogdog.jpeg"
+            alt="profile"
+          />
       </div>
 
       {/* 세번째 사진 프레임 */}
       <div className="frame-3" onClick={goAdoptionListDetail}>
         {/* 세번째 사진 이미지 */}
         <img
-          className="image-3"
-          alt="Image"
-          src="https://cdn.animaapp.com/projects/6572e8d0c2e3a066593b0ad6/releases/6572e8fc3bb4f21fb184c67c/img/image-15.png"
-        />
+            className='image-'
+            src="/img/dogPic/dogdog.jpeg"
+            alt="profile"
+          />
       </div>
 
       {/* 네번째 사진 프레임 */}
@@ -163,14 +165,15 @@ const AdoptionList = () => {
         />
       </div>
       
-      
-      {/* <div className="rectangle" /> */}
-      
-      <p className="element">
-        <span className="text-wrapper">◀ 11 12 13 14 </span>
-        <span className="span">15</span>
-        <span className="text-wrapper"> 16 17 18 19 20&nbsp;&nbsp;▶</span>
-      </p>
+
+        <div className='pageNum'>
+        <Stack spacing={2}>
+            <Pagination
+              
+              variant='outlined'
+            />
+          </Stack>
+          </div>
      
     </div>
   </div>

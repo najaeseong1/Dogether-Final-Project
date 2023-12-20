@@ -28,7 +28,7 @@
     border: 2px solid #b6b6b6;
   }
 
-  button {
+  .loginbtn {
     background-color: #f3ded7;
     border-color: #f3ded7;
     width: 300px;
@@ -39,6 +39,49 @@
     margin-top: 40px;
     color: #fff;
     font-size: 20px;
+  }
+  
+  .kakaobtn{
+    position: relative;
+    right: 100px;
+  }
+
+   .kakaobtnimg{
+    position: relative;
+    top: 20px;
+    right: 10px;
+    width: 180px;
+    height: 45px;
+  }
+   .naverbtnimg {
+    position: relative;
+    top:  20px;
+    right: -10px;
+    width: 180px;
+    height: 45px;
+  }
+  input {
+    position: relative;
+    top: 15px;
+  }
+
+  .findaccount{
+    position: relative;
+    top: 30px;
+
+      .findpass{
+        border: 1px solid grey;
+        
+        border-right: none;
+        border-top: none;
+        border-bottom: none;
+      }
+
+  }
+
+  .tojoin {
+    position: relative;
+    top: 60px;
   }
   .loginDogether {
     position: absolute; /* 절대적인 위치를 설정 */

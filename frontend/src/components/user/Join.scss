@@ -1,10 +1,32 @@
-.joinmain {
+ .joinmain {
+  position: relative;
+  top: 100px;
+  height: 1500px;   
+    
+ }
+
+ // 다음 우편번호 검색 기능 툴
+ .daum {
+  display: none;
+ }
+
+ .red-message{
+  color: red;
+ }
+
+ .blue-message {
+  color: green;
+ }
+
+.joinmain .joinmain2{
+  position: relative;
+  bottom: 130px;
 }
 
 .joinmain .joinmsg {
   position: relative;
   text-align: center;
-  bottom: 300px;
+  bottom: 50px;
   font-size: 25px;
 }
 
@@ -24,7 +46,8 @@
   border-radius: 10px;
   width: 300px;
   height: 40px;
-  top: 50px;
+  top: 30px;
+  left: 150px;
 
   input {
     position: relative;
@@ -32,21 +55,21 @@
     left: 10px;
     top: 10px;
     left: 50px;
+    outline: none;
   }
 }
 
-.joinmain .joogbok1 {
+.joinmain .joogbokid {
   position: relative;
-  color: red;
   font-weight: bold;
   font-size: 13px;
-  top: 50px;
-  left: 10px;
+  top: 25px;
+  left: 160px;
 }
 
 .joinmain .idcheckbtn {
   position: relative;
-  left: 350px;
+  left: 460px;
 
   button {
     border: 2px solid grey;
@@ -61,7 +84,8 @@
   border-radius: 10px;
   width: 450px;
   height: 40px;
-  top: 50px;
+  top: 30px;
+  left: 150px;
 
   input {
     position: relative;
@@ -69,7 +93,16 @@
     left: 10px;
     top: 10px;
     left: 50px;
+    outline: none;
   }
+}
+
+.joinmain .joogbokpassword {
+  position: relative;
+  font-weight: bold;
+  font-size: 13px;
+  top: 25px;
+  left: 160px;
 }
 
 .joinmain .passwordcheck {
@@ -78,7 +111,8 @@
   border-radius: 10px;
   width: 450px;
   height: 40px;
-  top: 80px;
+  top: 30px;
+  left: 150px;
 
   input {
     position: relative;
@@ -86,25 +120,26 @@
     left: 10px;
     top: 10px;
     left: 50px;
+    outline: none;
   }
 }
 
-.joinmain .joogbok2 {
+.joinmain .joogbokpasswordcheck {
   position: relative;
-  color: blue;
   font-weight: bold;
   font-size: 13px;
-  top: 80px;
-  left: 10px;
+  top: 25px;
+  left: 160px;
 }
 
 .joinmain .emailinput {
   position: relative;
   border: 1px solid gray;
   border-radius: 10px;
-  width: 450px;
+  width: 300px;
   height: 40px;
-  top: 110px;
+  top: 30px;
+  left: 150px;
 
   input {
     position: relative;
@@ -112,13 +147,14 @@
     left: 10px;
     top: 10px;
     left: 50px;
+    outline: none;
   }
 }
 
 .joinmain .emailsendbtn {
   position: relative;
-  left: 350px;
-  top: 110px;
+  left: 460px;
+  top: -15px;
 
   button {
     border: 2px solid grey;
@@ -127,13 +163,12 @@
   }
 }
 
-.joinmain .joogbok3 {
+.joinmain .joogbokemail {
   position: relative;
-  color: blue;
   font-weight: bold;
   font-size: 13px;
-  top: 120px;
-  left: 10px;
+  top: 25px;
+  left: 160px;
 }
 
 .joinmain .emailinput2 {
@@ -142,7 +177,8 @@
   border-radius: 10px;
   width: 450px;
   height: 40px;
-  top: 110px;
+  top: 10px;
+  left: 150px;
 
   input {
     position: relative;
@@ -150,13 +186,14 @@
     left: 10px;
     top: 10px;
     left: 50px;
+    outline: none;
   }
 }
 
 .joinmain .emailcheckbtn {
   position: relative;
-  left: 350px;
-  top: 110px;
+  left: 485px;
+  top: 5px;
 
   button {
     border: 2px solid grey;
@@ -165,13 +202,12 @@
   }
 }
 
-.joinmain .joogbok4 {
+.joinmain .joogbokemailcheck {
   position: relative;
-  color: red;
   font-weight: bold;
   font-size: 13px;
-  top: 120px;
-  left: 10px;
+  //top: 2px;
+  left: 160px;
 }
 
 .joinmain .namediv {
@@ -180,7 +216,8 @@
   border-radius: 10px;
   width: 450px;
   height: 40px;
-  top: 130px;
+  top: 20px;
+  left: 150px;
 
   input {
     position: relative;
@@ -188,7 +225,16 @@
     left: 10px;
     top: 10px;
     left: 50px;
+    outline: none;
   }
+}
+
+.joinmain .joogbokname {
+  position: relative;
+  font-weight: bold;
+  font-size: 13px;
+  top: 20px;
+  left: 160px;
 }
 
 .joinmain .phonediv {
@@ -197,7 +243,8 @@
   border-radius: 10px;
   width: 450px;
   height: 40px;
-  top: 160px;
+  top: 25px;
+  left: 150px;
 
   input {
     position: relative;
@@ -205,7 +252,16 @@
     left: 10px;
     top: 10px;
     left: 50px;
+    outline: none;
   }
+}
+
+.joinmain .joogbokphone {
+  position: relative;
+  font-weight: bold;
+  font-size: 13px;
+  top: 25px;
+  left: 160px;
 }
 
 .joinmain .feelsudiv2 {
@@ -217,5 +273,148 @@
   border-right: none;
   font-size: 20px;
   color: pink;
-  top: 200px;
+  top: 60px;
+}
+
+.joinmain .postdiv {
+  position: relative;
+  border: 1px solid gray;
+  border-radius: 10px;
+  width: 360px;
+  height: 40px;
+  top: 100px;
+  left: 150px;
+
+  input {
+    position: relative;
+    border: none;
+    left: 10px;
+    top: 10px;
+    left: 50px;
+    outline: none;
+  }
+}
+
+.joinmain .postbtn {
+  position: relative;
+  left: 530px;
+  top: 56px;
+
+  input {
+    border: 2px solid grey;
+    background-color: pink;
+    width: 100px;
+    height: 45px;
+    
+  }
+}
+
+.joinmain .addrdiv {
+  position: relative;
+  border: 1px solid gray;
+  border-radius: 10px;
+  width: 450px;
+  height: 40px;
+  top: 80px;
+  left: 150px;
+
+  input {
+    position: relative;
+    border: none;
+    left: 10px;
+    top: 10px;
+    left: 50px;
+    outline: none;
+  }
+}
+
+.joinmain .addrdetaildiv {
+  position: relative;
+  border: 1px solid gray;
+  border-radius: 10px;
+  width: 450px;
+  height: 40px;
+  top: 105px;
+  left: 150px;
+
+  input {
+    position: relative;
+    border: none;
+    left: 10px;
+    top: 10px;
+    left: 50px;
+    outline: none;
+  }
+}
+
+.joinmain .refaddrdiv {
+  position: relative;
+  border: 1px solid gray;
+  border-radius: 10px;
+  width: 450px;
+  height: 40px;
+  top: 130px;
+  left: 150px;
+
+  input {
+    position: relative;
+    border: none;
+    left: 10px;
+    top: 10px;
+    left: 50px;
+    outline: none;
+  }
+}
+
+.joinmain .feelsudiv3 {
+  position: relative;
+  width: 700px;
+  border: 5px solid pink;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  font-size: 20px;
+  color: pink;
+  top: 180px;
+}
+
+.joinmain .dongebtn {
+  position: relative;
+  
+  top: 150px;
+  left: 600px;
+
+  input{
+    width: px;
+  }
+}
+
+.joinmain .dongetext {
+  position: relative;
+  
+  top: 170px;
+  
+}
+
+.joinmain .dongebtn2{
+  position: relative;
+  left: 600px;
+  top: 150px;
+
+    
+}
+
+.joinmain .lastjoinbtn {
+  position: relative;
+  left: 300px;
+  top: 300px;
+
+  button {
+    border: 2px solid grey;
+    background-color: pink;
+    border-radius: 10px;
+    width: 130px;
+    height: 45px;
+    
+  }
 }

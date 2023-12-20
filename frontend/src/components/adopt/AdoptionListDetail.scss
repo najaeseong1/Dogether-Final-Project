@@ -3,6 +3,7 @@
     position: relative;
     left: 50%;
     right: 50%;
+    bottom: 50px;
     
 }
 
@@ -10,12 +11,27 @@
     border: 1px solid pink;
     border-radius: 10%;
     width: 1000px;
-    height: 800px;
-    top: 100px;   
-    position: relative
+    height: 1000px;
+    top: 30px;   
+    position: relative;
     
 }
 
+// 관심등록 버튼
+.main .likebtn {
+    position: relative;
+    left: 800px;
+    bottom: 80px;
+    
+    button{
+        border: 1px solid pink;
+        border-radius: 10px;
+        background-color: white;
+        font-weight: bold;
+    }
+    
+   
+}
 
 
 // 강아지 정보 
@@ -23,8 +39,14 @@
     //border: 1px solid pink;
     position: relative;
     width: 600px;
-    bottom: 110px;
+    bottom: 100px;
     left: 450px;
+
+    div {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
 }
 
 // 강아지 프로필 사진
