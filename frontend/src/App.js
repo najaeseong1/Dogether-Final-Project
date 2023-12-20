@@ -21,11 +21,14 @@ import { Knowledge } from './components/knowledges';
 import ProductDetail from './components/product/ProductDetail';
 import Product from './components/product/Product';
 
+import ScrollToTop from './global/ScrollToTop';
+
 function App() {
   return (
     <>
       <Header />
       <div className='content-wrapper'>
+        <ScrollToTop />
         <Routes>
           <Route
             path='/'
