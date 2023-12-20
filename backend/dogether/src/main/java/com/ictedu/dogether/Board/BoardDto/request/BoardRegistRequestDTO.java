@@ -1,6 +1,7 @@
-package com.ictedu.dogether.Board.dto.request;
+package com.ictedu.dogether.Board.BoardDto.request;
 
 import com.ictedu.dogether.Board.Entity.Board;
+import com.ictedu.dogether.userapi.entity.User;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -13,7 +14,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class boardRegistRequestDTO {
+public class BoardRegistRequestDTO {
 
 @NotBlank
     @Size(min = 1)
@@ -26,12 +27,13 @@ public class boardRegistRequestDTO {
     @NotBlank
     private String category;
 
-    public Board toEntity(String uploadRootPath) {
+    public Board toEntity(String uploadRootPath, User user) {
        return Board.builder()
                 .title(this.title)
                 .content(this.content)
                 .category(this.category)
                .image(uploadRootPath)
-                .build();
+               .user(user)
+               .build();
     }
 }

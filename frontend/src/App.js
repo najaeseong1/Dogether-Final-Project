@@ -25,12 +25,14 @@ import AdminMain from './components/admin/AdminMain';
 import AdoptionManagement from './components/admin/AdoptionManagement';
 import FindId from './components/user/FindId';
 import FindPassword from './components/user/FindPassword';
+import ScrollToTop from './global/ScrollToTop';
 
 function App() {
   return (
     <div className='wrapper'>
       <Header />
       <div className='content-wrapper'>
+        <ScrollToTop />
         <Routes>
           <Route
             path='/'
@@ -133,6 +135,14 @@ function App() {
           <Route
             path='*'
             element={<PageNotFound />}
+          />
+          <Route
+            path='/product'
+            element={<Product />}
+          />
+          <Route
+            path='/product/productdetail'
+            element={<ProductDetail />}
           />
         </Routes>
       </div>

@@ -1,5 +1,6 @@
 package com.ictedu.dogether.Board.Entity;
 
+import com.ictedu.dogether.userapi.entity.User;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -41,6 +42,9 @@ public class Board {
 
     private String image; //글 이미지
 
-    //유저 정보 업데이트 예정
+    //한명의 유저는 여러개의 게시물을 가질 수 있다.
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name =  "user_id" )
+    private User user;
 
 }

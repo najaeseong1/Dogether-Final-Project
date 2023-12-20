@@ -1,16 +1,21 @@
 package com.ictedu.dogether.userapi.api;
 
+import com.ictedu.dogether.auth.TokenUserInfo;
 import com.ictedu.dogether.userapi.dto.request.LoginRequestDTO;
 import com.ictedu.dogether.userapi.dto.request.UserRequestSignUpDTO;
+import com.ictedu.dogether.userapi.dto.request.UserUpdateRequestDTO;
 import com.ictedu.dogether.userapi.dto.response.LoginResponseDTO;
 import com.ictedu.dogether.userapi.dto.response.UserSignUpResponseDTO;
 import com.ictedu.dogether.userapi.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @Slf4j
@@ -92,6 +97,52 @@ public class UserController {
             return ResponseEntity.badRequest()
                     .body(e.getMessage());
         }
+    }
+
+    //개인정보 변경 페이지 요청 (비번 변경, 전화번호, 주소, 결제수단 ->  변경가능)
+    @PostMapping("/modify")
+    public ResponseEntity<?> modifyPage( @AuthenticationPrincipal TokenUserInfo userInfo) {
+        log.info("개인정보 변경 페이지 요청 들어옴 ");
+
+
+        try {
+            UserSignUpResponseDTO targetUser = userService.getUserInfo(userInfo);
+            return ResponseEntity.ok().body(targetUser);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest()
+                    .body(e.getMessage());
+        }
+    }
+
+
+    //개인정보 변경 수정 요청 들어옴
+    @PatchMapping("/modify")
+    public ResponseEntity<?> updateUserInfo(
+            @AuthenticationPrincipal TokenUserInfo userInfo,
+            UserUpdateRequestDTO dto,
+            BindingResult result) {
+
+        if (result.hasErrors()) {
+            log.warn(result.toString());
+            return ResponseEntity.badRequest()
+                    .body(result.getFieldError());
+        }
+
+        log.info("개인정보 변경 수정 요청 들어옴 -{}", dto);
+        try {
+            //dto 재활용
+            UserSignUpResponseDTO updateDTO = userService.updateInfo(dto, userInfo);
+            return ResponseEntity.ok().body(updateDTO);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest()
+                    .body(e.getMessage());
+        }
+
     }
 
 
