@@ -1,5 +1,43 @@
-.content {
-  font-size: 40px;
+.like-list {
+  font-size: 20px;
   left: 500px;
   position: absolute;
+
+  .text {
+    display: block;
+    position: relative;
+    top: 50px;
+    font-size: 40px;
+    border-bottom: 3px solid #e89b93;
+    width: 100%;
+    text-align: center;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  .list {
+    display: flex;
+    align-items: center;
+    position: relative;
+    top: 100px;
+    width: 500px;
+    display: block;
+    border: 2px solid #e89b93;
+    border-radius: 15px;
+    list-style: none;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    img {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      border-radius: 20px;
+      margin-right: 20px;
+    }
+  }
 }

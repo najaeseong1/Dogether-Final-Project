@@ -17,13 +17,18 @@ import {
   AdoptionListDetail,
   AdoptionApplication,
 } from './components/adopt';
-import { Knowledge } from './components/knowledges';
+import { Knowledge, Quiz } from './components/knowledges';
 import ProductDetail from './components/product/ProductDetail';
 import Product from './components/product/Product';
+import BoardUpdate from './components/Board/BoardUpdate';
+import AdminMain from './components/admin/AdminMain';
+import AdoptionManagement from './components/admin/AdoptionManagement';
+import FindId from './components/user/FindId';
+import FindPassword from './components/user/FindPassword';
 
 function App() {
   return (
-    <>
+    <div className='wrapper'>
       <Header />
       <div className='content-wrapper'>
         <Routes>
@@ -44,6 +49,10 @@ function App() {
             element={<BoardDetail />}
           />
           <Route
+            path='/boardupdate'
+            element={<BoardUpdate />}
+          />
+          <Route
             path='/user/join'
             element={<Join />}
           />
@@ -52,14 +61,18 @@ function App() {
             element={<Login />}
           />
           <Route
-            path='*'
-            element={<PageNotFound />}
+            path='user/findid'
+            element={<FindId />}
           />
+          <Route
+            path='/user/findpassword'
+            element={<FindPassword />}
+          />
+
           <Route
             path='/'
             element={<MainTemplate />}
           />
-
           <Route
             path='/user/mypage'
             element={<MyPage />}
@@ -93,6 +106,11 @@ function App() {
             element={<Knowledge />}
           />
           <Route
+            path='/knowledges/quiz'
+            element={<Quiz />}
+          />
+
+          <Route
             path='*'
             element={<PageNotFound />}
           />
@@ -104,10 +122,22 @@ function App() {
             path='/product/productdetail'
             element={<ProductDetail />}
           />
+          <Route
+            path='/adminmain'
+            element={<AdminMain />}
+          />
+          <Route
+            path='/AdoptionManagement'
+            element={<AdoptionManagement />}
+          />
+          <Route
+            path='*'
+            element={<PageNotFound />}
+          />
         </Routes>
       </div>
       <Footer />
-    </>
+    </div>
   );
 }
 
