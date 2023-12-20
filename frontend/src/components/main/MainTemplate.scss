@@ -52,23 +52,19 @@
     .content-1 {
       position: relative;
       background-color: #ffffffd7;
-      height: 500px;
+      height: 512px;
+      width: 100%;
       overflow: hidden;
-
-      img {
-        position: absolute;
-        object-fit: contain;
-        height: 100%; /* 높이를 div에 맞춤 */
-        width: 100%; /* 너비를 자동으로 설정하여 가로세로 비율을 유지 */
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-      }
+      margin-bottom: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .content-2 {
       position: relative;
       height: 200px;
+      margin-bottom: 90px;
       .title-2-1 {
         font-family: 'Courgette', cursive;
         position: absolute;
@@ -125,18 +121,20 @@
               opacity: 0;
               transition: opacity 0.7s; /* opacity 변경에 애니메이션 효과를 추가 */
               color: #dddddd;
+              width: 90px;
             }
             img {
               height: 100%; /* 높이를 div에 맞춤 */
               width: 100%; /* 너비를 자동으로 설정하여 가로세로 비율을 유지 */
               transition: 0.7s;
               border-radius: 20%;
-              &:hover {
-                filter: brightness(0.5);
-              }
             }
+            &:hover img {
+              filter: brightness(0.5);
+            }
+
             &:hover div {
-              opacity: 1; /* 마우스 오버 시 div의 opacity를 1로 변경 */
+              opacity: 1;
             }
           }
         }
@@ -149,12 +147,7 @@
           div,
           a {
             display: flex;
-            width: 100%;
-            .category,
-            .title,
-            .regDate {
-              flex: 1;
-            }
+            width: 95%;
             .regDate {
               font-size: 14px;
               line-height: 26px;

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './MainTemplate.scss';
 import ImageSlider from './ImageSlider';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Grid } from '@mui/material';
 
@@ -39,36 +40,63 @@ const MainTemplate = () => {
     setPopupVisible(false);
   };
 
-  // 게시글 데이터
-  const boardList = [
-    /* 게시글 데이터 배열 */
+  // 상태 변수 선언
+  // 입양게시글 데이터
+  const [adoptList, setAdoptList] = useState([
     {
-      no: 1,
+      desertionNo: 1,
+      breed: '펫종',
+      sex: '성별',
+      age: 12,
+      img: '/img/dogPic/dog1.png',
+    },
+  ]);
+  // 후기게시글 데이터
+  const [reviewList, setReviewList] = useState([
+    {
+      boardNo: 1,
+      regDate: '2023.05.28',
+      imgage: '/img/dogPic/dog1.png',
+    },
+  ]);
+  // 자유게시글 데이터
+  const [boardList, setBoardList] = useState([
+    {
+      boardNo: 1,
       category: '분양후기',
       title: '분양 받았어요~ 진짜 우리 강아지가 얼마나 이쁘냐면요',
       regDate: '2023.05.28',
     },
-    {
-      no: 1,
-      category: '분양후기',
-      title: '분양 받았어요~ 진짜 우리 강아지가 얼마나 이쁘냐면요',
-      regDate: '2023.05.28',
-    },
-    {
-      no: 1,
-      category: '분양후기',
-      title: '분양 받았어요~ 진짜 우리 강아지가 얼마나 이쁘냐면요',
-      regDate: '2023.05.28',
-    },
-    {
-      no: 1,
-      category: '분양후기',
-      title: '분양 받았어요~ 진짜 우리 강아지가 얼마나 이쁘냐면요',
-      regDate: '2023.05.28',
-    },
-  ];
+  ]);
 
-  // 처음 5개의 게시글만 선택
+  useEffect(() => {
+    // '/adopt' 요청
+    axios
+      .get('/adopt')
+      .then((res) => {
+        setAdoptList(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+
+    // '/board' 요청
+    axios
+      .get('/board')
+      .then((res) => {
+        const reviewData = res.data.filter((item) => item.category === '후기');
+        setReviewList(reviewData);
+        const boardData = res.data.filter((item) => item.category === '자유');
+        setBoardList(boardData);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+
+  // 각 리스트의 처음 8개 또는 5개 항목만 선택
+  const limitedAdoptList = adoptList.slice(0, 8);
+  const limitedReviewList = reviewList.slice(0, 5);
   const limitedBoardList = boardList.slice(0, 5);
 
   return (
@@ -106,60 +134,21 @@ const MainTemplate = () => {
               direction='row'
               className='adoptList'
             >
-              {/* 모바일에서 4개 까지 */}
-              {/* 모바일에서 2열로 보이도록 설정 */}
-              <Grid item className='image'>
-                <Link to='/adoptlist/{}'>
-                  <img src='/img/dogPic/dog1.png' alt='dogPic' />
-                </Link>
-                <div className='category'>~보호소</div>
-              </Grid>
-              <Grid item className='image'>
-                <Link to='/adoptlist/{}'>
-                  <img src='/img/dogPic/dog1.png' alt='dogPic' />
-                </Link>
-                <div className='category'>~보호소</div>
-              </Grid>
-              <Grid item className='image'>
-                <Link to='/adoptlist/{}'>
-                  <img src='/img/dogPic/dog1.png' alt='dogPic' />
-                </Link>
-                <div className='category'>~보호소</div>
-              </Grid>
-              <Grid item className='image'>
-                <Link to='/adoptlist/{}'>
-                  <img src='/img/dogPic/dog1.png' alt='dogPic' />
-                </Link>
-                <div className='category'>~보호소</div>
-              </Grid>
-              <Grid item className='image'>
-                <Link to='/adoptlist/{}'>
-                  <img src='/img/dogPic/dog1.png' alt='dogPic' />
-                </Link>
-                <div className='category'>~보호소</div>
-              </Grid>
-              <Grid item className='image'>
-                <Link to='/adoptlist/{}'>
-                  <img src='/img/dogPic/dog1.png' alt='dogPic' />
-                </Link>
-                <div className='category'>~보호소</div>
-              </Grid>
-              <Grid item className='image'>
-                <Link to='/adoptlist/{}'>
-                  <img src='/img/dogPic/dog1.png' alt='dogPic' />
-                </Link>
-                <div className='category'>~보호소</div>
-              </Grid>
-              <Grid item className='image'>
-                <Link to='/adoptlist/{}'>
-                  <img src='/img/dogPic/dog1.png' alt='dogPic' />
-                </Link>
-                <div className='category'>~보호소</div>
-              </Grid>
+              {limitedAdoptList.map((adoptList, index) => (
+                <Grid item className='image' key={index}>
+                  <Link to={`/adopt/detail/${adoptList.desertionNo}`}>
+                    <img src={adoptList.img} alt='분양게시판 강아지사진' />
+                    <div className='category'>
+                      견종 : {adoptList.breed}
+                      성별 : {adoptList.sex}
+                      나이 :{adoptList.age} 세
+                    </div>
+                  </Link>
+                </Grid>
+              ))}
             </Grid>
           </Grid>
         </Grid>
-
         <Grid item className='content-4'>
           <Grid container direction='row' spacing={{ xs: 6 }}>
             <Grid item md={6} xs={12} className='title-4-1 left'>
@@ -169,33 +158,18 @@ const MainTemplate = () => {
               </Link>
               <hr />
               <div className='reviewList'>
-                <Grid item className='image'>
-                  <Link to='/adoptlist/{}'>
-                    <img src='/img/dogPic/dog1.png ' alt='dogPic' />
-                  </Link>
-                  <div className='category'>분양후기</div>
-                </Grid>
-                <Grid item className='image'>
-                  <Link to='/adoptlist/{}'>
-                    <img src='/img/dogPic/dog1.png ' alt='dogPic' />
-                  </Link>
-                  <div className='category'>분양후기</div>
-                </Grid>
-                <Grid item className='image'>
-                  <Link to='/adoptlist/{}'>
-                    <img src='/img/dogPic/dog1.png ' alt='dogPic' />
-                  </Link>
-                  <div className='category'>분양후기</div>
-                </Grid>
-                <Grid item className='image'>
-                  <Link to='/adoptlist/{}'>
-                    <img src='/img/dogPic/dog1.png ' alt='dogPic' />
-                  </Link>
-                  <div className='category'>분양후기</div>
-                </Grid>
+                {limitedReviewList.map((reviewList, index) => (
+                  <Grid item className='image' key={index}>
+                    <Link to={`/board/${reviewList.desertionNo}`}>
+                      <img src={reviewList.imgage} alt='강아지후기사진' />
+                      <div className='category'>
+                        후기 게시글 {reviewList.title} {reviewList.regDate}
+                      </div>
+                    </Link>
+                  </Grid>
+                ))}
               </div>
             </Grid>
-
             <Grid item md={6} xs={12} className='title-4-1 right'>
               <span>Gallery</span>
               <Link to='/board' className='readMore'>
@@ -204,8 +178,8 @@ const MainTemplate = () => {
               <hr />
               <div className='boardList'>
                 {limitedBoardList.map((boardList, index) => (
-                  <Grid item xs={12} key={index} direction='column'>
-                    <Link to={`/board/${boardList.no}`}>
+                  <Grid item xs={12} key={index}>
+                    <Link to={`/board/${boardList.desertionNo}`}>
                       <div className='category'>{boardList.category}</div>
                       <div className='title'>{boardList.title}</div>
                       <div className='regDate'>{boardList.regDate}</div>
