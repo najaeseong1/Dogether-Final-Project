@@ -160,7 +160,7 @@ const MainTemplate = () => {
               <div className='reviewList'>
                 {limitedReviewList.map((reviewList, index) => (
                   <Grid item className='image' key={index}>
-                    <Link to={`/board/${reviewList.desertionNo}`}>
+                    <Link to={`/board/${reviewList.boardNo}`}>
                       <img src={reviewList.imgage} alt='강아지후기사진' />
                       <div className='category'>
                         후기 게시글 {reviewList.title} {reviewList.regDate}
@@ -179,7 +179,7 @@ const MainTemplate = () => {
               <div className='boardList'>
                 {limitedBoardList.map((boardList, index) => (
                   <Grid item xs={12} key={index}>
-                    <Link to={`/board/${boardList.desertionNo}`}>
+                    <Link to={`/board/${boardList.boardNo}`}>
                       <div className='category'>{boardList.category}</div>
                       <div className='title'>{boardList.title}</div>
                       <div className='regDate'>{boardList.regDate}</div>
