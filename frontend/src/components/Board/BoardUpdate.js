@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './BoardUpdate.scss'; // SCSS 파일 import
 import { useNavigate } from 'react-router-dom';
-const API_URL = 'http://localhost:8181/board/regist';
+import axios from 'axios';
+const boardNo = 1;
+const API_URL = `http://localhost:8181/board/modify/${boardNo}`;
 
 const BoardUpdate = () => {
   const $fileTag = useRef();
   const [imagePreview, setImagePreview] = useState(null); //이미지 프리뷰임
-
   const redirection = useNavigate();
 
   // 상태 관리를 위한 useState
@@ -14,6 +15,29 @@ const BoardUpdate = () => {
   const [category, setCategory] = useState('');
   const [content, setContent] = useState('');
   const [file, setFile] = useState(null);
+
+  // 게시물 정보 상태
+  const [boardData, setBoardData] = useState(null);
+
+  // 페이지 로딩되자마자 보여야하는 데이터들
+  useEffect(() => {
+    const resBoardData = async () => {
+      const boardNo = boardNo;
+
+      const response = await axios.get(`{API_URL}/${boardNo}`);
+      const resBoardData = response.data;
+
+      setBoardData({
+        title: resBoardData.title,
+        category: resBoardData.category,
+        content: resBoardData.content,
+      });
+    };
+
+    resBoardData();
+  }, []);
+
+  // 가져온 정보 저장
 
   // 게시물 작성 함수
   const handleSubmit = (e) => {
@@ -24,10 +48,6 @@ const BoardUpdate = () => {
       return;
     }
 
-    if (!category) {
-      alert('카테고리를 선택해주세요');
-      return;
-    }
     // 여기에서 fetch 보내기
     const addList = async (title, content, category) => {
       const create = {
@@ -171,7 +191,7 @@ const BoardUpdate = () => {
           <button
             type='button'
             className='boardButton'
-            onClick={() => console.log('취소 버튼 클릭')}
+            onClick={() => redirection('/boardDetail')}
           >
             취소
           </button>

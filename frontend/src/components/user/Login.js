@@ -1,28 +1,31 @@
 import React, { useState } from 'react';
 import './Login.scss';
 import { useNavigate } from 'react-router-dom';
+import { KAKAO_AUTH_URL } from '../../global/kakaoAuth.js';
+
 const Login = () => {
-  const API_URL_USER = 'http://localhost:80/user/login';
+  const redirection = useNavigate();
+  const API_URL_USER = 'http://localhost:8181/user/login';
   const navigate = useNavigate();
 
   const toLink = (loc) => {
     navigate(loc);
   };
 
-  const [id, setId] = useState('');
-  const [password, setPassword] = useState('');
+  const [userId, setUserId] = useState('');
+  const [userPass, setUserPass] = useState('');
 
   // 서버에 로그인 요청
   const fetchLogin = async () => {
-    const $id = document.getElementById('id');
-    const $password = document.getElementById('password');
+    const $userId = document.getElementById('id');
+    const $userPass = document.getElementById('password');
 
     const res = await fetch(API_URL_USER, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
-        id: $id.value,
-        password: $password.value,
+        id: $userId.value,
+        password: $userPass.value,
       }),
     });
     if (res.status === 400) {
@@ -30,16 +33,13 @@ const Login = () => {
       alert(text);
       return;
     }
+    redirection('/');
   };
   // 로그인
   const handleLogin = (e) => {
     e.preventDefault();
-    if (!id) {
-      return alert('아이디를 입력하세요');
-    } else if (!password) {
-      return alert('비밀번호를 입력하세요');
-    }
 
+    // 로그인 요청하기
     fetchLogin();
   };
 
@@ -52,8 +52,8 @@ const Login = () => {
             type='text'
             id='id'
             name='id'
-            value={id}
-            onChange={(e) => setId(e.target.value)}
+            value={userId}
+            onChange={(e) => setUserId(e.target.value)}
             placeholder='아이디를 입력해주세요'
           />
           <br />
@@ -61,8 +61,8 @@ const Login = () => {
             type='password'
             id='password'
             name='password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={userPass}
+            onChange={(e) => setUserPass(e.target.value)}
             placeholder='비밀번호를 입력해주세요.'
           />
           <button
@@ -77,14 +77,15 @@ const Login = () => {
               className='kakaobtnimg'
               src='/img/kakaoLoginBtn.png'
               alt='kakaoLogin'
-              // onClick={}
+              onClick={() => {
+                window.location.href = KAKAO_AUTH_URL;
+              }}
             />
 
             <img
               className='naverbtnimg'
               src='/img/naverLoginBtn.png'
               alt='naverlogin'
-              // onClick={}
             />
           </div>
 

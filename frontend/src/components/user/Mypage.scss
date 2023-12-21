@@ -57,29 +57,17 @@
     top: 0;
     width: 168px;
   }
+
   .mypage-tap {
     color: #000000;
     font-family: 'Days One', Helvetica;
     font-size: 30px;
     font-weight: 400;
-
     letter-spacing: 0;
     line-height: normal;
     position: absolute;
     text-align: center;
-    top: 10px;
-    width: 240px;
-  }
-  .text-wrapper {
-    color: #000000;
-    font-family: 'Days One', Helvetica;
-    font-size: 30px;
-    font-weight: 400;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    text-align: center;
-    top: 10px;
+    bottom: 320px;
     width: 240px;
   }
 
@@ -100,7 +88,7 @@
     width: 792px;
   }
 
-  .div {
+  .modify-tap {
     color: #000000;
     font-family: 'Days One', Helvetica;
     font-size: 30px;
@@ -110,7 +98,7 @@
     line-height: normal;
     position: absolute;
     text-align: center;
-    top: 542px;
+    top: 240px;
     width: 240px;
   }
 
@@ -124,11 +112,11 @@
     line-height: normal;
     position: absolute;
     text-align: center;
-    top: 613px;
+    top: 325px;
     width: 240px;
   }
 
-  .text-wrapper-3 {
+  .like-list-tap {
     color: #000000;
     font-family: 'Days One', Helvetica;
     font-size: 30px;
@@ -138,7 +126,7 @@
     line-height: normal;
     position: absolute;
     text-align: center;
-    top: 470px;
+    top: 160px;
     width: 240px;
   }
 
@@ -256,16 +244,16 @@
   }
   .overlap-3 {
     margin-top: 5px;
-    left: 450px;
+    left: 460px;
     position: absolute;
-    top: 443px;
+    top: 420px;
     font-size: 20px;
   }
 
-  .text-wrapper-9 {
+  .date {
     color: #000000;
     font-family: 'Courgette', Helvetica;
-    font-size: 30px;
+    font-size: 20px;
     font-weight: 400;
     left: 427px;
     letter-spacing: 0;
