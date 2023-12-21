@@ -1,9 +1,10 @@
 package com.ictedu.dogether.userapi.api;
 
-import com.ictedu.dogether.userapi.dto.request.EmailRequestDto;
+import com.ictedu.dogether.userapi.dto.request.EmailRequestDTO;
 import com.ictedu.dogether.userapi.service.MailSendService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+@Transactional
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/user")
@@ -18,11 +20,14 @@ import javax.validation.Valid;
 public class MailController {
 
     private final MailSendService mailService;
-    @PostMapping("/mailSend")
-    public String mailSend(@RequestBody @Valid EmailRequestDto dto){
+
+    // 회원가입 인증번호 발송
+    @PostMapping("/checkMailSend")
+    public String mailSend(@RequestBody @Valid EmailRequestDTO dto){
         log.info("메일 전송 요청!!!!-{}", dto.getEmail());
-        return mailService.joinEmail(dto.getEmail());
+        return mailService.joinCheckEmail(dto.getEmail());
     }
+
 
 
 }
