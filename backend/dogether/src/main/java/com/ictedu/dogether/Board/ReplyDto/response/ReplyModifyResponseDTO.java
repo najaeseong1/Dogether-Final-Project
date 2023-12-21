@@ -23,14 +23,14 @@ public class ReplyModifyResponseDTO {
 
     //등록 일자
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime registDate;
+    private LocalDateTime modifyDate;
 
 
 
     public ReplyModifyResponseDTO(Reply reply) {
         this.userId = reply.getUser().getUserId();
         this.replyContent = reply.getReplyContent();
-        this.registDate = reply.getUpdateDate();
+        this.modifyDate = reply.getUpdateDate();
 
     }
 }

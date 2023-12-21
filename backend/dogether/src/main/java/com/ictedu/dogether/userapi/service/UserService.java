@@ -101,4 +101,14 @@ public class UserService {
         return new UserSignUpResponseDTO(saveInfo);
 
     }
+
+    //사용자의 정보 찾기
+    public UserSignUpResponseDTO getAdoptInfo(String userId) {
+        User targetUser = userRepository.findById(userId).orElseThrow(
+                () -> new RuntimeException("회원이 아닙니다.")
+        );
+        return new UserSignUpResponseDTO(targetUser); //dto 재활용함
+
+
+    }
 }

@@ -1,9 +1,7 @@
-package com.ictedu.dogether.adoptApi.dto.response;
+package com.ictedu.dogether.adoptApi.AdoptDto.response;
 
 import com.ictedu.dogether.adoptApi.Entity.Adopt;
 import lombok.*;
-
-import java.util.List;
 
 @Getter
 @Setter
