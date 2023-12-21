@@ -191,7 +191,7 @@ const BoardUpdate = () => {
           <button
             type='button'
             className='boardButton'
-            onClick={() => redirection('/boardDetail')}
+            onClick={() => redirection('/boardDetail/')}
           >
             취소
           </button>

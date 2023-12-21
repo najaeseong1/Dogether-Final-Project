@@ -1,11 +1,11 @@
 package com.ictedu.dogether.userapi.service;
 
-import com.ictedu.dogether.userapi.dto.request.EmailRequestDto;
+import com.ictedu.dogether.userapi.repository.UserRepository;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -18,8 +18,9 @@ import java.util.Random;
 @ToString
 public class MailSendService {
 
-    @Autowired
+    private final PasswordEncoder passwordEncoder;
     private final JavaMailSender mailSender;
+    private final UserRepository userRepository;
     private int authNumber;
 
     //임의의 6자리 양수를 반환합니다.
@@ -34,23 +35,38 @@ public class MailSendService {
     }
 
 
-    //mail을 어디서 보내는지, 어디로 보내는지 , 인증 번호를 html 형식으로 어떻게 보내는지 작성합니다.
-    public String joinEmail(String email) {
+    //mail을 어디서 보내는지, 어디로 보내는지 , 인증 번호를 html 형식으로 어떻게 보내는지 작성
+    public String checkEmail(String email) {
         makeRandomNumber();
         String setFrom = "gyu1061@naver.com"; // email-config에 설정한 자신의 이메일 주소를 입력
         String toMail = email;
-        String title = "회원 가입 인증 이메일 입니다."; // 이메일 제목
+        String title = "[DOGETHER] 인증 메일입니다."; // 이메일 제목
         String content =
-                "DOGETHER를 찾아주셔서 감사합니다." + 	//html 형식으로 작성 !
+                "DOGETHER 인증 메일입니다." + 	//html 형식으로 작성 !
                         "<br><br>" +
                         "인증 번호는 " + authNumber + "입니다." +
                         "<br>" +
-                        "인증번호를 제대로 입력해주세요"; //이메일 내용 삽입
+                        "인증번호를 정확히 입력해주세요"; //이메일 내용 삽입
         mailSend(setFrom, toMail, title, content);
         return Integer.toString(authNumber);
     }
 
-    //이메일을 전송합니다.
+    public String joinCheckEmail(String email) {
+        makeRandomNumber();
+        String setFrom = "gyu1061@naver.com"; // email-config에 설정한 자신의 이메일 주소를 입력
+        String toMail = email;
+        String title = "[DOGETHER] 회원가입 인증 메일입니다."; // 이메일 제목
+        String content =
+                "DOGETHER 저희와 함께해 주셔서 감사합니다." + 	//html 형식으로 작성 !
+                        "<br><br>" +
+                        "인증 번호는 " + authNumber + "입니다." +
+                        "<br>" +
+                        "인증번호를 정확히 입력해주세요"; //이메일 내용 삽입
+        mailSend(setFrom, toMail, title, content);
+        return Integer.toString(authNumber);
+    }
+
+    //이메일 전송
     public void mailSend(String setFrom, String toMail, String title, String content) {
         MimeMessage message = mailSender.createMimeMessage();//JavaMailSender 객체를 사용하여 MimeMessage 객체를 생성
         log.info("메일전송 요청옴 -{}", message);
@@ -67,7 +83,9 @@ public class MailSendService {
             e.printStackTrace();//e.printStackTrace()는 예외를 기본 오류 스트림에 출력하는 메서드
         }
 
-
     }
+
+
+
 
 }
