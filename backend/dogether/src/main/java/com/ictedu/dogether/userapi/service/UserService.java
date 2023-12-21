@@ -2,6 +2,7 @@ package com.ictedu.dogether.userapi.service;
 
 import com.ictedu.dogether.auth.TokenProvider;
 import com.ictedu.dogether.auth.TokenUserInfo;
+import com.ictedu.dogether.userapi.dto.request.EmailRequestDTO;
 import com.ictedu.dogether.userapi.dto.request.LoginRequestDTO;
 import com.ictedu.dogether.userapi.dto.request.UserRequestSignUpDTO;
 import com.ictedu.dogether.userapi.dto.request.UserUpdateRequestDTO;
@@ -100,5 +101,11 @@ public class UserService {
         //dto 재활용함
         return new UserSignUpResponseDTO(saveInfo);
 
+    }
+
+    // email로 아이디를 찾아 리턴
+    public String getUserId(EmailRequestDTO dto) {
+        User user = userRepository.findByUserEmail(dto.getEmail());
+        return user.getUserId();
     }
 }

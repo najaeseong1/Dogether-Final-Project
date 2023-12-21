@@ -1,11 +1,11 @@
 package com.ictedu.dogether.userapi.api;
 
 import com.ictedu.dogether.auth.TokenUserInfo;
-import com.ictedu.dogether.userapi.dto.request.LoginRequestDTO;
-import com.ictedu.dogether.userapi.dto.request.UserRequestSignUpDTO;
-import com.ictedu.dogether.userapi.dto.request.UserUpdateRequestDTO;
+import com.ictedu.dogether.userapi.dto.request.*;
+import com.ictedu.dogether.userapi.dto.response.EmailResponseDTO;
 import com.ictedu.dogether.userapi.dto.response.LoginResponseDTO;
 import com.ictedu.dogether.userapi.dto.response.UserSignUpResponseDTO;
+import com.ictedu.dogether.userapi.service.MailSendService;
 import com.ictedu.dogether.userapi.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +25,7 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
+    private final MailSendService mailSendService;
 
     // 아이디 중복 체크
     @GetMapping("/checkId")
@@ -72,6 +73,7 @@ public class UserController {
 
     }
 
+
     // 로그인 요청
     @PostMapping("/signin")
     public ResponseEntity<?> signIn(
@@ -97,6 +99,18 @@ public class UserController {
             return ResponseEntity.badRequest()
                     .body(e.getMessage());
         }
+    }
+
+    // 아이디와 인증코드를 리턴
+    @PostMapping("/findId")
+    public ResponseEntity<?> findUserId(@RequestBody EmailRequestDTO dto) {
+        log.info("아이디찾기 요청들어옴!!");
+        log.info("이메일 -{}", dto);
+        String code = mailSendService.checkEmail(dto.getEmail());
+        String userId = userService.getUserId(dto);
+
+        EmailResponseDTO emailResponseDTO = new EmailResponseDTO(code, userId);
+        return ResponseEntity.ok().body(emailResponseDTO);
     }
 
     //개인정보 변경 페이지 요청 (비번 변경, 전화번호, 주소, 결제수단 ->  변경가능)

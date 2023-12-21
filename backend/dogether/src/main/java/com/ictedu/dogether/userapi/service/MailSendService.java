@@ -1,20 +1,16 @@
 package com.ictedu.dogether.userapi.service;
 
-import com.ictedu.dogether.userapi.entity.User;
 import com.ictedu.dogether.userapi.repository.UserRepository;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.Random;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -40,17 +36,32 @@ public class MailSendService {
 
 
     //mail을 어디서 보내는지, 어디로 보내는지 , 인증 번호를 html 형식으로 어떻게 보내는지 작성
-    public String joinEmail(String email) {
+    public String checkEmail(String email) {
+        makeRandomNumber();
+        String setFrom = "gyu1061@naver.com"; // email-config에 설정한 자신의 이메일 주소를 입력
+        String toMail = email;
+        String title = "[DOGETHER] 인증 메일입니다."; // 이메일 제목
+        String content =
+                "DOGETHER 인증 메일입니다." + 	//html 형식으로 작성 !
+                        "<br><br>" +
+                        "인증 번호는 " + authNumber + "입니다." +
+                        "<br>" +
+                        "인증번호를 정확히 입력해주세요"; //이메일 내용 삽입
+        mailSend(setFrom, toMail, title, content);
+        return Integer.toString(authNumber);
+    }
+
+    public String joinCheckEmail(String email) {
         makeRandomNumber();
         String setFrom = "gyu1061@naver.com"; // email-config에 설정한 자신의 이메일 주소를 입력
         String toMail = email;
         String title = "[DOGETHER] 회원가입 인증 메일입니다."; // 이메일 제목
         String content =
-                "DOGETHER를 찾아주셔서 감사합니다." + 	//html 형식으로 작성 !
+                "DOGETHER 저희와 함께해 주셔서 감사합니다." + 	//html 형식으로 작성 !
                         "<br><br>" +
                         "인증 번호는 " + authNumber + "입니다." +
                         "<br>" +
-                        "인증번호를 제대로 입력해주세요"; //이메일 내용 삽입
+                        "인증번호를 정확히 입력해주세요"; //이메일 내용 삽입
         mailSend(setFrom, toMail, title, content);
         return Integer.toString(authNumber);
     }
@@ -74,40 +85,7 @@ public class MailSendService {
 
     }
 
-    public String findIdEmail(String userName, String userEmail) {
-        User user = userRepository.findByUserNameAndUserEmail(userName, userEmail);
-        if(user != null) {
-            String userId = user.getUserId();
-            // 아이디의 끝 두 문자를 *로 변환
-            String maskedId = userId.substring(0, userId.length() - 2) + "**";
-            String setFrom = "gyu1061@naver.com";
-            String title = "[DOGETHER] 아이디 찾기 결과입니다.";
-            String content = "귀하의 아이디는 " + maskedId + " 입니다.";
-            mailSend(setFrom, userEmail, title, content);
-            return "아이디 찾기 메일을 전송하였습니다.";
-        } else {
-            return "입력하신 이름과 이메일에 해당하는 회원 정보가 없습니다.";
-        }
-    }
 
-    public String findPasswordEmail(String userId, String userEmail) {
-        User user = userRepository.findByUserIdAndUserEmail(userId, userEmail);
-        if(user != null) {
-            // UUID를 사용하여 임시 비밀번호 생성
-            String tempPassword = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 10);
-            // 비밀번호 암호화
-            String encryptedPassword = passwordEncoder.encode(tempPassword);
-            // 암호화된 비밀번호로 변경
-            userRepository.updateUserPassword(userId, encryptedPassword);
-            String setFrom = "gyu1061@naver.com";
-            String title = "[DOGETHER] 임시 비밀번호 발급 메일입니다.";
-            String content = "귀하의 임시 비밀번호는 " + tempPassword + " 입니다.";
-            mailSend(setFrom, userEmail, title, content);
-            return "임시 비밀번호를 이메일로 전송하였습니다.";
-        } else {
-            return "입력하신 아이디와 이메일에 해당하는 회원 정보가 없습니다.";
-        }
-    }
 
 
 }

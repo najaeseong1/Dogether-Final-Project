@@ -6,17 +6,12 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.List;
-import java.util.Optional;
 
 public interface UserRepository
         extends JpaRepository<User, String> {
-    
-    // 아이디 찾기에 사용되는 JPA 메서드
-    User findByUserNameAndUserEmail(String userName, String userEmail);
 
-    // 비밀번호 찾기에 사용되는 JPA 메서드
-    User findByUserIdAndUserEmail(String userId, String userEmail);
+    //시용자 이메일 주면 그 사용자의 정보 다주는거
+    User findByUserEmail(String email);
 
     // 비밀번호를 찾고 임시비밀번호를 발급해주는 메서드
     @Modifying
