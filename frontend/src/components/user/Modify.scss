@@ -1,0 +1,81 @@
+.userinfo-title {
+  position: absolute;
+  text-align: center;
+  font-size: 30px;
+  top: 300px;
+}
+
+.joinform-box {
+  position: absolute;
+  width: 600px;
+  height: 700px;
+  padding: 30px 20px;
+  text-align: center;
+  top: 50%;
+  left: 60%;
+  transform: translate(-50%, -50%);
+  border-radius: 15px;
+}
+
+.joinForm {
+  position: relative;
+  height: 700px;
+  text-align: center;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 15px;
+  left: 300px;
+
+  .textForm {
+    border: 2px solid #adadad;
+    margin: 15px;
+    height: 40px;
+    padding: 0px;
+  }
+  .id,
+  .name,
+  .phone-num,
+  .email,
+  .address,
+  .payment,
+  .cellphoneNo {
+    width: 95%;
+    border: none;
+    outline: none;
+    color: #636e72;
+    font-size: 16px;
+  }
+
+  .pw,
+  .pwcheck {
+    width: 95%;
+    border: none;
+    outline: none;
+    color: #636e72;
+    font-size: 16px;
+    height: 25px;
+  }
+
+  .pwcheck {
+    margin-bottom: 20px; /* 조절하고자 하는 간격으로 변경 */
+  }
+
+  .btn {
+    position: relative;
+    background-color: #f3ded7;
+    height: 50px;
+    border-radius: 10px;
+    width: 80%;
+    background-size: 200%;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    transition: 0.4s;
+  }
+
+  .btn:hover {
+    background-color: #e89b93;
+  }
+}

@@ -1,0 +1,37 @@
+.quiz {
+  text-align: center;
+
+  .quiz-card {
+    border: 2px solid pink;
+    border-radius: 16px;
+    padding: 16px;
+    width: 500px;
+    color: black;
+    height: auto;
+    margin: 0 auto;
+    ul {
+      list-style: none;
+      padding: 20px;
+    }
+    li {
+      background-color: white;
+      border-radius: 10px;
+      border: 3px solid pink;
+      font-size: 20px;
+      margin-top: 8px;
+      height: 40px;
+    }
+    li:hover {
+      background-color: pink;
+    }
+  }
+  .result {
+    border: 2px solid pink;
+    border-radius: 15px;
+    padding: 16px;
+    width: 500px;
+    background-color: pink;
+    color: white;
+    height: auto;
+  }
+}

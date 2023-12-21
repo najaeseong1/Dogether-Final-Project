@@ -1,0 +1,107 @@
+// Header.module.scss
+
+/* Dogether 글씨체 */
+@import url('https://fonts.googleapis.com/css2?family=Courgette&display=swap');
+
+/* 헤더 메뉴 글씨체 */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&family=Jua&family=Noto+Sans+KR:wght@100&family=Poiret+One&display=swap');
+
+/* 로그인 글씨체 */
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@700;800&display=swap');
+
+.HeaderContainer2 {
+  background-color: #ffffff;
+  color: #333;
+  padding: 1rem;
+  text-align: center; /* 가운데 정렬 유지 */
+
+  ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  li {
+    margin: 20px;
+    display: inline;
+    cursor: pointer;
+  }
+
+  li > p,
+  a {
+    display: inline;
+    margin: 20px;
+    font-size: 20px;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+
+  p:hover {
+    border-bottom: 5px solid #6e6e6d;
+    border-radius: 3px;
+  }
+
+  /* 수정된 부분 */
+  margin-right: 30px; /* 혹은 다른 값으로 조절 */
+}
+
+.Dogether {
+  color: #e89b93;
+  font-family: 'Courgette', cursive;
+  font-size: 55px;
+  text-align: center;
+
+  div:hover {
+    border-bottom: 5px solid #e89b93;
+  }
+}
+
+.Dogether {
+  color: #e89b93;
+  font-family: 'Courgette', cursive;
+  font-size: 55px;
+  text-align: center;
+
+  div:hover {
+    border-bottom: 5px solid #e89b93;
+  }
+}
+
+.HeaderContainer1 {
+  ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    justify-content: flex-end; /* 변경된 부분 */
+  }
+
+  li {
+    margin: 10px;
+    color: #e89b93;
+    font-family: 'Nanum Gothic', sans-serif;
+  }
+  li:hover {
+    cursor: pointer;
+    color: #e95f51;
+  }
+}
+a {
+  text-decoration: none;
+}
+
+// .HeaderContainer3 {
+//   border: 1px solid #f3ded7;
+// }
+
+@media (max-width: 768px) {
+  .HeaderContainer1 {
+    text-align: center;
+  }
+
+  .HeaderContainer2 ul {
+    flex-direction: column;
+  }
+}
