@@ -1,10 +1,15 @@
-.joinmain {
+// .joinmain {
+// }
+
+.joinmain .joinmain2 {
+  position: relative;
+  bottom: 130px;
 }
 
 .joinmain .joinmsg {
   position: relative;
   text-align: center;
-  bottom: 300px;
+  bottom: 210px;
   font-size: 25px;
 }
 
@@ -25,6 +30,7 @@
   width: 300px;
   height: 40px;
   top: 50px;
+  left: 150px;
 
   input {
     position: relative;
@@ -32,6 +38,7 @@
     left: 10px;
     top: 10px;
     left: 50px;
+    outline: none;
   }
 }
 
@@ -41,12 +48,12 @@
   font-weight: bold;
   font-size: 13px;
   top: 50px;
-  left: 10px;
+  left: 160px;
 }
 
 .joinmain .idcheckbtn {
   position: relative;
-  left: 350px;
+  left: 460px;
 
   button {
     border: 2px solid grey;
@@ -62,6 +69,7 @@
   width: 450px;
   height: 40px;
   top: 50px;
+  left: 150px;
 
   input {
     position: relative;
@@ -69,6 +77,7 @@
     left: 10px;
     top: 10px;
     left: 50px;
+    outline: none;
   }
 }
 
@@ -79,6 +88,7 @@
   width: 450px;
   height: 40px;
   top: 80px;
+  left: 150px;
 
   input {
     position: relative;
@@ -86,6 +96,7 @@
     left: 10px;
     top: 10px;
     left: 50px;
+    outline: none;
   }
 }
 
@@ -95,16 +106,17 @@
   font-weight: bold;
   font-size: 13px;
   top: 80px;
-  left: 10px;
+  left: 160px;
 }
 
 .joinmain .emailinput {
   position: relative;
   border: 1px solid gray;
   border-radius: 10px;
-  width: 450px;
+  width: 300px;
   height: 40px;
   top: 110px;
+  left: 150px;
 
   input {
     position: relative;
@@ -112,13 +124,14 @@
     left: 10px;
     top: 10px;
     left: 50px;
+    outline: none;
   }
 }
 
 .joinmain .emailsendbtn {
   position: relative;
-  left: 350px;
-  top: 110px;
+  left: 460px;
+  top: 60px;
 
   button {
     border: 2px solid grey;
@@ -133,7 +146,7 @@
   font-weight: bold;
   font-size: 13px;
   top: 120px;
-  left: 10px;
+  left: 160px;
 }
 
 .joinmain .emailinput2 {
@@ -143,6 +156,7 @@
   width: 450px;
   height: 40px;
   top: 110px;
+  left: 150px;
 
   input {
     position: relative;
@@ -150,13 +164,14 @@
     left: 10px;
     top: 10px;
     left: 50px;
+    outline: none;
   }
 }
 
 .joinmain .emailcheckbtn {
   position: relative;
-  left: 350px;
-  top: 110px;
+  left: 485px;
+  top: 100px;
 
   button {
     border: 2px solid grey;
@@ -171,7 +186,7 @@
   font-weight: bold;
   font-size: 13px;
   top: 120px;
-  left: 10px;
+  left: 160px;
 }
 
 .joinmain .namediv {
@@ -181,6 +196,7 @@
   width: 450px;
   height: 40px;
   top: 130px;
+  left: 150px;
 
   input {
     position: relative;
@@ -188,6 +204,7 @@
     left: 10px;
     top: 10px;
     left: 50px;
+    outline: none;
   }
 }
 
@@ -198,6 +215,7 @@
   width: 450px;
   height: 40px;
   top: 160px;
+  left: 150px;
 
   input {
     position: relative;
@@ -205,6 +223,7 @@
     left: 10px;
     top: 10px;
     left: 50px;
+    outline: none;
   }
 }
 
@@ -218,4 +237,123 @@
   font-size: 20px;
   color: pink;
   top: 200px;
+}
+
+.joinmain .postdiv {
+  position: relative;
+  border: 1px solid gray;
+  border-radius: 10px;
+  width: 360px;
+  height: 40px;
+  top: 230px;
+  left: 150px;
+
+  input {
+    position: relative;
+    border: none;
+    left: 10px;
+    top: 10px;
+    left: 50px;
+    outline: none;
+  }
+}
+
+.joinmain .postbtn {
+  position: relative;
+  left: 530px;
+  top: 185px;
+
+  button {
+    border: 2px solid grey;
+    background-color: pink;
+    width: 70px;
+    height: 45px;
+  }
+}
+
+.joinmain .addrdiv {
+  position: relative;
+  border: 1px solid gray;
+  border-radius: 10px;
+  width: 450px;
+  height: 40px;
+  top: 220px;
+  left: 150px;
+
+  input {
+    position: relative;
+    border: none;
+    left: 10px;
+    top: 10px;
+    left: 50px;
+    outline: none;
+  }
+}
+
+.joinmain .addrdetaildiv {
+  position: relative;
+  border: 1px solid gray;
+  border-radius: 10px;
+  width: 450px;
+  height: 40px;
+  top: 250px;
+  left: 150px;
+
+  input {
+    position: relative;
+    border: none;
+    left: 10px;
+    top: 10px;
+    left: 50px;
+    outline: none;
+  }
+}
+
+.joinmain .feelsudiv3 {
+  position: relative;
+  width: 700px;
+  border: 5px solid pink;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  font-size: 20px;
+  color: pink;
+  top: 280px;
+}
+
+.joinmain .dongebtn {
+  position: relative;
+
+  top: 250px;
+  left: 600px;
+
+  input {
+    width: px;
+  }
+}
+
+.joinmain .dongetext {
+  position: relative;
+
+  top: 280px;
+}
+
+.joinmain .dongebtn2 {
+  position: relative;
+  left: 600px;
+  top: 260px;
+}
+
+.joinmain .lastjoinbtn {
+  position: relative;
+  left: 300px;
+  top: 300px;
+
+  button {
+    border: 2px solid grey;
+    background-color: pink;
+    border-radius: 10px;
+    width: 130px;
+    height: 45px;
+  }
 }

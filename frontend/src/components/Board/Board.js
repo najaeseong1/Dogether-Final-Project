@@ -1,13 +1,17 @@
 import React, { useRef, useState } from 'react';
 import './Board.scss'; // SCSS 파일 import
 import { useNavigate } from 'react-router-dom';
+
 const API_URL = 'http://localhost:8181/board/regist';
 
 const Board = () => {
+  const redirection = useNavigate();
+
+  const toLink = (loc) => {
+    redirection(loc);
+  };
   const $fileTag = useRef();
   const [imagePreview, setImagePreview] = useState(null); //이미지 프리뷰임
-
-  const redirection = useNavigate();
 
   // 상태 관리를 위한 useState
   const [title, setTitle] = useState('');
@@ -116,12 +120,19 @@ const Board = () => {
       <form onSubmit={handleSubmit}>
         <label>
           제목
-          <input type='text' value={title} onChange={boardTitleHandler} />
+          <input
+            type='text'
+            value={title}
+            onChange={boardTitleHandler}
+          />
         </label>
 
         <label>
           카테고리
-          <select value={category} onChange={boardCategoryHandler}>
+          <select
+            value={category}
+            onChange={boardCategoryHandler}
+          >
             <option value=''>카테고리 선택</option>
             <option value='category1'>후기 게시판</option>
             <option value='category2'>자유 게시판</option>
@@ -129,7 +140,11 @@ const Board = () => {
         </label>
         <label>
           파일 첨부
-          <input type='file' onChange={handleFileChange} ref={$fileTag} />
+          <input
+            type='file'
+            onChange={handleFileChange}
+            ref={$fileTag}
+          />
         </label>
 
         {/* 사용자 이미지 첨부시 보여질 이미지 */}
@@ -144,17 +159,23 @@ const Board = () => {
         )}
         <label>
           내용
-          <textarea value={content} onChange={boardContentHandler} />
+          <textarea
+            value={content}
+            onChange={boardContentHandler}
+          />
         </label>
 
         <div className='buttoncn'>
-          <button type='submit' className='boardButton'>
+          <button
+            type='submit'
+            className='boardButton'
+          >
             작성하기
           </button>
           <button
             type='button'
             className='boardButton'
-            onClick={() => console.log('취소 버튼 클릭')}
+            onClick={() => toLink('/board')}
           >
             취소
           </button>

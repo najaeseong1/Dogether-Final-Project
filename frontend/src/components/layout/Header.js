@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Header.scss';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const redirection = useNavigate();
+
+  // 로그인 한 사용자
 
   const toLink = (loc) => {
     redirection(loc);
