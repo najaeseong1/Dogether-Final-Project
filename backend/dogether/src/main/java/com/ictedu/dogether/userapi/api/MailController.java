@@ -25,7 +25,7 @@ public class MailController {
     @PostMapping("/checkMailSend")
     public String mailSend(@RequestBody @Valid EmailRequestDTO dto){
         log.info("메일 전송 요청!!!!-{}", dto.getEmail());
-        return mailService.checkEmail(dto.getEmail());
+        return mailService.joinCheckEmail(dto.getEmail());
     }
 
 

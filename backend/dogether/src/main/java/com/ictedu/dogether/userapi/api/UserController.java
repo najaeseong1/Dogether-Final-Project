@@ -106,11 +106,16 @@ public class UserController {
     public ResponseEntity<?> findUserId(@RequestBody EmailRequestDTO dto) {
         log.info("아이디찾기 요청들어옴!!");
         log.info("이메일 -{}", dto);
-        String code = mailSendService.checkEmail(dto.getEmail());
-        String userId = userService.getUserId(dto);
+        try {
+            String code = mailSendService.checkEmail(dto.getEmail());
+            String userId = userService.getUserId(dto);
 
-        EmailResponseDTO emailResponseDTO = new EmailResponseDTO(code, userId);
-        return ResponseEntity.ok().body(emailResponseDTO);
+            EmailResponseDTO emailResponseDTO = new EmailResponseDTO(code, userId);
+            return ResponseEntity.ok().body(emailResponseDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     //개인정보 변경 페이지 요청 (비번 변경, 전화번호, 주소, 결제수단 ->  변경가능)
