@@ -10,7 +10,7 @@ import {
   Modify,
   MyPage,
 } from './components/user';
-import { Board, BoardDetail, BoardList } from './components/Board';
+import { Board, BoardDetail, BoardList } from './components/board';
 import PageNotFound from './components/pagenotfound/PageNotFound';
 import {
   AdoptionList,
@@ -20,7 +20,7 @@ import {
 import { Knowledge, Quiz } from './components/knowledges';
 import ProductDetail from './components/product/ProductDetail';
 import Product from './components/product/Product';
-import BoardUpdate from './components/Board/BoardUpdate';
+import BoardUpdate from './components/board/BoardUpdate';
 import AdminMain from './components/admin/AdminMain';
 import AdoptionManagement from './components/admin/AdoptionManagement';
 import FindId from './components/user/FindId';
