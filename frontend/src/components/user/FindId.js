@@ -4,7 +4,11 @@ import { FaRegCheckCircle } from 'react-icons/fa';
 
 const FindId = () => {
   const [certificationNumber, setcertificationNumber] = useState(false);
-  const [notificationMessage, setNotificationMessage] = useState('');
+
+  // 인증번호 메시지
+  const [notificationMessage, setNotificationMessage] = useState(false);
+  const [emailValue, setEmailValue] = useState('');
+
   const handlerSendNumber = (e) => {
     const emailValue = e.target.value;
 
@@ -13,13 +17,18 @@ const FindId = () => {
 
     if (!emailRegExp.test(emailValue)) {
       setNotificationMessage('이메일을 정확하게 입력해주세요');
+    } else {
+      setNotificationMessage('');
     }
+
+    setEmailValue(emailValue);
   };
 
   const handlecertificationNumber = (e) => {
     const enteredNumber = e.target.value;
 
     const correctCertificationNumber = '123456';
+    console.log('인증번호 :', correctCertificationNumber);
     const isCorrect = enteredNumber === correctCertificationNumber;
 
     setcertificationNumber(isCorrect);

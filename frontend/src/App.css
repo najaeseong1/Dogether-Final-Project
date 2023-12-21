@@ -10,10 +10,10 @@ body {
   min-height: 60vh;
 }
 
-.content-wrapper{
-    flex: 1;
-    /* 여기서 flex 속성 추가 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.content-wrapper {
+  flex: 1;
+  /* 여기서 flex 속성 추가 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
