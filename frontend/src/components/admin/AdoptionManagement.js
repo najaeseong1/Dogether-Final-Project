@@ -1,20 +1,18 @@
 // AdoptionManagement.js
 
 import React, { useState } from 'react';
-
+import './AdoptionManagement.scss';
 const AdoptionManagement = () => {
   const [tab, setTab] = useState('접수'); // 탭 상태 관리
 
-  // 탭 변경 함수
   const changeTab = (newTab) => {
     setTab(newTab);
   };
 
   // 신청 목록 데이터
   const adoptionList = [
-    { id: 1, time: '2023-12-22 10:00', applicant: '홍길동' },
-    { id: 2, time: '2023-12-22 11:30', applicant: '김철수' },
-    // 추가적인 데이터를 여기에 추가할 수 있습니다.
+    { id: 1, time: '2023-12-22 10:00', writer: '홍길동', Adopt: '춘식이' },
+    { id: 2, time: '2023-12-22 11:30', writer: '김철수', Adopt: '춘식이' },
   ];
 
   return (
@@ -47,7 +45,10 @@ const AdoptionManagement = () => {
           >
             <div className='item-info'>
               <span className='time'>{item.time}</span>
-              <span className='applicant'>{item.applicant}</span>
+              <span className='applicant'>
+                글쓴이 : {item.writer}
+                유기견 : {item.Adopt}
+              </span>
             </div>
             <button className='detail-button'>상세보기</button>
           </div>
