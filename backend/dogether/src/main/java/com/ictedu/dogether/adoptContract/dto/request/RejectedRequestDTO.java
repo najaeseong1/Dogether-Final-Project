@@ -11,7 +11,7 @@ import lombok.*;
 @Builder
 public class RejectedRequestDTO {
 
-    private int contractNo;
+        private int contractNo;
 
     private String refusalReason;
 }

@@ -65,6 +65,22 @@ public class BoardController {
 
     }
 
+    //게시판 글 상세보기
+    @GetMapping("/detail/{boardNo}")
+    public ResponseEntity<?> boardDetail( @PathVariable  int boardNo,
+                                         @AuthenticationPrincipal TokenUserInfo userInfo) {
+
+        try {
+            BoardRegistResponseDTO detail = boardService.getDetail(boardNo);
+            return ResponseEntity.ok().body(detail);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+    }
+
+
     //파일 경로를 리턴할 메서드 추출
     private String getUploadFilePath(MultipartFile imageFile) throws IOException {
         String uploadFilePath = null; //기본값이  null임

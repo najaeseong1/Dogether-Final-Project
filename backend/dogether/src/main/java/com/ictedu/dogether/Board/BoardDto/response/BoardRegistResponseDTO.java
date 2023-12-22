@@ -30,9 +30,12 @@ public class BoardRegistResponseDTO {
 
     private String image;
 
+    private int boardNo;
+
 
 
     public BoardRegistResponseDTO(Board board) {
+        this.boardNo = board.getBoardNo();
             this.title = board.getTitle();
             this.content = board.getContent();
             this.category = board.getCategory();
