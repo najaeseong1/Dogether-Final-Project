@@ -114,7 +114,7 @@ public class ContractController {
 
 
     //마이페이지 입양신청 목록
-    @GetMapping("/mypageadoptionList")
+    @GetMapping("/mypageadoptionlist")
     public  ResponseEntity<?> getAdminList(@AuthenticationPrincipal TokenUserInfo userInfo) {
         log.info("입양신청 관리자 페이지 요청 들어옴");
         //입양 신청서 id를 줌
@@ -124,7 +124,7 @@ public class ContractController {
     }
 
     //마이페이지 입양 신청 승인 |거절 쪽 상세 보기
-    @GetMapping("/mypageadoptionDetail")
+    @GetMapping("/mypageadoptiondetail")
     public ResponseEntity<?> getAdoptionList(@AuthenticationPrincipal TokenUserInfo userInfo,
                                             @RequestParam int contractNo) {
         log.info("contractNo -{}", contractNo);

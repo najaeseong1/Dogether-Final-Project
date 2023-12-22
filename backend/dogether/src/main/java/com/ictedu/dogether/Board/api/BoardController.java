@@ -183,7 +183,7 @@ public class BoardController {
 
 
     //댓글 수정
-    @PutMapping("/replyModify")
+    @PutMapping("/replymodify")
     public ResponseEntity<?> replyModify( ReplyModifyRequestDTO dto,
             @AuthenticationPrincipal TokenUserInfo userInfo,
             BindingResult result
@@ -212,7 +212,7 @@ public class BoardController {
 
 
         //댓글 목록 요청
-        @GetMapping("/replyList/{boardNo}")
+        @GetMapping("/replylist/{boardNo}")
         public ResponseEntity<?> replyList(@PathVariable("boardNo") int boardNo) {
         log.info("댓글 목록 요청 들어옴 !");
             ReplyListResponseDTO replyList = boardService.getReplyList(boardNo);
