@@ -1,20 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Header.scss';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Header = () => {
+  const toLink = (loc) => {
+    redirection(loc);
+  };
   const redirection = useNavigate();
 
-  // 로그인 여부 상태 관리
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem('isLoggedIn') === '1') {
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   // 로그아웃 핸들러
   const handleLogout = () => {
+    localStorage.clear();
     setIsLoggedIn(false);
+    alert('로그아웃 되었습니다.');
     redirection('/');
-  };
-  const toLink = (loc) => {
-    redirection(loc);
   };
 
   return (

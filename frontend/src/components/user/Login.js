@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './Login.scss';
 import { useNavigate } from 'react-router-dom';
 import { KAKAO_AUTH_URL } from '../../global/kakaoAuth.js';
+import AuthContext from '../../global/utils/AuthContext.js';
+import { API_BASE_URL } from '../../global/config/host-config.js';
 
 const Login = () => {
   const redirection = useNavigate();
-  const API_URL_USER = 'http://localhost:8181/user/login';
+  const { onLogin } = useContext(AuthContext);
+
   const navigate = useNavigate();
 
   const toLink = (loc) => {
@@ -20,21 +23,42 @@ const Login = () => {
     const $userId = document.getElementById('id');
     const $userPass = document.getElementById('password');
 
-    const res = await fetch(API_URL_USER, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        id: $userId.value,
-        password: $userPass.value,
-      }),
-    });
-    if (res.status === 400) {
-      const text = await res.text();
-      alert(text);
-      return;
+    try {
+      const res = await fetch(`${API_BASE_URL}/user/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: $userId.value,
+          userPass: $userPass.value,
+        }),
+      });
+
+      if (res.status === 200) {
+        const { token } = await res.json();
+
+        localStorage.setItem('ACCESS_TOKEN', token);
+        redirection('/');
+      }
+      if (res.status === 400) {
+        const text = await res.text();
+        alert(text);
+        console.log('회원미존재');
+        return;
+      }
+
+      const { token, role } = await res.json();
+
+      // 위에있는 await 가 실행되기 전까지는 실행되지 않음,
+      // Context API를 사용하여 로그인 상태를 업데이트 합니다.
+      onLogin(token, role);
+
+      // 로그인이 성공하면 원하는 동작 수행
+      redirection('/');
+    } catch (error) {
+      console.error('Error login:', error);
     }
-    redirection('/');
   };
+
   // 로그인
   const handleLogin = (e) => {
     e.preventDefault();

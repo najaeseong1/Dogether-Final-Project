@@ -6,6 +6,7 @@ import axios from 'axios';
 
 const MyPage = () => {
   const navigate = useNavigate();
+  const [userPosts, setUserPosts] = useState([]);
 
   const toLink = (loc) => {
     navigate(loc);
@@ -14,8 +15,8 @@ const MyPage = () => {
   //const score = 75;
   const [score, setScore] = useState('');
 
-  // 점수 가져오기
   useEffect(() => {
+    // 점수 가져오기
     axios
       .post(`${API_BASE_URL}/knowledge/quiz`)
       .then((res) => {
@@ -24,7 +25,20 @@ const MyPage = () => {
       .catch((err) => {
         console.log('err', err);
       });
+
+    //글 목록 가져오기
+    axios
+      .get(`${API_BASE_URL}//oard/myBoardList/{userId}`)
+      .then((res) => {
+        setUserPosts(res.data);
+      })
+      .catch((err) => {
+        console('err: ', err);
+      });
   }, []);
+
+  // 게시물 상세 페이지 이동
+  const toPostDetail = (postId) => {};
 
   // 점수에 따라 수료 여부 결정
   const completionStatus = score >= 70 ? '수료' : '미수료';
@@ -73,13 +87,16 @@ const MyPage = () => {
             </div>
           )}
           <div className='board'>게시판</div>
-          <div
-            className='board-content'
-            onClick={() => toLink('/boarddetail')}
-          >
-            <p className='text'>조장... 혈액형 B로 밝혀져 .....</p>
-            <p className='date'>2023-11-23</p>
-          </div>
+
+          {userPosts.map((post) => (
+            <div
+              className='board-content'
+              onClick={() => toLink('/boarddetail')}
+            >
+              <p className='text'>{post.title}</p>
+              <p className='date'>{post.regDate}</p>
+            </div>
+          ))}
         </div>
       </div>
     </div>
