@@ -4,12 +4,10 @@ package com.ictedu.dogether.adoptContract.service;
 import com.ictedu.dogether.adoptApi.Entity.Adopt;
 import com.ictedu.dogether.adoptApi.repository.AdoptRepository;
 import com.ictedu.dogether.adoptContract.Entity.AdoptContract;
-import com.ictedu.dogether.Adimin.dto.request.AdminPageRegistDTO;
 import com.ictedu.dogether.adoptContract.Entity.AdoptionStatus;
 import com.ictedu.dogether.adoptContract.dto.request.AdoptRegistDTO;
-import com.ictedu.dogether.adoptContract.dto.response.AdminListResponseDTO;
-import com.ictedu.dogether.adoptContract.dto.response.CombinedResponseDTO;
-import com.ictedu.dogether.adoptContract.dto.response.RegistResponseDTO;
+import com.ictedu.dogether.adoptContract.dto.request.RejectedRequestDTO;
+import com.ictedu.dogether.adoptContract.dto.response.*;
 import com.ictedu.dogether.adoptContract.repository.ContractRepository;
 import com.ictedu.dogether.auth.TokenUserInfo;
 import com.ictedu.dogether.userapi.entity.Role;
@@ -50,7 +48,7 @@ public class ContractService {
     }
 
 
-    //관리자 페이지 속 입양 신청 목록 끌고오기
+    //마이페이지에 입양 신청 목록 끌고오기
     public AdminListResponseDTO getAdminList(TokenUserInfo userInfo) {
 
 
@@ -58,12 +56,8 @@ public class ContractService {
                 () -> new RuntimeException("회원 정보가 없습니다.")
         );
 
-        //관리자만 들어갈 수 있어야 함
-        if(!targetUser.getRole().equals(Role.ADMIN)) {
-            throw new RuntimeException("요청 권한이 없습니다.");
-        }
 
-        List<AdoptContract> findlist = contractRepository.findAll();
+        List<AdoptContract> findlist = contractRepository.findByUserUserId(userInfo.getUserId());
 
         //여기서 던져줘야 할거 : 시간, 글쓴이, 유기번호
         List<RegistResponseDTO> dtoList = findlist.stream().map(RegistResponseDTO::new)
@@ -97,25 +91,9 @@ public class ContractService {
 
 
 
-
-
-
     }
 
-    //admin DB 저장 요청
-    public void adminRegist(TokenUserInfo userInfo, AdminPageRegistDTO dto) {
 
-        User targetUser = userRepository.findById(userInfo.getUserId()).orElseThrow(
-                () -> new RuntimeException("회원 정보가 없습니다.")
-        );
-
-        //관리자만 들어갈 수 있어야 함
-        if(!targetUser.getRole().equals(Role.ADMIN)) {
-            throw new RuntimeException("요청 권한이 없습니다.");
-        }
-
-
-    }
 
     //입양 신청 승인 코드
     public void approvedRegist(TokenUserInfo userInfo, int contractNo) {
@@ -140,7 +118,7 @@ public class ContractService {
     }
     
     //입양 신청 거절 코드
-    public void rejected(int contracctNo, String refusalReason, TokenUserInfo userInfo) {
+    public void rejected(RejectedRequestDTO dto, TokenUserInfo userInfo) {
         User targetUser = userRepository.findById(userInfo.getUserId()).orElseThrow(
                 () -> new RuntimeException("회원 정보가 없습니다.")
         );
@@ -149,53 +127,65 @@ public class ContractService {
             throw new RuntimeException("요청 권한이 없습니다.");
         }
 
-        AdoptContract targetInfo = contractRepository.findById(contracctNo).orElseThrow(
+        AdoptContract targetInfo = contractRepository.findById(dto.getContractNo()).orElseThrow(
                 () -> new RuntimeException("입양 신청서 정보가 없습니다.")
         );
         targetInfo.setAdoptionStatus(AdoptionStatus.REJECTED);
-        targetInfo.setReasonsRefusal(refusalReason);
+        targetInfo.setReasonsRefusal(dto.getRefusalReason());
 
         contractRepository.save(targetInfo);
+    }
 
+    //입양 승인 목록
+    public List<ApproveListResponseDTO> getApproveList() {
+        return contractRepository.findByAdoptionStatus(AdoptionStatus.APPROVED)
+                .stream().map(ApproveListResponseDTO :: new)
+                .collect(Collectors.toList());
+
+
+    }
+
+    //입양 거절 목록
+    public List<ApproveListResponseDTO> getRejectedList() {
+    return contractRepository.findByAdoptionStatus(AdoptionStatus.REJECTED).stream().map(ApproveListResponseDTO ::new)
+                .collect(Collectors.toList());
+
+    }
+
+    //입양 접수 목록
+    public List<ApproveListResponseDTO> getPendingList() {
+        return contractRepository.findByAdoptionStatus(AdoptionStatus.PENDING).stream().map(ApproveListResponseDTO ::new)
+                .collect(Collectors.toList());
+    }
+
+    //마이페이지 입양 신청 승인 쪽 상세보기
+    public myPageApprovedDTO getMyPageDetail(TokenUserInfo userInfo, int contractNo) {
+
+
+        User targetUser = userRepository.findById(userInfo.getUserId()).orElseThrow(
+                () -> new RuntimeException("회원 정보가 없습니다.")
+        );
+
+        //id에 맞는 그 입양신청서
+        AdoptContract targetInfo = contractRepository.findById(contractNo).orElseThrow(
+                () -> new RuntimeException("입양 신청서 정보가 없습니다.")
+        );
+
+        if(targetInfo.getAdoptionStatus().equals(AdoptionStatus.APPROVED)) {
+            log.info("Approved -{}", targetInfo);
+            AdoptContract targetAdoption =
+                    contractRepository.findByUser_UserIdAndAdopt_DesertionNo( targetInfo.getUser().getUserId(),targetInfo.getAdopt().getDesertionNo());
+
+            return new myPageApprovedDTO(targetAdoption);
+
+        }else if(targetInfo.getAdoptionStatus().equals(AdoptionStatus.REJECTED)) {
+
+            AdoptContract targetAdoption =
+                    contractRepository.findByUser_UserIdAndAdopt_DesertionNo( targetInfo.getUser().getUserId(),targetInfo.getAdopt().getDesertionNo());
+
+            return new myPageApprovedDTO(targetAdoption, targetAdoption.getReasonsRefusal());
+        }
+        throw new RuntimeException("입양 승인 절차중입니다.");
     }
 }
 
-//    //관리자에게 입양 목록 리스트 반환
-//    public AdminListResponseDTO getAdminList(TokenUserInfo userInfo) {
-//
-//        User targetUser = userRepository.findById(userInfo.getUserId()).orElseThrow(
-//                () -> new RuntimeException("회원 정보가 없습니다.")
-//        );
-//        //관리자만 들어갈 수 있어야 함
-//        if(!targetUser.getRole().equals(Role.ADMIN)) {
-//            throw new RuntimeException("요청 권한이 없습니다.");
-//        }
-//
-//        //입양 신청 목록 받아옴
-//        List<adoptContract> findContractList = contractRepository.findAll();
-//
-//        List<RegistResponseDTO> dtoList = new ArrayList<>();
-//
-//        for(adoptContract dto :  findContractList) {
-//            RegistResponseDTO dtoRes = new RegistResponseDTO(dto);
-//            dtoList.add(dtoRes);
-//        }
-//
-//
-//        return AdminListResponseDTO.builder()
-//                .dtoList(dtoList)
-//                .build();
-//
-//    }
-
-//    public void getAdminDetail(TokenUserInfo userInfo) {
-//
-//        User targetUser = userRepository.findById(userInfo.getUserId()).orElseThrow(
-//                () -> new RuntimeException("회원 정보가 없습니다.")
-//        );
-//        //관리자만 들어갈 수 있어야 함
-//        if(!targetUser.getRole().equals(Role.ADMIN)) {
-//            throw new RuntimeException("요청 권한이 없습니다.");
-//        }
-//    }
-// }

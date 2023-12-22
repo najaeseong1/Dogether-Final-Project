@@ -1,7 +1,8 @@
 package com.ictedu.dogether.adoptContract.Entity;
 
 
-import com.ictedu.dogether.Adimin.Entity.Admin;
+//import com.ictedu.dogether.Adimin.Entity.Admin;
+//import com.ictedu.dogether.Adimin.Entity.Admin;
 import com.ictedu.dogether.adoptApi.Entity.Adopt;
 import com.ictedu.dogether.userapi.entity.User;
 import lombok.*;
@@ -78,11 +79,11 @@ public class AdoptContract {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name =  "user_id" )
     private User user;
-    
-    //관리자 한명이 입양 신청서 여러개ㅐ 가질 수 있다
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "admin_id")
-    private Admin admin;
+//
+//    //관리자 한명이 입양 신청서 여러개 가질 수 있다
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "admin_id")
+//    private Admin admin;
 
 
 

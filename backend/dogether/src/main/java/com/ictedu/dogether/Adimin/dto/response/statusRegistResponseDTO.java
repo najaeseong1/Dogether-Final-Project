@@ -1,6 +1,6 @@
 package com.ictedu.dogether.Adimin.dto.response;
 
-import com.ictedu.dogether.Adimin.Entity.Admin;
+//import com.ictedu.dogether.Adimin.Entity.Admin;
 
 public class statusRegistResponseDTO {
 

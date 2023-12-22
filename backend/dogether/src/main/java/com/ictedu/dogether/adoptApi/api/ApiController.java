@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
 @Slf4j
 @RequiredArgsConstructor
@@ -32,6 +34,21 @@ public class ApiController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    //시도코드 통한 강아지 목록 불러오기
+    @GetMapping("/adminiCode")
+    public ResponseEntity<?> getAdmincodeList(@RequestParam String uprCd) {
+        try {
+            AdoptListResponseDTO adminCodeList = apiService.getAdminCodeList(uprCd);
+            return ResponseEntity.ok().body(adminCodeList);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+    }
+
+
 
     //분양게시글 상세보기 요청
     @GetMapping("/detail/{desertionNo}")

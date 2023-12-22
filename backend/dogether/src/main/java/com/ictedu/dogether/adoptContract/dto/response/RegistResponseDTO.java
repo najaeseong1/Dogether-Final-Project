@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @Builder
 public class  RegistResponseDTO {
 
+    private int contractNo;
 
     private AdoptionStatus adoptionStatus;
 
@@ -44,7 +45,10 @@ public class  RegistResponseDTO {
 
     private String desertionNo;
 
+    private AdoptContract adoptContract;
+
     public RegistResponseDTO(AdoptContract info) {
+        this.contractNo = info.getContractNo();
         this.adoptionStatus = info.getAdoptionStatus();
         this.reasonsRefusal = info.getReasonsRefusal();
         this.userId = info.getUser().getUserId();

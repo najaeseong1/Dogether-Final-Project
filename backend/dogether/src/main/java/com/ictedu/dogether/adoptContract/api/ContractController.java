@@ -3,11 +3,12 @@ package com.ictedu.dogether.adoptContract.api;
 
 import com.ictedu.dogether.adoptApi.AdoptDto.response.AdoptResponseDTO;
 import com.ictedu.dogether.adoptApi.service.ApiService;
-import com.ictedu.dogether.Adimin.dto.request.AdminPageRegistDTO;
 import com.ictedu.dogether.adoptContract.dto.request.AdoptRegistDTO;
+import com.ictedu.dogether.adoptContract.dto.request.RejectedRequestDTO;
 import com.ictedu.dogether.adoptContract.dto.response.AdminListResponseDTO;
 import com.ictedu.dogether.adoptContract.dto.response.RegistResponseDTO;
 import com.ictedu.dogether.adoptContract.dto.response.AdoptionFormDTO;
+import com.ictedu.dogether.adoptContract.dto.response.myPageApprovedDTO;
 import com.ictedu.dogether.adoptContract.service.ContractService;
 import com.ictedu.dogether.auth.TokenUserInfo;
 import com.ictedu.dogether.userapi.dto.response.UserSignUpResponseDTO;
@@ -17,7 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/contract")
 @CrossOrigin
 
+//입양 신청서 컨트롤러
 public class ContractController {
 
     private final ContractService contractService;
@@ -68,19 +69,7 @@ public class ContractController {
         }
     }
 
-    //입양 신청서 관리자 페이지 목록
-    @GetMapping("/adminPage")
-    @PreAuthorize("hasRole('ADMIN')") //admin일때  이 메서드 실행됨
-    public  ResponseEntity<?> getAdminList(
-            @AuthenticationPrincipal TokenUserInfo userInfo) {
-        log.info("입양신청 관리자 페이지 요청 들어옴");
-        //입양 신청서 id를 줌
-        AdminListResponseDTO adminList = contractService.getAdminList(userInfo);
 
-        return ResponseEntity.ok().body(adminList);
-    }
-
-    
     //관리자 입양 신청서 페이지 상세 조회
     @PostMapping("/adminDetail/{desertionNo}")
     @PreAuthorize("hasRole('ADMIN')") //admin일때  이 메서드 실행됨
@@ -113,60 +102,47 @@ public class ContractController {
         //입양 신청 거절 로직
         @PostMapping("/adminRejected")
         @PreAuthorize("hasRole('ADMIN')")
-        public ResponseEntity<?> adminRejected(int contractNo, String refusalReason ,
-                                    @AuthenticationPrincipal TokenUserInfo userInfo
+        public ResponseEntity<?> adminRejected(@RequestBody RejectedRequestDTO dto,
+                                               @AuthenticationPrincipal TokenUserInfo userInfo
                     ) {
-                log.info("contractNo -{} ", contractNo);
-            log.info("refusalReason -{} ", refusalReason);
-                contractService.rejected(contractNo,refusalReason, userInfo);
 
+                contractService.rejected(dto, userInfo);
             return ResponseEntity.ok().build();
 
         }
 
 
 
+    //마이페이지 입양신청 목록
+    @GetMapping("/mypageAdoptionList")
+    public  ResponseEntity<?> getAdminList(@AuthenticationPrincipal TokenUserInfo userInfo) {
+        log.info("입양신청 관리자 페이지 요청 들어옴");
+        //입양 신청서 id를 줌
+        AdminListResponseDTO adminList = contractService.getAdminList(userInfo);
 
+        return ResponseEntity.ok().body(adminList);
+    }
 
-
-
-
-//    //입양 신청서 요청온거 저장
-//    //여기서 입양 요청한거는 모두 접수로 쌓이고, 상세에서 버튼을 누르는 순간에 db에 쌓임
-//    @PostMapping("/adminRegist")
-//    @PreAuthorize("hasRole('ADMIN')") //admin일때  이 메서드 실행됨
-//    public ResponseEntity<?> adminRegistPage(
-//            @AuthenticationPrincipal TokenUserInfo userInfo,
-//            @RequestBody AdminPageRegistDTO dto,
-//            BindingResult result
-//    ) {
-//
-//        log.info("입양 신청서 승인, 거절 요청 들어옴 ");
-//        if (result.hasErrors()) {
-//            log.warn(result.toString());
-//            return ResponseEntity.badRequest()
-//                    .body(result.getFieldError());
-//        }
-//        contractService.adminRegist(userInfo, dto);
-//
-//
-//        return null;
-//    }
-
-
-    //마이페이지 입양 신청 목차
-    @GetMapping("/{userId}")
-    public ResponseEntity<?> getAdoptionList() {
-
-
-
-        return null;
+    //마이페이지 입양 신청 승인 |거절 쪽 상세 보기
+    @GetMapping("/mypageAdoptionDetail")
+    public ResponseEntity<?> getAdoptionList(@AuthenticationPrincipal TokenUserInfo userInfo,
+                                            @RequestParam int contractNo) {
+        log.info("contractNo -{}", contractNo);
+        try {
+            myPageApprovedDTO myPageDetail = contractService.getMyPageDetail(userInfo, contractNo);
+            return ResponseEntity.ok().body(myPageDetail);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
 
 
 
-    //마이페이지 입양 신청 상세보기 ->이거 관리자 페이지 토대로 해야함
+
+
+    //마이페이지 입양 신청서 상세보기 ->이거 관리자 페이지 토대로 해야함
 
 
 

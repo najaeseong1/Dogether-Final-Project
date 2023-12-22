@@ -43,7 +43,7 @@ public class WebSecurityConfig {
                 .authorizeRequests()
 
                 .antMatchers(HttpMethod.GET, "/contract/adminPage").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST, "/admin/adminApproved/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/admin/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, "/adminRejected").hasRole("ADMIN")
                 .antMatchers("/**").permitAll()
                 .anyRequest().authenticated();
