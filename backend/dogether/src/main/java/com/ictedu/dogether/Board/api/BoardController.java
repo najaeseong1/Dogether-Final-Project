@@ -171,8 +171,8 @@ public class BoardController {
     }
 
     //댓글 삭제
-    @DeleteMapping("/reply/{id}")
-    public ResponseEntity<?> deleteReply(@PathVariable("id") int replyNo,
+    @DeleteMapping("/reply/{replyNo}")
+    public ResponseEntity<?> deleteReply(@PathVariable("replyNo") int replyNo,
                                          @AuthenticationPrincipal TokenUserInfo userInfo
     ) {
 
@@ -212,13 +212,15 @@ public class BoardController {
 
 
         //댓글 목록 요청
-        @GetMapping("/replyList/{id}")
-        public ResponseEntity<?> replyList(@PathVariable("id") int boardNo) {
+        @GetMapping("/replyList/{boardNo}")
+        public ResponseEntity<?> replyList(@PathVariable("boardNo") int boardNo) {
         log.info("댓글 목록 요청 들어옴 !");
             ReplyListResponseDTO replyList = boardService.getReplyList(boardNo);
 
             return ResponseEntity.ok().body(replyList);
         }
+
+
 
 
 
