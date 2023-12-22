@@ -92,15 +92,15 @@ function App() {
             element={<AdoptionStatus />}
           />
           <Route
-            path='/adoptionlist'
+            path='/adopt'
             element={<AdoptionList />}
           />
           <Route
-            path='/adoptionlistdetail'
+            path='/adopt/detail/{}'
             element={<AdoptionListDetail />}
           />
           <Route
-            path='/adoptionapplication'
+            path='/contract/{}/{}'
             element={<AdoptionApplication />}
           />
           <Route
@@ -141,7 +141,7 @@ function App() {
             element={<Product />}
           />
           <Route
-            path='/product/productdetail'
+            path='/product/{}'
             element={<ProductDetail />}
           />
         </Routes>

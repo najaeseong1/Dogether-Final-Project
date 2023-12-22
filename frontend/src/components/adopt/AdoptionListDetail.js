@@ -12,6 +12,9 @@ const AdoptionListDetail = () => {
     navigate('/AdoptionApplication');
   };
 
+  //상세페이지 값 불로오기
+  
+
   // 관심등록 버튼 클릭시 좋아요 목록
   const handleLike = (breed, age) => {
     setLikedItems([...likeItems, { breed, age }]);
