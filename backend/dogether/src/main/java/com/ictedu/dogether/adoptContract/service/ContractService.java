@@ -71,7 +71,7 @@ public class ContractService {
     }
 
     //관리자 페이지, 입양 신청 상세 페이지
-    public AdminListResponseDTO getListDetail(String desertionNo, TokenUserInfo userInfo) {
+    public CombinedResponseDTO getListDetail(int contractNo, TokenUserInfo userInfo) {
         User targetUser = userRepository.findById(userInfo.getUserId()).orElseThrow(
                 () -> new RuntimeException("회원 정보가 없습니다.")
         );
@@ -80,16 +80,11 @@ public class ContractService {
         if(!targetUser.getRole().equals(Role.ADMIN)) {
             throw new RuntimeException("요청 권한이 없습니다.");
         }
-        List<AdoptContract> DetailPage = contractRepository.findByAdopt_DesertionNo(desertionNo);
+        AdoptContract adoptContract = contractRepository.findById(contractNo).orElseThrow(
+                () -> new RuntimeException("입양신청서 정보가 없습니다.")
+        );
 
-        List<CombinedResponseDTO> toDtoDetail = DetailPage.stream().map(CombinedResponseDTO::new)
-                .collect(Collectors.toList());
-
-    return AdminListResponseDTO.builder()
-            .DetailList(toDtoDetail)
-            .build();
-
-
+    return new CombinedResponseDTO(adoptContract);
 
     }
 

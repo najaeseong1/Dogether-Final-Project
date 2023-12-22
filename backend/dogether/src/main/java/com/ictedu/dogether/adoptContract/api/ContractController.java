@@ -5,10 +5,7 @@ import com.ictedu.dogether.adoptApi.AdoptDto.response.AdoptResponseDTO;
 import com.ictedu.dogether.adoptApi.service.ApiService;
 import com.ictedu.dogether.adoptContract.dto.request.AdoptRegistDTO;
 import com.ictedu.dogether.adoptContract.dto.request.RejectedRequestDTO;
-import com.ictedu.dogether.adoptContract.dto.response.AdminListResponseDTO;
-import com.ictedu.dogether.adoptContract.dto.response.RegistResponseDTO;
-import com.ictedu.dogether.adoptContract.dto.response.AdoptionFormDTO;
-import com.ictedu.dogether.adoptContract.dto.response.myPageApprovedDTO;
+import com.ictedu.dogether.adoptContract.dto.response.*;
 import com.ictedu.dogether.adoptContract.service.ContractService;
 import com.ictedu.dogether.auth.TokenUserInfo;
 import com.ictedu.dogether.userapi.dto.response.UserSignUpResponseDTO;
@@ -70,16 +67,16 @@ public class ContractController {
     }
 
 
-    //관리자 입양 신청서 페이지 상세 조회
-    @PostMapping("/admindetail/{desertionNo}")
+    //관리자 입양 신청서 페이지 상세 조회 -수정 필요
+    @PostMapping("/adminDetail/{contractNo}")
     @PreAuthorize("hasRole('ADMIN')") //admin일때  이 메서드 실행됨
     public ResponseEntity<?> getListDetail(
             @AuthenticationPrincipal TokenUserInfo userInfo,
-            @PathVariable String desertionNo
+            @PathVariable int contractNo
     ) {
         try {
-            AdminListResponseDTO listDetail = contractService.getListDetail(desertionNo, userInfo);
-            return ResponseEntity.ok().body(listDetail);
+            CombinedResponseDTO adminDetail = contractService.getListDetail(contractNo, userInfo);
+            return ResponseEntity.ok().body(adminDetail);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -142,7 +139,6 @@ public class ContractController {
 
 
 
-    //마이페이지 입양 신청서 상세보기 ->이거 관리자 페이지 토대로 해야함
 
 
 
