@@ -48,7 +48,7 @@ public class ApiService {
 
     //api 요청으로 데이터 DB에 넣기
     public AdoptListResponseDTO getAdoptList() throws IOException {
-        int numOfRows = 100; // 페이지당 아이템 개수
+        int numOfRows = 1000; // 페이지당 아이템 개수
         int totalItems = getTotalCodeItems(); // 전체 아이템 개수
         List<Adopt> adoptList = new ArrayList<>();
 
