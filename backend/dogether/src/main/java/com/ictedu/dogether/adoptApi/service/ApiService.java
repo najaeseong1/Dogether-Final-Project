@@ -58,7 +58,7 @@ public class ApiService {
             for (int pageNo = 1; pageNo <= totalPages; pageNo++) {
                 StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic");
                 urlBuilder.append("?" + "serviceKey" + "=" + apiKey);
-                urlBuilder.append("&" + URLEncoder.encode("bgnde","UTF-8") + "=" + URLEncoder.encode("20231205", "UTF-8")); /*유기날짜(검색 시작일) (YYYYMMDD)*/
+                urlBuilder.append("&" + URLEncoder.encode("bgnde","UTF-8") + "=" + URLEncoder.encode("20231209", "UTF-8")); /*유기날짜(검색 시작일) (YYYYMMDD)*/
                 urlBuilder.append("&" + URLEncoder.encode("endde","UTF-8") + "=" + URLEncoder.encode("20231219", "UTF-8")); /*유기날짜(검색 종료일) (YYYYMMDD)*/
                 urlBuilder.append("&" + URLEncoder.encode("upkind","UTF-8") + "=" + URLEncoder.encode("417000", "UTF-8")); /*축종코드 (개 : 417000, 고양이 : 422400, 기타 : 429900)*/
                 urlBuilder.append("&" + URLEncoder.encode("state","UTF-8") + "=" + URLEncoder.encode("protect", "UTF-8")); /*상태(전체 : null(빈값), 공고중 : notice, 보호중 : protect)*/
@@ -144,7 +144,7 @@ public class ApiService {
         log.info("getTotalItem 불러짐 ");
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic");
         urlBuilder.append("?" + "serviceKey" + "=" + apiKey);
-        urlBuilder.append("&" + URLEncoder.encode("bgnde","UTF-8") + "=" + URLEncoder.encode("20231117", "UTF-8")); /*유기날짜(검색 시작일) (YYYYMMDD)*/
+        urlBuilder.append("&" + URLEncoder.encode("bgnde","UTF-8") + "=" + URLEncoder.encode("20231209", "UTF-8")); /*유기날짜(검색 시작일) (YYYYMMDD)*/
         urlBuilder.append("&" + URLEncoder.encode("endde","UTF-8") + "=" + URLEncoder.encode("20231217", "UTF-8")); /*유기날짜(검색 종료일) (YYYYMMDD)*/
         urlBuilder.append("&" + URLEncoder.encode("upkind","UTF-8") + "=" + URLEncoder.encode("417000", "UTF-8")); /*축종코드 (개 : 417000, 고양이 : 422400, 기타 : 429900)*/
         urlBuilder.append("&" + URLEncoder.encode("state","UTF-8") + "=" + URLEncoder.encode("protect", "UTF-8")); /*상태(전체 : null(빈값), 공고중 : notice, 보호중 : protect)*/
@@ -193,7 +193,7 @@ public class ApiService {
             for (int pageNo = 1; pageNo <= totalPages; pageNo++) {
                 StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic");
                 urlBuilder.append("?" + "serviceKey" + "=" + apiKey);
-                urlBuilder.append("&" + URLEncoder.encode("bgnde","UTF-8") + "=" + URLEncoder.encode("20231205", "UTF-8")); /*유기날짜(검색 시작일) (YYYYMMDD)*/
+                urlBuilder.append("&" + URLEncoder.encode("bgnde","UTF-8") + "=" + URLEncoder.encode("20231209", "UTF-8")); /*유기날짜(검색 시작일) (YYYYMMDD)*/
                 urlBuilder.append("&" + URLEncoder.encode("endde","UTF-8") + "=" + URLEncoder.encode("20231219", "UTF-8")); /*유기날짜(검색 종료일) (YYYYMMDD)*/
                 urlBuilder.append("&" + URLEncoder.encode("upkind","UTF-8") + "=" + URLEncoder.encode("417000", "UTF-8")); /*축종코드 (개 : 417000, 고양이 : 422400, 기타 : 429900)*/
                 urlBuilder.append("&" + URLEncoder.encode("upr_cd","UTF-8") + "=" + URLEncoder.encode(uprCd, "UTF-8")); /*시도코드 (시도 조회 OPEN API 참조)*/
