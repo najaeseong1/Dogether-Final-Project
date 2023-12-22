@@ -18,6 +18,8 @@ public class UserSignUpResponseDTO {
 
     private String userEmail;
 
+    private String userPass;
+
     private String userPhone;
 
     private int postNo;
@@ -34,6 +36,7 @@ public class UserSignUpResponseDTO {
         this.userId = saved.getUserId();
         this.userName = saved.getUserName();
         this.userEmail = saved.getUserEmail();
+        this.userPass = saved.getUserPass();
         this.userPhone = saved.getUserPhone();
         this.postNo = saved.getPostNo();
         this.postAddr = saved.getPostAddr();
