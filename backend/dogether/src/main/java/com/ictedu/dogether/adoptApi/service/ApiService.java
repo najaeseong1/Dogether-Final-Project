@@ -25,6 +25,7 @@ import javax.transaction.Transactional;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -56,15 +57,7 @@ public class ApiService {
             int totalPages = (int) Math.ceil((double) totalItems / numOfRows);
 
             for (int pageNo = 1; pageNo <= totalPages; pageNo++) {
-                StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic");
-                urlBuilder.append("?" + "serviceKey" + "=" + apiKey);
-                urlBuilder.append("&" + URLEncoder.encode("bgnde","UTF-8") + "=" + URLEncoder.encode("20231205", "UTF-8")); /*유기날짜(검색 시작일) (YYYYMMDD)*/
-                urlBuilder.append("&" + URLEncoder.encode("endde","UTF-8") + "=" + URLEncoder.encode("20231219", "UTF-8")); /*유기날짜(검색 종료일) (YYYYMMDD)*/
-                urlBuilder.append("&" + URLEncoder.encode("upkind","UTF-8") + "=" + URLEncoder.encode("417000", "UTF-8")); /*축종코드 (개 : 417000, 고양이 : 422400, 기타 : 429900)*/
-                urlBuilder.append("&" + URLEncoder.encode("state","UTF-8") + "=" + URLEncoder.encode("protect", "UTF-8")); /*상태(전체 : null(빈값), 공고중 : notice, 보호중 : protect)*/
-                urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode(String.valueOf(pageNo), "UTF-8")); /*페이지 번호 (기본값 : 1)*/
-                urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode(String.valueOf(numOfRows), "UTF-8")); /*페이지당 보여줄 개수 (1,000 이하), 기본값 : 10*/
-                urlBuilder.append("&" + URLEncoder.encode("_type","UTF-8") + "=" + URLEncoder.encode("json", "UTF-8")); /*xml(기본값) 또는 json*/
+                StringBuilder urlBuilder = getApiCall(null, pageNo, numOfRows);
 
                 URL url = new URL(urlBuilder.toString());
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -100,25 +93,8 @@ public class ApiService {
                 if (arr != null) {
                     for (JsonElement jsonElement : arr) {
                         JsonObject temp = jsonElement.getAsJsonObject();
-                        Adopt save = adoptRepository.save(Adopt.builder()
-                                .desertionNo(temp.get("desertionNo").getAsString() == null? "-" :temp.get("desertionNo").getAsString())
-                                .kindCd(temp.get("kindCd").getAsString() == null? "-" : temp.get("kindCd").getAsString())
-                                .gender(temp.get("sexCd").getAsString() == null? "-": temp.get("sexCd").getAsString())
-                                .weight(temp.get("weight").getAsString() ==null? "-": temp.get("weight").getAsString())
-                                .happenAddr(temp.get("happenPlace").getAsString() == null? "-":temp.get("happenPlace").getAsString())
-                                .profileImg(temp.get("popfile").getAsString() == null? "-":temp.get("popfile").getAsString())
-                                .neuterYn(temp.get("neuterYn").getAsString() == null? "-":temp.get("neuterYn").getAsString())
-                                .age(temp.get("age").getAsString() == null? "-": temp.get("age").getAsString())
-                                .colorCd(temp.get("colorCd").getAsString() == null? "-":temp.get("colorCd").getAsString())
-                                .specialMark(temp.get("specialMark").getAsString() == null? "-":temp.get("specialMark").getAsString())
-                                .careNm(temp.get("careNm").getAsString() == null? "-": temp.get("careNm").getAsString())
-                                .careTel(temp.get("careTel").getAsString() == null? "-" : temp.get("careTel").getAsString())
-                                .careAddr(temp.get("careAddr").getAsString() == null? "-": temp.get("careAddr").getAsString())
-                                .orgNm(temp.get("orgNm").getAsString() == null? "-": temp.get("orgNm").getAsString())
-                                .chargeNm(temp.get("chargeNm") == null ? "-" : temp.get("chargeNm").getAsString())
-                                .officeTel(temp.get("officetel").getAsString() == null? "-": temp.get("officetel").getAsString())
-                                .build());
-
+                        //메서드 추출 -> 엔티티 Adopt 에 값 주입 메서드
+                        Adopt save = adoptRepository.save(getAdopt(temp));
                         adoptList.add(save);
                     }
                 } else {
@@ -139,50 +115,21 @@ public class ApiService {
                 .adoptLists(adoptLists)
                 .build();
     }
+
     //반복문 돌릴 때 필요한 total 값 얻기 메서드
     private int getTotalCodeItems() throws IOException {
         log.info("getTotalItem 불러짐 ");
-        StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic");
-        urlBuilder.append("?" + "serviceKey" + "=" + apiKey);
-        urlBuilder.append("&" + URLEncoder.encode("bgnde","UTF-8") + "=" + URLEncoder.encode("20231117", "UTF-8")); /*유기날짜(검색 시작일) (YYYYMMDD)*/
-        urlBuilder.append("&" + URLEncoder.encode("endde","UTF-8") + "=" + URLEncoder.encode("20231217", "UTF-8")); /*유기날짜(검색 종료일) (YYYYMMDD)*/
-        urlBuilder.append("&" + URLEncoder.encode("upkind","UTF-8") + "=" + URLEncoder.encode("417000", "UTF-8")); /*축종코드 (개 : 417000, 고양이 : 422400, 기타 : 429900)*/
-        urlBuilder.append("&" + URLEncoder.encode("state","UTF-8") + "=" + URLEncoder.encode("protect", "UTF-8")); /*상태(전체 : null(빈값), 공고중 : notice, 보호중 : protect)*/
-        urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode(String.valueOf(1), "UTF-8")); /*페이지 번호 (기본값 : 1)*/
-        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode(String.valueOf(1000), "UTF-8")); /*페이지당 보여줄 개수 (1,000 이하), 기본값 : 10*/
-        urlBuilder.append("&" + URLEncoder.encode("_type","UTF-8") + "=" + URLEncoder.encode("json", "UTF-8")); /*xml(기본값) 또는 json*/
-
-
-        URL url = new URL(urlBuilder.toString());
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setRequestProperty("Content-type", "application/json");
-
-        BufferedReader rd;
-        if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
-            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        } else {
-            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-        }
-
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = rd.readLine()) != null) {
-            sb.append(line);
-        }
-        log.info("parset 불러짐");
-        JsonParser parser = new JsonParser();
-        JsonObject obj = parser.parse(sb.toString()).getAsJsonObject();
-        int totalCount = obj.get("response").getAsJsonObject()
-                .get("body").getAsJsonObject()
-                .get("totalCount").getAsInt();
-        log.info("토탈 값 좀 나와라 아놔 -{}", totalCount);
-        return totalCount;
+        //토탈값 얻기 메서드
+        return getTotal();
 
     }
 
+
+
     //시도 코드에 따라 api 요청 보내기
     public AdoptListResponseDTO getAdminCodeList(String uprCd) throws IOException {
+
+
         int numOfRows = 100; // 페이지당 아이템 개수
         int totalItems = getTotalItems(); // 전체 아이템 개수
         List<Adopt> adoptList = new ArrayList<>();
@@ -191,16 +138,8 @@ public class ApiService {
             int totalPages = (int) Math.ceil((double) totalItems / numOfRows);
 
             for (int pageNo = 1; pageNo <= totalPages; pageNo++) {
-                StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic");
-                urlBuilder.append("?" + "serviceKey" + "=" + apiKey);
-                urlBuilder.append("&" + URLEncoder.encode("bgnde","UTF-8") + "=" + URLEncoder.encode("20231205", "UTF-8")); /*유기날짜(검색 시작일) (YYYYMMDD)*/
-                urlBuilder.append("&" + URLEncoder.encode("endde","UTF-8") + "=" + URLEncoder.encode("20231219", "UTF-8")); /*유기날짜(검색 종료일) (YYYYMMDD)*/
-                urlBuilder.append("&" + URLEncoder.encode("upkind","UTF-8") + "=" + URLEncoder.encode("417000", "UTF-8")); /*축종코드 (개 : 417000, 고양이 : 422400, 기타 : 429900)*/
-                urlBuilder.append("&" + URLEncoder.encode("upr_cd","UTF-8") + "=" + URLEncoder.encode(uprCd, "UTF-8")); /*시도코드 (시도 조회 OPEN API 참조)*/
-                urlBuilder.append("&" + URLEncoder.encode("state","UTF-8") + "=" + URLEncoder.encode("protect", "UTF-8")); /*상태(전체 : null(빈값), 공고중 : notice, 보호중 : protect)*/
-                urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode(String.valueOf(pageNo), "UTF-8")); /*페이지 번호 (기본값 : 1)*/
-                urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode(String.valueOf(numOfRows), "UTF-8")); /*페이지당 보여줄 개수 (1,000 이하), 기본값 : 10*/
-                urlBuilder.append("&" + URLEncoder.encode("_type","UTF-8") + "=" + URLEncoder.encode("json", "UTF-8")); /*xml(기본값) 또는 json*/
+                //api 요청용 메서드
+                StringBuilder urlBuilder = getApiCall(uprCd, pageNo, numOfRows);
 
                 URL url = new URL(urlBuilder.toString());
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -231,36 +170,17 @@ public class ApiService {
                             .get("items").getAsJsonObject()
                             .get("item").getAsJsonArray();
                 } catch (Exception e) {
-                    log.info("null포인터 으아ㅓ아ㅓㅏ-{}", e.getMessage());
+                    log.error("null 포인터 예외 발생 - {}", e.getMessage());
                 }
                 if (arr != null) {
                     for (JsonElement jsonElement : arr) {
                         JsonObject temp = jsonElement.getAsJsonObject();
-                        Adopt save = Adopt.builder()
-                                .desertionNo(temp.get("desertionNo").getAsString() == null? "-" :temp.get("desertionNo").getAsString())
-                                .kindCd(temp.get("kindCd").getAsString() == null? "-" : temp.get("kindCd").getAsString())
-                                .gender(temp.get("sexCd").getAsString() == null? "-": temp.get("sexCd").getAsString())
-                                .weight(temp.get("weight").getAsString() ==null? "-": temp.get("weight").getAsString())
-                                .happenAddr(temp.get("happenPlace").getAsString() == null? "-":temp.get("happenPlace").getAsString())
-                                .profileImg(temp.get("popfile").getAsString() == null? "-":temp.get("popfile").getAsString())
-                                .neuterYn(temp.get("neuterYn").getAsString() == null? "-":temp.get("neuterYn").getAsString())
-                                .age(temp.get("age").getAsString() == null? "-": temp.get("age").getAsString())
-                                .colorCd(temp.get("colorCd").getAsString() == null? "-":temp.get("colorCd").getAsString())
-                                .specialMark(temp.get("specialMark").getAsString() == null? "-":temp.get("specialMark").getAsString())
-                                .careNm(temp.get("careNm").getAsString() == null? "-": temp.get("careNm").getAsString())
-                                .careTel(temp.get("careTel").getAsString() == null? "-" : temp.get("careTel").getAsString())
-                                .careAddr(temp.get("careAddr").getAsString() == null? "-": temp.get("careAddr").getAsString())
-                                .orgNm(temp.get("orgNm").getAsString() == null? "-": temp.get("orgNm").getAsString())
-                                .chargeNm(temp.get("chargeNm") == null ? "-" : temp.get("chargeNm").getAsString())
-                                .officeTel(temp.get("officetel").getAsString() == null? "-": temp.get("officetel").getAsString())
-                                .build();
-
+                        Adopt save = getAdopt(temp);
                         adoptList.add(save);
                     }
                 } else {
                     log.warn("API 응답에서 항목을 찾을 수 없습니다.");
                 }
-
                 rd.close();
                 conn.disconnect();
             }
@@ -274,52 +194,12 @@ public class ApiService {
         return AdoptListResponseDTO.builder()
                 .adoptLists(adoptLists)
                 .build();
+
     }
-    //반복문 돌릴 때 필요한 total 값 얻기 메서드
+    //   반복문 돌릴 때 필요한 total 값 얻기 메서드
     private int getTotalItems() throws IOException {
-        log.info("getTotalItem 불러짐 ");
-        StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic");
-        urlBuilder.append("?" + "serviceKey" + "=" + apiKey);
-        urlBuilder.append("&" + URLEncoder.encode("bgnde","UTF-8") + "=" + URLEncoder.encode("20231117", "UTF-8")); /*유기날짜(검색 시작일) (YYYYMMDD)*/
-        urlBuilder.append("&" + URLEncoder.encode("endde","UTF-8") + "=" + URLEncoder.encode("20231217", "UTF-8")); /*유기날짜(검색 종료일) (YYYYMMDD)*/
-        urlBuilder.append("&" + URLEncoder.encode("upkind","UTF-8") + "=" + URLEncoder.encode("417000", "UTF-8")); /*축종코드 (개 : 417000, 고양이 : 422400, 기타 : 429900)*/
-        urlBuilder.append("&" + URLEncoder.encode("state","UTF-8") + "=" + URLEncoder.encode("protect", "UTF-8")); /*상태(전체 : null(빈값), 공고중 : notice, 보호중 : protect)*/
-        urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode(String.valueOf(1), "UTF-8")); /*페이지 번호 (기본값 : 1)*/
-        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode(String.valueOf(1000), "UTF-8")); /*페이지당 보여줄 개수 (1,000 이하), 기본값 : 10*/
-        urlBuilder.append("&" + URLEncoder.encode("_type","UTF-8") + "=" + URLEncoder.encode("json", "UTF-8")); /*xml(기본값) 또는 json*/
-
-
-        URL url = new URL(urlBuilder.toString());
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setRequestProperty("Content-type", "application/json");
-
-        BufferedReader rd;
-        if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
-            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        } else {
-            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-        }
-
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = rd.readLine()) != null) {
-            sb.append(line);
-        }
-        log.info("parset 불러짐");
-        JsonParser parser = new JsonParser();
-        JsonObject obj = parser.parse(sb.toString()).getAsJsonObject();
-        int totalCount = obj.get("response").getAsJsonObject()
-                .get("body").getAsJsonObject()
-                .get("totalCount").getAsInt();
-        log.info("토탈 값 좀 나와라 아놔 -{}", totalCount);
-        return totalCount;
-
+        return getTotal();
     }
-
-
-
-
 
 
     //분양게시물 상세조회
@@ -331,7 +211,6 @@ public class ApiService {
         return new AdoptResponseDTO(targetPage);
 
     }
-
 
 
     ////////////////////////////좋아요 ////////////////////////////////////
@@ -364,7 +243,7 @@ public class ApiService {
                 () -> new RuntimeException("삭제 권한이 없습니다.")
         );
         //삭제하려는 유저와 좋아요 누른 유저가 같은지 확인
-        if(!userInfo.getUserId().equals(targetWish.getUser().getUserId())) {
+        if (!userInfo.getUserId().equals(targetWish.getUser().getUserId())) {
             throw new RuntimeException("삭제 권한이 없습니다.");
         }
         wishRepository.deleteById(wishNo);
@@ -386,17 +265,17 @@ public class ApiService {
 
         List<Adopt> wishAdoptList = new ArrayList<>();
 
-        for (String adoptNo  : desertionNoList) {
+        for (String adoptNo : desertionNoList) {
             Adopt wishAdopt = bringAdoptListBoard(adoptNo);
-          wishAdoptList.add(wishAdopt);
+            wishAdoptList.add(wishAdopt);
         }
         List<AdoptResponseDTO> AdoptionList = wishAdoptList.stream()
                 .map(AdoptResponseDTO::new)
                 .collect(Collectors.toList());//글목록 받기
 
-          return AdoptListResponseDTO.builder()
+        return AdoptListResponseDTO.builder()
                 .adoptLists(AdoptionList)
-              .build();
+                .build();
 
     }
 
@@ -411,11 +290,8 @@ public class ApiService {
                 .adoptLists(dtoList)
                 .build();
 
-       
+
     }
-
-
-
 
 
     ////////////////////////////메서드 ///////////////////////////////////
@@ -428,7 +304,6 @@ public class ApiService {
     }
 
 
-
     //회원 정보 찾기 메서드
     private User getUser(String userId) {
         User user = userRepository.findById((userId)).orElseThrow(
@@ -438,6 +313,101 @@ public class ApiService {
 
     }
 
+    //api용 메서드 추출
+    private StringBuilder getApiCall(String uprCd, int pageNo, int numOfRows) throws UnsupportedEncodingException {
+        if (uprCd == null) {
+            uprCd = "";
+        }
+        StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic");
+        urlBuilder.append("?" + "serviceKey" + "=" + apiKey);
+        urlBuilder.append("&" + URLEncoder.encode("bgnde", "UTF-8") + "=" + URLEncoder.encode("20231205", "UTF-8")); /*유기날짜(검색 시작일) (YYYYMMDD)*/
+        urlBuilder.append("&" + URLEncoder.encode("endde", "UTF-8") + "=" + URLEncoder.encode("20231219", "UTF-8")); /*유기날짜(검색 종료일) (YYYYMMDD)*/
+        urlBuilder.append("&" + URLEncoder.encode("upkind", "UTF-8") + "=" + URLEncoder.encode("417000", "UTF-8")); /*축종코드 (개 : 417000, 고양이 : 422400, 기타 : 429900)*/
+        if (uprCd != null && !uprCd.isEmpty()) {
+            urlBuilder.append("&" + URLEncoder.encode("upr_cd", "UTF-8") + "=" + URLEncoder.encode(uprCd, "UTF-8"));
+        }
+        urlBuilder.append("&" + URLEncoder.encode("state", "UTF-8") + "=" + URLEncoder.encode("protect", "UTF-8")); /*상태(전체 : null(빈값), 공고중 : notice, 보호중 : protect)*/
+        urlBuilder.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(pageNo), "UTF-8")); /*페이지 번호 (기본값 : 1)*/
+        urlBuilder.append("&" + URLEncoder.encode("numOfRows", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(numOfRows), "UTF-8")); /*페이지당 보여줄 개수 (1,000 이하), 기본값 : 10*/
+        urlBuilder.append("&" + URLEncoder.encode("_type", "UTF-8") + "=" + URLEncoder.encode("json", "UTF-8")); /*xml(기본값) 또는 json*/
+        return urlBuilder;
+    }
 
+    //엔티티 adopt에 값 주입 메서드 추출
+    private static Adopt getAdopt(JsonObject temp) {
+        Adopt save = Adopt.builder()
+                .desertionNo(temp.get("desertionNo").getAsString() == null ? "-" : temp.get("desertionNo").getAsString())
+                .kindCd(temp.get("kindCd").getAsString() == null ? "-" : temp.get("kindCd").getAsString())
+                .gender(temp.get("sexCd").getAsString() == null ? "-" : temp.get("sexCd").getAsString())
+                .weight(temp.get("weight").getAsString() == null ? "-" : temp.get("weight").getAsString())
+                .happenAddr(temp.get("happenPlace").getAsString() == null ? "-" : temp.get("happenPlace").getAsString())
+                .profileImg(temp.get("popfile").getAsString() == null ? "-" : temp.get("popfile").getAsString())
+                .neuterYn(temp.get("neuterYn").getAsString() == null ? "-" : temp.get("neuterYn").getAsString())
+                .age(temp.get("age").getAsString() == null ? "-" : temp.get("age").getAsString())
+                .colorCd(temp.get("colorCd").getAsString() == null ? "-" : temp.get("colorCd").getAsString())
+                .specialMark(temp.get("specialMark").getAsString() == null ? "-" : temp.get("specialMark").getAsString())
+                .careNm(temp.get("careNm").getAsString() == null ? "-" : temp.get("careNm").getAsString())
+                .careTel(temp.get("careTel").getAsString() == null ? "-" : temp.get("careTel").getAsString())
+                .careAddr(temp.get("careAddr").getAsString() == null ? "-" : temp.get("careAddr").getAsString())
+                .orgNm(temp.get("orgNm").getAsString() == null ? "-" : temp.get("orgNm").getAsString())
+                .chargeNm(temp.get("chargeNm") == null ? "-" : temp.get("chargeNm").getAsString())
+                .officeTel(temp.get("officetel").getAsString() == null ? "-" : temp.get("officetel").getAsString())
+                .build();
+        return save;
+    }
+
+    //토탈값 얻기 위한 요청처리 메서드
+    private StringBuilder getTotalApi() throws UnsupportedEncodingException {
+        StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic");
+        urlBuilder.append("?" + "serviceKey" + "=" + apiKey);
+        urlBuilder.append("&" + URLEncoder.encode("bgnde", "UTF-8") + "=" + URLEncoder.encode("20231117", "UTF-8")); /*유기날짜(검색 시작일) (YYYYMMDD)*/
+        urlBuilder.append("&" + URLEncoder.encode("endde", "UTF-8") + "=" + URLEncoder.encode("20231217", "UTF-8")); /*유기날짜(검색 종료일) (YYYYMMDD)*/
+        urlBuilder.append("&" + URLEncoder.encode("upkind", "UTF-8") + "=" + URLEncoder.encode("417000", "UTF-8")); /*축종코드 (개 : 417000, 고양이 : 422400, 기타 : 429900)*/
+        urlBuilder.append("&" + URLEncoder.encode("state", "UTF-8") + "=" + URLEncoder.encode("protect", "UTF-8")); /*상태(전체 : null(빈값), 공고중 : notice, 보호중 : protect)*/
+        urlBuilder.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(1), "UTF-8")); /*페이지 번호 (기본값 : 1)*/
+        urlBuilder.append("&" + URLEncoder.encode("numOfRows", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(1000), "UTF-8")); /*페이지당 보여줄 개수 (1,000 이하), 기본값 : 10*/
+        urlBuilder.append("&" + URLEncoder.encode("_type", "UTF-8") + "=" + URLEncoder.encode("json", "UTF-8")); /*xml(기본값) 또는 json*/
+        return urlBuilder;
+    }
+
+    //토탈값 얻기 메서드
+    private int getTotal() throws IOException {
+        StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic");
+        urlBuilder.append("?" + "serviceKey" + "=" + apiKey);
+        urlBuilder.append("&" + URLEncoder.encode("bgnde", "UTF-8") + "=" + URLEncoder.encode("20231210", "UTF-8")); /*유기날짜(검색 시작일) (YYYYMMDD)*/
+        urlBuilder.append("&" + URLEncoder.encode("endde", "UTF-8") + "=" + URLEncoder.encode("20231220", "UTF-8")); /*유기날짜(검색 종료일) (YYYYMMDD)*/
+        urlBuilder.append("&" + URLEncoder.encode("upkind", "UTF-8") + "=" + URLEncoder.encode("417000", "UTF-8")); /*축종코드 (개 : 417000, 고양이 : 422400, 기타 : 429900)*/
+        urlBuilder.append("&" + URLEncoder.encode("state", "UTF-8") + "=" + URLEncoder.encode("protect", "UTF-8")); /*상태(전체 : null(빈값), 공고중 : notice, 보호중 : protect)*/
+        urlBuilder.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(1), "UTF-8")); /*페이지 번호 (기본값 : 1)*/
+        urlBuilder.append("&" + URLEncoder.encode("numOfRows", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(1000), "UTF-8")); /*페이지당 보여줄 개수 (1,000 이하), 기본값 : 10*/
+        urlBuilder.append("&" + URLEncoder.encode("_type", "UTF-8") + "=" + URLEncoder.encode("json", "UTF-8")); /*xml(기본값) 또는 json*/
+
+
+        URL url = new URL(urlBuilder.toString());
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Content-type", "application/json");
+
+        BufferedReader rd;
+        if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        } else {
+            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+        }
+
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = rd.readLine()) != null) {
+            sb.append(line);
+        }
+        log.info("parset 불러짐");
+        JsonParser parser = new JsonParser();
+        JsonObject obj = parser.parse(sb.toString()).getAsJsonObject();
+        int totalCount = obj.get("response").getAsJsonObject()
+                .get("body").getAsJsonObject()
+                .get("totalCount").getAsInt();
+        log.info("토탈 값 좀 나와라 아놔 -{}", totalCount);
+        return totalCount;
+    }
 
 }
