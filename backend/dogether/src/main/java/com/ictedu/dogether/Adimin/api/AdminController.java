@@ -22,7 +22,7 @@ public class AdminController {
     private final ContractService contractService;
 
     //입양 접수된 목록 불러오기
-    @GetMapping("/adminpending")
+    @GetMapping("/pending")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> pendingList() {
         try {
@@ -37,7 +37,7 @@ public class AdminController {
 
 
     //입양 승인된 목록 불러오기
-    @GetMapping("/adminapprovedlist")
+    @GetMapping("/approvedlist")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> approvedList() {
 
@@ -51,7 +51,7 @@ public class AdminController {
     }
 
     //입양 거절된 목록 불러오기
-    @GetMapping("/adminrejected")
+    @GetMapping("/rejected")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> rejectedList() {
         try {
