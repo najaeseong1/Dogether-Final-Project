@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Header.scss';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const redirection = useNavigate();
 
+  // 로그인 여부 상태 관리
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // 로그아웃 핸들러
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    redirection('/');
+  };
   const toLink = (loc) => {
     redirection(loc);
   };
@@ -13,9 +21,18 @@ const Header = () => {
     <>
       <div className='HeaderContainer1'>
         <ul>
-          <li onClick={() => toLink('/user/login')}>로그인</li>
-          <li onClick={() => toLink('/user/join')}>회원가입</li>
-          <li onClick={() => toLink('/user/mypage')}>마이페이지</li>
+          {!isLoggedIn && (
+            <>
+              <li onClick={() => toLink('/user/login')}>로그인</li>
+              <li onClick={() => toLink('/user/join')}>회원가입</li>
+            </>
+          )}
+          {isLoggedIn && (
+            <>
+              <li onClick={() => toLink('/user/mypage')}>마이페이지</li>
+              <li onClick={handleLogout}>로그아웃</li>
+            </>
+          )}
         </ul>
       </div>
       <Link to={'/'}>

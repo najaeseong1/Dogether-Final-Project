@@ -1,2 +1,3 @@
 import Knowledge from './Knowledge';
-export {Knowledge};
+import Quiz from './Quiz';
+export { Knowledge, Quiz };

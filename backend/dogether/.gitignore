@@ -1,6 +1,8 @@
 
 *.yml
+EmailConfig.java
 
+.idea
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
