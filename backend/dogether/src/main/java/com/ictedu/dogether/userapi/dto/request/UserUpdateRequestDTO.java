@@ -22,6 +22,9 @@ public class UserUpdateRequestDTO {
     private String userPass;
 
     @NotBlank
+    private String userId;
+
+    @NotBlank
     private String userPhone;
 
     @NotBlank

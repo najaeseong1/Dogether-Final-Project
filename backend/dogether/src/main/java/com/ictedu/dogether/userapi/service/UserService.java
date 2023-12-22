@@ -25,12 +25,11 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     // 회원 가입 처리
-    public UserSignUpResponseDTO create(
-            final UserRequestSignUpDTO dto
-    ) {
+    public UserSignUpResponseDTO create(final UserRequestSignUpDTO dto) {
+
         String userId = dto.getUserId();
 
-        if(isDuplicate(userId)) {
+        if (isDuplicate(userId)) {
             log.warn("아이디가 중복되었습니다. - {}", userId);
             throw new RuntimeException("중복된 아이디 입니다.");
         }
@@ -47,23 +46,24 @@ public class UserService {
 
     }
 
+    // 아이디 중복 검사
     public boolean isDuplicate(String userId) {
         return userRepository.existsById(userId);
     }
 
+    // 로그인 후 토큰 발급
     public LoginResponseDTO authenticate(final LoginRequestDTO dto) {
 
         // 아이디 통해 회원 정보 조회
         User user = userRepository.findById(dto.getUserId())
                 .orElseThrow(
-                        () -> new RuntimeException("가입된 회원이 아닙니다.")
-                );
+                        () -> new RuntimeException("가입된 회원이 아닙니다."));
 
         // 패스워드 검증
         String rawPassword = dto.getUserPass(); // 입력한 비번
         String encodedPassword = user.getUserPass(); // DB에 저장된 암호화된 비번
 
-        if(!passwordEncoder.matches(rawPassword, encodedPassword)) {
+        if (!passwordEncoder.matches(rawPassword, encodedPassword)) {
             throw new RuntimeException("비밀번호가 틀렸습니다.");
         }
 
@@ -77,28 +77,26 @@ public class UserService {
 
     }
 
-    //개인정보 변경 페이지
-    public  UserSignUpResponseDTO getUserInfo(TokenUserInfo userInfo) {
+    // 개인정보 변경 페이지
+    public UserSignUpResponseDTO getUserInfo(TokenUserInfo userInfo) {
         User finduser = userRepository.findById(userInfo.getUserId()).orElseThrow(
-                () -> new RuntimeException("가입된 회원이 아닙니다.")
-        );
+                () -> new RuntimeException("가입된 회원이 아닙니다."));
         return new UserSignUpResponseDTO(finduser);
 
     }
 
-    //개인정보 변경 수정 페이지
+    // 개인정보 변경 수정 페이지
     public UserSignUpResponseDTO updateInfo(UserUpdateRequestDTO dto, TokenUserInfo userInfo) {
 
         User findUser = userRepository.findById(userInfo.getUserId()).orElseThrow(
-                () -> new RuntimeException("동일한 회원이 아닙니다.")
-        );
+                () -> new RuntimeException("동일한 회원이 아닙니다."));
         findUser.setUserPhone(dto.getUserPhone());
         findUser.setUserPass(dto.getUserPass());
         findUser.setPostAddr(dto.getPostAddr());
 
         User saveInfo = userRepository.save(findUser);
 
-        //dto 재활용함
+        // dto 재활용함
         return new UserSignUpResponseDTO(saveInfo);
 
     }
@@ -108,13 +106,28 @@ public class UserService {
         User user = userRepository.findByUserEmail(dto.getEmail());
         return user.getUserId();
     }
-    //사용자의 정보 찾기
+
+    public void getUserPass(LoginRequestDTO dto) {
+
+        // 아이디 통해 회원 정보 조회
+        User user = userRepository.findById(dto.getUserId())
+                .orElseThrow(
+                        () -> new RuntimeException("가입된 회원이 아닙니다."));
+
+        // 패스워드 입력
+        String rawPassword = dto.getUserPass(); // 입력한 비번
+        // 패스워드 인코딩
+        String encoded = passwordEncoder.encode(rawPassword);
+
+        user.setUserPass(encoded); // 비번 변경
+        userRepository.save(user);
+    }
+
+    // 사용자의 정보 찾기
     public UserSignUpResponseDTO getAdoptInfo(String userId) {
         User targetUser = userRepository.findById(userId).orElseThrow(
-                () -> new RuntimeException("회원이 아닙니다.")
-        );
-        return new UserSignUpResponseDTO(targetUser); //dto 재활용함
-
+                () -> new RuntimeException("회원이 아닙니다."));
+        return new UserSignUpResponseDTO(targetUser); // dto 재활용함
 
     }
 }
