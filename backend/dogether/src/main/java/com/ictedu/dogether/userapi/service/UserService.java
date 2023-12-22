@@ -25,9 +25,8 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     // 회원 가입 처리
-    public UserSignUpResponseDTO create(
-            final UserRequestSignUpDTO dto
-    ) {
+    public UserSignUpResponseDTO create(final UserRequestSignUpDTO dto) {
+
         String userId = dto.getUserId();
 
         if(isDuplicate(userId)) {
@@ -47,10 +46,12 @@ public class UserService {
 
     }
 
+    // 아이디 중복 검사
     public boolean isDuplicate(String userId) {
         return userRepository.existsById(userId);
     }
 
+    // 로그인 후 토큰 발급
     public LoginResponseDTO authenticate(final LoginRequestDTO dto) {
 
         // 아이디 통해 회원 정보 조회

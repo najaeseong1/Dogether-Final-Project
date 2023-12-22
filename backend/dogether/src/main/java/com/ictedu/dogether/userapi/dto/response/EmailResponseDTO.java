@@ -1,7 +1,6 @@
 package com.ictedu.dogether.userapi.dto.response;
 
 import lombok.*;
-import org.springframework.http.ResponseEntity;
 @Getter
 @Setter
 @ToString
@@ -19,4 +18,5 @@ public class EmailResponseDTO {
      this.userId = userId;
      this.code = code;
     }
+
 }
