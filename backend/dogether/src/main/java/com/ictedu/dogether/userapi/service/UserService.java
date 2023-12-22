@@ -108,4 +108,22 @@ public class UserService {
         User user = userRepository.findByUserEmail(dto.getEmail());
         return user.getUserId();
     }
+
+    public void getUserPass(LoginRequestDTO dto) {
+
+        // 아이디 통해 회원 정보 조회
+        User user = userRepository.findById(dto.getUserId())
+                .orElseThrow(
+                        () -> new RuntimeException("가입된 회원이 아닙니다.")
+                );
+
+        // 패스워드 입력
+        String rawPassword = dto.getUserPass(); // 입력한 비번
+        // 패스워드 인코딩
+        String encoded = passwordEncoder.encode(rawPassword);
+
+        user.setUserPass(encoded); //비번 변경
+        userRepository.save(user);
+
+    }
 }

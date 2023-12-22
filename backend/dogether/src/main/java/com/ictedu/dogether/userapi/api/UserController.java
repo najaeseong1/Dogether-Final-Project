@@ -15,8 +15,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 @RestController
 @Slf4j
 @RequiredArgsConstructor
@@ -116,6 +114,23 @@ public class UserController {
             e.printStackTrace();
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    // 비밀번호 변경
+    @PostMapping("/modifyPass")
+    public ResponseEntity<?> modifyPass(@RequestBody LoginRequestDTO dto) { // dto 재활용
+        log.info("비밀번호 변경요청!");
+
+        try {
+            userService.getUserPass(dto);
+
+            return ResponseEntity.ok().build(); // 200 상태값이 뜸
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+
     }
 
     //개인정보 변경 페이지 요청 (비번 변경, 전화번호, 주소, 결제수단 ->  변경가능)
