@@ -4,6 +4,7 @@ import com.ictedu.dogether.userapi.entity.User;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -27,7 +28,6 @@ public class Board {
     private String content; //글 내용
 
     @CreationTimestamp
-    @Column(updatable = false)
     private LocalDateTime createDate; // 작성일자
 
     @UpdateTimestamp
