@@ -2,21 +2,20 @@
   position: absolute;
   text-align: center;
   font-size: 30px;
-  top: 300px;
+  top: 18%;
   border-bottom: 2px solid #e89b93;
   padding-bottom: 10px;
 }
 
 .joinform-box {
   position: absolute;
-  width: 600px;
+  width: 30%;
   height: 700px;
   padding: 30px 20px;
   text-align: center;
   top: 45%;
   left: 50%;
   transform: translate(-50%, -50%);
-  border-radius: 15px;
 }
 
 .joinForm {
@@ -27,13 +26,28 @@
   border-radius: 15px;
   left: 300px;
 
-  .textForm {
+  .textForm,
+  .textFormf {
     border: 2px solid #adadad;
     margin: 15px;
     height: 40px;
-    padding: 0px;
-    justify-content: center;
+    padding-left: 5px;
+    line-height: 40px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+
+    .id,
+    .name {
+      background-color: #b6b6b6;
+    }
   }
+
+  .textFormf {
+    background-color: #b6b6b6;
+    border: none;
+  }
+
   .id,
   .name,
   .phone-num,
@@ -55,17 +69,12 @@
     outline: none;
     color: #636e72;
     font-size: 16px;
-    height: 25px;
-  }
-
-  .pwcheck {
-    margin-bottom: 20px; /* 조절하고자 하는 간격으로 변경 */
   }
 
   .btn {
     position: relative;
     background-color: #f3ded7;
-    height: 50px;
+    height: 40px;
     border-radius: 10px;
     width: 80%;
     background-size: 200%;
@@ -79,14 +88,5 @@
 
   .btn:hover {
     background-color: #e89b93;
-  }
-
-  @media only screen and (max-width: 768px) {
-    left: 0; /* 화면이 작아질 때 왼쪽 정렬 */
-    width: 100%; /* 전체 폭으로 조정 */
-
-    .btn {
-      width: 100%; /* 버튼도 전체 폭으로 조정 */
-    }
   }
 }
