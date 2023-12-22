@@ -60,14 +60,7 @@ public class BoardService {
         return new BoardRegistResponseDTO(saved);
     }
 
-    //회원 정보 찾기 메서드
-    private User getUser(String userId) {
-        User user = userRepository.findById((userId)).orElseThrow(
-                () -> new RuntimeException("회원 정보가 없습니다.")
-        );
-        return user;
 
-    }
 
 
 
@@ -215,11 +208,6 @@ public class BoardService {
 
 
 
-
-
-
-
-
     //사진 파일 저장하고 경로 리턴할 메서드(이거 컨트롤러에서)
     public String uploadImage(MultipartFile imageFile) throws IOException {
         log.info("uploadImage 메서드 요청 들어옴 ");
@@ -251,6 +239,14 @@ public class BoardService {
         return replyRepository.findById(replyNo).orElseThrow(
                 () ->new RuntimeException("댓글 정보가 없습니다.")
         );
+    }
+    //회원 정보 찾기 메서드
+    private User getUser(String userId) {
+        User user = userRepository.findById((userId)).orElseThrow(
+                () -> new RuntimeException("회원 정보가 없습니다.")
+        );
+        return user;
+
     }
 
 
