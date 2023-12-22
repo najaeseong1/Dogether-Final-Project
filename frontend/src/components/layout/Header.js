@@ -48,7 +48,7 @@ const Header = () => {
       <div className='HeaderContainer2'>
         <ul>
           <li>
-            <p onClick={() => toLink('/adoptionList')}>입양 게시판</p>
+            <p onClick={() => toLink('/adopt')}>입양 게시판</p>
           </li>
           <li>
             <p onClick={() => toLink('/board')}>자유 게시판</p>

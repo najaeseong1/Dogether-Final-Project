@@ -1,6 +1,7 @@
 package com.ictedu.dogether.userapi.api;
 
 import com.ictedu.dogether.userapi.dto.request.EmailRequestDTO;
+import com.ictedu.dogether.userapi.dto.response.CheckResponseDTO;
 import com.ictedu.dogether.userapi.service.MailSendService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,10 +23,15 @@ public class MailController {
     private final MailSendService mailService;
 
     // 회원가입 인증번호 발송
-    @PostMapping("/checkMailSend")
-    public String mailSend(@RequestBody @Valid EmailRequestDTO dto){
+    @PostMapping("/checkmailsend")
+    public CheckResponseDTO mailSend(@RequestBody @Valid EmailRequestDTO dto){
         log.info("메일 전송 요청!!!!-{}", dto.getEmail());
-        return mailService.joinCheckEmail(dto.getEmail());
+
+        mailService.joinCheckEmail(dto.getEmail());
+        String code = mailService.checkEmail(dto.getEmail());
+
+        CheckResponseDTO checkCode = new CheckResponseDTO(code);
+        return checkCode;
     }
 
 

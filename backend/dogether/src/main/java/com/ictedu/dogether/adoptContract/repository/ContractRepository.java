@@ -10,7 +10,7 @@ import java.util.List;
 public interface ContractRepository extends JpaRepository<AdoptContract, Integer> {
 
     //관리자 속 입양 상세 페이지 목록 반환
-    List<AdoptContract> findByAdopt_DesertionNo(String desertionNo);
+//    List<AdoptContract> findByAdopt_ContractNo(String contractNo);
 
 
     //마이페이지 속 입양 상세 페이지 승인 상세 페이지 반환
