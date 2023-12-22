@@ -13,9 +13,4 @@ public interface UserRepository
     //시용자 이메일 주면 그 사용자의 정보 다주는거
     User findByUserEmail(String email);
 
-    // 비밀번호를 찾고 임시비밀번호를 발급해주는 메서드
-    @Modifying
-    @Query("UPDATE User u SET u.userPass = :userPass WHERE u.userId = :userId")
-    void updateUserPassword(@Param("userId") String userId, @Param("userPass") String userPass);
-
 }

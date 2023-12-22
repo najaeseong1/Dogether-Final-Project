@@ -35,7 +35,7 @@ public class MailSendService {
     }
 
 
-    //mail을 어디서 보내는지, 어디로 보내는지 , 인증 번호를 html 형식으로 어떻게 보내는지 작성
+    // 인증번호만 보내는 메세지
     public String checkEmail(String email) {
         makeRandomNumber();
         String setFrom = "gyu1061@naver.com"; // email-config에 설정한 자신의 이메일 주소를 입력
@@ -51,6 +51,7 @@ public class MailSendService {
         return Integer.toString(authNumber);
     }
 
+    // 회원가입 인증메세지
     public String joinCheckEmail(String email) {
         makeRandomNumber();
         String setFrom = "gyu1061@naver.com"; // email-config에 설정한 자신의 이메일 주소를 입력
