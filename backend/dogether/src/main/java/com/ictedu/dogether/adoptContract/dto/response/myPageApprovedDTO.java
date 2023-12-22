@@ -1,6 +1,7 @@
 package com.ictedu.dogether.adoptContract.dto.response;
 
 import com.ictedu.dogether.adoptContract.Entity.AdoptContract;
+import com.ictedu.dogether.adoptContract.Entity.AdoptionStatus;
 import lombok.*;
 
 @Getter
@@ -19,7 +20,7 @@ public class myPageApprovedDTO {
 
     private String colorCd;  //색깔
 
-
+    private AdoptionStatus adoptionStatus;
     private String neuterYn; //중성화 여부
     private String age; //나이
     private String specialMark; //특이사항
@@ -42,6 +43,7 @@ public class myPageApprovedDTO {
 
 //입양 승인용 생성자
     public myPageApprovedDTO(AdoptContract targetAdoption) {
+        this.adoptionStatus = targetAdoption.getAdoptionStatus();
         this.desertionNo = targetAdoption.getAdopt().getDesertionNo();
         this.kindCd = targetAdoption.getAdopt().getKindCd();
         this.gender = targetAdoption.getAdopt().getGender();
@@ -62,6 +64,7 @@ public class myPageApprovedDTO {
 
     //입양 거절 용 생성자
     public myPageApprovedDTO(AdoptContract targetAdoption, String reasonsRefusal) {
+        this.adoptionStatus = targetAdoption.getAdoptionStatus();
         this.desertionNo = targetAdoption.getAdopt().getDesertionNo();
         this.kindCd = targetAdoption.getAdopt().getKindCd();
         this.gender = targetAdoption.getAdopt().getGender();

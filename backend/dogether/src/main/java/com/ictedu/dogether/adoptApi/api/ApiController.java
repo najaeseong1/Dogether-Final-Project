@@ -36,7 +36,7 @@ public class ApiController {
     }
 
     //시도코드 통한 강아지 목록 불러오기
-    @GetMapping("/adminiCode")
+    @GetMapping("/adminicode")
     public ResponseEntity<?> getAdmincodeList(@RequestParam String uprCd) {
         try {
             AdoptListResponseDTO adminCodeList = apiService.getAdminCodeList(uprCd);
@@ -64,7 +64,7 @@ public class ApiController {
 
 
     //좋아요 등록
-    @GetMapping("/wishRegist/{desertionNo}")
+    @GetMapping("/wishregist/{desertionNo}")
     public ResponseEntity<?> wishRegist(@PathVariable("desertionNo") String desertionNo,
                                         @AuthenticationPrincipal TokenUserInfo userInfo
                                         ) {
@@ -78,7 +78,7 @@ public class ApiController {
     }
 
     //좋아요 등록 취소
-    @DeleteMapping("/wish/{wishNo}")
+    @DeleteMapping("/wish/{wishno}")
     public ResponseEntity<?> wishDelete(@PathVariable("wishNo") int wishNo,
                                         @AuthenticationPrincipal TokenUserInfo userInfo
                                         ) {
@@ -89,7 +89,7 @@ public class ApiController {
     }
 
     //좋아요 등록한 그 게시물 목록 불러오기
-    @GetMapping("/wishList/{userId}")
+    @GetMapping("/wishlist/{userId}")
     public ResponseEntity<?> wishList(@PathVariable("userId") String userId) {
         log.info("좋아요 목록 들어옴");
         try {

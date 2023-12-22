@@ -26,7 +26,7 @@ public class UserController {
     private final MailSendService mailSendService;
 
     // 아이디 중복 체크
-    @GetMapping("/checkId")
+    @GetMapping("/checkid")
     public ResponseEntity<?> check(String userId) {
         if(userId.trim().isEmpty()) {
             return ResponseEntity.badRequest()
@@ -100,7 +100,7 @@ public class UserController {
     }
 
     // 아이디와 인증코드를 리턴
-    @PostMapping("/findId")
+    @PostMapping("/findid")
     public ResponseEntity<?> findUserId(@RequestBody EmailRequestDTO dto) {
         log.info("아이디찾기 요청들어옴!!");
         log.info("이메일 -{}", dto);
@@ -117,7 +117,7 @@ public class UserController {
     }
 
     // 비밀번호 변경
-    @PostMapping("/modifyPass")
+    @PostMapping("/modifypass")
     public ResponseEntity<?> modifyPass(@RequestBody LoginRequestDTO dto) { // dto 재활용
         log.info("비밀번호 변경요청!");
 

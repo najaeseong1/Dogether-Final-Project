@@ -111,6 +111,21 @@ public class BoardService {
 
 
     }
+    //게시물 상세보기
+    public BoardRegistResponseDTO getDetail(int boardNo) {
+
+
+        Board targetBoard = bringBoard(boardNo);
+
+        Board board = boardRepository.findById(boardNo).orElseThrow(
+                () -> new RuntimeException("게시물 정보가 없습니다.")
+        );
+
+        return new BoardRegistResponseDTO(board);
+
+
+
+    }
     
 
 
@@ -250,5 +265,5 @@ public class BoardService {
     }
 
 
-
+ 
 }
