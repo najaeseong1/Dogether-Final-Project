@@ -71,7 +71,7 @@ public class ContractController {
 
 
     //관리자 입양 신청서 페이지 상세 조회
-    @PostMapping("/adminDetail/{desertionNo}")
+    @PostMapping("/admindetail/{desertionNo}")
     @PreAuthorize("hasRole('ADMIN')") //admin일때  이 메서드 실행됨
     public ResponseEntity<?> getListDetail(
             @AuthenticationPrincipal TokenUserInfo userInfo,
@@ -88,7 +88,7 @@ public class ContractController {
     }
 
         //입양 신청 승인 로직
-        @PostMapping("/adminApproved/{contractNo}")
+        @PostMapping("/adminapproved/{contractNo}")
         @PreAuthorize("hasRole('ADMIN')")
         public ResponseEntity<?> adminApproved(
                 @AuthenticationPrincipal TokenUserInfo userInfo,
@@ -100,7 +100,7 @@ public class ContractController {
         }
 
         //입양 신청 거절 로직
-        @PostMapping("/adminRejected")
+        @PostMapping("/adminrejected")
         @PreAuthorize("hasRole('ADMIN')")
         public ResponseEntity<?> adminRejected(@RequestBody RejectedRequestDTO dto,
                                                @AuthenticationPrincipal TokenUserInfo userInfo
@@ -114,7 +114,7 @@ public class ContractController {
 
 
     //마이페이지 입양신청 목록
-    @GetMapping("/mypageAdoptionList")
+    @GetMapping("/mypageadoptionList")
     public  ResponseEntity<?> getAdminList(@AuthenticationPrincipal TokenUserInfo userInfo) {
         log.info("입양신청 관리자 페이지 요청 들어옴");
         //입양 신청서 id를 줌
@@ -124,7 +124,7 @@ public class ContractController {
     }
 
     //마이페이지 입양 신청 승인 |거절 쪽 상세 보기
-    @GetMapping("/mypageAdoptionDetail")
+    @GetMapping("/mypageadoptionDetail")
     public ResponseEntity<?> getAdoptionList(@AuthenticationPrincipal TokenUserInfo userInfo,
                                             @RequestParam int contractNo) {
         log.info("contractNo -{}", contractNo);

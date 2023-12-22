@@ -22,7 +22,7 @@ public class AdminController {
     private final ContractService contractService;
 
     //입양 접수된 목록 불러오기
-    @GetMapping("/adminPending")
+    @GetMapping("/adminpending")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> pendingList() {
         try {

@@ -126,7 +126,7 @@ public class BoardController {
     }
 
     //마이페이지에서 내 게시판 글 목록 불러오기
-    @GetMapping("/myBoardList/{userId}")
+    @GetMapping("/myboardlist/{userId}")
     public ResponseEntity<?> myBoardList(@PathVariable String userId) {
         log.info("마이페이지에서 내 게시판 글 목록 끌고 오기 -{}", userId);
 

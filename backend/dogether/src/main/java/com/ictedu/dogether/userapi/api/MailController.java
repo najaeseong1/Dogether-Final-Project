@@ -23,7 +23,7 @@ public class MailController {
     private final MailSendService mailService;
 
     // 회원가입 인증번호 발송
-    @PostMapping("/checkMailSend")
+    @PostMapping("/checkmailsend")
     public CheckResponseDTO mailSend(@RequestBody @Valid EmailRequestDTO dto){
         log.info("메일 전송 요청!!!!-{}", dto.getEmail());
 
