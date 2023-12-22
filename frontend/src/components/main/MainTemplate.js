@@ -10,8 +10,14 @@ const Modal = ({ children, visible, onClose }) => {
   if (!visible) return null;
 
   return (
-    <div className='modal-overlay' onClick={onClose}>
-      <div className='modal-content' onClick={(e) => e.stopPropagation()}>
+    <div
+      className='modal-overlay'
+      onClick={onClose}
+    >
+      <div
+        className='modal-content'
+        onClick={(e) => e.stopPropagation()}
+      >
         {children}
       </div>
     </div>
@@ -48,7 +54,7 @@ const MainTemplate = () => {
       breed: '펫종',
       sex: '성별',
       age: 12,
-      img: '/img/dogPic/dog1.png',
+      profileImg: '/img/dogPic/dog1.png',
     },
   ]);
   // 후기게시글 데이터
@@ -72,9 +78,10 @@ const MainTemplate = () => {
   useEffect(() => {
     // '/adopt' 요청
     axios
-      .get('/adopt')
+      .get('http://localhost:8181/adopt')
       .then((res) => {
-        setAdoptList(res.data);
+        console.log('adopt 요청', res);
+        setAdoptList(res.data.adoptLists.slice(0, 8));
       })
       .catch((err) => {
         console.error(err);
@@ -82,17 +89,26 @@ const MainTemplate = () => {
 
     // '/board' 요청
     axios
-      .get('/board')
+      .get('http://localhost:8181/board')
       .then((res) => {
-        const reviewData = res.data.filter((item) => item.category === '후기');
-        setReviewList(reviewData);
-        const boardData = res.data.filter((item) => item.category === '자유');
-        setBoardList(boardData);
+        console.log('board 요청', res);
+        const reviewData = res.data.boardList.filter(
+          (item) => item.category === '후기'
+        );
+        setBoardList(res.data.reviewLists.slice(0, 5));
+        const boardData = res.data.reviewList.filter(
+          (item) => item.category === '자유'
+        );
+        setBoardList(res.data.boardLists.slice(0, 5));
       })
       .catch((err) => {
         console.error(err);
       });
   }, []);
+
+  console.log('입양리스트 : axios 후에', adoptList);
+  console.log(reviewList);
+  console.log(boardList);
 
   // 각 리스트의 처음 8개 또는 5개 항목만 선택
   const limitedAdoptList = adoptList.slice(0, 8);
@@ -101,29 +117,54 @@ const MainTemplate = () => {
 
   return (
     <div className='mainWrapper'>
-      <Modal visible={popupVisible} onClose={onClose}>
+      <Modal
+        visible={popupVisible}
+        onClose={onClose}
+      >
         <div className='popup'>
-          <img src='/img/guide.png' alt='guide' />
+          <img
+            src='/img/guide.png'
+            alt='guide'
+          />
           <div className='button-group'>
             <button onClick={onCloseToday}>하루동안 보이지 않기</button>
             <button onClick={onClose}>닫기</button>
           </div>
         </div>
       </Modal>
-      <Grid container direction='column' className='wrap'>
-        <Grid item className='content-1'>
+      <Grid
+        container
+        direction='column'
+        className='wrap'
+      >
+        <Grid
+          item
+          className='content-1'
+        >
           <ImageSlider />
         </Grid>
-        <Grid item className='content-2'>
-          <Grid item className='title-2-1'>
+        <Grid
+          item
+          className='content-2'
+        >
+          <Grid
+            item
+            className='title-2-1'
+          >
             Since 2023 <div>“Dogether”</div>대한민국에서 반려견과 함께 하고
             있습니다.
           </Grid>
         </Grid>
-        <Grid item className='content-3'>
+        <Grid
+          item
+          className='content-3'
+        >
           <Grid className='title-3-1'>
             <span>입양게시판</span>
-            <Link to='/adoptlist' className='readMore'>
+            <Link
+              to='/adoptlist'
+              className='readMore'
+            >
               자세히보기
             </Link>
             <hr />
@@ -135,13 +176,20 @@ const MainTemplate = () => {
               className='adoptList'
             >
               {limitedAdoptList.map((adoptList, index) => (
-                <Grid item className='image' key={index}>
+                <Grid
+                  item
+                  className='image'
+                  key={index}
+                >
                   <Link to={`/adopt/detail/${adoptList.desertionNo}`}>
-                    <img src={adoptList.img} alt='분양게시판 강아지사진' />
+                    <img
+                      src={adoptList.profileImg}
+                      alt='분양게시판 강아지사진'
+                    />
                     <div className='category'>
-                      견종 : {adoptList.breed}
-                      성별 : {adoptList.sex}
-                      나이 :{adoptList.age} 세
+                      {adoptList.kindCd}
+                      {adoptList.gender === 'M' ? '수컷' : '암컷'}
+                      {adoptList.age}
                     </div>
                   </Link>
                 </Grid>
@@ -149,19 +197,41 @@ const MainTemplate = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item className='content-4'>
-          <Grid container direction='row' spacing={{ xs: 6 }}>
-            <Grid item md={6} xs={12} className='title-4-1 left'>
+        <Grid
+          item
+          className='content-4'
+        >
+          <Grid
+            container
+            direction='row'
+            spacing={{ xs: 6 }}
+          >
+            <Grid
+              item
+              md={6}
+              xs={12}
+              className='title-4-1 left'
+            >
               <span>Review</span>
-              <Link to='/board' className='readMore'>
+              <Link
+                to='/board'
+                className='readMore'
+              >
                 자세히보기
               </Link>
               <hr />
               <div className='reviewList'>
                 {limitedReviewList.map((reviewList, index) => (
-                  <Grid item className='image' key={index}>
-                    <Link to={`/board/${reviewList.desertionNo}`}>
-                      <img src={reviewList.imgage} alt='강아지후기사진' />
+                  <Grid
+                    item
+                    className='image'
+                    key={index}
+                  >
+                    <Link to={`/board/${reviewList.boardNo}`}>
+                      <img
+                        src={reviewList.imgage}
+                        alt='강아지후기사진'
+                      />
                       <div className='category'>
                         후기 게시글 {reviewList.title} {reviewList.regDate}
                       </div>
@@ -170,16 +240,28 @@ const MainTemplate = () => {
                 ))}
               </div>
             </Grid>
-            <Grid item md={6} xs={12} className='title-4-1 right'>
+            <Grid
+              item
+              md={6}
+              xs={12}
+              className='title-4-1 right'
+            >
               <span>Gallery</span>
-              <Link to='/board' className='readMore'>
+              <Link
+                to='/board'
+                className='readMore'
+              >
                 자세히보기
               </Link>
               <hr />
               <div className='boardList'>
                 {limitedBoardList.map((boardList, index) => (
-                  <Grid item xs={12} key={index}>
-                    <Link to={`/board/${boardList.desertionNo}`}>
+                  <Grid
+                    item
+                    xs={12}
+                    key={index}
+                  >
+                    <Link to={`/board/${boardList.boardNo}`}>
                       <div className='category'>{boardList.category}</div>
                       <div className='title'>{boardList.title}</div>
                       <div className='regDate'>{boardList.regDate}</div>
