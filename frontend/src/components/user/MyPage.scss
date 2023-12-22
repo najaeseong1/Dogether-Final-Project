@@ -1,7 +1,6 @@
 .mypage-fixed {
   background-color: #ffffff;
   display: flex;
-  flex-direction: row;
   justify-content: center;
   width: 100%;
 
@@ -13,17 +12,16 @@
   button {
     border: none;
     border-radius: 15px;
-
     height: 50px;
     background-color: #fff;
-    cursor: pointer;
     padding: 0;
+    cursor: pointer;
     transition: 0.4s;
-  }
 
-  button:hover {
-    background-color: #f3c2bd;
-    color: white;
+    &:hover {
+      color: white;
+      background-color: #f3c2bd;
+    }
   }
 
   .group-wrapper {
@@ -34,117 +32,58 @@
 
   .group {
     height: 655px;
-    left: 83px;
+    left: 90px;
     position: relative;
-    width: 1277px;
+    width: 300px;
   }
 
-  .overlap {
-    height: 52px;
-    left: 95px;
-    position: absolute;
-    top: 389px;
-    width: 240px;
-  }
-  .rectangle {
-    background-color: #f3ded7;
-    border: 1px solid;
-    border-color: #e6e6e6;
-    border-radius: 10px;
-    height: 49px;
-    left: 38px;
-    position: absolute;
-    top: 0;
-    width: 168px;
-  }
-  .mypage-tap {
+  .mypage-tap,
+  .modify-tap {
     color: #000000;
     font-family: 'Days One', Helvetica;
-    font-size: 30px;
-    font-weight: 400;
-
+    font-size: 25px;
+    font-weight: 400px;
     letter-spacing: 0;
     line-height: normal;
     position: absolute;
-    text-align: center;
-    top: 10px;
+    top: 30px;
     width: 240px;
+    left: 0;
   }
-  .text-wrapper {
+
+  .modify-tap {
+    font-size: 25px;
+    font-weight: 400;
+    position: absolute;
+    top: 120px;
+    width: 240px;
+    left: 0;
+  }
+
+  .like-list-tap {
     color: #000000;
     font-family: 'Days One', Helvetica;
-    font-size: 30px;
+    font-size: 25px;
     font-weight: 400;
-    letter-spacing: 0;
-    line-height: normal;
     position: absolute;
-    text-align: center;
-    top: 10px;
+    top: 210px;
     width: 240px;
+    left: 0;
   }
-
-  .img {
-    height: 292px;
-    left: 80px;
-    object-fit: cover;
-    position: absolute;
-    top: 41px;
-    width: 268px;
-  }
-
-  .line-2 {
-    left: 426px;
-    object-fit: cover;
-    position: absolute;
-    top: 437px;
-    width: 792px;
-  }
-
-  .div {
-    color: #000000;
-    font-family: 'Days One', Helvetica;
-    font-size: 30px;
-    font-weight: 400;
-    left: 95px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    text-align: center;
-    top: 542px;
-    width: 240px;
-  }
-
   .text-wrapper-2 {
     color: #000000;
     font-family: 'Days One', Helvetica;
-    font-size: 30px;
-    font-weight: 400;
-    left: 95px;
+    font-size: 25px;
     letter-spacing: 0;
     line-height: normal;
     position: absolute;
-    text-align: center;
-    top: 613px;
-    width: 240px;
-  }
-
-  .text-wrapper-3 {
-    color: #000000;
-    font-family: 'Days One', Helvetica;
-    font-size: 30px;
-    font-weight: 400;
-    left: 95px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    text-align: center;
-    top: 470px;
+    top: 300px;
     width: 240px;
   }
 
   .completion-group {
     height: 234px;
-    left: 693px;
+    left: 593px;
     position: relative;
     top: 54px;
     background-color: #ffffff;
@@ -178,7 +117,7 @@
     border: 1px solid #f3ded7;
     border-radius: 10px;
     height: 234px;
-    left: 420px;
+    left: 320px;
     position: absolute;
     top: 53px;
     width: 252px;
@@ -202,11 +141,12 @@
       text-align: center;
     }
   }
+
   .quiz-group {
     border: 1px solid #f3ded7;
     border-radius: 10px;
     height: 234px;
-    left: 966px;
+    left: 866px;
     position: absolute;
     top: 54px;
     width: 256px;
@@ -229,75 +169,59 @@
       line-height: normal;
       text-align: center;
     }
+    .toquiz {
+      position: relative;
+      color: #e89b93;
+      font-family: 'Courgette', Helvetica;
+      font-size: 36px;
+      letter-spacing: 0;
+      line-height: normal;
+      text-align: center;
+    }
   }
 
-  .rectangle-2 {
-    background-color: #ffffff;
-    border: 1px solid;
-    border-color: #f3ded7;
-    border-radius: 10px;
-    height: 234px;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 252px;
-  }
-  .text-wrapper-12 {
+  .board {
     padding-bottom: 7px;
     border-bottom: 5px solid pink;
     color: #000000;
     font-size: 30px;
     font-weight: 400;
-    left: 420px;
+    left: 320px;
     position: absolute;
     top: 384px;
     width: 790px;
     margin-bottom: 5px;
   }
-  .overlap-3 {
-    margin-top: 5px;
-    left: 450px;
+  .board-content {
+    display: inline;
+    left: 350px;
+    width: 600px;
     position: absolute;
     top: 443px;
     font-size: 20px;
+    cursor: pointer;
+
+    &:hover {
+      color: rgb(153, 153, 153);
+    }
+
+    .text {
+      display: inline;
+    }
+    .date {
+      display: inline;
+    }
   }
 
-  .text-wrapper-9 {
-    color: #000000;
-    font-family: 'Courgette', Helvetica;
-    font-size: 30px;
-    font-weight: 400;
-    left: 427px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 3px;
-    width: 213px;
-  }
+  @media only screen and (max-width: 768px) {
+    .group {
+      width: 100%; /* 전체 폭으로 조정 */
+      left: 0; /* 좌측 정렬 */
+    }
 
-  .text-wrapper-10 {
-    color: #000000;
-    font-family: 'Courgette', Helvetica;
-    font-size: 30px;
-    font-weight: 400;
-    left: 613px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 0;
-    width: 94px;
-  }
-
-  .text-wrapper-11 {
-    color: #000000;
-    font-family: 'Courgette', Helvetica;
-    font-size: 30px;
-    font-weight: 400;
-    left: 701px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 0;
-    width: 85px;
+    .board {
+      left: 10px; /* 좌측 여백 추가 */
+      width: calc(100% - 20px); /* 좌우 여백 포함 전체 폭으로 조정 */
+    }
   }
 }
