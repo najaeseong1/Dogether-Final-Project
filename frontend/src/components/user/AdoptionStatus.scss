@@ -1,7 +1,11 @@
 .mypage-title {
+  font-size: 30px;
+  border-bottom: 2px solid #e89b93;
+  position: relative;
+  left: 500px;
   text-align: center;
-
-  font-size: 42px;
+  width: 200px;
+  padding-bottom: 10px;
 }
 .adoption-status {
   border: 1px solid pink;
@@ -10,7 +14,7 @@
   margin-top: 20px;
   position: relative;
   top: 50px;
-  left: 400px;
+  left: 300px;
   height: 250px;
 
   p {

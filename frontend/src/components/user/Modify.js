@@ -8,12 +8,9 @@ const Modify = () => {
       <div className='mypage-fixed'>
         <div className='group-wrapper'>
           <div className='group'>
-            <div className='overlap'>
-              <button className='mypage-tap'>
-                <Link to='/user/mypage'>마이페이지</Link>
-              </button>
-            </div>
-
+            <button className='mypage-tap'>
+              <Link to='/user/mypage'>마이페이지</Link>
+            </button>
             <button className='modify-tap'>
               <Link to='/user/modify'>개인정보변경</Link>
             </button>
@@ -27,7 +24,7 @@ const Modify = () => {
         </div>
       </div>
       <div className='userinfo-title'>
-        <span className='text'> </span>
+        <span className='text'> 개인정보변경</span>
       </div>
       <div className='joinform-box'>
         <form
@@ -38,7 +35,7 @@ const Modify = () => {
         >
           <div class='textForm'>
             <input
-              name='loginId'
+              name='userId'
               type='text'
               class='id'
               placeholder='hunmo0926'
@@ -47,7 +44,7 @@ const Modify = () => {
           </div>
           <div class='textForm'>
             <input
-              name='loginPw'
+              name='userPass'
               type='password'
               class='pw'
               placeholder='비밀번호'
@@ -55,7 +52,7 @@ const Modify = () => {
           </div>
           <div class='textForm'>
             <input
-              name='loginPwConfirm'
+              name='userPass'
               type='password'
               class='pwcheck'
               placeholder='비밀번호 확인'
@@ -63,7 +60,7 @@ const Modify = () => {
           </div>
           <div class='textForm '>
             <input
-              name='name'
+              name='userName'
               type='text'
               class='name'
               placeholder='나춘식'
@@ -72,7 +69,7 @@ const Modify = () => {
           </div>
           <div class='textForm'>
             <input
-              name='number'
+              name='userPhone'
               type='number'
               class='phone-num'
               placeholder='핸드폰번호'
@@ -80,7 +77,15 @@ const Modify = () => {
           </div>
           <div class='textForm'>
             <input
-              name='email'
+              name='postNo '
+              type='text'
+              class='address'
+              placeholder='우편주소'
+            />
+          </div>
+          <div class='textForm'>
+            <input
+              name='postAddr'
               type='text'
               class='address'
               placeholder='주소'
