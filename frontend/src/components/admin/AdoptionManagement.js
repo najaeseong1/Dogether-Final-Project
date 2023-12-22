@@ -11,8 +11,18 @@ const AdoptionManagement = () => {
 
   // 신청 목록 데이터
   const adoptionList = [
-    { id: 1, time: '2023-12-22 10:00', writer: '홍길동', Adopt: '춘식이' },
-    { id: 2, time: '2023-12-22 11:30', writer: '김철수', Adopt: '춘식이' },
+    {
+      id: 1,
+      time: '2023-12-22 10:00',
+      writer: '홍길동',
+      desertionNo: '411309202300485',
+    },
+    {
+      id: 2,
+      time: '2023-12-22 11:30',
+      writer: '김철수',
+      desertionNo: '411309202300485',
+    },
   ];
 
   return (
@@ -46,8 +56,7 @@ const AdoptionManagement = () => {
             <div className='item-info'>
               <span className='time'>{item.time}</span>
               <span className='applicant'>
-                글쓴이 : {item.writer}
-                유기견 : {item.Adopt}
+                글쓴이 : {item.writer} | 유기견 : {item.desertionNo}
               </span>
             </div>
             <button className='detail-button'>상세보기</button>
