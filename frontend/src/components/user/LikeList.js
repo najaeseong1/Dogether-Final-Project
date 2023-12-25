@@ -43,13 +43,15 @@ const LikeList = () => {
           <button className='modify-tap'>
             <Link to='/user/modify'>개인정보변경</Link>
           </button>
-          <button className='like-list-tap'>
-            <Link to='/user/likelist'>좋아요목록</Link>
-          </button>
           <button className='text-wrapper-2'>
             <Link to='/user/adoptionstatus'>입양신청현황</Link>
           </button>
-
+          <button className='like-list-tap'>
+            <Link to='/user/likelist'>좋아요목록</Link>
+          </button>
+          <button className='order-history'>
+            <Link to='/user/orderhistory'>주문 현황</Link>
+          </button>
           <div className='like-list'>
             {likedInfo.length > 0 ? (
               <div className='notContent'>
