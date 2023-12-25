@@ -1,9 +1,8 @@
-// AdoptionManagement.scss
-
 .adoption-management {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 20px;
 }
 
 .tab-bar {
@@ -13,54 +12,68 @@
 
   button {
     padding: 10px 20px;
-    background-color: #f2f2f2;
+    background-color: #aba6a6;
     border: none;
     border-radius: 5px;
     margin-right: 10px;
     font-size: 16px;
     cursor: pointer;
+    color: #fff;
+    transition: background-color 0.3s, color 0.3s;
+
+    &:hover {
+      background-color: #e89b93;
+    }
 
     &.active {
-      background-color: #c0c0c0;
-      color: white;
+      background-color: #e89b93;
     }
   }
 }
 
 .list-container {
-  width: 400px;
+  width: 100%;
+  max-width: 700px;
+}
 
-  .list-item {
+.list-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #d5d5d5;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  .item-info {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
-    padding: 10px;
-    background-color: #f2f2f2;
-    margin-bottom: 10px;
-    margin: 20px auto; // auto를 사용하여 가로 중앙 정렬
+    margin-bottom: 15px;
 
-    .item-info {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-
-      .time {
-        font-weight: bold;
-      }
-
-      .applicant {
-        margin-left: 10px;
-      }
+    .time {
+      font-weight: bold;
+      margin-right: 10px;
     }
 
-    .detail-button {
-      padding: 5px 10px;
-      background-color: #c0c0c0;
-      border: none;
-      border-radius: 5px;
-      color: white;
-      cursor: pointer;
+    .applicant {
+      font-size: 14px;
+      color: #555;
+    }
+  }
+
+  .detail-button {
+    padding: 10px 20px;
+    background-color: #aba6a6;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+
+    &:hover {
+      background-color: #e89b93;
     }
   }
 }

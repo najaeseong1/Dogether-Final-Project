@@ -1,8 +1,7 @@
-// AdoptionManagement.js
+import React, { useState } from 'react';
+import './OrderManagement.scss';
 
-import React, { useEffect, useState } from 'react';
-import './AdoptionManagement.scss';
-const AdoptionManagement = () => {
+const OrderManagement = () => {
   const [tab, setTab] = useState('접수'); // 탭 상태 관리
 
   const changeTab = (newTab) => {
@@ -14,40 +13,48 @@ const AdoptionManagement = () => {
     {
       id: 1,
       time: '2023-12-22 10:00',
-      writer: '홍길동',
-      desertionNo: '411309202300485',
+      writer: '춘식이',
+      product: '멍멍이 사료',
+      addr: '인천 광역시 중구 운서동 영종대로 27번길 40 ',
     },
     {
       id: 2,
       time: '2023-12-22 11:30',
       writer: '김철수',
-      desertionNo: '411309202300485',
+      addr: '서울 마포구 어쩌구대로',
+    },
+    {
+      id: 2,
+      time: '2023-12-22 11:30',
+      writer: '김철수',
+      addr: '서울 마포구 어쩌구대로',
     },
   ];
 
   return (
-    <div className='adoption-management'>
+    <div className='order_management'>
       <div className='tab-bar'>
         <button
           className={tab === '접수' ? 'active' : ''}
           onClick={() => changeTab('접수')}
         >
-          입양 접수
+          접수 대기
         </button>
+
         <button
           className={tab === '승인' ? 'active' : ''}
           onClick={() => changeTab('승인')}
         >
-          입양 승인
+          처리중 / 배달완료
         </button>
         <button
           className={tab === '거절' ? 'active' : ''}
           onClick={() => changeTab('거절')}
         >
-          입양 거절
+          주문 취소
         </button>
       </div>
-      <div className='list-container'>
+      <div className='order-container'>
         {adoptionList.map((item) => (
           <div
             key={item.id}
@@ -56,10 +63,14 @@ const AdoptionManagement = () => {
             <div className='item-info'>
               <span className='time'>{item.time}</span>
               <span className='applicant'>
-                글쓴이 : {item.writer} | 유기견 : {item.desertionNo}
+                아이디 : {item.writer} <br /> 주소 : {item.addr}
+                <br />
               </span>
+
+              <span className='applicant'>상품 : {item.product}</span>
             </div>
-            <button className='detail-button'>상세보기</button>
+            <button className='detail-button'>주문 접수</button>
+            <button className='detail-button2'>주문 취소</button>
           </div>
         ))}
       </div>
@@ -67,4 +78,4 @@ const AdoptionManagement = () => {
   );
 };
 
-export default AdoptionManagement;
+export default OrderManagement;

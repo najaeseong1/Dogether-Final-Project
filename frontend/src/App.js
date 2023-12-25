@@ -26,6 +26,8 @@ import AdoptionManagement from './components/admin/AdoptionManagement';
 import FindId from './components/user/FindId';
 import FindPassword from './components/user/FindPassword';
 import ScrollToTop from './global/ScrollToTop';
+import OrderManagement from './components/admin/OrderManagement';
+import OrderHistory from './components/user/OrderHistory';
 
 function App() {
   return (
@@ -88,6 +90,10 @@ function App() {
             element={<LikeList />}
           />
           <Route
+            path='/user/orderhistory'
+            element={<OrderHistory />}
+          />
+          <Route
             path='/user/adoptionstatus'
             element={<AdoptionStatus />}
           />
@@ -131,6 +137,10 @@ function App() {
           <Route
             path='/AdoptionManagement'
             element={<AdoptionManagement />}
+          />
+          <Route
+            path='/ordermanagement'
+            element={<OrderManagement />}
           />
           <Route
             path='*'
