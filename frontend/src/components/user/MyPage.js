@@ -18,7 +18,7 @@ const MyPage = () => {
   useEffect(() => {
     // 점수 가져오기
     axios
-      .post(`${API_BASE_URL}/knowledge/quiz`)
+      .post(`${API_BASE_URL}/knowledges/quiz`)
       .then((res) => {
         setScore(res.data);
       })

@@ -6,7 +6,7 @@ const AuthContext = React.createContext({
   isLoggedIn: false, // 로그인 했는지의 여부 추적
   userName: '',
   onLogout: () => {},
-  onLogin: (email, password) => {},
+  onLogin: (id, password) => {},
 });
 
 // 위에서 생성한 Context를 제공할 수 있는 provider
@@ -25,10 +25,10 @@ export const AuthContextProvider = (props) => {
   useEffect(() => {
     console.log('AuthContext useEffect called');
     const testFunction = async () => {
-      console.log(
-        'AuthContext useEffect token: ',
-        localStorage.getItem('ACCESS_TOKEN')
-      );
+      // console.log(
+      //   'AuthContext useEffect token: ',
+      //   localStorage.getItem('ACCESS_TOKEN')
+      // );
       const requestHeader = {
         'content-type': 'application/json',
         // JWT에 대한 인증 토큰이라는 타입을 선언
@@ -47,7 +47,7 @@ export const AuthContextProvider = (props) => {
       setLoading(false);
       setIsLoggedIn(false);
     };
-    testFunction();
+    //testFunction();
     if (localStorage.getItem('isLoggedIn')) {
       setIsLoggedIn(true);
     }

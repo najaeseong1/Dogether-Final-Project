@@ -24,7 +24,16 @@ const Modify = () => {
   // 사용자 정보 불러오기
   const fetchUserInfo = async () => {
     try {
-      const res = await axios.get(`${API_BASE_URL}/user/info`);
+      const res = await axios.post(
+        `${API_BASE_URL}/user/modify`,
+        {},
+        {
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
+          },
+        }
+      );
+      console.log('User Info:', res.data);
       const { userId, userName, userPhone, postNo, postAddr } = res.data;
       setUserId(userId);
       setUserName(userName);
@@ -46,11 +55,22 @@ const Modify = () => {
     }
 
     try {
-      const res = await axios.patch(`${API_BASE_URL}/user/modifypass`, {
-        password: userPass,
-      });
+      const res = await axios.patch(
+        `${API_BASE_URL}/user/modify`,
+        {
+          password: userPass,
+          userPhone: userPhone,
+          postAddr: postAddr || '',
+        },
+        {
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
+          },
+        }
+      );
 
-      if (res.status === 200) {
+      console.log('Password changed successfully:', res.data);
+      if (res.data.code === 'success') {
         alert('비밀번호가 변경되었습니다.');
       } else {
         alert('비밀번호 변경에 실패했습니다.');
@@ -61,7 +81,7 @@ const Modify = () => {
   };
 
   // 개인정보 수정 핸들러
-  const handleModify = async (e) => {
+  /* const handleModify = async (e) => {
     e.preventDefault();
 
     try {
@@ -80,6 +100,7 @@ const Modify = () => {
       console.error('Error while modifying user info:', error);
     }
   };
+  */
 
   return (
     <>
@@ -108,10 +129,7 @@ const Modify = () => {
         <span className='text'> 개인정보변경</span>
       </div>
       <div className='joinform-box'>
-        <form
-          className='joinForm'
-          onsubmit={handleModify}
-        >
+        <form className='joinForm'>
           <div class='textFormf'>
             <input
               name='userId'
@@ -155,6 +173,7 @@ const Modify = () => {
               name='userPhone'
               type='text'
               class='phone-num'
+              value={userPhone}
               onChange={(e) => setUserPhone(e.target.value)}
               placeholder='핸드폰번호'
             />
@@ -189,6 +208,7 @@ const Modify = () => {
             <input placeholder='카카오뱅크 1234 **** **** ****' />
           </div>
           <input
+            onClick={handleChangePassword}
             type='submit'
             class='btn'
             value='수정'
