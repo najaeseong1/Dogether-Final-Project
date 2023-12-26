@@ -9,10 +9,8 @@ const Login = () => {
   const redirection = useNavigate();
   const { onLogin } = useContext(AuthContext);
 
-  const navigate = useNavigate();
-
   const toLink = (loc) => {
-    navigate(loc);
+    redirection(loc);
   };
 
   const [userId, setUserId] = useState('');
@@ -34,37 +32,29 @@ const Login = () => {
       });
 
       if (res.status === 200) {
-        const { token } = await res.json();
+        const data = await res.json();
+        const { token, role } = data;
 
         localStorage.setItem('ACCESS_TOKEN', token);
+        onLogin(token, role);
+
         redirection('/');
-      }
-      if (res.status === 400) {
+      } else {
         const text = await res.text();
         alert(text);
-        console.log('회원미존재');
-        return;
+        console.log('로그인 실패');
       }
-
-      const { token, role } = await res.json();
-
-      // 위에있는 await 가 실행되기 전까지는 실행되지 않음,
-      // Context API를 사용하여 로그인 상태를 업데이트 합니다.
-      onLogin(token, role);
-
-      // 로그인이 성공하면 원하는 동작 수행
-      redirection('/');
     } catch (error) {
-      console.error('Error login:', error);
+      console.error('로그인 오류:', error);
     }
   };
-
   // 로그인
   const handleLogin = (e) => {
     e.preventDefault();
 
     // 로그인 요청하기
     fetchLogin();
+    console.log('로그인 요청이 들어옴! ');
   };
 
   return (

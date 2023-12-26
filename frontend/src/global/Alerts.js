@@ -1,5 +1,4 @@
 import Swal from 'sweetalert2';
-import './App.css';
 
 //경고 alert
 export const WarningAlert = (warning_text, footer, title) => {

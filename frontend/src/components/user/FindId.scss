@@ -14,12 +14,12 @@
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   flex-direction: column;
 
-  .findid {
+  .findemail {
     margin-bottom: 20px;
   }
   #email {
     width: 270px;
-    height: 30px;
+    height: 20px;
     border-radius: 10px;
     border: 2px solid #b6b6b6;
   }
@@ -29,7 +29,7 @@
   }
   #certification-number {
     width: 380px;
-    height: 30px;
+    height: 20px;
     border-radius: 10px;
     border: 2px solid #b6b6b6;
   }
@@ -40,6 +40,7 @@
     position: relative;
     margin: 0;
     padding: 0;
+    color: red;
   }
   .green {
     color: green;
@@ -56,18 +57,18 @@
   }
   #email,
   #certification-number {
-    /* Add a small margin between input elements */
-    padding: 10px; /* Add padding to create space around the input elements */
+    padding: 10px;
   }
 
   .send-btn {
-    height: 50px;
+    height: 40px;
     border-radius: 10px;
     background-color: #f3ded7;
     margin-left: 5px;
     border: none;
     color: white;
     font-size: 15px;
+    font-weight: bold;
     cursor: pointer;
 
     &:hover {
@@ -80,7 +81,7 @@
   .find-btn {
     background-color: #f3ded7;
     border-color: #f3ded7;
-    height: 50px;
+    height: 40px;
     width: 150px;
     flex-shrink: 0;
     border-radius: 10px;

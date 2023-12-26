@@ -1,43 +1,47 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './Header.scss';
 import { Link, useNavigate } from 'react-router-dom';
+import AuthContext from '../../global/utils/AuthContext';
+import { API_BASE_URL, USER } from '../../global/config/host-config';
 
 const Header = () => {
+  const redirection = useNavigate();
   const toLink = (loc) => {
     redirection(loc);
   };
-  const redirection = useNavigate();
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    if (localStorage.getItem('isLoggedIn') === '1') {
-      setIsLoggedIn(true);
-    }
-  }, []);
-
+  const { isLoggedIn, onLogout } = useContext(AuthContext);
   // 로그아웃 핸들러
-  const handleLogout = () => {
-    localStorage.clear();
-    setIsLoggedIn(false);
-    alert('로그아웃 되었습니다.');
+  const logoutHandler = async () => {
+    const res = await fetch(`${API_BASE_URL}${USER}/logout`, {
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
+      },
+    });
+
+    onLogout();
     redirection('/');
   };
+
+  // 로그인 상태가 바뀔때마다
+  useEffect(() => {
+    console.log('상태변경', isLoggedIn);
+  }, [isLoggedIn]); // 로그인 상태가 바뀔때마다
 
   return (
     <>
       <div className='HeaderContainer1'>
         <ul>
-          {!isLoggedIn && (
+          {isLoggedIn ? (
+            <>
+              <li onClick={() => toLink('/user/mypage')}>마이페이지</li>
+              <li onClick={logoutHandler}>로그아웃</li>
+            </>
+          ) : (
             <>
               <li onClick={() => toLink('/user/login')}>로그인</li>
               <li onClick={() => toLink('/user/join')}>회원가입</li>
-            </>
-          )}
-          {isLoggedIn && (
-            <>
-              <li onClick={() => toLink('/user/mypage')}>마이페이지</li>
-              <li onClick={handleLogout}>로그아웃</li>
             </>
           )}
         </ul>

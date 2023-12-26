@@ -18,7 +18,7 @@ const MyPage = () => {
   useEffect(() => {
     // 점수 가져오기
     axios
-      .post(`${API_BASE_URL}/knowledge/quiz`)
+      .post(`${API_BASE_URL}/knowledges/quiz`)
       .then((res) => {
         setScore(res.data);
       })
@@ -28,7 +28,7 @@ const MyPage = () => {
 
     //글 목록 가져오기
     axios
-      .get(`${API_BASE_URL}//oard/myBoardList/{userId}`)
+      .get(`${API_BASE_URL}/board/myBoardList/{userId}`)
       .then((res) => {
         setUserPosts(res.data);
       })
