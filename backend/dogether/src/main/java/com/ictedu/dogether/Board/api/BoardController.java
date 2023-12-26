@@ -135,7 +135,7 @@ public class BoardController {
 
 
     //게시판 글 목록 불러오기
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<?> boarList() {
         BoardListResponseDTO boardList = boardService.getList();
         return ResponseEntity.ok(boardList);

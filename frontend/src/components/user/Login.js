@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './Login.scss';
 import { useNavigate } from 'react-router-dom';
 import { KAKAO_AUTH_URL } from '../../global/kakaoAuth.js';
+import AuthContext from '../../global/utils/AuthContext.js';
+import { API_BASE_URL } from '../../global/config/host-config.js';
 
 const Login = () => {
   const redirection = useNavigate();
-  const API_URL_USER = 'http://localhost:8181/user/login';
-  const navigate = useNavigate();
+  const { onLogin } = useContext(AuthContext);
 
   const toLink = (loc) => {
-    navigate(loc);
+    redirection(loc);
   };
 
   const [userId, setUserId] = useState('');
@@ -20,20 +21,32 @@ const Login = () => {
     const $userId = document.getElementById('id');
     const $userPass = document.getElementById('password');
 
-    const res = await fetch(API_URL_USER, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        id: $userId.value,
-        password: $userPass.value,
-      }),
-    });
-    if (res.status === 400) {
-      const text = await res.text();
-      alert(text);
-      return;
+    try {
+      const res = await fetch(`${API_BASE_URL}/user/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: $userId.value,
+          userPass: $userPass.value,
+        }),
+      });
+
+      if (res.status === 200) {
+        const data = await res.json();
+        const { token, role } = data;
+
+        localStorage.setItem('ACCESS_TOKEN', token);
+        onLogin(token, role);
+
+        redirection('/');
+      } else {
+        const text = await res.text();
+        alert(text);
+        console.log('로그인 실패');
+      }
+    } catch (error) {
+      console.error('로그인 오류:', error);
     }
-    redirection('/');
   };
   // 로그인
   const handleLogin = (e) => {
@@ -41,6 +54,7 @@ const Login = () => {
 
     // 로그인 요청하기
     fetchLogin();
+    console.log('로그인 요청이 들어옴! ');
   };
 
   return (

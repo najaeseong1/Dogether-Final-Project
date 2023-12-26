@@ -11,6 +11,8 @@ import lombok.*;
 @Builder
 public class AdoptResponseDTO {
 
+    private String noticeSdt;
+    private String noticeEdt;
     private String desertionNo;
     private String kindCd;
     private String gender;
@@ -30,6 +32,8 @@ public class AdoptResponseDTO {
 
 
     public AdoptResponseDTO(Adopt adopt) {
+        this.noticeSdt =adopt.getNoticeSdt();
+        this.noticeEdt = adopt.getNoticeEdt();
         this.desertionNo = adopt.getDesertionNo();
         this.kindCd = adopt.getKindCd();
         this.gender = adopt.getGender();

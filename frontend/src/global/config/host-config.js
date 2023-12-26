@@ -13,5 +13,11 @@ if (clientHostName === 'localhost') {
 
 export const API_BASE_URL = backEndHostName;
 
-// export const TODO = '/api/todos';
-// export const USER = '/api/auth';
+export const USER = '/user';
+export const ADOPT = '/adopt';
+export const CONTRACT = '/contract';
+export const BOARD = '/board';
+export const REPLY = '/reply';
+export const KNOWLEDGES = '/knowledges';
+export const PRODUCT = '/product';
+export const ADMIN = '/admin';
