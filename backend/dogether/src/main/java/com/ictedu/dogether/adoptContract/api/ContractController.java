@@ -68,7 +68,7 @@ public class ContractController {
 
 
     //관리자 입양 신청서 페이지 상세 조회 -수정 필요
-    @PostMapping("/adminDetail/{contractNo}")
+    @PostMapping("/admindetail/{contractNo}")
     @PreAuthorize("hasRole('ADMIN')") //admin일때  이 메서드 실행됨
     public ResponseEntity<?> getListDetail(
             @AuthenticationPrincipal TokenUserInfo userInfo,

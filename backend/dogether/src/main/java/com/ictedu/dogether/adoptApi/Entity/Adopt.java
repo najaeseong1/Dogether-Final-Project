@@ -24,6 +24,12 @@ public class Adopt {
     private String kindCd; //견종
 
 
+    @Column(name = "notice_sdt")
+    private String noticeSdt; //접수일 
+
+    @Column(name = "notice_edt") //공고일
+    private String noticeEdt;
+
     private String gender;
 
     private String weight;
