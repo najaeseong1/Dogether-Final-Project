@@ -14,9 +14,15 @@ import javax.validation.constraints.Size;
 @Builder
 public class UserUpdateRequestDTO {
 
+
+
+
     @NotBlank
     @Size(min = 8, max = 20)
     private String userPass;
+
+    @NotBlank
+    private String userId;
 
     @NotBlank
     private String userPhone;

@@ -55,7 +55,6 @@
       height: 512px;
       width: 100%;
       overflow: hidden;
-      margin-bottom: 90px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -64,7 +63,6 @@
     .content-2 {
       position: relative;
       height: 200px;
-      margin-bottom: 90px;
       .title-2-1 {
         font-family: 'Courgette', cursive;
         position: absolute;
@@ -86,7 +84,6 @@
       overflow: hidden;
       max-width: 1330px;
       width: 100%;
-      margin: 30px auto;
 
       .title-3-1,
       .title-4-1 {
@@ -122,6 +119,7 @@
               transition: opacity 0.7s; /* opacity 변경에 애니메이션 효과를 추가 */
               color: #dddddd;
               width: 90px;
+              font-size: 17px;
             }
             img {
               height: 100%; /* 높이를 div에 맞춤 */
@@ -139,15 +137,19 @@
           }
         }
         .boardList {
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          align-items: center;
-          white-space: nowrap;
-          div,
           a {
             display: flex;
-            width: 95%;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: space-around;
+            height: 30px;
+            .category {
+              min-width: 40px;
+            }
+            .title {
+              width: 300px;
+              overflow: hidden;
+            }
             .regDate {
               font-size: 14px;
               line-height: 26px;
@@ -183,6 +185,12 @@
         line-height: 10px;
       }
     }
+    .content-1,
+    .content-2,
+    .content-3,
+    .content-4 {
+      margin: 90px auto;
+    }
   }
   @media (max-width: 768px) {
     .wrap .content-1 {
@@ -195,7 +203,11 @@
       height: 90px;
     }
     .wrap .content-4 .title-4-1 .boardList div a {
+      height: 20px;
       font-size: 13px;
+      .title {
+        width: 200px;
+      }
       .regDate {
         font-size: 10px;
         line-height: 19px;

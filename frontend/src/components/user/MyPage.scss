@@ -1,0 +1,233 @@
+.mypage-fixed {
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  button {
+    border: none;
+    border-radius: 15px;
+    height: 50px;
+    background-color: #fff;
+    padding: 0;
+    cursor: pointer;
+    transition: 0.4s;
+
+    &:hover {
+      color: white;
+      background-color: #f3c2bd;
+    }
+  }
+
+  .group-wrapper {
+    background-color: #ffffff;
+    height: 800px;
+    width: 1440px;
+  }
+
+  .group {
+    height: 655px;
+    left: 90px;
+    position: relative;
+    width: 300px;
+  }
+
+  .mypage-tap,
+  .modify-tap {
+    color: #000000;
+    font-family: 'Days One', Helvetica;
+    font-size: 25px;
+    font-weight: 400px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 30px;
+    width: 240px;
+    left: 0;
+  }
+
+  .modify-tap {
+    font-size: 25px;
+    font-weight: 400;
+    position: absolute;
+    top: 120px;
+    width: 240px;
+    left: 0;
+  }
+
+  .like-list-tap {
+    color: #000000;
+    font-family: 'Days One', Helvetica;
+    font-size: 25px;
+    font-weight: 400;
+    position: absolute;
+    top: 210px;
+    width: 240px;
+    left: 0;
+  }
+  .text-wrapper-2 {
+    color: #000000;
+    font-family: 'Days One', Helvetica;
+    font-size: 25px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 300px;
+    width: 240px;
+  }
+
+  .completion-group {
+    height: 234px;
+    left: 593px;
+    position: relative;
+    top: 54px;
+    background-color: #ffffff;
+    border: 1px solid;
+    border-color: #f3ded7;
+    border-radius: 10px;
+    height: 234px;
+    position: absolute;
+    width: 252px;
+
+    .completion {
+      position: relative;
+      color: #000000;
+      font-family: 'Courgette', Helvetica;
+      font-size: 40px;
+      top: 20px;
+      text-align: center;
+    }
+    .completion-status {
+      position: relative;
+      color: #e89b93;
+      font-family: 'Courgette', Helvetica;
+      font-size: 36px;
+      letter-spacing: 0;
+      line-height: normal;
+      text-align: center;
+    }
+  }
+
+  .know-group {
+    border: 1px solid #f3ded7;
+    border-radius: 10px;
+    height: 234px;
+    left: 320px;
+    position: absolute;
+    top: 53px;
+    width: 252px;
+
+    .knowledge {
+      position: relative;
+      color: #000000;
+      font-family: 'Courgette', Helvetica;
+      font-size: 40px;
+      top: 20px;
+      text-align: center;
+    }
+
+    .knowledgecon {
+      position: relative;
+      color: #e89b93;
+      font-family: 'Courgette', Helvetica;
+      font-size: 36px;
+      letter-spacing: 0;
+      line-height: normal;
+      text-align: center;
+    }
+  }
+
+  .quiz-group {
+    border: 1px solid #f3ded7;
+    border-radius: 10px;
+    height: 234px;
+    left: 866px;
+    position: absolute;
+    top: 54px;
+    width: 256px;
+
+    .quiz {
+      position: relative;
+      color: #000000;
+      font-family: 'Courgette', Helvetica;
+      font-size: 40px;
+      top: 20px;
+      text-align: center;
+    }
+
+    .quiz-score {
+      position: relative;
+      color: #e89b93;
+      font-family: 'Courgette', Helvetica;
+      font-size: 36px;
+      letter-spacing: 0;
+      line-height: normal;
+      text-align: center;
+    }
+    .toquiz {
+      position: relative;
+      color: #e89b93;
+      font-family: 'Courgette', Helvetica;
+      font-size: 36px;
+      letter-spacing: 0;
+      line-height: normal;
+      text-align: center;
+    }
+  }
+
+  .board {
+    padding-bottom: 7px;
+    border-bottom: 5px solid pink;
+    color: #000000;
+    font-size: 30px;
+    font-weight: 400;
+    left: 320px;
+    position: absolute;
+    top: 384px;
+    width: 790px;
+    margin-bottom: 5px;
+  }
+  .board-content {
+    display: inline;
+    left: 350px;
+    width: 600px;
+    position: absolute;
+    top: 443px;
+    font-size: 20px;
+    cursor: pointer;
+
+    &:hover {
+      color: rgb(153, 153, 153);
+    }
+
+    .text {
+      display: inline;
+    }
+    .date {
+      display: inline;
+    }
+  }
+
+  @media only screen and (max-width: 768px) {
+    /* 화면 폭이 768px 이하일 때 적용되는 스타일 */
+
+    .group {
+      width: 100%;
+      left: 0;
+    }
+
+    .joinform-box {
+      width: 90%;
+    }
+
+    .board {
+      left: 10px;
+      width: calc(100% - 20px);
+    }
+  }
+}

@@ -12,6 +12,9 @@ const AdoptionListDetail = () => {
     navigate('/AdoptionApplication');
   };
 
+  //상세페이지 값 불로오기
+  
+
   // 관심등록 버튼 클릭시 좋아요 목록
   const handleLike = (breed, age) => {
     setLikedItems([...likeItems, { breed, age }]);
@@ -21,22 +24,20 @@ const AdoptionListDetail = () => {
       <div className='border'>
         <div className='dog-profileimg'>
           <img
-            src='/img/dogPic/dogdog.jpeg'
-            alt='profile'
+            src="/img/dogPic/dogdog.jpeg"
+            alt="profile"
           />
         </div>
 
         {/* 관심등록 버튼 */}
-        <div className='likebtn'>
-          <button onClick={() => console.log('좋아요버튼이 클리됨!')}>
-            관심 등록
-          </button>
+        <div className="likebtn">
+          <button>관심 등록</button>
         </div>
 
-        <div className='dog-info'>
-          <div className='dog-info1'>
-            {' '}
-            <p> 접수일: 2023. 12 . 03</p>{' '}
+        <div className="dog-info">
+          <div className="dog-info1">
+            {" "}
+            <p> 접수일: 2023. 12 . 03</p>{" "}
           </div>
           <div className='dog-info1'>
             {' '}

@@ -65,6 +65,22 @@ public class BoardController {
 
     }
 
+    //게시판 글 상세보기
+    @GetMapping("/detail/{boardNo}")
+    public ResponseEntity<?> boardDetail( @PathVariable  int boardNo,
+                                         @AuthenticationPrincipal TokenUserInfo userInfo) {
+
+        try {
+            BoardRegistResponseDTO detail = boardService.getDetail(boardNo);
+            return ResponseEntity.ok().body(detail);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+    }
+
+
     //파일 경로를 리턴할 메서드 추출
     private String getUploadFilePath(MultipartFile imageFile) throws IOException {
         String uploadFilePath = null; //기본값이  null임
@@ -119,14 +135,14 @@ public class BoardController {
 
 
     //게시판 글 목록 불러오기
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<?> boarList() {
         BoardListResponseDTO boardList = boardService.getList();
         return ResponseEntity.ok(boardList);
     }
 
     //마이페이지에서 내 게시판 글 목록 불러오기
-    @GetMapping("/myBoardList/{userId}")
+    @GetMapping("/myboardlist/{userId}")
     public ResponseEntity<?> myBoardList(@PathVariable String userId) {
         log.info("마이페이지에서 내 게시판 글 목록 끌고 오기 -{}", userId);
 
@@ -171,8 +187,8 @@ public class BoardController {
     }
 
     //댓글 삭제
-    @DeleteMapping("/reply/{id}")
-    public ResponseEntity<?> deleteReply(@PathVariable("id") int replyNo,
+    @DeleteMapping("/reply/{replyNo}")
+    public ResponseEntity<?> deleteReply(@PathVariable("replyNo") int replyNo,
                                          @AuthenticationPrincipal TokenUserInfo userInfo
     ) {
 
@@ -183,7 +199,7 @@ public class BoardController {
 
 
     //댓글 수정
-    @PutMapping("/replyModify")
+    @PutMapping("/replymodify")
     public ResponseEntity<?> replyModify( ReplyModifyRequestDTO dto,
             @AuthenticationPrincipal TokenUserInfo userInfo,
             BindingResult result
@@ -212,13 +228,15 @@ public class BoardController {
 
 
         //댓글 목록 요청
-        @GetMapping("/replyList/{id}")
-        public ResponseEntity<?> replyList(@PathVariable("id") int boardNo) {
+        @GetMapping("/replylist/{boardNo}")
+        public ResponseEntity<?> replyList(@PathVariable("boardNo") int boardNo) {
         log.info("댓글 목록 요청 들어옴 !");
             ReplyListResponseDTO replyList = boardService.getReplyList(boardNo);
 
             return ResponseEntity.ok().body(replyList);
         }
+
+
 
 
 

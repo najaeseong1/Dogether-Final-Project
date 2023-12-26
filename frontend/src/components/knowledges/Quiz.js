@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './Quiz.scss';
 import { useNavigate } from 'react-router-dom';
-import { MyPage } from '../user';
 
 const Quiz = () => {
   // 마이페이지에 점수 띄우기
@@ -18,21 +17,42 @@ const Quiz = () => {
 
   const questions = [
     {
-      text: '강아지 귀여운 이유?',
+      text: '강아지가 살기 적합한 공간은?',
       options: [
-        { id: 0, text: '글쎄 ', isCorrect: false },
-        { id: 1, text: '걍 귀여움', isCorrect: false },
-        { id: 2, text: '뭘까 ', isCorrect: false },
-        { id: 3, text: '이게 답', isCorrect: true },
+        { id: 0, text: '답답한 공간', isCorrect: false },
+        { id: 1, text: '시끄러운 공간', isCorrect: false },
+        { id: 2, text: '자유롭게 움직일 수 있는 공간 ', isCorrect: true },
+        { id: 3, text: '갇힌 공간', isCorrect: false },
+      ],
+    },
+    {
+      text: '반려견을 키우기 전에 준비해야 할 것들은 무엇인가요?',
+      options: [
+        {
+          id: 0,
+          text: '따로 준비해야하는 건 없다',
+          isCorrect: false,
+        },
+        { id: 1, text: '어떻게든 되겠다는 생각', isCorrect: false },
+        {
+          id: 2,
+          text: '강아지를 자랑하기 위한 인스타 계정',
+          isCorrect: false,
+        },
+        {
+          id: 3,
+          text: '사료 그릇, 목줄, 산책용 배변 패드, 샴푸',
+          isCorrect: true,
+        },
       ],
     },
     {
       text: '강아지 귀여운 이유?',
       options: [
-        { id: 0, text: '글쎄 ', isCorrect: false },
+        { id: 0, text: '글쎄 ', isCorrect: true },
         { id: 1, text: '걍 귀여움', isCorrect: false },
         { id: 2, text: '뭘까 ', isCorrect: false },
-        { id: 3, text: '이게 답', isCorrect: true },
+        { id: 3, text: '이게 답', isCorrect: false },
       ],
     },
     {

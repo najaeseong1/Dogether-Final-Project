@@ -8,8 +8,8 @@ const AdoptionApplication = () => {
 
       
       
-      <div className='userinfo'>입양신청서<br/> 기본정보</div>
-        
+      <div className='userinfo'>입양신청서 기본정보</div>
+        <form>
         <div className='name'>
           이름&nbsp;&nbsp;&nbsp;&nbsp; <input type='text' id='name'/>
           </div>
@@ -80,7 +80,7 @@ const AdoptionApplication = () => {
              <button>확인</button>
           </div>
         
-
+          </form>
         </div>
   )
 }

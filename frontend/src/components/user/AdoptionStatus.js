@@ -34,25 +34,21 @@ const AdoptionStatus = () => {
       <div className='group-wrapper'>
         <div className='group'>
           <div className='overlap'>
-            <button className='text-wrapper'>
+            <button className='mypage-tap'>
               <Link to='/user/mypage'>마이페이지</Link>
             </button>
           </div>
-
-          <img
-            className='img'
-            alt='Rectangle'
-            src='https://cdn.animaapp.com/projects/656ec6d75c84f45c76814d5f/releases/6572de57df8c3c94cf99e02d/img/rectangle-42@2x.png'
-          />
-
-          <button className='div'>
+          <button className='modify-tap'>
             <Link to='/user/modify'>개인정보변경</Link>
-          </button>
-          <button className='text-wrapper-3'>
-            <Link to='/user/likelist'>좋아요목록</Link>
           </button>
           <button className='text-wrapper-2'>
             <Link to='/user/adoptionstatus'>입양신청현황</Link>
+          </button>
+          <button className='like-list-tap'>
+            <Link to='/user/likelist'>좋아요목록</Link>
+          </button>
+          <button className='order-history'>
+            <Link to='/user/orderhistory'>주문 현황</Link>
           </button>
           <div className='mypage-title'>
             <span> 입양 신청 현황</span>
