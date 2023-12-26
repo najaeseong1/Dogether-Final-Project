@@ -18,12 +18,20 @@
   }
 
   .index .category {
-    border: 2px solid black;
+    // border: 2px solid black;
+    // border-radius: 10px;
+    // position: relative;
+    // left: 450px;
+    // height: 30px;
+    // width: 10px;
+
+   // border: 1px solid pink;
     border-radius: 10px;
     position: relative;
-    left: 450px;
+    left: 350px;
+    top: 30px;
     height: 30px;
-    width: 100px;
+    width: 200px;
   }
 
   .index .searchbar {
@@ -31,7 +39,7 @@
     border-radius: 10px;
     //border-color: pink;
     position: relative;
-    left: 500px;
+    left: 600px;
     height: 30px;
     width: 400px;
   }
@@ -48,7 +56,7 @@
     left: 300px;
     overflow: hidden;
     position: relative;
-    top: 103px;
+    top: 73px;   //103
     width: 150px;
     transition: filter 0.3s ease-in-out;
   
@@ -85,7 +93,7 @@
   }
   
   
-  // 두번째 사진 프레임
+  //두번째 사진 프레임
   .index .frame-2 {
     border: 1px solid;
     border-color: #e89b93;

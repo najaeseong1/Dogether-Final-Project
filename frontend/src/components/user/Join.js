@@ -4,9 +4,10 @@ import DaumPostcode from "react-daum-postcode";
 import { useNavigate } from "react-router-dom";
 
 const Join = () => {
+  
 
   const redirect = useNavigate();
-  
+  const API_URL_USER = 'http://localhost:8181/user/join';
 
   // 초기값 세팅 (아이디(이메일?))
   const [userId, setUserId] = useState(""); //아이디
@@ -74,26 +75,48 @@ const Join = () => {
     //     };
     
     //회원가입 아아디 체크
+    // const checkDuplicateId = async (userId) => {
+    //   try {
+    //     const response = await fetch(`http://localhost:8181/user/checkId?userId=${userId}`, {
+    //       method: 'GET',
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //       },
+    //     });
+        
+    //     if (!response.ok) {
+    //       // throw new Error('서버 응답이 실패했습니다.');
+    //       throw new Error(`서버 응답이 실패했습니다. 상태 코드: ${response.status}`);
+    //     }
+    
+    //     const result = await response.json();
+    //     return result.isDuplicate;
+    //   } catch (error) {
+    //     console.error(error);
+    //     return false; // 중복 확인 중 에러가 발생하면 기본적으로 중복되지 않음으로 처리
+    //   }
+    // };
+
     const checkDuplicateId = async (userId) => {
       try {
-        const response = await fetch(`http://localhost:8181/user/join/checkid?userId=${userId}`, {
+        const response = await fetch(`http://localhost:8181/user/checkId?userId=${userId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
         });
-    
         if (!response.ok) {
-          throw new Error('서버 응답이 실패했습니다.');
+          // throw new Error('서버 응답이 실패했습니다.');
+          throw new Error(`서버 응답이 실패했습니다. 상태 코드: ${response.status}`);
         }
-    
-        const result = await response.json();
-        return result.isDuplicate;
+        const result_1 = await response.json();
+        return result_1.isDuplicate;
       } catch (error) {
         console.error(error);
-        return false; // 중복 확인 중 에러가 발생하면 기본적으로 중복되지 않음으로 처리
+        return false;
       }
     };
+    
     
     const onChangeId = async (e) => {
       const currentId = e.target.value;
@@ -258,16 +281,16 @@ const Join = () => {
       console.log("address:", postAddr);
      
 
-      const res = await fetch("http://localhost:8181/user/join", {
+      const res = await fetch('http://localhost:8181/user/join', {
         method: 'POST',
         body: JSON.stringify({
-          userId,
-          userPass,
-          userEmail,
-          userName,
-          userPhone,
-          postNo,
-          postAddr,
+          userId: '',
+          userPass: '',
+          userEmail: '',
+          userName: '',
+          userPhone: '',
+          postNo: '',
+          postAddr: '',
         }),
       });
 

@@ -1,8 +1,28 @@
 import {Button, TextField } from '@mui/material'
 import React from 'react'
 import './AdoptionApplication.scss';  
+import axios from 'axios';
 
 const AdoptionApplication = () => {
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post('http://localhost:8181/contract/regist');
+
+      if (response.status === 200) {
+        console.log('입양 신청서 등록이 성공했습니다.');
+      } else {
+        console.error('입양 신청서 등록이 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('입양 신청서 등록 중 오류 발생:', error);
+    }
+  };
+
+
   return (
     <div className='main2'>
 
@@ -60,7 +80,7 @@ const AdoptionApplication = () => {
           </div>
            
           <div className='kind'>
-            품종 &nbsp;&nbsp;&nbsp; <input type='text' id='gender'/>
+            품종 &nbsp;&nbsp;&nbsp; <input type='text' id='gender' />
           </div>
           
           <div className='happenplace'>
@@ -77,7 +97,7 @@ const AdoptionApplication = () => {
           </div> 
           
           <div className='checkbutton'>
-             <button>확인</button>
+             <button onClick={handleSubmit}>확인</button>
           </div>
         
           </form>
