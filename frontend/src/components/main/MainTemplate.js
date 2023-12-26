@@ -88,22 +88,22 @@ const MainTemplate = () => {
       });
 
     // '/board' 요청
-    axios
-      .get('http://localhost:8181/board')
-      .then((res) => {
-        console.log('board 요청', res);
-        const reviewData = res.data.boardList.filter(
-          (item) => item.category === '후기'
-        );
-        setBoardList(res.data.reviewLists.slice(0, 5));
-        const boardData = res.data.reviewList.filter(
-          (item) => item.category === '자유'
-        );
-        setBoardList(res.data.boardLists.slice(0, 5));
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    // axios
+    //   .get('http://localhost:8181/board')
+    //   .then((res) => {
+    //     console.log('board 요청', res);
+    //     const reviewData = res.data.boardList.filter(
+    //       (item) => item.category === '후기'
+    //     );
+    //     setBoardList(res.data.reviewLists.slice(0, 5));
+    //     const boardData = res.data.reviewList.filter(
+    //       (item) => item.category === '자유'
+    //     );
+    //     setBoardList(res.data.boardLists.slice(0, 5));
+    //   })
+    //   .catch((err) => {
+    //     console.error(err);
+    //   });
   }, []);
 
   console.log('입양리스트 : axios 후에', adoptList);

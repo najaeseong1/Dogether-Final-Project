@@ -3,107 +3,146 @@ import './AdoptionList.scss';
 import { useNavigate } from 'react-router-dom';
 import { IconButton, Link, Pagination, PaginationItem, Stack } from '@mui/material';
 import axios from 'axios';
+import Select from 'react-select';
 
 const AdoptionList = () => {
 
   const navigate = useNavigate();
 
   //클릭시 강아지 상세정보 페이지로 이동
-  const goAdoptionListDetail = () => {
-    navigate(`/adopt/detail/${adoptList.desertionNo}`);
-  }
-
-  // 페이지 당 보여줄 아이템 개수
-  const itemsPerPage = 12;
-
-  const allData = [
-    { id: 1, category: 'A', name: 'Item 1' },
-    { id: 2, category: 'B', name: 'Item 2' },
-    { id: 3, category: 'c', name: 'Item 3' }
-  ];
-
-  // 현재 페이지와 선택한 카테고리를 관리하는 상태
-  const [currentPage, setCurrentPage] = useState(1);
-  const [selectedCategory, setSelectedCategory] = useState('All'); // 초기값은 전체 카테고리
-
-  // 선택한 카테고리에 따라 데이터 필터링
-  const filteredData = selectedCategory === 'All'
-    ? allData
-    : allData.filter(item => item.category === selectedCategory);
-
-  // 총 페이지 수 계산
-  const totalButtonCount = Math.ceil(filteredData.length / itemsPerPage);
+  // const goAdoptionListDetail = () => {
+  //   navigate(`/adopt/detail/${adoptList.desertionNo}`);
+  // }
   
-   // 현재 페이지에 해당하는 데이터 슬라이스
-   const paginatedData = filteredData.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  // const [adoptList, setAdoptList ] = useState([
+  //   {
+  //     desertionNo: '',
+  //     kindCd: '',
+  //     gender: '',
+  //     age:'',
+  //     neuterYn: '',
+  //     profileImg:'',
+  //   }
+  // ]);
+  
+ 
 
-  // 페이지 변경 함수
-  const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
+   const [uprCd, setUprCd] = useState("ALL");
+   
+   const online = [
+    { value: "ALL", label: "ALL"},
+    { value: "6110000", label: "서울특별시"},
+    { value: "6260000", label: "부산광역시"},
+    { value: "6270000", label: "대구광역시"},
+    { value: "6280000", label: "인천광역시"},
+    { value: "6290000", label: "광주광역시"},
+    { value: "5690000", label: "세종특별자치시"},
+    { value: "6300000", label: "대전광역시"},
+    { value: "6310000", label: "울산광역시"},
+    { value: "6410000", label: "경기도"},
+    { value: "6530000", label: "강원특별자치도"},
+    { value: "6430000", label: "충청북도"}, 
+    { value: "6440000", label: "충청남도"},
+    { value: "6450000", label: "전라북도"},
+    { value: "6460000", label: "전라남도"},
+    { value: "6270000", label: "경상북도"},
+    { value: "6470000", label: "경상남도"},
+    { value: "6500000", label: "제주특별자치도"}
+   ];
+
+   const [selectOnline, setSelectOnline] = useState(online[0]);
+   const [filteredAdoptList, setFilteredAdoptList] = useState([]);
+
+
+   const handleSelectChange = (selectedOption) => {
+    setSelectOnline(selectedOption);
+    setUprCd(selectedOption.value); // 선택된 값으로 uprCd 업데이트
+    };
+
+
+   const [adoptList, setAdoptList] = useState([]);
+   // 페이지 당 보여줄 프레임 개수
+   const itemsPerPage = 12;
+   const [currentPage, setCurrentPage] = useState(1);
+
+   // 입양 상세페이지로 요청
+   const goAdoptionListDetail = (desertionNo) => {
+    fetch(`http://localhost:8181/adopt/detail/${desertionNo}`)
+      .then((response) => response.json())
+      .then((data) => {
+        // 상세 페이지로 이동하는 로직을 추가
+        // const selectedDog = adoptList.find(item => item.desertionNo === desertionNo);
+        navigate(`/adopt/detail/${desertionNo}`, { state: { adoptListDetail: data }});
+        console.log('상세 페이지 데이터:', data);
+      })
+      .catch((error) => {
+        console.error('상세 페이지로 이동 중 에러 발생:', error);
+      });
   };
 
-  // 카테고리 변경 함수
-  const handleCategoryChange = (newCategory) => {
-    setCurrentPage(1); // 카테고리가 변경되면 페이지를 1로 초기화
-    setSelectedCategory(newCategory);
-  };
-
-
-
-
-  const [adoptList, setAdoptList ] = useState([
-    {
-      desertionNo: '',
-      kindCd: '',
-      gender: '',
-      age:'',
-      neuterYn: '',
-      profileImg:'',
-    }
-  ]);
+  // 입양 리스트 조건 검색
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8181/adopt/adminicode?uprCd=${uprCd}`)
+      .then((res) => {
+        setFilteredAdoptList(res.data.adoptLists)
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, [uprCd]);
 
   useEffect(() => {
 
     // 입양 리스트 '/adopt 요청'
     axios
-      .get('/adopt')
+      .get('http://localhost:8181/adopt')
       .then((res)=>{
-        setAdoptList(res.data)
+        setAdoptList(res.data.adoptLists);      //.slice(0,12)
+        setFilteredAdoptList(res.data.adoptLists);
       })
       .catch((err) => {
         console.error(err);
       });
-
-    
-    // 입양리스트 조건검색 요청 '/adopt/{uprCd}'
-    axios
-      .get(`/adopt/uprCd/adminiCode?uprCd={uprCd}`)
-      .then((res) => {
-        setAdoptList(res.data)
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-
   }, []);
 
+   // 카테고리 선택에 따른 필터링
+   useEffect(() => {
+    if (uprCd && uprCd !== "ALL") {
+      const filteredList = adoptList.filter((item) => item.uprCd === uprCd);
+      setFilteredAdoptList(filteredList);
+    } else {
+      // 카테고리가 선택되지 않은 경우 전체 목록 표시
+      setFilteredAdoptList(adoptList);
+    }
+    }, [uprCd, adoptList]);
+
+  console.log('입양리스트 : axios 후에', adoptList);
    
-  const cutAdoptList = adoptList.slice(0, 13);
+  const cutAdoptList = adoptList.slice(0, 12);
 
   
 
-  //mui에서 현재 기본 정보를 담고 있는 event 객체를 원함 그래서 인자 두개
-  // const handlePageChange = (event, page) => {
-  //   setCurrentPage(page);
-  // };
+  
+  // 입양 리스트 페이징 설정
+  const totalItems = filteredAdoptList.length;       //adoptList.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-  // const paginatedData = filteredData.slice(
+  const handleClick = (page) => {
+    setCurrentPage(page);
+  };
+
+  const paginatedData = filteredAdoptList.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  // const paginatedData = adoptList.slice(
   //   (currentPage - 1) * itemsPerPage,
   //   currentPage * itemsPerPage
   // );
+
+  
 
   return (
     <div className="index">
@@ -112,10 +151,33 @@ const AdoptionList = () => {
 
         <form>
         <label>  
-          <select value={selectedCategory} onChange={(e) => handleCategoryChange(e.target.value)} className='category' >
-            <option value='ALL'>ALL</option>
-            <option value='부산'>부산</option>
-          </select>
+          <Select 
+          className='category'
+          options={online} 
+          onChange={handleSelectChange} 
+          defaultValue={online[0]}
+          value={selectOnline}
+          />
+          {/* <select  className='category'  >
+            <option >ALL</option>
+            <option value='6110000'>서울특별시</option>
+            <option value='6260000'>부산광역시</option>
+            <option value='6270000'>대구광역시</option>
+            <option value='6280000'>인천광역시</option>
+            <option value='6290000'>광주광역시</option>
+            <option value='5690000'>세종특별자치시</option>
+            <option value='6300000'>대전광역시</option>
+            <option value='6310000'>울산광역시</option>
+            <option value='6410000'>경기도</option>
+            <option value='6530000'>강원특별자치도</option>
+            <option value='6430000'>충청북도</option>
+            <option value='6440000'>충청남도</option>
+            <option value='6450000'>전라북도</option>
+            <option value='6460000'>전라남도</option>
+            <option value='6270000'>경상북도</option>
+            <option value='6480000'>경상남도</option>
+            <option value='6500000'>제주특별자치도</option>     
+          </select> */}
         </label>
 
         <label>
@@ -123,19 +185,11 @@ const AdoptionList = () => {
         </label>
         </form>
 
-          {/* <div className="frame-1" onClick={goAdoptionListDetail}>
-              <img
-                className="image-1"
-                src="/img/dogPic/dogdog.jpeg"
-                alt="profile"
-              />           
-          </div>
-          */} 
 
-        {cutAdoptList.map((adoptList, index) => (
-          <div key={index} className="frame-1" onClick={goAdoptionListDetail}>        
-            <img className={`image-${index + 1}`} src="/img/dogPic/dogdog.jpeg" alt={`dogImg ${index + 1}`} />
-              <div className='frameInfo-1'>
+        {/* {cutAdoptList.map((adoptList, index) => (
+          <div key={index} className={`frame-${index + 1}`} onClick={goAdoptionListDetail}>        
+            <img className={`image-${index + 1}`} src={adoptList.profileImg} alt={`dogImg ${index + 1}`} />
+              <div className={`frameInfo-${index + 1}`}>
                 견종: {adoptList.kindCd} <br/>
                 성별: {adoptList.gender} <br/>
                 나이: {adoptList.age} <br/>
@@ -143,142 +197,23 @@ const AdoptionList = () => {
               </div>
           </div>
           
+        ))} */}
+
+
+        {/* 여기에 폼 코드를 추가하세요 */}
+        {paginatedData.map((item, index) => (
+          <div key={index} className={`frame-${index + 1}`} onClick={() => goAdoptionListDetail(item.desertionNo)}>
+            <img className={`image-${index + 1}`} src={item.profileImg} alt={`dogImg ${index + 1}`} />
+            <div className={`frameInfo-${index + 1}`}>
+              견종: {item.kindCd} <br />
+              성별: {item.gender} <br />
+              나이: {item.age} <br />
+              중성화여부: {item.neuterYn}
+            </div>
+          </div>
         ))}
 
-         
 
-        {cutAdoptList.map((adoptList, index) => (
-            <div key={index} className="frame-2" onClick={goAdoptionListDetail}>        
-              <img className={`image-${index + 2}`} src="/img/dogPic/dogdog.jpeg" alt={`dogImg ${index + 2}`} />
-              <div className='frameInfo-2'>
-                견종: {adoptList.kindCd} <br/>
-                성별: {adoptList.gender} <br/>
-                나이: {adoptList.age} <br/>
-                중성화여부: {adoptList.neuterYn}
-              </div>
-            </div>
-          ))}
-
-
-        {cutAdoptList.map((adoptList, index) => (
-            <div key={index} className="frame-3" onClick={goAdoptionListDetail}>        
-              <img className={`image-${index + 3}`} src={adoptList.profileImg} alt={`dogImg ${index + 3}`} />
-              <div className='frameInfo-3'>
-                견종: {adoptList.kindCd} <br/>
-                성별: {adoptList.gender} <br/>
-                나이: {adoptList.age} <br/>
-                중성화여부: {adoptList.neuterYn}
-              </div>
-            </div>
-          ))}
-
-        {cutAdoptList.map((adoptList, index) => (
-            <div key={index} className="frame-4" onClick={goAdoptionListDetail}>        
-              <img className={`image-${index + 4}`} src={adoptList.profileImg} alt={`dogImg ${index + 4}`} />
-              <div className='frameInfo-4'>
-                견종: {adoptList.kindCd} <br/>
-                성별: {adoptList.gender} <br/>
-                나이: {adoptList.age} <br/>
-                중성화여부: {adoptList.neuterYn}
-              </div>
-            </div>
-          ))}
-
-        {cutAdoptList.map((adoptList, index) => (
-            <div key={index} className="frame-5" onClick={goAdoptionListDetail}>        
-              <img className={`image-${index + 5}`} src={adoptList.profileImg} alt={`dogImg ${index + 5}`} />
-              <div className='frameInfo-5'>
-                견종: {adoptList.kindCd} <br/>
-                성별: {adoptList.gender} <br/>
-                나이: {adoptList.age} <br/>
-                중성화여부: {adoptList.neuterYn}
-              </div>
-            </div>
-          ))}
-
-        {cutAdoptList.map((adoptList, index) => (
-            <div key={index} className="frame-6" onClick={goAdoptionListDetail}>        
-              <img className={`image-${index + 6}`} src={adoptList.profileImg} alt={`dogImg ${index + 6}`} />
-              <div className='frameInfo-6'>
-                견종: {adoptList.kindCd} <br/>
-                성별: {adoptList.gender} <br/>
-                나이: {adoptList.age} <br/>
-                중성화여부: {adoptList.neuterYn}
-              </div>
-            </div>
-          ))}
-
-        {cutAdoptList.map((adoptList, index) => (
-            <div key={index} className="frame-7" onClick={goAdoptionListDetail}>        
-              <img className={`image-${index + 7}`} src={adoptList.profileImg} alt={`dogImg ${index + 7}`} />
-              <div className='frameInfo-7'>
-                견종: {adoptList.kindCd} <br/>
-                성별: {adoptList.gender} <br/>
-                나이: {adoptList.age} <br/>
-                중성화여부: {adoptList.neuterYn}
-              </div>
-            </div>
-          ))}
-
-        {cutAdoptList.map((adoptList, index) => (
-            <div key={index} className="frame-8" onClick={goAdoptionListDetail}>        
-              <img className={`image-${index + 8}`} src={adoptList.profileImg} alt={`dogImg ${index + 8}`} />
-              <div className='frameInfo-8'>
-                견종: {adoptList.kindCd} <br/>
-                성별: {adoptList.gender} <br/>
-                나이: {adoptList.age} <br/>
-                중성화여부: {adoptList.neuterYn}
-              </div>
-            </div>
-          ))}
-
-        {cutAdoptList.map((adoptList, index) => (
-            <div key={index} className="frame-9" onClick={goAdoptionListDetail}>        
-              <img className={`image-${index + 9}`} src={adoptList.profileImg} alt={`dogImg ${index + 9}`} />
-              <div className='frameInfo-9'>
-                견종: {adoptList.kindCd} <br/>
-                성별: {adoptList.gender} <br/>
-                나이: {adoptList.age} <br/>
-                중성화여부: {adoptList.neuterYn}
-              </div>
-            </div>
-          ))}
-
-        {cutAdoptList.map((adoptList, index) => (
-            <div key={index} className="frame-10" onClick={goAdoptionListDetail}>        
-              <img className={`image-${index + 10}`} src={adoptList.profileImg} alt={`dogImg ${index + 10}`} />
-              <div className='frameInfo-10'>
-                견종: {adoptList.kindCd} <br/>
-                성별: {adoptList.gender} <br/>
-                나이: {adoptList.age} <br/>
-                중성화여부: {adoptList.neuterYn}
-              </div>
-            </div>
-          ))}
-
-        {cutAdoptList.map((adoptList, index) => (
-            <div key={index} className="frame-11" onClick={goAdoptionListDetail}>        
-              <img className={`image-${index + 11}`} src={adoptList.profileImg} alt={`dogImg ${index + 11}`} />
-              <div className='frameInfo-11'>
-                견종: {adoptList.kindCd} <br/>
-                성별: {adoptList.gender} <br/>
-                나이: {adoptList.age} <br/>
-                중성화여부: {adoptList.neuterYn}
-              </div>
-            </div>
-          ))}
-
-        {cutAdoptList.map((adoptList, index) => (
-            <div key={index} className="frame-12" onClick={goAdoptionListDetail}>        
-              <img className={`image-${index + 12}`} src={adoptList.profileImg} alt={`dogImg ${index + 12}`} />
-              <div className='frameInfo-12'>
-                견종: {adoptList.kindCd} <br/>
-                성별: {adoptList.gender} <br/>
-                나이: {adoptList.age} <br/>
-                중성화여부: {adoptList.neuterYn}
-              </div>
-            </div>
-          ))}
 
          {/* 현재 페이지에 해당하는 데이터 표시
           <ul>
@@ -290,9 +225,9 @@ const AdoptionList = () => {
         <div className='pageNum'>
         <Stack spacing={2}>
             <Pagination            
-              count={totalButtonCount}
+              count={totalPages}
               page={currentPage}
-              onChange={handlePageChange}
+              onChange={(event, page) => handleClick(page)}
               showFirstButton //맨 마지막
               showLastButton  //맨 처음
               variant='outlined'         

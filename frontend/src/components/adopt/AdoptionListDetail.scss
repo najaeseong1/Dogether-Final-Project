@@ -3,7 +3,7 @@
   position: relative;
   left: 50%;
   right: 50%;
-  bottom: 50px;
+  bottom: 0px;
 }
 
 .main .border {
@@ -34,7 +34,7 @@
   //border: 1px solid pink;
   position: relative;
   width: 600px;
-  bottom: 100px;
+  bottom: 150px;
   left: 450px;
 
   div {
@@ -46,8 +46,15 @@
 // 강아지 프로필 사진
 .main .dog-profileimg {
   //border: 1px solid red;
-  position: relative;
-  width: 250px;
-  right: -170px;
-  top: 100px;
+  // position: relative;
+  // width: 250px;
+  // right: -170px;
+  // top: 100px;
+
+  img {
+    position: relative;
+    width: 250px;
+    right: -170px;
+    top: 100px;
+  }
 }
