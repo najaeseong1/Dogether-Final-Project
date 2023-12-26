@@ -152,10 +152,6 @@ function App() {
               path='/product'
               element={<Product />}
             />
-            <Route
-              path='/product/{}'
-              element={<ProductDetail />}
-            />
           </Routes>
         </div>
         <Footer />
