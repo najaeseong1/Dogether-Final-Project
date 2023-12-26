@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './BoardList.scss';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -11,126 +11,33 @@ const BoardList = () => {
   const [currentPage, setCurrentPage] = useState(1); //사용자 첫 페이지 설정
   const [searchTerm, setSearchTerm] = useState(''); // 검색어 담을 useState
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [boardData, setBoardData] = useState([]);
 
-  //더미데이터 -> 나중에  fetch보내서 DB에 저장된 값 가져올것임
-  const boardData = [
-    {
-      id: '1',
-      category: '후기',
-      title: '강아지 귀요워여',
-      date: '2023-12-09',
-      author: '춘식이',
-    },
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:8181/board/');
+        const data = await response.json();
+        console.log(data.boards);
+        setBoardData(data.boards);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-    {
-      id: '2',
-      category: '후기',
-      title: '멍멍이 귀요워여',
-      date: '2023-12-09',
-      author: '춘식이',
-    },
-    {
-      id: '3',
-      category: '후기',
-      title: '멍멍이 귀요워여',
-      date: '2023-12-09',
-      author: '춘식이',
-    },
+    fetchData();
+  }, []);
 
-    {
-      id: '4',
-      category: '후기',
-      title: '멍멍이 귀요워여',
-      date: '2023-12-09',
-      author: '춘식이',
-    },
-    {
-      id: '5',
-      category: '후기',
-      title: '멍멍이 귀요워여',
-      date: '2023-12-09',
-      author: '춘식이',
-    },
-
-    {
-      id: '6',
-      category: '후기',
-      title: '멍멍이 귀요워여',
-      date: '2023-12-09',
-      author: '춘식이',
-    },
-    {
-      id: '7',
-      category: '후기',
-      title: '멍멍이 귀요워여',
-      date: '2023-12-09',
-      author: '춘식이',
-    },
-
-    {
-      id: '8',
-      category: '후기',
-      title: '멍멍이 귀요워여',
-      date: '2023-12-09',
-      author: '춘식이',
-    },
-    {
-      id: '9',
-      category: '후기',
-      title: '멍멍이 귀요워여',
-      date: '2023-12-09',
-      author: '춘식이',
-    },
-
-    {
-      id: '10',
-      category: '후기',
-      title: '멍멍이 귀요워여',
-      date: '2023-12-09',
-      author: '춘식이',
-    },
-    {
-      id: '11',
-      category: '후기',
-      title: '멍멍이 귀요워여',
-      date: '2023-12-09',
-      author: '춘식이',
-    },
-
-    {
-      id: '12',
-      category: '후기',
-      title: '멍멍이 귀요워여',
-      date: '2023-12-09',
-      author: '춘식이',
-    },
-    {
-      id: '13',
-      category: '후기',
-      title: '멍멍이 귀요워여',
-      date: '2023-12-09',
-      author: '춘식이',
-    },
-
-    {
-      id: '14',
-      category: '후기',
-      title: '멍멍이 귀요워여',
-      date: '2023-12-09',
-      author: '야옹이',
-    },
-  ];
-
-  const filterBySearchTerm = (
-    post //post -> 더미데이터임
-  ) => post.title.toLowerCase().includes(searchTerm.toLowerCase()); //게시물 제목에 사용자가 입력한 값 searchTerm이 포함되어 있으면 !
+  const filterBySearchTerm = (post) =>
+    post.title.toLowerCase().includes(searchTerm.toLowerCase());
 
   const filterByCategory = (post) =>
     selectedCategory === 'all' || post.category === selectedCategory;
 
-  const filteredData = boardData
-    .filter(filterByCategory)
-    .filter(filterBySearchTerm);
+  const filteredData =
+    boardData.length > 0
+      ? boardData.filter(filterByCategory).filter(filterBySearchTerm)
+      : [];
 
   const totalButtonCount = Math.ceil(filteredData.length / itemsPerPage);
 
@@ -139,8 +46,8 @@ const BoardList = () => {
     currentPage * itemsPerPage
   );
 
-  const boardDetailHandler = () => {
-    redirection('/boardDetail');
+  const boardDetailHandler = (boardNo) => {
+    redirection(`/boardDetail/${boardNo}`);
   };
 
   //mui에서 현재 기본 정보를 담고 있는 event 객체를 원함 그래서 인자 두개
@@ -158,8 +65,8 @@ const BoardList = () => {
           onChange={(e) => setSelectedCategory(e.target.value)}
         >
           <option value='all'>전체 카테고리</option>
-          <option value='후기'>후기게시판</option>
-          <option value='자유'>자유게시판</option>
+          <option value='category'>후기게시판</option>
+          <option value='category1'>자유게시판</option>
         </select>
         <input
           type='text'
@@ -180,14 +87,17 @@ const BoardList = () => {
             <th>글쓴이</th>
           </tr>
         </thead>
-        <tbody onClick={boardDetailHandler}>
+        <tbody>
           {paginatedData.map((post) => (
-            <tr key={post.id}>
-              <td>{post.id}</td>
+            <tr
+              key={post.boardNo}
+              onClick={() => boardDetailHandler(post.boardNo)}
+            >
+              <td>{post.boardNo}</td>
               <td>{post.category}</td>
               <td>{post.title}</td>
-              <td>{post.date}</td>
-              <td>{post.author}</td>
+              <td>{post.registDate}</td>
+              <td>{post.userId}</td>
             </tr>
           ))}
         </tbody>

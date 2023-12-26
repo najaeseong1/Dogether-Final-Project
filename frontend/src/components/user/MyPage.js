@@ -28,12 +28,13 @@ const MyPage = () => {
 
     //글 목록 가져오기
     axios
-      .get(`${API_BASE_URL}/board/myBoardList/{userId}`)
+      .get(`${API_BASE_URL}/board/myBoardlist/{userId}`)
       .then((res) => {
+        console.log(res);
         setUserPosts(res.data);
       })
       .catch((err) => {
-        console('err: ', err);
+        console.log(err);
       });
   }, []);
 
@@ -60,7 +61,9 @@ const MyPage = () => {
           <button className='like-list-tap'>
             <Link to='/user/likelist'>좋아요목록</Link>
           </button>
-
+          <button className='order-history'>
+            <Link to='/user/orderhistory'>주문 현황</Link>
+          </button>
           <Link to='/knowledges/knowledge'>
             <div className='know-group'>
               <p className='knowledge'>지식백과</p>

@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './BoardDetail.scss';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 let today = new Date();
 const BoardDetail = () => {
   const [comments, setComments] = useState([]); // 댓글 목록을 저장하는 상태, 배열로 아이디 내용을 담을 거임
   const [newComment, setNewComment] = useState(''); // 새로 작성 중인 댓글
   const redirection = useNavigate();
+  const [boardDetail, setBoardDetail] = useState(null);
+  const { boardNo } = useParams();
 
   const toLink = (loc) => {
     redirection(loc);
@@ -22,6 +24,25 @@ const BoardDetail = () => {
       'https://www.fitpetmall.com/wp-content/uploads/2023/09/shutterstock_2205178589-1-1.png', // 예시 이미지 URL
     userId: '춘식이',
   };
+
+  useEffect(() => {
+    console.log('useEffect 실행중 !');
+    const fetchBoardDetail = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:8181/board/detail/${String(boardNo)}`
+        );
+        console.log(boardNo);
+        const data = await response.json();
+        console.log(data);
+        setBoardDetail(data);
+      } catch (error) {
+        console.error('Error fetching board detail:', error);
+      }
+    };
+
+    fetchBoardDetail();
+  }, [boardNo]);
 
   // 가상의 로그인 상태를 나타내는 함수
   const getLoggedInUserId = () => {
