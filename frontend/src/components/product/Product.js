@@ -36,6 +36,18 @@ const Product = () => {
     });
     setCartCount(cartCount + 1);
     setCartItems([...cartItems, product]);
+
+    // 카트 아이템을 로컬 스토리지에서 가져오기
+    const storedCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+    // 새로운 상품 추가
+    const updatedCartItems = [...storedCartItems, product];
+
+    // 로컬 스토리지에 업데이트된 카트 아이템 저장
+    localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
+
+    setCartCount(updatedCartItems.length);
+    setCartItems(updatedCartItems);
   };
 
   // const handleKeyDown = (event) => {
@@ -114,6 +126,13 @@ const Product = () => {
       .catch((err) => {});
   }, []);
 
+  useEffect(() => {
+    // 컴포넌트 마운트 시 로컬 스토리지에서 카트 아이템을 가져와 카운트 업데이트
+    const storedCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    setCartCount(storedCartItems.length);
+    setCartItems(storedCartItems);
+  }, []);
+
   return (
     <>
       <iframe
@@ -158,7 +177,7 @@ const Product = () => {
                 className='buy-button'
                 onClick={() => addToCart(product)}
               >
-                구매하기
+                상품 담기
               </button>
             </div>
           ))}

@@ -57,11 +57,12 @@ const Header = () => {
           <li>
             <p onClick={() => toLink('/board')}>자유 게시판</p>
           </li>
-          <li>
-            <p onClick={() => toLink('/product')}>자체 제작 상품</p>
-          </li>
+
           <li>
             <p onClick={() => toLink('/knowledges/knowledge')}>반려 백과</p>
+          </li>
+          <li>
+            <p onClick={() => toLink('/product')}>반려 상품</p>
           </li>
           <li>
             <p onClick={() => toLink('/knowledges/quiz')}>반려 퀴즈</p>
