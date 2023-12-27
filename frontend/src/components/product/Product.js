@@ -4,47 +4,19 @@ import React, { useState, useEffect } from 'react';
 import './Product.scss';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-
-const products = [
-  {
-    id: 1,
-    imageSrc:
-      '//pethroom.com/web/product/medium/202208/6406178e3005b192086b575413018e52.jpg',
-    title: '포인트 클린 세트 (포인트칫솔+클린치약)',
-    subtitle: '언제 어디서든 물 없이 간편하게 세정할 수 있는 워터리스 샴푸',
-    price: '11,900원',
-  },
-  {
-    id: 2,
-    imageSrc:
-      '//pethroom.com/web/product/medium/202305/90946a657e97dc0f70f14f08f3f32f07.jpg',
-    title: '제로 워터리스 샴푸',
-    subtitle: '언제 어디서든 물 없이 간편하게 세정할 수 있는 워터리스 샴푸',
-    price: '11,900원',
-  },
-  {
-    id: 3,
-    imageSrc:
-      '//pethroom.com/web/product/medium/202208/6406178e3005b192086b575413018e52.jpg',
-    title: '제로 워터리스 샴푸',
-    subtitle: '언제 어디서든 물 없이 간편하게 세정할 수 있는 워터리스 샴푸',
-    price: '11,900원',
-  },
-  {
-    id: 4,
-    imageSrc:
-      '//pethroom.com/web/product/medium/202208/6406178e3005b192086b575413018e52.jpg',
-    title: '제로 워터리스 샴푸',
-    subtitle: '언제 어디서든 물 없이 간편하게 세정할 수 있는 워터리스 샴푸',
-    price: '11,900원',
-  },
-];
+import {
+  API_BASE_URL,
+  PRODUCT,
+  product,
+} from '../../global/config/host-config';
+import axios from 'axios';
 
 const Product = () => {
   const redirection = useNavigate();
   const [searchTerm, setSearchTerm] = useState(''); // 검색어 담을 useState
   const [cartCount, setCartCount] = useState(0);
   const [scrollOffset, setScrollOffset] = useState(0);
+  const [product, setProduct] = useState([]);
   const [cartItems, setCartItems] = useState([]);
 
   const addToCart = (product) => {
@@ -75,7 +47,7 @@ const Product = () => {
     product.title.toLowerCase().includes(searchTerm.toLowerCase());
 
   const filteredData =
-    products.length > 0 ? products.filter(filterBySearchTerm) : [];
+    product.length > 0 ? product.filter(filterBySearchTerm) : [];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -98,7 +70,7 @@ const Product = () => {
       html: `
   
    <div class="order-details">
-       <img src="${product.imageSrc}" alt="상품 이미지" class="product-img">
+       <img src="${product.img}" alt="상품 이미지" class="product-img">
        <h2> ${product.title}</h2>
          <p> ${product.subtitle}</p>
        <p>상품 금액: ${product.price}</p>
@@ -132,6 +104,15 @@ const Product = () => {
       confirmButtonText: '확인', // confirm 버튼 텍스트 지정
     });
   };
+  useEffect(() => {
+    axios
+      .get(API_BASE_URL + PRODUCT)
+      .then((res) => {
+        console.log('product 요청', res);
+        setProduct(res.data);
+      })
+      .catch((err) => {});
+  }, []);
 
   return (
     <>
@@ -163,10 +144,10 @@ const Product = () => {
               className={`product-item ${
                 filteredData.length === 1 ? 'small' : ''
               }`}
-              key={product.id}
+              key={product.productId}
             >
               <img
-                src={product.imageSrc}
+                src={product.img}
                 alt={product.title}
                 onClick={() => todetailProducthandler(product)}
               />
