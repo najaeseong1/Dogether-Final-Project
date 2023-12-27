@@ -17,7 +17,7 @@ const products = [
   {
     id: 2,
     imageSrc:
-      '//pethroom.com/web/product/medium/202208/6406178e3005b192086b575413018e52.jpg',
+      '//pethroom.com/web/product/medium/202305/90946a657e97dc0f70f14f08f3f32f07.jpg',
     title: '제로 워터리스 샴푸',
     subtitle: '언제 어디서든 물 없이 간편하게 세정할 수 있는 워터리스 샴푸',
     price: '11,900원',
@@ -45,8 +45,9 @@ const Product = () => {
   const [searchTerm, setSearchTerm] = useState(''); // 검색어 담을 useState
   const [cartCount, setCartCount] = useState(0);
   const [scrollOffset, setScrollOffset] = useState(0);
+  const [cartItems, setCartItems] = useState([]);
 
-  const addToCart = () => {
+  const addToCart = (product) => {
     const Toast = Swal.mixin({
       toast: true,
       position: 'center-center',
@@ -62,10 +63,19 @@ const Product = () => {
       title: '상품이 담겼습니다.<br> 장바구니를 확인해주세요!',
     });
     setCartCount(cartCount + 1);
+    setCartItems([...cartItems, product]);
   };
 
-  const filterBySearchTerm = (post) =>
-    post.title.toLowerCase().includes(searchTerm.toLowerCase());
+  // const handleKeyDown = (event) => {
+  //   if (event.key === 'Enter') {
+  //     performSearch();
+  //   }
+  // };
+  const filterBySearchTerm = (product) =>
+    product.title.toLowerCase().includes(searchTerm.toLowerCase());
+
+  const filteredData =
+    products.length > 0 ? products.filter(filterBySearchTerm) : [];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -78,6 +88,10 @@ const Product = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  const cartdatailhandler = () => {
+    redirection('/cart');
+  };
 
   const todetailProducthandler = (product) => {
     Swal.fire({
@@ -139,13 +153,16 @@ const Product = () => {
             id='productsearch'
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            // onKeyDown={handleKeyDown}
           />
         </div>
 
         <div className='product-container'>
-          {products.map((product) => (
+          {filteredData.map((product) => (
             <div
-              className='product-item'
+              className={`product-item ${
+                filteredData.length === 1 ? 'small' : ''
+              }`}
               key={product.id}
             >
               <img
@@ -158,7 +175,7 @@ const Product = () => {
               <div className='price'>{product.price}</div>
               <button
                 className='buy-button'
-                onClick={addToCart}
+                onClick={() => addToCart(product)}
               >
                 구매하기
               </button>
@@ -166,7 +183,12 @@ const Product = () => {
           ))}
         </div>
         <div className='cart'>
-          <div className='cart-icon'>🛒</div>
+          <div
+            className='cart-icon'
+            onClick={() => cartdatailhandler()}
+          >
+            🛒
+          </div>
           <div className='cart-count'>{cartCount}</div>
         </div>
       </div>

@@ -91,9 +91,15 @@ public class UserService {
         User findUser = userRepository.findById(userInfo.getUserId()).orElseThrow(
                 () -> new RuntimeException("동일한 회원이 아닙니다."));
         findUser.setUserPhone(dto.getUserPhone());
-        findUser.setUserPass(dto.getUserPass());
+        // 패스워드 입력
+        String rawPassword = dto.getUserPass(); // 입력한 비번
+        // 패스워드 인코딩
+        String encoded = passwordEncoder.encode(rawPassword);
+        log.info("encoded-{}", encoded);
+        findUser.setUserPass(encoded); // 비번 변경
         findUser.setPostAddr(dto.getPostAddr());
 
+        log.info("finduser정보 -{}", findUser);
         User saveInfo = userRepository.save(findUser);
 
         // dto 재활용함

@@ -29,6 +29,7 @@ import ScrollToTop from './global/ScrollToTop';
 import { AuthContextProvider } from './global/utils/AuthContext';
 import OrderManagement from './components/admin/OrderManagement';
 import OrderHistory from './components/user/OrderHistory';
+import Cart from './components/product/cart';
 
 function App() {
   return (
@@ -151,6 +152,10 @@ function App() {
             <Route
               path='/product'
               element={<Product />}
+            />
+            <Route
+              path='/cart'
+              element={<Cart />}
             />
           </Routes>
         </div>
