@@ -73,7 +73,7 @@ public class UserController {
 
 
     // 로그인 요청
-    @PostMapping("/signin")
+    @PostMapping("/login")
     public ResponseEntity<?> signIn(
             @Validated @RequestBody LoginRequestDTO dto,
             BindingResult result
@@ -177,6 +177,15 @@ public class UserController {
                     .body(e.getMessage());
         }
 
+    }
+
+    // 카카오 로그인
+    @GetMapping("/kakaologin")
+    public ResponseEntity<?> kakaoLogin(String code) {
+        log.info("/user/kakaologin - GET! -code: {}", code);
+        LoginResponseDTO responseDTO = userService.kakaoService(code);
+        log.info("responseData : {}", responseDTO);
+        return ResponseEntity.ok().body(responseDTO);
     }
 
 

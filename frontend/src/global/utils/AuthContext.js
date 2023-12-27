@@ -73,6 +73,19 @@ export const AuthContextProvider = (props) => {
     setUserName(userName);
   };
 
+  // 카카오 로그인 핸들러
+  // const kakaoLogin = (token, email, role) => {
+  //   localStorage.setItem('isLoggedIn', '1');
+  //   //json에 담긴 인증정보를 클라이언트에 보관
+  //   // 1. 로컬 스토리지 - 브라우저가 종료되어도 보관됨.
+  //   // 2. 세션 스토리지 - 브라우저가 종료되면 사라짐.
+  //   localStorage.setItem('ACCESS_TOKEN', token);
+  //   localStorage.setItem('LOGIN_USERNAME', userName);
+  //   localStorage.setItem('USER_ROLE', role);
+  //   setIsLoggedIn(true);
+  //   setUserName(userName);
+  // };
+
   console.log('AuthContext의 마지막 부분');
 
   return (
