@@ -36,7 +36,7 @@ function App() {
         <ScrollToTop />
         <Routes>
           <Route
-            path="/oauth/redirected/kakao"
+            path="/user/join"
             element={<KakaoLoginHandler />}
           />
           <Route

@@ -21,15 +21,15 @@ const KakaoLoginHandler = () => {
     const kakaoLogin = async () => {
       const res = await fetch(REQUEST_URL + '/kakaologin?code=' + code);
 
-      const { token, userName, email, role } = await res.json(); // 서버에서 온 json 읽기
+      const { token, userName, userEmail, role } = await res.json(); // 서버에서 온 json 읽기
 
       console.log('res값', res);
-      // console.log(token, userName, email);
+      console.log(token, userName, userEmail, role);
       // Context API를 사용하여 로그인 상태를 업데이트 합니다.
-      onLogin(token, role);
+      onLogin(token, role, userEmail, userName);
 
       // 리다이렉트
-      redirection('/user/join');
+      redirection('/adopt');
     };
 
     kakaoLogin();
