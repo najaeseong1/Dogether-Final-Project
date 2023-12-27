@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
 import './Login.scss';
 import { useNavigate } from 'react-router-dom';
-import { KAKAO_AUTH_URL } from '../../global/kakaoAuth.js';
 import AuthContext from '../../global/utils/AuthContext.js';
 import { API_BASE_URL } from '../../global/config/host-config.js';
+import { KAKAO_AUTH_URL } from '../../global/kakaoAuth.js';
 
 const Login = () => {
   const redirection = useNavigate();
@@ -58,66 +58,66 @@ const Login = () => {
   };
 
   return (
-    <div className='wrapper'>
-      <div className='loginTemplate1'>
-        <div className='loginDogether'>Dogether</div>
+    <div className="wrapper">
+      <div className="loginTemplate1">
+        <div className="loginDogether">Dogether</div>
         <form onSubmit={handleLogin}>
           <input
-            type='text'
-            id='id'
-            name='id'
+            type="text"
+            id="id"
+            name="id"
             value={userId}
             onChange={(e) => setUserId(e.target.value)}
-            placeholder='아이디를 입력해주세요'
+            placeholder="아이디를 입력해주세요"
           />
           <br />
           <input
-            type='password'
-            id='password'
-            name='password'
+            type="password"
+            id="password"
+            name="password"
             value={userPass}
             onChange={(e) => setUserPass(e.target.value)}
-            placeholder='비밀번호를 입력해주세요.'
+            placeholder="비밀번호를 입력해주세요."
           />
           <button
-            type='submit'
-            className='loginbtn'
+            type="submit"
+            className="loginbtn"
           >
             로그인
           </button>
 
-          <div className='haha'>
+          <div className="haha">
             <img
-              className='kakaobtnimg'
-              src='/img/kakaoLoginBtn.png'
-              alt='kakaoLogin'
+              className="kakaobtnimg"
+              src="/img/kakaoLoginBtn.png"
+              alt="kakaoLogin"
               onClick={() => {
                 window.location.href = KAKAO_AUTH_URL;
               }}
             />
 
             <img
-              className='naverbtnimg'
-              src='/img/naverLoginBtn.png'
-              alt='naverlogin'
+              className="naverbtnimg"
+              src="/img/naverLoginBtn.png"
+              alt="naverlogin"
             />
           </div>
 
-          <div className='account'>
+          <div className="account">
             <span
-              className='findid'
+              className="findid"
               onClick={() => toLink('/user/findid')}
             >
               아이디 찾기
             </span>
             <span
-              className='findpass'
+              className="findpass"
               onClick={() => toLink('/user/findpassword')}
             >
               비밀번호 찾기
             </span>
             <span
-              className='tojoin'
+              className="tojoin"
               onClick={() => toLink('/user/join')}
             >
               회원가입 하기

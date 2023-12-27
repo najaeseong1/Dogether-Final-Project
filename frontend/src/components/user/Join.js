@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import "./Join.scss";
 import DaumPostcode from "react-daum-postcode";
 import { useNavigate } from "react-router-dom";
+import KakaoLoginHandler from "./KakaoLoginHandler";
 
 const Join = () => {
   
