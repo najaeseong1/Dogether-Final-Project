@@ -28,13 +28,20 @@ public class KakaoUserDTO {
     }
 
     public User toEntity(String accessToken) {
-        log.info("\n\n\n\n 투 엔터티 에서 카카오 이메일 : ", this.kakaoAccount.email);
+        String email = this.kakaoAccount.email;
+        // '@' 기호의 위치를 찾습니다.
+        int atIndex = email.indexOf('@');
+
+        // '@' 기호가 있다면, '@' 이전의 부분을 userId로 사용합니다.
+        // '@' 기호가 없다면, 이메일 전체를 userId로 사용합니다.
+        String userId = atIndex != -1 ? email.substring(0, atIndex) : email;
+
         return User.builder()
-                .userId(this.kakaoAccount.email)
+                .userId(userId)
                 .userName("kakaoName")
                 .userPass("kakaoPass")
                 .userPhone("kakaoPhone")
-                .userEmail(this.kakaoAccount.email)
+                .userEmail(email)
                 .postNo(11111)
                 .postAddr("kakaoPost")
                 .accessToken(accessToken)

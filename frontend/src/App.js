@@ -29,6 +29,7 @@ import ScrollToTop from './global/ScrollToTop';
 import { AuthContextProvider } from './global/utils/AuthContext';
 import OrderManagement from './components/admin/OrderManagement';
 import OrderHistory from './components/user/OrderHistory';
+import KakaoLoginHandler from './components/user/KakaoLoginHandler';
 
 function App() {
   return (
@@ -38,6 +39,10 @@ function App() {
         <div className="content-wrapper">
           <ScrollToTop />
           <Routes>
+            <Route
+              path="/user/join"
+              element={<KakaoLoginHandler />}
+            />
             <Route
               path="/"
               element={<MainTemplate />}

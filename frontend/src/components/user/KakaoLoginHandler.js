@@ -24,12 +24,14 @@ const KakaoLoginHandler = () => {
       const { token, userName, userEmail, role } = await res.json(); // 서버에서 온 json 읽기
 
       console.log('res값', res);
-      console.log(token, userName, userEmail, role);
+      console.log('userName: ', userName);
+      console.log('userEmail: ', userEmail);
+      console.log('role: ', role);
       // Context API를 사용하여 로그인 상태를 업데이트 합니다.
       onLogin(token, role, userEmail, userName);
 
       // 리다이렉트
-      redirection('/adopt');
+      redirection('/');
     };
 
     kakaoLogin();
