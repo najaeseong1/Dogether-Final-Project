@@ -29,130 +29,135 @@ import ScrollToTop from './global/ScrollToTop';
 import { AuthContextProvider } from './global/utils/AuthContext';
 import OrderManagement from './components/admin/OrderManagement';
 import OrderHistory from './components/user/OrderHistory';
+import KakaoLoginHandler from './components/user/KakaoLoginHandler';
 
 function App() {
   return (
     <AuthContextProvider>
-      <div className='wrapper'>
+      <div className="wrapper">
         <Header />
-        <div className='content-wrapper'>
+        <div className="content-wrapper">
           <ScrollToTop />
           <Routes>
             <Route
-              path='/'
+              path="/user/join"
+              element={<KakaoLoginHandler />}
+            />
+            <Route
+              path="/"
               element={<MainTemplate />}
             />
             <Route
-              path='/board'
+              path="/board"
               element={<BoardList />}
             />
             <Route
-              path='/boardRegist'
+              path="/boardRegist"
               element={<Board />}
             />
             <Route
-              path='/boardDetail'
+              path="/boardDetail"
               element={<BoardDetail />}
             />
             <Route
-              path='/boardupdate'
+              path="/boardupdate"
               element={<BoardUpdate />}
             />
             <Route
-              path='/user/join'
+              path="/user/join"
               element={<Join />}
             />
             <Route
-              path='/user/login'
+              path="/user/login"
               element={<Login />}
             />
             <Route
-              path='user/findid'
+              path="user/findid"
               element={<FindId />}
             />
             <Route
-              path='/user/findpassword'
+              path="/user/findpassword"
               element={<FindPassword />}
             />
 
             <Route
-              path='/'
+              path="/"
               element={<MainTemplate />}
             />
             <Route
-              path='/user/mypage'
+              path="/user/mypage"
               element={<MyPage />}
             />
             <Route
-              path='/user/modify'
+              path="/user/modify"
               element={<Modify />}
             />
             <Route
-              path='/user/likelist'
+              path="/user/likelist"
               element={<LikeList />}
             />
             <Route
-              path='/user/orderhistory'
+              path="/user/orderhistory"
               element={<OrderHistory />}
             />
             <Route
-              path='/user/adoptionstatus'
+              path="/user/adoptionstatus"
               element={<AdoptionStatus />}
             />
             <Route
-              path='/adopt'
+              path="/adopt"
               element={<AdoptionList />}
             />
             <Route
-              path='/adopt/detail/:desertionNo'
+              path="/adopt/detail/:desertionNo"
               element={<AdoptionListDetail />}
             />
             <Route
-              path='/contract/:userId/:desertionNo'
+              path="/contract/:userId/:desertionNo"
               element={<AdoptionApplication />}
             />
             <Route
-              path='/knowledges/knowledge'
+              path="/knowledges/knowledge"
               element={<Knowledge />}
             />
             <Route
-              path='/knowledges/quiz'
+              path="/knowledges/quiz"
               element={<Quiz />}
             />
             <Route
-              path='*'
+              path="*"
               element={<PageNotFound />}
             />
             <Route
-              path='/product'
+              path="/product"
               element={<Product />}
             />
             <Route
-              path='/product/productdetail'
+              path="/product/productdetail"
               element={<ProductDetail />}
             />
             <Route
-              path='/adminmain'
+              path="/adminmain"
               element={<AdminMain />}
             />
             <Route
-              path='/AdoptionManagement'
+              path="/AdoptionManagement"
               element={<AdoptionManagement />}
             />
             <Route
-              path='/ordermanagement'
+              path="/ordermanagement"
               element={<OrderManagement />}
             />
             <Route
-              path='*'
+              path="*"
               element={<PageNotFound />}
             />
             <Route
-              path='/product'
+              path="/product"
               element={<Product />}
             />
             <Route
-              path='/product/{}'
+              path="/product/{}"
               element={<ProductDetail />}
             />
           </Routes>
