@@ -104,11 +104,11 @@ function App() {
               element={<AdoptionList />}
             />
             <Route
-              path='/adopt/detail/{}'
+              path='/adopt/detail/:desertionNo'
               element={<AdoptionListDetail />}
             />
             <Route
-              path='/contract/{}/{}'
+              path='/contract/:userId/:desertionNo'
               element={<AdoptionApplication />}
             />
             <Route
@@ -119,7 +119,6 @@ function App() {
               path='/knowledges/quiz'
               element={<Quiz />}
             />
-
             <Route
               path='*'
               element={<PageNotFound />}

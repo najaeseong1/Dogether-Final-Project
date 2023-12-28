@@ -4,6 +4,8 @@ import ImageSlider from './ImageSlider';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Grid } from '@mui/material';
+import { API_BASE_URL, ADOPT, BOARD } from '../../global/config/host-config';
+import LoadingPink from '../../global/LoadingPink';
 
 // 모달창 설정
 const Modal = ({ children, visible, onClose }) => {
@@ -61,8 +63,8 @@ const MainTemplate = () => {
   const [reviewList, setReviewList] = useState([
     {
       boardNo: 1,
-      regDate: '2023.05.28',
       imgage: '/img/dogPic/dog1.png',
+      registDate: '2023.05.28',
     },
   ]);
   // 자유게시글 데이터
@@ -71,49 +73,80 @@ const MainTemplate = () => {
       boardNo: 1,
       category: '분양후기',
       title: '분양 받았어요~ 진짜 우리 강아지가 얼마나 이쁘냐면요',
-      regDate: '2023.05.28',
+      registDate: '2023.05.28',
     },
   ]);
+  // 로딩 상태 변수를 추가합니다.
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true); // 데이터를 가져오기 전에 로딩 상태를 true로 설정
     // '/adopt' 요청
     axios
-      .get('http://localhost:8181/adopt')
+      .get(`${API_BASE_URL}${ADOPT}`)
       .then((res) => {
-        console.log('adopt 요청', res);
         setAdoptList(res.data.adoptLists.slice(0, 8));
+        setLoading(false); // 데이터를 가져온 후 로딩 상태를 false로 설정
       })
       .catch((err) => {
         console.error(err);
+        setLoading(false); // 데이터를 가져온 후 로딩 상태를 false로 설정
       });
 
     // '/board' 요청
+
     axios
-      .get('http://localhost:8181/board')
+      .get(`${API_BASE_URL}${BOARD}`)
       .then((res) => {
-        console.log('board 요청', res);
-        const reviewData = res.data.boardList.filter(
-          (item) => item.category === '후기'
+        // console.log('board 요청', res);
+        const reviewData = res.data.boards.filter(
+          (boards) => boards.category === '후기'
         );
-        setBoardList(res.data.reviewLists.slice(0, 5));
-        const boardData = res.data.reviewList.filter(
-          (item) => item.category === '자유'
+        setReviewList(reviewData.slice(0, 5)); // '후기' 데이터를 상태로 설정
+        const boardData = res.data.boards.filter(
+          (boards) => boards.category === '자유'
         );
-        setBoardList(res.data.boardLists.slice(0, 5));
+        setBoardList(boardData.slice(0, 5)); // '자유' 데이터를 상태로 설정
       })
       .catch((err) => {
         console.error(err);
       });
   }, []);
 
-  console.log('입양리스트 : axios 후에', adoptList);
-  console.log(reviewList);
-  console.log(boardList);
+  // console.log('입양리스트 : axios 후에', adoptList);
+  // console.log(reviewList);
+  // console.log(boardList);
 
   // 각 리스트의 처음 8개 또는 5개 항목만 선택
   const limitedAdoptList = adoptList.slice(0, 8);
   const limitedReviewList = reviewList.slice(0, 5);
   const limitedBoardList = boardList.slice(0, 5);
+
+  // 로딩 상태와 컴포넌트 렌더링 부분을 분리합니다.
+  let content;
+  if (loading) {
+    content = <LoadingPink />; // 로딩 상태이면 LoadingPink 컴포넌트를 보여주기
+  } else {
+    content = limitedAdoptList.map((adoptList, index) => (
+      <Grid
+        item
+        className='image'
+        key={index}
+      >
+        <Link to={`${ADOPT}/detail/${adoptList.desertionNo}`}>
+          <img
+            src={adoptList.profileImg}
+            alt='분양게시판 강아지사진'
+          />
+          <div className='category'>
+            {adoptList.kindCd}
+            {adoptList.gender === 'M' ? '수컷' : '암컷'}
+            {adoptList.age}
+          </div>
+        </Link>
+      </Grid>
+    ));
+  }
 
   return (
     <div className='mainWrapper'>
@@ -162,7 +195,7 @@ const MainTemplate = () => {
           <Grid className='title-3-1'>
             <span>입양게시판</span>
             <Link
-              to='/adoptlist'
+              to={`${ADOPT}`}
               className='readMore'
             >
               자세히보기
@@ -175,25 +208,7 @@ const MainTemplate = () => {
               direction='row'
               className='adoptList'
             >
-              {limitedAdoptList.map((adoptList, index) => (
-                <Grid
-                  item
-                  className='image'
-                  key={index}
-                >
-                  <Link to={`/adopt/detail/${adoptList.desertionNo}`}>
-                    <img
-                      src={adoptList.profileImg}
-                      alt='분양게시판 강아지사진'
-                    />
-                    <div className='category'>
-                      {adoptList.kindCd}
-                      {adoptList.gender === 'M' ? '수컷' : '암컷'}
-                      {adoptList.age}
-                    </div>
-                  </Link>
-                </Grid>
-              ))}
+              {content}
             </Grid>
           </Grid>
         </Grid>
@@ -214,30 +229,34 @@ const MainTemplate = () => {
             >
               <span>Review</span>
               <Link
-                to='/board'
+                to={`${BOARD}`}
                 className='readMore'
               >
                 자세히보기
               </Link>
               <hr />
               <div className='reviewList'>
-                {limitedReviewList.map((reviewList, index) => (
-                  <Grid
-                    item
-                    className='image'
-                    key={index}
-                  >
-                    <Link to={`/board/${reviewList.boardNo}`}>
-                      <img
-                        src={reviewList.imgage}
-                        alt='강아지후기사진'
-                      />
-                      <div className='category'>
-                        후기 게시글 {reviewList.title} {reviewList.regDate}
-                      </div>
-                    </Link>
-                  </Grid>
-                ))}
+                {limitedBoardList.length > 0 ? (
+                  limitedReviewList.map((reviewList, index) => (
+                    <Grid
+                      item
+                      className='image'
+                      key={index}
+                    >
+                      <Link to={`${BOARD}/${reviewList.boardNo}`}>
+                        <img
+                          src={reviewList.imgage}
+                          alt='강아지후기사진'
+                        />
+                        <div className='category'>
+                          후기 게시글 {reviewList.title} {reviewList.regDate}
+                        </div>
+                      </Link>
+                    </Grid>
+                  ))
+                ) : (
+                  <Link to={`${BOARD}`}>등록된 게시글이 없습니다.</Link>
+                )}
               </div>
             </Grid>
             <Grid
@@ -248,26 +267,30 @@ const MainTemplate = () => {
             >
               <span>Gallery</span>
               <Link
-                to='/board'
+                to={`${BOARD}`}
                 className='readMore'
               >
                 자세히보기
               </Link>
               <hr />
               <div className='boardList'>
-                {limitedBoardList.map((boardList, index) => (
-                  <Grid
-                    item
-                    xs={12}
-                    key={index}
-                  >
-                    <Link to={`/board/${boardList.boardNo}`}>
-                      <div className='category'>{boardList.category}</div>
-                      <div className='title'>{boardList.title}</div>
-                      <div className='regDate'>{boardList.regDate}</div>
-                    </Link>
-                  </Grid>
-                ))}
+                {limitedBoardList.length > 0 ? (
+                  limitedBoardList.map((boardList, index) => (
+                    <Grid
+                      item
+                      xs={12}
+                      key={index}
+                    >
+                      <Link to={`${BOARD}/${boardList.boardNo}`}>
+                        <div className='category'>{boardList.category}</div>
+                        <div className='title'>{boardList.title}</div>
+                        <div className='regDate'>{boardList.registDate}</div>
+                      </Link>
+                    </Grid>
+                  ))
+                ) : (
+                  <Link to={`${BOARD}`}>등록된 게시글이 없습니다.</Link>
+                )}
               </div>
             </Grid>
           </Grid>

@@ -336,6 +336,8 @@ public class ApiService {
     //엔티티 adopt에 값 주입 메서드 추출
     private static Adopt getAdopt(JsonObject temp) {
         Adopt save = Adopt.builder()
+                .noticeSdt(temp.get("noticeSdt").getAsString() == null? "-" : temp.get("noticeSdt").getAsString())
+                .noticeEdt(temp.get("noticeEdt").getAsString() == null? "-" : temp.get("noticeEdt").getAsString())
                 .desertionNo(temp.get("desertionNo").getAsString() == null ? "-" : temp.get("desertionNo").getAsString())
                 .kindCd(temp.get("kindCd").getAsString() == null ? "-" : temp.get("kindCd").getAsString())
                 .gender(temp.get("sexCd").getAsString() == null ? "-" : temp.get("sexCd").getAsString())

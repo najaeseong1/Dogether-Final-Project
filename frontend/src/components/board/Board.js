@@ -1,8 +1,9 @@
 import React, { useRef, useState } from 'react';
 import './Board.scss'; // SCSS 파일 import
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL, BOARD } from '../../global/config/host-config';
 
-const API_URL = 'http://localhost:8181/board/regist';
+const API_URL = `${API_BASE_URL}${BOARD}/regist'`;
 
 const Board = () => {
   const redirection = useNavigate();
