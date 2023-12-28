@@ -9,8 +9,11 @@ import {
   Login,
   Modify,
   MyPage,
+  FindId,
+  FindPassword,
+  OrderHistory,
 } from './components/user';
-import { Board, BoardDetail, BoardList } from './components/board';
+import { Board, BoardDetail, BoardList, BoardUpdate } from './components/board';
 import PageNotFound from './components/pagenotfound/PageNotFound';
 import {
   AdoptionList,
@@ -18,17 +21,19 @@ import {
   AdoptionApplication,
 } from './components/adopt';
 import { Knowledge, Quiz } from './components/knowledges';
-import ProductDetail from './components/product/ProductDetail';
 import Product from './components/product/Product';
-import BoardUpdate from './components/board/BoardUpdate';
-import AdminMain from './components/admin/AdminMain';
-import AdoptionManagement from './components/admin/AdoptionManagement';
-import FindId from './components/user/FindId';
-import FindPassword from './components/user/FindPassword';
 import ScrollToTop from './global/ScrollToTop';
 import { AuthContextProvider } from './global/utils/AuthContext';
-import OrderManagement from './components/admin/OrderManagement';
-import OrderHistory from './components/user/OrderHistory';
+import {
+  AdminMain,
+  OrderManagement,
+  AdoptionManagement,
+} from './components/admin';
+import {
+  PaymentCheckout,
+  PaymentFail,
+  PaymentSuccess,
+} from './components/payment';
 
 function App() {
   return (
@@ -47,15 +52,15 @@ function App() {
               element={<BoardList />}
             />
             <Route
-              path='/boardRegist'
+              path='/boardregist'
               element={<Board />}
             />
             <Route
-              path='/boardDetail'
+              path='/board/detail/:boardNo'
               element={<BoardDetail />}
             />
             <Route
-              path='/boardupdate'
+              path='/board/modify'
               element={<BoardUpdate />}
             />
             <Route
@@ -67,14 +72,13 @@ function App() {
               element={<Login />}
             />
             <Route
-              path='user/findid'
+              path='/user/findid'
               element={<FindId />}
             />
             <Route
               path='/user/findpassword'
               element={<FindPassword />}
             />
-
             <Route
               path='/'
               element={<MainTemplate />}
@@ -124,14 +128,6 @@ function App() {
               element={<PageNotFound />}
             />
             <Route
-              path='/product'
-              element={<Product />}
-            />
-            <Route
-              path='/product/productdetail'
-              element={<ProductDetail />}
-            />
-            <Route
               path='/adminmain'
               element={<AdminMain />}
             />
@@ -144,16 +140,20 @@ function App() {
               element={<OrderManagement />}
             />
             <Route
-              path='*'
-              element={<PageNotFound />}
-            />
-            <Route
               path='/product'
               element={<Product />}
             />
             <Route
-              path='/product/{}'
-              element={<ProductDetail />}
+              path='/PaymentCheckout'
+              element={<PaymentCheckout />}
+            />
+            <Route
+              path='/fail'
+              element={<PaymentFail />}
+            />
+            <Route
+              path='/succeess'
+              element={<PaymentSuccess />}
             />
           </Routes>
         </div>

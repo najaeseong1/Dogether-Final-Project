@@ -47,7 +47,7 @@ const BoardList = () => {
   );
 
   const boardDetailHandler = (boardNo) => {
-    redirection(`/boardDetail/${boardNo}`);
+    redirection(`/boarddetail/${boardNo}`);
   };
 
   //mui에서 현재 기본 정보를 담고 있는 event 객체를 원함 그래서 인자 두개
@@ -113,7 +113,7 @@ const BoardList = () => {
         </Stack>
       </div>
       <div className='listButtonDiv'>
-        <Link to={'/boardRegist'}>
+        <Link to={'/boardregist'}>
           <button className='listButton'>글쓰기</button>
         </Link>
       </div>
