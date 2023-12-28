@@ -2,6 +2,8 @@
 
 //카트 글씨체
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
+//결제 배송 쪽 글씨체
+@import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap');
 .cartListTemplate {
   font-family: 'Nanum Gothic', sans-serif;
   width: 90%;
@@ -131,6 +133,160 @@
 
     &:hover {
       background-color: #525250;
+    }
+  }
+}
+
+//결제 창쪽
+.orderTemplate {
+  width: 100%;
+  margin-bottom: 20px;
+  font-family: 'Noto Sans KR', sans-serif;
+
+  .deliInfo {
+    font-size: 16px;
+    padding: 10px;
+
+    margin-bottom: 10px;
+  }
+
+  .orderTable {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  textarea {
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  .addrInfo {
+    font-size: 13px;
+  }
+  #name {
+    width: 250px;
+  }
+  #phoneNum {
+    width: 380px;
+  }
+  #postAddr {
+    width: 200px;
+    margin-right: 10px;
+  }
+  .addr {
+    width: 100px;
+  }
+  th,
+  td {
+    border: 1px solid #ddd;
+    padding: 15px;
+    text-align: left;
+  }
+
+  th {
+    background-color: #f2f2f2;
+    text-align: center;
+    font-size: 13px;
+  }
+  li {
+    list-style: none;
+    font-size: 14px;
+    margin: 2px;
+  }
+
+  td {
+    position: relative;
+
+    input[type='text'] {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+      margin-bottom: 8px;
+    }
+
+    button {
+      background-color: #ebbbb4;
+      color: #fff;
+      padding: 10px;
+      border: none;
+      cursor: pointer;
+      border-radius: 2px;
+      margin-top: 10px;
+      font-weight: 800;
+
+      &:hover {
+        background-color: #e5a8a2;
+      }
+    }
+
+    ul {
+      margin: 10px 0;
+      padding-left: 20px;
+      color: #888;
+    }
+
+    textarea {
+      width: 100%;
+      height: 100px;
+      padding: 10px;
+      box-sizing: border-box;
+      margin-top: 10px;
+    }
+  }
+}
+
+.paymentTemplate {
+  width: 100%;
+  font-family: 'Noto Sans KR', sans-serif;
+
+  .paymentTable {
+    width: 100%;
+    border-collapse: collapse;
+
+    td:last-child {
+      width: 20%;
+      height: auto;
+    }
+  }
+
+  #paymentsubtitle {
+    margin-top: 70px;
+  }
+
+  .finalPrice {
+    font-size: 13px;
+    text-align: right;
+    padding-right: 10px;
+    padding-top: 10px;
+  }
+  #paymentPrice {
+    font-size: 30px;
+    padding-right: 10px;
+    text-align: right;
+    font-weight: 800;
+  }
+  #centerPay {
+    text-align: center; /* 추가된 부분 */
+    border-bottom: 1px solid #bcbcbb;
+    padding-bottom: 15px;
+  }
+
+  .orderbutton {
+    width: 200px;
+    margin: 0 auto; /* 수정된 부분 */
+  }
+
+  .pricePoint {
+    text-align: right;
+    padding: 10px;
+
+    div:first-child {
+      border-bottom: 1px solid rgb(145, 141, 141);
+      padding-bottom: 20px;
+      padding-top: 18px;
+      font-size: 15px;
+      text-align: center;
+    }
+    div {
+      font-size: 13px;
+      padding-top: 10px;
     }
   }
 }

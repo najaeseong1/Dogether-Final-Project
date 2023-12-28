@@ -1,9 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import DaumPostcode from 'react-daum-postcode';
 import './cart.scss';
 import Swal from 'sweetalert2';
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [amount, setAmount] = useState(1);
+  const [postNo, setPostNo] = useState(''); //우편번호 (04108)
+  const [postAddr, setPostAddr] = useState(''); //기본주소 (서울 마포구 백범로 23)
+  const [detailAddress, setDetailAddress] = useState(''); //상세주소 (사용자가 직접 입력)
+  const postcodeInputRef = useRef(); //우편번호
+  const addressInputRef = useRef(); //기본 주소
+  const detailAddressInputRef = useRef(); // 상세주소
+  const extraAddressInputRef = useRef(); //첨부주소
+  const [isSameAddress, setIsSameAddress] = useState(''); // 배송지 선택에 따라 창열리기
+
   useEffect(() => {
     // 컴포넌트가 마운트될 때 로컬 스토리지에서 카트 아이템을 가져와 설정
     const storedCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
@@ -11,9 +21,8 @@ const Cart = () => {
   }, []);
 
   const addToCart = (product) => {
-    const updatedCart = [...cartItems, { ...product, amount }]; // amount 추가
+    const updatedCart = [...cartItems, { ...product }]; // amount 추가
     setCartItems(updatedCart);
-    setAmount(amount);
     localStorage.setItem('cartItems', JSON.stringify(updatedCart));
   };
 
@@ -21,7 +30,7 @@ const Cart = () => {
     Swal.fire({
       text: '선택하신 상품을 삭제하시겠습니까?',
       icon: 'warning',
-      showCancelButton: true, // cancel버튼 보이기.
+      showCancelButton: true, // cancel버튼 보이기
       confirmButtonText: '삭제하기', // confirm 버튼 텍스트 지정
       cancelButtonText: '취소', // cancel 버튼 텍스트 지정
     }).then((result) => {
@@ -50,20 +59,72 @@ const Cart = () => {
     });
   };
 
-  const handleQuantityChange = (index, newQuantity) => {
-    const updatedCart = [...cartItems];
-    const product = updatedCart[index];
+  const changeAmountHandler = (newAmount) => {
+    setAmount(newAmount);
+    // 카트 아이템을 순회하면서 수량에 따른 가격을 다시 계산
+    const updatedCart = cartItems.map((item) => {
+      const price = Number(item.price.replace(/[^0-9]/g, '')); // 가격을 숫자로 변환
+      return {
+        ...item,
+        totalPrice: newAmount * price, // 새로운 수량에 따른 가격 계산
+      };
+    });
 
-    // 가격이 문자열로 제공될 경우 숫자로 변환
-    const price = Number(product.price.replace(/[^0-9]/g, ''));
+    setCartItems(updatedCart);
+    localStorage.setItem('cartItems', JSON.stringify(updatedCart));
+    localStorage.setItem('amount', newAmount.toString());
+  };
 
-    // 수량이 1 미만으로 내려가지 않도록 조절
-    if (newQuantity >= 1) {
-      amount = newQuantity;
-      product.totalPrice = price * newQuantity;
-      setCartItems(updatedCart);
-      localStorage.setItem('cartItems', JSON.stringify(updatedCart));
+  const handleOpenAddressModal = () => {
+    // Daum 주소 검색 모달 열기
+    // eslint-disable-next-line no-undef
+    new daum.Postcode({
+      oncomplete: handleComplete,
+    }).open();
+  };
+
+  const handleComplete = (data) => {
+    let addr = '';
+    let extraAddr = '';
+
+    if (data.userSelectedType === 'R') {
+      addr = data.roadAddress;
+    } else {
+      addr = data.jibunAddress;
     }
+
+    if (data.userSelectedType === 'R') {
+      if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+        extraAddr += data.bname;
+      }
+
+      if (data.buildingName !== '' && data.apartment === 'Y') {
+        extraAddr +=
+          extraAddr !== '' ? `, ${data.buildingName}` : data.buildingName;
+      }
+
+      if (extraAddr !== '') {
+        extraAddr = ` (${extraAddr})`;
+        extraAddressInputRef.current.value = extraAddr;
+      } else {
+        extraAddressInputRef.current.value = '';
+      }
+    } else {
+      extraAddressInputRef.current.value = '';
+    }
+
+    postcodeInputRef.current.value = data.zonecode;
+    addressInputRef.current.value = addr;
+    detailAddressInputRef.current.focus();
+  };
+  const onChangePostCode = (e) => {
+    //const currentPostCode = e.target.value;
+    setPostNo(e.target.value);
+  };
+
+  const handleAddressTypeChange = (e) => {
+    console.log(e.target.value);
+    setIsSameAddress(e.target.value);
   };
 
   return (
@@ -97,18 +158,14 @@ const Cart = () => {
                   <td>
                     <button
                       className='amountbutton'
-                      onClick={() =>
-                        handleQuantityChange(index, item.amount - 1)
-                      }
+                      onClick={() => changeAmountHandler(amount - 1)}
                     >
                       -
                     </button>
-                    <span>{item.amount}</span>
+                    <span>{amount}</span>
                     <button
                       className='amountbutton'
-                      onClick={() =>
-                        handleQuantityChange(index, item.amount + 1)
-                      }
+                      onClick={() => changeAmountHandler(amount + 1)}
                     >
                       +
                     </button>
@@ -117,7 +174,7 @@ const Cart = () => {
                   <td>
                     <button
                       className='cartcancle'
-                      onClick={() => removeFromCart(index)}
+                      onClick={() => removeFromCart(item.productId)}
                     >
                       삭제
                     </button>
@@ -157,8 +214,177 @@ const Cart = () => {
                 </tr>
               </tbody>
             </table>
-            <div className='checkoutButton'>
-              <button>결제하기</button>
+            {/* <div className='checkoutButton'>
+              <button>주문하기</button>
+            </div> */}
+          </div>
+          <div className='orderTemplate'>
+            <div className='cart_title'>ORDER</div>
+            <div className='deliInfo'>배송정보</div>
+
+            <table className='orderTable'>
+              <tbody>
+                <tr>
+                  <th scope='row'>이름</th>
+                  <td>
+                    <input
+                      type='text'
+                      id='name'
+                    ></input>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope='row'>연락처</th>
+                  <td>
+                    <input
+                      type='text'
+                      id='phoneNum'
+                    ></input>
+                    <ul>
+                      <li> '-'(하이픈)을 빼고 번호만 입력해주세요.</li>
+                      <li> - 연락처를 통해 주문처리과정을 보내드립니다.</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope='row'>이메일</th>
+                  <td>
+                    <input
+                      type='text'
+                      id='phoneNum'
+                    ></input>
+                    <ul>
+                      <li> - 이메일을 통해 주문처리과정을 보내드립니다.</li>
+                      <li>
+                        - 이메일 주소란에는 반드시 수신가능한 이메일주소를
+                        입력해 주세요.
+                      </li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope='row'>배송지 선택</th>
+                  <td>
+                    <input
+                      type='radio'
+                      id='sameAddr'
+                      name='addrType'
+                      value='sameAddr'
+                      onClick={handleAddressTypeChange}
+                    ></input>
+                    <label
+                      for='sameAddr'
+                      className='addrInfo'
+                    >
+                      주문자 정보와 동일
+                    </label>
+                    <input
+                      type='radio'
+                      id='newAddr'
+                      name='addrType'
+                      value='newAddr'
+                      onClick={handleAddressTypeChange}
+                    ></input>
+                    <label
+                      for='newAddr'
+                      className='addrInfo'
+                    >
+                      새로운 배송지
+                    </label>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope='row'>주소</th>
+                  <td>
+                    <input
+                      type='text'
+                      id='postAddr'
+                      ref={postcodeInputRef}
+                      value={postNo}
+                      onChange={onChangePostCode}
+                    ></input>
+                    {isSameAddress === 'newAddr' && (
+                      <button onClick={handleOpenAddressModal}>우편번호</button>
+                    )}
+                    <br />
+                    <input
+                      type='text'
+                      placeholder='기본주소'
+                      className='addr'
+                      value={postAddr}
+                      ref={addressInputRef}
+                      style={{ width: '700px' }}
+                    ></input>
+                    <br />
+                    {isSameAddress === 'newAddr' && (
+                      <input
+                        type='text'
+                        placeholder='상세주소'
+                        className='addr'
+                        value={detailAddress}
+                        ref={detailAddressInputRef}
+                        style={{ width: '700px' }}
+                      ></input>
+                    )}
+                    <ul>
+                      <li>
+                        - (상세주소(동, 호수)를 제대로 기재하셨나요? 주소가
+                        올바르지 않을 시에는 반송위험이 있습니다. )
+                      </li>
+                    </ul>
+                  </td>
+                  <DaumPostcode
+                    className='daum'
+                    onComplete={handleComplete}
+                    autoClose
+                  />
+                </tr>
+                <tr>
+                  <th scope='row'>배송메시지</th>
+                  <td>
+                    <textarea cols='70' />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div className='paymentTemplate'>
+              <div
+                className='deliInfo'
+                id='paymentsubtitle'
+              >
+                결제수단
+              </div>
+
+              <table className='paymentTable'>
+                <tbody>
+                  <tr>
+                    <td>토스 자리</td>
+                    <td
+                      rowSpan={3}
+                      id='rowspan3'
+                      style={{ padding: '0' }}
+                    >
+                      <div className='finalPrice'> 최종 결제 금액</div>
+                      <div id='paymentPrice'>50800원</div>
+                      <br />
+                      <div
+                        id='centerPay'
+                        style={{ textAlign: 'center' }}
+                      >
+                        <button className='orderbutton'>결제하기</button>
+                      </div>
+                      <div className='pricePoint'>
+                        <div>
+                          총 적립예정금액 : <strong> 470원</strong>
+                        </div>
+                        <div>상품별 적립금 0원</div>
+                        <div>회원 적립금 470원</div>
+                        <div>쿠폰 적립금 0원</div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </>

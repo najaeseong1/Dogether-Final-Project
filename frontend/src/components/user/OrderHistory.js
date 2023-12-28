@@ -84,8 +84,6 @@ const OrderHistory = () => {
       // 만약 Promise리턴을 받으면,
       if (result.isConfirmed) {
         // 만약 모달창에서 결제 취소 버튼을 눌렀다면
-
-        //   Swal.fire('결제취소 완료되었습니다.');
         const Toast = Swal.mixin({
           toast: true,
           position: 'center-center',
