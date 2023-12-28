@@ -7,7 +7,19 @@ import axios from 'axios';
 
 const LikeList = () => {
   // 좋아요 상태 관리
-  const [likedInfo, setLikedInfo] = useState([]);
+  const [likedInfo, setLikedInfo] = useState([
+    {
+      img: 'https://shop.peopet.co.kr/data/goods/370/2023/08/23595_temp_16921616251629view.jpg',
+      id: '1',
+      name: '말티즈',
+      age: '4',
+    },
+    {
+      id: '2',
+      name: '치와와',
+      age: '3',
+    },
+  ]);
 
   // 하트를 눌렀을 때 삭제 되도록
   const handleRemoveLike = (itemId) => {

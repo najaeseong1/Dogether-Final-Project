@@ -6,7 +6,7 @@ const AuthContext = React.createContext({
   isLoggedIn: false, // 로그인 했는지의 여부 추적
   userName: '',
   onLogout: () => {},
-  onLogin: (id, password) => {},
+  onLogin: (userId, userPass) => {},
 });
 
 // 위에서 생성한 Context를 제공할 수 있는 provider

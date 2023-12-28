@@ -126,17 +126,7 @@ const Join = () => {
       setIsUserId(false);
     } else {
       setUserIdMessage('사용 가능한 아이디입니다.');
-
-      // 중복 확인 요청
-      const isDuplicate = await checkDuplicateId(currentId);
-
-      if (isDuplicate) {
-        setUserIdMessage('이미 사용 중인 아이디입니다.');
-        setIsUserId(false);
-      } else {
-        setUserIdMessage('사용 가능한 아이디입니다.');
-        setIsUserId(true);
-      }
+      setIsUserId(true);
     }
   };
 
@@ -231,7 +221,7 @@ const Join = () => {
     setPostNo(e.target.value);
   };
 
-  // 이메일 발송 요청 처리
+  //이메일 발송 요청 처리
   // const onSendVerificationCode = async () => {
   //   try {
   //     // 이메일 주소를 서버에 전송
@@ -245,20 +235,18 @@ const Join = () => {
   //       }),
   //     });
 
-  //     if (response.status === 200) {
-  //       const result = await response.json();
-  //       if (result.success) {
-  //         alert('이메일이 발송되었습니다. 인증번호를 확인하세요.');
-  //       } else {
-  //         alert('이메일 발송에 실패했습니다.');
-  //       }
-  //     } else {
-  //       throw new Error('서버 응답이 실패했습니다.');
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+  // const res = await fetch('http://localhost:8181/user/join', {
+  //   method: 'POST',
+  //   body: JSON.stringify({
+  //     userId: '',
+  //     userPass: '',
+  //     userEmail: '',
+  //     userName: '',
+  //     userPhone: '',
+  //     postNo: '',
+  //     postAddr: '',
+  //   }),
+  // });
 
   //회원가입 요청 처리
   const onSubmit = async () => {
@@ -273,13 +261,13 @@ const Join = () => {
     const res = await fetch('http://localhost:8181/user/join', {
       method: 'POST',
       body: JSON.stringify({
-        userId: '',
-        userPass: '',
-        userEmail: '',
-        userName: '',
-        userPhone: '',
-        postNo: '',
-        postAddr: '',
+        userId,
+        userPass,
+        userEmail,
+        userName,
+        userPhone,
+        postNo,
+        postAddr,
       }),
     });
 

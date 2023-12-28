@@ -15,6 +15,8 @@ const Quiz = () => {
   //점수 가져오기
   const [score, setScore] = useState(0);
 
+  const [nyaHoProgress, setNyaHoProgress] = useState(0);
+
   const questions = [
     {
       text: '강아지가 살기 적합한 공간은?',
@@ -22,7 +24,6 @@ const Quiz = () => {
         { id: 0, text: '답답한 공간', isCorrect: false },
         { id: 1, text: '시끄러운 공간', isCorrect: false },
         { id: 2, text: '자유롭게 움직일 수 있는 공간 ', isCorrect: true },
-        { id: 3, text: '갇힌 공간', isCorrect: false },
       ],
     },
     {
@@ -52,7 +53,6 @@ const Quiz = () => {
         { id: 0, text: '글쎄 ', isCorrect: true },
         { id: 1, text: '걍 귀여움', isCorrect: false },
         { id: 2, text: '뭘까 ', isCorrect: false },
-        { id: 3, text: '이게 답', isCorrect: false },
       ],
     },
     {
@@ -61,7 +61,6 @@ const Quiz = () => {
         { id: 0, text: '글쎄 ', isCorrect: false },
         { id: 1, text: '걍 귀여움', isCorrect: false },
         { id: 2, text: '뭘까 ', isCorrect: false },
-        { id: 3, text: '이게 답', isCorrect: true },
       ],
     },
     {
@@ -70,7 +69,6 @@ const Quiz = () => {
         { id: 0, text: '글쎄 ', isCorrect: false },
         { id: 1, text: '걍 귀여움', isCorrect: false },
         { id: 2, text: '뭘까 ', isCorrect: false },
-        { id: 3, text: '이게 답', isCorrect: true },
       ],
     },
     {
@@ -79,7 +77,6 @@ const Quiz = () => {
         { id: 0, text: '글쎄 ', isCorrect: false },
         { id: 1, text: '걍 귀여움', isCorrect: false },
         { id: 2, text: '뭘까 ', isCorrect: false },
-        { id: 3, text: '이게 답', isCorrect: true },
       ],
     },
   ];
@@ -91,6 +88,7 @@ const Quiz = () => {
     }
     if (question + 1 < questions.length) {
       setQuestion(question + 1);
+      setNyaHoProgress(nyaHoProgress + 20);
     } else {
       setShowResult(true);
     }
@@ -99,13 +97,12 @@ const Quiz = () => {
     setScore(0);
     setQuestion(0);
     setShowResult(false);
+    setNyaHoProgress(0);
   };
 
   return (
     //App
     <div className='quiz'>
-      <h1> 반려퀴즈 </h1>
-
       {showResult ? (
         <div className='result'>
           <h1>최종결과</h1>
@@ -114,9 +111,7 @@ const Quiz = () => {
         </div>
       ) : (
         <div className='quiz-card'>
-          <h2>
-            총 {questions.length}개 질문 중 {question + 1} 번
-          </h2>
+          <h2 className='question-num'>{question + 1} </h2>
           <h3>{questions[question].text} </h3>
 
           <ul>
@@ -131,6 +126,14 @@ const Quiz = () => {
               );
             })}
           </ul>
+          <div className='area-box'>
+            <div className='out-box'>
+              <span
+                className='item-pro'
+                style={{ width: `${nyaHoProgress}%` }}
+              ></span>
+            </div>
+          </div>
         </div>
       )}
     </div>
