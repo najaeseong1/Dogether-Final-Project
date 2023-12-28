@@ -25,6 +25,9 @@ const FindPassword = () => {
   const [email, setEmail] = useState('');
   const [userId, setUserId] = useState('');
 
+  // 이메일 입력하지 않았을 때
+  const [findPWText, setFindPWText] = useState('');
+
   // 비밀번호 변경
   const [userPass, setUserPass] = useState('');
   const [userPassCheck, setUserPassCheck] = useState('');
@@ -79,15 +82,16 @@ const FindPassword = () => {
         setEmail(emailValue);
         setUserId(res.data.userId);
 
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          title: '인증번호가 발송되었습니다.',
-          showConfirmButton: false,
-          timer: 2000,
-        });
+        SuccessAlert2(
+          '인증번호가 발송되었습니다. <br/> 인증번호가 오지 않으면' +
+            ' 입력하신 회원 정보와 일치하는지 확인해주세요 '
+        );
       } catch (error) {
         console.error('백엔드 응답 에러', error);
+        SuccessAlert2(
+          '인증번호가 발송되었습니다. <br/> 인증번호가 오지 않으면' +
+            ' 입력하신 회원 정보와 일치하는지 확인해주세요 '
+        );
       }
     }
   };
@@ -194,7 +198,7 @@ const FindPassword = () => {
               placeholder='새로운 비밀번호를 다시 입력하세요.'
               value={userPassCheck}
               onChange={(e) => setUserPassCheck(e.target.value)}
-            ></input>
+            />
             <p className='changepassowordtext'></p>
             <button
               className='change-btn'

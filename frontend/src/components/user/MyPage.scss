@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&family=Jua&family=Noto+Sans+KR:wght@100&family=Poiret+One&display=swap');
+
 .mypage-fixed {
   background-color: #ffffff;
   display: flex;
@@ -17,6 +19,7 @@
     padding: 0;
     cursor: pointer;
     transition: 0.4s;
+    font-family: 'Noto Sans KR', sans-serif;
 
     &:hover {
       color: white;
@@ -31,10 +34,18 @@
   }
 
   .group {
-    height: 655px;
+    height: 500px;
     left: 90px;
     position: relative;
     width: 300px;
+    border: 1px solid red;
+
+    &.fixed {
+      position: fixed;
+      top: 0;
+      left: 50%; /* Adjust the left value as needed */
+      transform: translateX(-50%);
+    }
   }
 
   .mypage-tap,
@@ -49,6 +60,7 @@
     top: 30px;
     width: 240px;
     left: 0;
+    font-family: 'Noto Sans KR', sans-serif;
   }
 
   .modify-tap {
@@ -69,6 +81,7 @@
     top: 210px;
     width: 240px;
     left: 0;
+    font-family: 'Noto Sans KR', sans-serif;
   }
   .text-wrapper-2 {
     color: #000000;
@@ -79,6 +92,7 @@
     position: absolute;
     top: 300px;
     width: 240px;
+    font-family: 'Noto Sans KR', sans-serif;
   }
 
   .completion-group {
