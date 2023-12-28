@@ -18,6 +18,7 @@ const Product = () => {
   const [scrollOffset, setScrollOffset] = useState(0);
   const [product, setProduct] = useState([]);
   const [cartItems, setCartItems] = useState([]);
+  const [amount, setAmount] = useState(1);
 
   const addToCart = (product) => {
     const Toast = Swal.mixin({

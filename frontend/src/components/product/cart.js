@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import DaumPostcode from 'react-daum-postcode';
 import './cart.scss';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
-  const [amount, setAmount] = useState(1);
   const [postNo, setPostNo] = useState(''); //우편번호 (04108)
   const [postAddr, setPostAddr] = useState(''); //기본주소 (서울 마포구 백범로 23)
   const [detailAddress, setDetailAddress] = useState(''); //상세주소 (사용자가 직접 입력)
@@ -13,17 +13,38 @@ const Cart = () => {
   const detailAddressInputRef = useRef(); // 상세주소
   const extraAddressInputRef = useRef(); //첨부주소
   const [isSameAddress, setIsSameAddress] = useState(''); // 배송지 선택에 따라 창열리기
+  const [quantityMap, setQuantityMap] = useState({});
+  const redirection = useNavigate();
 
   useEffect(() => {
-    // 컴포넌트가 마운트될 때 로컬 스토리지에서 카트 아이템을 가져와 설정
     const storedCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
     setCartItems(storedCartItems);
+
+    // 로컬 스토리지에서 저장된 수량 정보 불러오기
+    const storedQuantityMap =
+      JSON.parse(localStorage.getItem('quantityMap')) || {};
+
+    // 수량 정보를 확인하고 초기화
+    const initializedQuantityMap = {};
+    storedCartItems.forEach((item, index) => {
+      initializedQuantityMap[index] = storedQuantityMap[index] || 1;
+    });
+
+    setQuantityMap(initializedQuantityMap);
   }, []);
 
   const addToCart = (product) => {
-    const updatedCart = [...cartItems, { ...product }]; // amount 추가
+    const updatedCart = [...cartItems, { ...product }];
     setCartItems(updatedCart);
+    // 이미 해당 제품에 대한 수량이 있다면 기존 수량을 사용, 없다면 1로 초기화
+    const newQuantityMap = {
+      ...quantityMap,
+      [cartItems.length]: quantityMap[cartItems.length] || 1,
+    };
+    setQuantityMap(newQuantityMap);
+
     localStorage.setItem('cartItems', JSON.stringify(updatedCart));
+    localStorage.setItem('quantityMap', JSON.stringify(newQuantityMap));
   };
 
   const removeFromCart = (index) => {
@@ -59,20 +80,24 @@ const Cart = () => {
     });
   };
 
-  const changeAmountHandler = (newAmount) => {
-    setAmount(newAmount);
-    // 카트 아이템을 순회하면서 수량에 따른 가격을 다시 계산
-    const updatedCart = cartItems.map((item) => {
-      const price = Number(item.price.replace(/[^0-9]/g, '')); // 가격을 숫자로 변환
-      return {
-        ...item,
-        totalPrice: newAmount * price, // 새로운 수량에 따른 가격 계산
-      };
+  const changeAmountHandler = (newAmount, index) => {
+    const newQuantityMap = { ...quantityMap, [index]: newAmount };
+    setQuantityMap(newQuantityMap);
+
+    const updatedCart = cartItems.map((item, i) => {
+      if (i === index) {
+        const price = Number(item.price.replace(/[^0-9]/g, ''));
+        return {
+          ...item,
+          totalPrice: newAmount * price,
+        };
+      }
+      return item;
     });
 
     setCartItems(updatedCart);
     localStorage.setItem('cartItems', JSON.stringify(updatedCart));
-    localStorage.setItem('amount', newAmount.toString());
+    localStorage.setItem('quantityMap', JSON.stringify(newQuantityMap));
   };
 
   const handleOpenAddressModal = () => {
@@ -126,12 +151,25 @@ const Cart = () => {
     console.log(e.target.value);
     setIsSameAddress(e.target.value);
   };
+  const shoppinghandler = () => {
+    redirection('/product');
+  };
 
   return (
     <div className='cartListTemplate'>
       <div className='cart_title'>SHOPPINNG CART</div>
       {cartItems.length === 0 ? (
-        <p>Your cart is empty.</p>
+        <div>
+          <div className='empty_Class'>
+            <img
+              src='https://pethroom.com/pethroom/images/PR_web_fixed_empty.png'
+              style={{ width: '300px', height: '400px' }}
+            />
+            <div>아직 담은 상품이 없어요.</div>
+            <button onClick={() => shoppinghandler()}>Continue Shopping</button>
+            <spn></spn>
+          </div>
+        </div>
       ) : (
         <>
           <table className='Carthistory_table'>
@@ -158,14 +196,18 @@ const Cart = () => {
                   <td>
                     <button
                       className='amountbutton'
-                      onClick={() => changeAmountHandler(amount - 1)}
+                      onClick={() =>
+                        changeAmountHandler(quantityMap[index] - 1, index)
+                      }
                     >
                       -
                     </button>
-                    <span>{amount}</span>
+                    <span>{quantityMap[index]}</span>
                     <button
                       className='amountbutton'
-                      onClick={() => changeAmountHandler(amount + 1)}
+                      onClick={() =>
+                        changeAmountHandler(quantityMap[index] + 1, index)
+                      }
                     >
                       +
                     </button>
@@ -174,7 +216,7 @@ const Cart = () => {
                   <td>
                     <button
                       className='cartcancle'
-                      onClick={() => removeFromCart(item.productId)}
+                      onClick={() => removeFromCart(index)}
                     >
                       삭제
                     </button>

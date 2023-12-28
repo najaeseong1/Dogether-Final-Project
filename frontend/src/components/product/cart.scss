@@ -290,3 +290,35 @@
     }
   }
 }
+.empty_Class {
+  background-color: #6e6e6d;
+  height: auto;
+  font-weight: 800;
+  text-align: center;
+  padding: 20px;
+
+  div {
+    -webkit-text-stroke: 0.8px #e5a8a2;
+    height: 100px;
+    line-height: 120px;
+    color: #616160;
+    font-size: 30px;
+  }
+  button {
+    border: 2px solid #fff;
+    font-size: 15px;
+    padding: 15px 25px;
+    text-align: center;
+    display: inline-block;
+    background: none;
+    color: #fff;
+    font-family: 'Comfortaa', sans-serif;
+    margin-bottom: 20px;
+
+    &:hover {
+      background-color: #fff;
+      color: #6e6e6d;
+      font-weight: 700;
+    }
+  }
+}
