@@ -179,6 +179,26 @@ public class UserController {
 
     }
 
+    // 카카오 로그인
+    @GetMapping("/kakaologin")
+    public ResponseEntity<?> kakaoLogin(String code) {
+        log.info("/user/kakaologin - GET! -code: {}", code);
+        LoginResponseDTO responseDTO = userService.kakaoService(code);
+        log.info("responseData : {}", responseDTO);
+        return ResponseEntity.ok().body(responseDTO);
+    }
+
+    // 로그아웃 처리
+    @GetMapping("/logout")
+    public ResponseEntity<?> logout(
+            @AuthenticationPrincipal TokenUserInfo userInfo
+    ) {
+        log.info("/api/auth/logout - GET! - user {}", userInfo.getUserId());
+        String result = userService.logout(userInfo);
+
+        return ResponseEntity.ok().body(result);
+    }
+
 
 
 }
