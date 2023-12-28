@@ -1,9 +1,10 @@
 import React, { useContext, useState } from 'react';
 import './Login.scss';
 import { useNavigate } from 'react-router-dom';
-import { KAKAO_AUTH_URL } from '../../global/kakaoAuth.js';
 import AuthContext from '../../global/utils/AuthContext.js';
 import { API_BASE_URL } from '../../global/config/host-config.js';
+import { KAKAO_AUTH_URL } from '../../global/kakaoAuth.js';
+
 import { ErrorAlert, ErrorAlert2 } from '../../global/Alerts.js';
 import { setAppElement } from 'react-modal';
 const Login = () => {

@@ -37,7 +37,7 @@ const Header = () => {
 
   return (
     <>
-      <div className='HeaderContainer1'>
+      <div className="HeaderContainer1">
         <ul>
           {isLoggedIn ? (
             <>
@@ -53,9 +53,9 @@ const Header = () => {
         </ul>
       </div>
       <Link to={'/'}>
-        <div className='Dogether'>Dogether</div>
+        <div className="Dogether">Dogether</div>
       </Link>
-      <div className='HeaderContainer2'>
+      <div className="HeaderContainer2">
         <ul>
           <li>
             <p onClick={() => toLink(`${ADOPT}`)}>입양 게시판</p>
@@ -74,7 +74,7 @@ const Header = () => {
           </li>
         </ul>
       </div>
-      <div className='HeaderContainer3'></div>
+      <div className="HeaderContainer3"></div>
     </>
   );
 };
