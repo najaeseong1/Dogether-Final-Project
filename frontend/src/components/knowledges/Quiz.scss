@@ -1,28 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&family=Jua&family=Noto+Sans+KR:wght@100&family=Poiret+One&display=swap');
 .quiz {
   text-align: center;
 
   .quiz-card {
-    border: 2px solid pink;
+    display: flex;
     border-radius: 16px;
     padding: 16px;
-    width: 500px;
+    width: 400px;
     color: black;
     height: auto;
-    margin: 0 auto;
+    margin-top: 8px;
+    justify-content: center;
+    font-family: 'Noto Sans KR', sans-serif;
+    flex-direction: column;
+    margin: 0 auto; /* 가운데 정렬을 위한 스타일 추가 */
+
+    .question-num {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 18px;
+      background-color: pink;
+      border-radius: 50%;
+      width: 35px;
+      height: 35px;
+      color: white;
+      justify-content: center;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     ul {
       list-style: none;
       padding: 20px;
     }
     li {
-      background-color: white;
-      border-radius: 10px;
-      border: 3px solid pink;
+      background-color: #d6d6d6;
+      border-radius: 30px;
       font-size: 20px;
-      margin-top: 8px;
-      height: 40px;
+      margin-top: 15px;
+      height: 60px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     li:hover {
       background-color: pink;
+      color: white;
+      cursor: pointer;
+    }
+
+    .area-box {
+      margin-top: 36px;
+    }
+
+    .out-box {
+      position: relative;
+      height: 5px;
+      border-radius: 4px;
+      background-color: #d7d7d7;
+    }
+
+    .item-pro {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      top: 0;
+      height: 100%;
+      border-radius: 4px;
+      background-color: #e89b93;
+    }
+    .item-pro::after {
+      display: block;
+      position: absolute;
+      content: '';
+      width: 65px;
+      height: 70px;
+      top: -8px;
+      right: -75px;
+      -webkit-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      background: url(../../../public/img/puppyIcon.png) no-repeat;
+      background-size: 100%;
+      color: pink;
     }
   }
   .result {
