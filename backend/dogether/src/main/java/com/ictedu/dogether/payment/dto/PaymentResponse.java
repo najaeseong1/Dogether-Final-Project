@@ -1,5 +1,6 @@
 package com.ictedu.dogether.payment.dto;
 
+import com.ictedu.dogether.payment.entity.CardInfo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,6 +19,8 @@ public class PaymentResponse {
 
     @JsonProperty("orderName")
     private String orderName;		// 주문 상품 이름
+
+    @JsonProperty("totalAmount")
     private String totalAmount;		// 지불금액
 
     @JsonProperty("method")

@@ -3,6 +3,8 @@ import DaumPostcode from 'react-daum-postcode';
 import './cart.scss';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import PaymentCheckout from '../payment/PaymentCheckout';
+
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [postNo, setPostNo] = useState(''); //우편번호 (04108)
@@ -427,7 +429,9 @@ const Cart = () => {
               <table className='paymentTable'>
                 <tbody>
                   <tr>
-                    <td>토스 자리</td>
+                    <td>
+                      <PaymentCheckout />
+                    </td>
                     <td
                       rowSpan={3}
                       id='rowspan3'
