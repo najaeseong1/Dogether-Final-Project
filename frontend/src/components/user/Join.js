@@ -351,22 +351,22 @@ const Join = () => {
   }, [mustCheckbox, agreeCheckBox]);
 
   return (
-    <div className="joinmain">
-      <div className="joinmsg">회원가입</div>
+    <div className='joinmain'>
+      <div className='joinmsg'>회원가입</div>
 
       {/* <form action="#"> */}
-      <div className="iddiv">
+      <div className='iddiv'>
         <input
-          type="text"
-          id="id"
-          name="id"
+          type='text'
+          id='id'
+          name='id'
           value={userId}
           onChange={onChangeId}
-          placeholder="아이디를 입력하세요."
+          placeholder='아이디를 입력하세요.'
         ></input>
       </div>
 
-      <div className="joogbokid">
+      <div className='joogbokid'>
         <p className={`message ${isUserId ? 'blue-message' : 'red-message'}`}>
           {userIdMessage}
         </p>
@@ -376,33 +376,33 @@ const Join = () => {
           <button>아이디 중복확인</button>
         </div> */}
 
-      <div className="passworddiv">
+      <div className='passworddiv'>
         <input
-          type="password"
-          id="password"
+          type='password'
+          id='password'
           value={userPass}
           onChange={onChangePassword}
-          placeholder="비밀번호를 입력하세요."
+          placeholder='비밀번호를 입력하세요.'
         ></input>
       </div>
 
-      <div className="joogbokpassword">
+      <div className='joogbokpassword'>
         <p className={`message ${isUserPass ? 'blue-message' : 'red-message'}`}>
           {userPassMessage}
         </p>
       </div>
 
-      <div className="passwordcheck">
+      <div className='passwordcheck'>
         <input
-          type="password"
-          placeholder="비밀번호 확인."
-          id="passwordcheck"
+          type='password'
+          placeholder='비밀번호 확인.'
+          id='passwordcheck'
           value={userPassCheck}
           onChange={onChangePasswordCheck}
         ></input>
       </div>
 
-      <div className="joogbokpasswordcheck">
+      <div className='joogbokpasswordcheck'>
         <p
           className={`message ${
             isUserPassCheck ? 'blue-message' : 'red-message'
@@ -412,17 +412,17 @@ const Join = () => {
         </p>
       </div>
 
-      <div className="emailinput">
+      <div className='emailinput'>
         <input
-          type="email"
-          placeholder="이메일을 입력하세요."
-          id="eamil"
+          type='email'
+          placeholder='이메일을 입력하세요.'
+          id='eamil'
           value={userEmail}
           onChange={onChangeEmail}
         ></input>
       </div>
 
-      <div className="joogbokemail">
+      <div className='joogbokemail'>
         <p
           className={`message ${isUserEmail ? 'blue-message' : 'red-message'}`}
         >
@@ -430,15 +430,15 @@ const Join = () => {
         </p>
       </div>
 
-      <div className="emailcheckbtn">
+      <div className='emailcheckbtn'>
         <button>이메일 발송받기</button>
       </div>
 
-      <div className="emailinput2">
+      <div className='emailinput2'>
         <input
-          type="email"
-          placeholder="인증메일을 입력하세요."
-          id="email"
+          type='email'
+          placeholder='인증메일을 입력하세요.'
+          id='email'
           // value={userEmailCheck}
           // onChange={onChangeEmailcheck}
         ></input>
@@ -446,37 +446,37 @@ const Join = () => {
 
       {/* <div className="joogbokemailcheck"><p className={`message ${isEmailCheck ? "blue-message" : "red-message"}`}>{emailCheckMessage}</p></div> */}
 
-      <div className="emailcheckbtn">
+      <div className='emailcheckbtn'>
         <button>이메일 인증확인</button>
       </div>
 
-      <div className="namediv">
+      <div className='namediv'>
         <input
-          type="text"
-          id="nickname"
+          type='text'
+          id='nickname'
           value={userName}
           onChange={onChangeNickName}
-          placeholder="이름을 입력하세요."
+          placeholder='이름을 입력하세요.'
         ></input>
       </div>
 
-      <div className="joogbokname">
+      <div className='joogbokname'>
         <p className={`message ${isUserName ? 'blue-message' : 'red-message'}`}>
           {UserNameMessage}
         </p>
       </div>
 
-      <div className="phonediv">
+      <div className='phonediv'>
         <input
-          type="tel"
-          id="phone"
+          type='tel'
+          id='phone'
           value={userPhone}
           onChange={addHyphen}
-          placeholder="전화번호를 입력하세요."
+          placeholder='전화번호를 입력하세요.'
         ></input>
       </div>
 
-      <div className="joogbokphone">
+      <div className='joogbokphone'>
         <p
           className={`message ${isUserPhone ? 'blue-message' : 'red-message'}`}
         >
@@ -484,14 +484,14 @@ const Join = () => {
         </p>
       </div>
 
-      <div className="feelsudiv2">주소 입력</div>
+      <div className='feelsudiv2'>주소 입력</div>
 
       <div>
-        <div className="postdiv">
+        <div className='postdiv'>
           <input
-            type="text"
-            id="sample6_postcode"
-            placeholder="우편번호"
+            type='text'
+            id='sample6_postcode'
+            placeholder='우편번호'
             ref={postcodeInputRef}
             value={postNo}
             onChange={onChangePostCode}
@@ -499,39 +499,39 @@ const Join = () => {
           />
         </div>
 
-        <div className="postbtn">
+        <div className='postbtn'>
           <input
-            type="button"
+            type='button'
             onClick={handleOpenAddressModal}
-            value="우편번호 찾기"
+            value='우편번호 찾기'
           />
           <br />
         </div>
-        <div className="addrdiv">
+        <div className='addrdiv'>
           <input
-            type="text"
-            id="sample6_address"
-            placeholder="주소"
+            type='text'
+            id='sample6_address'
+            placeholder='주소'
             ref={addressInputRef}
             value={postAddr}
             readOnly
           />
           <br />
         </div>
-        <div className="addrdetaildiv">
+        <div className='addrdetaildiv'>
           <input
-            type="text"
-            id="sample6_detailAddress"
-            placeholder="상세주소"
+            type='text'
+            id='sample6_detailAddress'
+            placeholder='상세주소'
             ref={detailAddressInputRef}
-            // value={detailAddress}
+            value={detailAddress}
           />
         </div>
-        <div className="refaddrdiv">
+        <div className='refaddrdiv'>
           <input
-            type="text"
-            id="sample6_extraAddress"
-            placeholder="참고항목"
+            type='text'
+            id='sample6_extraAddress'
+            placeholder='참고항목'
             ref={extraAddressInputRef}
             value={extraAddress}
             readOnly
@@ -542,52 +542,52 @@ const Join = () => {
         이에 따라 화면이 자동으로 업데이트되도록 하는 것이 좋습니다.
       */}
         <DaumPostcode
-          className="daum"
+          className='daum'
           onComplete={handleComplete}
           autoClose
         />
       </div>
 
-      <div className="feelsudiv3">약관 동의</div>
+      <div className='feelsudiv3'>약관 동의</div>
 
-      <div className="dongebtn">
+      <div className='dongebtn'>
         <input
-          type="checkbox"
+          type='checkbox'
           onChange={handleAllCheck}
           checked={allCheckBox}
         ></input>
         &nbsp;&nbsp;전체동의
       </div>
 
-      <div className="dongetext">
+      <div className='dongetext'>
         [필수] 개인정보 수집 및 이용 약관 <br />
       </div>
 
-      <div className="dongebtn2">
+      <div className='dongebtn2'>
         <input
-          type="checkbox"
+          type='checkbox'
           onChange={handleMustCheck}
           checked={mustCheckbox}
         ></input>
         &nbsp;&nbsp;동의
       </div>
 
-      <div className="dongetext">
+      <div className='dongetext'>
         [선택] 개인정보의 제3자 제공에 관한 사항 <br />
       </div>
 
-      <div className="dongebtn2">
+      <div className='dongebtn2'>
         <input
-          type="checkbox"
+          type='checkbox'
           onChange={handleAgreeCheck}
           checked={agreeCheckBox}
         ></input>
         &nbsp;&nbsp;동의
       </div>
 
-      <div className="lastjoinbtn">
+      <div className='lastjoinbtn'>
         <button
-          type="submit"
+          type='submit'
           disabled={
             isUserPass === true &&
             isUserPassCheck === true &&

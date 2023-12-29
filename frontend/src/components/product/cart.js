@@ -8,6 +8,7 @@ const Cart = () => {
   const [postNo, setPostNo] = useState(''); //우편번호 (04108)
   const [postAddr, setPostAddr] = useState(''); //기본주소 (서울 마포구 백범로 23)
   const [detailAddress, setDetailAddress] = useState(''); //상세주소 (사용자가 직접 입력)
+  const [extraAddress, setExtraAddress] = useState(''); //첨부주소(목동, 청담동)
   const postcodeInputRef = useRef(); //우편번호
   const addressInputRef = useRef(); //기본 주소
   const detailAddressInputRef = useRef(); // 상세주소
@@ -371,6 +372,7 @@ const Cart = () => {
                       ref={postcodeInputRef}
                       value={postNo}
                       onChange={onChangePostCode}
+                      readOnly
                     ></input>
                     {isSameAddress === 'newAddr' && (
                       <button onClick={handleOpenAddressModal}>우편번호</button>
@@ -379,21 +381,34 @@ const Cart = () => {
                     <input
                       type='text'
                       placeholder='기본주소'
-                      className='addr'
+                      className='cartaddr'
                       value={postAddr}
                       ref={addressInputRef}
                       style={{ width: '700px' }}
-                    ></input>
+                      readOnly
+                    />
                     <br />
                     {isSameAddress === 'newAddr' && (
                       <input
                         type='text'
                         placeholder='상세주소'
-                        className='addr'
+                        className='cartaddr'
                         value={detailAddress}
                         ref={detailAddressInputRef}
                         style={{ width: '700px' }}
-                      ></input>
+                      />
+                    )}
+                    <br />
+                    {isSameAddress === 'newAddr' && (
+                      <input
+                        type='text'
+                        className='cartaddr'
+                        placeholder='참고항목'
+                        ref={extraAddressInputRef}
+                        value={extraAddress}
+                        style={{ width: '300px' }}
+                        readOnly
+                      />
                     )}
                     <ul>
                       <li>
