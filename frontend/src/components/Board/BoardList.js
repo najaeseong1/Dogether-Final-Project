@@ -65,8 +65,8 @@ const BoardList = () => {
           onChange={(e) => setSelectedCategory(e.target.value)}
         >
           <option value='all'>전체 카테고리</option>
-          <option value='category'>후기게시판</option>
-          <option value='category1'>자유게시판</option>
+          <option value='후기'>후기게시판</option>
+          <option value='자유'>자유게시판</option>
         </select>
         <input
           type='text'

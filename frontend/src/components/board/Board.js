@@ -2,15 +2,13 @@ import React, { useRef, useState } from 'react';
 import './Board.scss'; // SCSS 파일 import
 import { useNavigate } from 'react-router-dom';
 import { API_BASE_URL, BOARD } from '../../global/config/host-config';
+import Swal from 'sweetalert2';
 
-const API_URL = `${API_BASE_URL}${BOARD}/regist'`;
+const API_URL = `${API_BASE_URL}${BOARD}/regist`;
 
 const Board = () => {
   const redirection = useNavigate();
 
-  const toLink = (loc) => {
-    redirection(loc);
-  };
   const $fileTag = useRef();
   const [imagePreview, setImagePreview] = useState(null); //이미지 프리뷰임
 
@@ -20,10 +18,9 @@ const Board = () => {
   const [content, setContent] = useState('');
   const [file, setFile] = useState(null);
 
-  // 게시물 작성 함수
   const handleSubmit = (e) => {
+    // 비동기 함수로 변경
     e.preventDefault();
-
     if (title.length === 0 || content.length === 0) {
       alert('입력창이 비었습니다.');
       return;
@@ -33,59 +30,87 @@ const Board = () => {
       alert('카테고리를 선택해주세요');
       return;
     }
-    // 여기에서 fetch 보내기
-    const addList = async (title, content, category) => {
-      const create = {
-        title: title,
-        content: content,
-        category: category,
-      };
 
-      const postJsonBlob = new Blob([JSON.stringify(create)], {
-        type: 'application/json',
-      });
+    boardRegist(title, content, category, file);
+  };
 
-      const postFormData = new FormData();
-      postFormData.append('board', postJsonBlob);
-      postFormData.append('ImageFile', $fileTag.current.files[0]);
+  const boardRegist = async (title, content, category, file) => {
+    const formData = new FormData();
 
-      const res = await fetch(API_URL, {
+    // JSON 데이터 추가
+    const jsonData = {
+      title: title,
+      content: content,
+      category: category,
+    };
+
+    formData.append(
+      'board',
+      new Blob([JSON.stringify(jsonData)], { type: 'application/json' })
+    );
+
+    // 이미지 파일 추가
+    if (file) {
+      formData.append('ImageFile', $fileTag.current.files[0]);
+      console.log('file', file);
+    }
+
+    try {
+      const response = await fetch(API_URL, {
         method: 'POST',
-        body: postFormData,
+        body: formData,
         headers: {
-          'Content-Type': 'multipart/form-data',
+          Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
         },
       });
 
-      if (res.status === 200) {
-        alert('게시판 글이 등록되었습니다.');
-        redirection('/board');
-      } else {
-        alert('서버와의 통신이 원활하지 않습니다.');
+      if (!response.ok) {
+        // 서버 응답이 오류인 경우 처리
+        console.error('Server error:', response.status, response.statusText);
+        try {
+          const errorData = await response.json();
+          console.error('Server error data:', errorData);
+          alert('서버 오류: ' + errorData.message);
+        } catch (error) {
+          console.error('Failed to parse error response:', error);
+          alert('서버 오류');
+        }
+        return;
       }
-    };
-    // 작업이 완료되면 입력값 초기화
-    setTitle('');
-    setContent('');
-    setFile(null);
-    setCategory('');
+
+      // 성공적으로 등록된 경우의 처리
+      alert('게시판 글이 등록되었습니다.');
+      // redirection('/board');
+    } catch (error) {
+      // 네트워크 오류 등의 문제 발생 시 처리
+      console.error('Error during data submission:', error);
+      alert('데이터 전송 중 오류가 발생했습니다.');
+    } finally {
+      setTitle('');
+      setContent('');
+      setFile(null);
+      setCategory('');
+    }
   };
 
   //타이틀 핸들러
   const boardTitleHandler = (e) => {
     e.preventDefault();
     setTitle(e.target.value);
+    console.log(title);
   };
 
   //컨텐트 핸들러
   const boardContentHandler = (e) => {
     e.preventDefault();
     setContent(e.target.value);
+    console.log(content);
   };
 
   const boardCategoryHandler = (e) => {
     e.preventDefault();
     setCategory(e.target.value);
+    console.log(category);
   };
 
   // 파일 선택 시 처리 함수
@@ -114,15 +139,29 @@ const Board = () => {
       setImagePreview(reader.result); // 이미지 미리보기
     };
   };
+  const boardListHandler = () => {
+    Swal.fire({
+      title: '글 작성을 취소하시겠습니까?',
+      text: '변경사항이 저장되지 않습니다',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: '확인',
+      cancelButtonText: '취소',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        redirection('/board');
+      }
+    });
+  };
 
   return (
-    <div className="board-container">
-      <div className="boardTitle">게시물 작성</div>
+    <div className='board-container'>
+      <div className='boardTitle'>게시물 작성</div>
       <form onSubmit={handleSubmit}>
         <label>
           제목
           <input
-            type="text"
+            type='text'
             value={title}
             onChange={boardTitleHandler}
           />
@@ -134,15 +173,15 @@ const Board = () => {
             value={category}
             onChange={boardCategoryHandler}
           >
-            <option value="">카테고리 선택</option>
-            <option value="category1">후기 게시판</option>
-            <option value="category2">자유 게시판</option>
+            <option value=''>카테고리 선택</option>
+            <option value='후기'>후기 게시판</option>
+            <option value='자유'>자유 게시판</option>
           </select>
         </label>
         <label>
           파일 첨부
           <input
-            type="file"
+            type='file'
             onChange={handleFileChange}
             ref={$fileTag}
           />
@@ -150,11 +189,11 @@ const Board = () => {
 
         {/* 사용자 이미지 첨부시 보여질 이미지 */}
         {imagePreview && (
-          <div className="image-preview">
+          <div className='image-preview'>
             <img
               src={imagePreview}
-              alt="이미지 미리보기"
-              style={{ width: '550px', height: '400px' }}
+              alt='이미지 미리보기'
+              style={{ width: '580px', height: '430px' }}
             />
           </div>
         )}
@@ -166,17 +205,17 @@ const Board = () => {
           />
         </label>
 
-        <div className="buttoncn">
+        <div className='buttoncn'>
           <button
-            type="submit"
-            className="boardButton"
+            type='submit'
+            className='boardButton'
           >
             작성하기
           </button>
           <button
-            type="button"
-            className="boardButton"
-            onClick={() => toLink('/board')}
+            type='button'
+            className='boardButton'
+            onClick={() => boardListHandler()}
           >
             취소
           </button>
