@@ -3,7 +3,6 @@ import './FindId.scss';
 import { EmailCheck } from '../../global/EmailCheck';
 import { API_BASE_URL, USER } from '../../global/config/host-config';
 import axios from 'axios';
-import Swal from 'sweetalert2';
 import { SuccessAlert2 } from '../../global/Alerts';
 
 const FindId = () => {
