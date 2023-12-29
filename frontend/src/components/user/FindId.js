@@ -3,7 +3,7 @@ import './FindId.scss';
 import { EmailCheck } from '../../global/EmailCheck';
 import { API_BASE_URL, USER } from '../../global/config/host-config';
 import axios from 'axios';
-import Swal from 'sweetalert2';
+import { SuccessAlert2 } from '../../global/Alerts';
 
 const FindId = () => {
   // 인증 번호 발송
@@ -12,6 +12,10 @@ const FindId = () => {
 
   // 아이디 띄워주기
   const [idMessage, setIdMessage] = useState(false);
+
+  // 이메일 입력되지 않았을 때
+  const [findIdText, setFindIdText] = useState('');
+
   //  인증번호 일치하지 않을 때 메시지
   const [notificationMessage, setNotificationMessage] = useState(false);
 
@@ -21,13 +25,13 @@ const FindId = () => {
 
   // 이메일 입력값
   const handlerSendNumber = async () => {
-    const emailInput = document.getElementById('email');
-    const emailValue = emailInput.value;
+    const emailValue = document.getElementById('email').value;
 
     if (!EmailCheck(emailValue)) {
-      alert('이메일을 정확하게 입력해주세요');
+      setFindIdText('이메일을 정확하게 입력하세요');
       return;
     } else {
+      setFindIdText('');
       try {
         const res = await axios.post(`${API_BASE_URL}${USER}/findid`, {
           email: emailValue,
@@ -38,14 +42,15 @@ const FindId = () => {
         setEmail(emailValue);
         setUserId(res.data.userId);
 
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          title: '인증번호가 발송되었습니다.',
-          showConfirmButton: false,
-          timer: 2000,
-        });
+        SuccessAlert2(
+          '인증번호가 발송되었습니다. <br/> 인증번호가 오지 않으면' +
+            ' 입력하신 회원 정보와 일치하는지 확인해주세요 '
+        );
       } catch (error) {
+        SuccessAlert2(
+          '인증번호가 발송되었습니다. <br/>인증번호가 오지 않으면' +
+            ' 입력하신 회원 정보와 일치하는지 확인해주세요 '
+        );
         console.error('백엔드 응답 에러', error);
       }
     }
@@ -80,14 +85,17 @@ const FindId = () => {
             name='email'
             type='email'
             placeholder='이메일을 입력하세요.'
+            onChange={(e) => setUserId(e.target.value)}
           ></input>
-
           <button
             className='send-btn'
             onClick={handlerSendNumber}
           >
             인증번호 발송
           </button>
+          <div className='error-message'>
+            <p>{findIdText}</p>
+          </div>
         </div>
         <div>
           <input

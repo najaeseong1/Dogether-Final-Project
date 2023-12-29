@@ -84,8 +84,6 @@ const OrderHistory = () => {
       // 만약 Promise리턴을 받으면,
       if (result.isConfirmed) {
         // 만약 모달창에서 결제 취소 버튼을 눌렀다면
-
-        //   Swal.fire('결제취소 완료되었습니다.');
         const Toast = Swal.mixin({
           toast: true,
           position: 'center-center',
@@ -116,7 +114,7 @@ const OrderHistory = () => {
             <button className='modify-tap'>
               <Link to='/user/modify'>개인정보변경</Link>
             </button>
-            <button className='text-wrapper-2'>
+            <button className='adoptionstatus'>
               <Link to='/user/adoptionstatus'>입양신청현황</Link>
             </button>
             <button className='like-list-tap'>

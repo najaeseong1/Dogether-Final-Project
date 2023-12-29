@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Quiz.scss';
 import { useNavigate } from 'react-router-dom';
+import { LuDog } from 'react-icons/lu';
 
 const Quiz = () => {
   // 마이페이지에 점수 띄우기
@@ -15,6 +16,10 @@ const Quiz = () => {
   //점수 가져오기
   const [score, setScore] = useState(0);
 
+  const [nyaHoProgress, setNyaHoProgress] = useState(0);
+
+  const [opneModal, setOpenModal] = useState(false);
+
   const questions = [
     {
       text: '강아지가 살기 적합한 공간은?',
@@ -22,7 +27,6 @@ const Quiz = () => {
         { id: 0, text: '답답한 공간', isCorrect: false },
         { id: 1, text: '시끄러운 공간', isCorrect: false },
         { id: 2, text: '자유롭게 움직일 수 있는 공간 ', isCorrect: true },
-        { id: 3, text: '갇힌 공간', isCorrect: false },
       ],
     },
     {
@@ -33,7 +37,6 @@ const Quiz = () => {
           text: '따로 준비해야하는 건 없다',
           isCorrect: false,
         },
-        { id: 1, text: '어떻게든 되겠다는 생각', isCorrect: false },
         {
           id: 2,
           text: '강아지를 자랑하기 위한 인스타 계정',
@@ -52,7 +55,6 @@ const Quiz = () => {
         { id: 0, text: '글쎄 ', isCorrect: true },
         { id: 1, text: '걍 귀여움', isCorrect: false },
         { id: 2, text: '뭘까 ', isCorrect: false },
-        { id: 3, text: '이게 답', isCorrect: false },
       ],
     },
     {
@@ -61,7 +63,6 @@ const Quiz = () => {
         { id: 0, text: '글쎄 ', isCorrect: false },
         { id: 1, text: '걍 귀여움', isCorrect: false },
         { id: 2, text: '뭘까 ', isCorrect: false },
-        { id: 3, text: '이게 답', isCorrect: true },
       ],
     },
     {
@@ -70,7 +71,6 @@ const Quiz = () => {
         { id: 0, text: '글쎄 ', isCorrect: false },
         { id: 1, text: '걍 귀여움', isCorrect: false },
         { id: 2, text: '뭘까 ', isCorrect: false },
-        { id: 3, text: '이게 답', isCorrect: true },
       ],
     },
     {
@@ -79,18 +79,18 @@ const Quiz = () => {
         { id: 0, text: '글쎄 ', isCorrect: false },
         { id: 1, text: '걍 귀여움', isCorrect: false },
         { id: 2, text: '뭘까 ', isCorrect: false },
-        { id: 3, text: '이게 답', isCorrect: true },
       ],
     },
   ];
 
-  // 정답을 클릭했을 때
+  // 사용자가 문제 답을 선택 했을 때
   const optionClicked = (isCorrect) => {
     if (isCorrect) {
       setScore(score + 1);
     }
     if (question + 1 < questions.length) {
       setQuestion(question + 1);
+      setNyaHoProgress(nyaHoProgress + 20);
     } else {
       setShowResult(true);
     }
@@ -99,24 +99,102 @@ const Quiz = () => {
     setScore(0);
     setQuestion(0);
     setShowResult(false);
+    setNyaHoProgress(0);
   };
 
+  // 정답 보기 모달창
+
+  const quizModal = () => {
+    setOpenModal(true);
+  };
+
+  // 정답 보기 모달창 닫기
+  const closeModal = () => {
+    setOpenModal(false);
+  };
+
+  useEffect(() => {
+    setOpenModal(false);
+  }, []);
   return (
     //App
     <div className='quiz'>
-      <h1> 반려퀴즈 </h1>
-
       {showResult ? (
-        <div className='result'>
-          <h1>최종결과</h1>
-          <h2>{score * 20} 점</h2>
-          <button onClick={restart}> 다시하기 </button>
-        </div>
+        <>
+          <div className='result'>
+            <h1>최종결과</h1>
+            <h2>{score * 20} 점</h2>
+          </div>
+          <button
+            className='result-btn'
+            onClick={restart}
+          >
+            다시풀기
+          </button>
+          <button
+            className='isCorrect-btn'
+            onClick={quizModal}
+          >
+            정답보기
+          </button>
+          {opneModal && (
+            <>
+              <div className='background'></div>
+              <div className='modal-group'>
+                <div className='wrap-modal'>
+                  <h2 className='title'>
+                    정답이다
+                    <LuDog className='icon' />
+                  </h2>
+                  <div className='content'>
+                    <p className='check-info'>정답을 확인해보세요</p>
+                    <ul className='answer-list'>
+                      <li className='list-content'>
+                        뭘까
+                        <i>아이콘</i>
+                        <p>내용내용내용이다</p>
+                      </li>
+                      <li className='list-content'>
+                        뭘까
+                        <i>아이콘</i>
+                        <p>내용내용내용이다</p>
+                      </li>
+                      <li className='list-content'>
+                        뭘까
+                        <i>아이콘</i>
+                        <p>내용내용내용이다</p>
+                      </li>
+                      <li className='list-content'>
+                        뭘까
+                        <i>아이콘</i>
+                        <p>내용내용내용이다</p>
+                      </li>
+                      <li className='list-content'>
+                        뭘까
+                        <i>아이콘</i>
+                        <p>내용내용내용이다</p>
+                      </li>
+                      <li className='list-content'>
+                        뭘까
+                        <i>아이콘</i>
+                        <p>내용내용내용이다</p>
+                      </li>
+                    </ul>
+                  </div>
+                  <button
+                    className='close-btn'
+                    onClick={closeModal}
+                  >
+                    X
+                  </button>
+                </div>
+              </div>
+            </>
+          )}
+        </>
       ) : (
         <div className='quiz-card'>
-          <h2>
-            총 {questions.length}개 질문 중 {question + 1} 번
-          </h2>
+          <h2 className='question-num'>{question + 1} </h2>
           <h3>{questions[question].text} </h3>
 
           <ul>
@@ -131,6 +209,14 @@ const Quiz = () => {
               );
             })}
           </ul>
+          <div className='area-box'>
+            <div className='out-box'>
+              <span
+                className='item-pro'
+                style={{ width: `${nyaHoProgress}%` }}
+              ></span>
+            </div>
+          </div>
         </div>
       )}
     </div>

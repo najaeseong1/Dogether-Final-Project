@@ -374,7 +374,7 @@ const Join = () => {
     <div className="joinmain">
       <div className="joinmsg">회원가입</div>
       
-      <div className="feelsudiv">필수 정보 입력</div>
+
    
       {/* <form action="#"> */}
         <div className="iddiv">

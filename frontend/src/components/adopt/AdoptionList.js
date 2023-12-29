@@ -1,21 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import './AdoptionList.scss';
 import { useNavigate } from 'react-router-dom';
-import { IconButton, Link, Pagination, PaginationItem, Stack } from '@mui/material';
+import {
+  IconButton,
+  Link,
+  Pagination,
+  PaginationItem,
+  Stack,
+} from '@mui/material';
 import axios from 'axios';
 import Select from 'react-select';
 import LoadingPink from '../../global/LoadingPink';
 import { ADOPT, API_BASE_URL } from '../../global/config/host-config';
 
 const AdoptionList = () => {
-
   const navigate = useNavigate();
 
   //클릭시 강아지 상세정보 페이지로 이동
   // const goAdoptionListDetail = () => {
   //   navigate(`/adopt/detail/${adoptList.desertionNo}`);
   // }
-  
+
   // const [adoptList, setAdoptList ] = useState([
   //   {
   //     desertionNo: '',
@@ -26,40 +31,37 @@ const AdoptionList = () => {
   //     profileImg:'',
   //   }
   // ]);
-  
- 
 
-   const [uprCd, setUprCd] = useState("ALL");
-   
-   const online = [
-    { value: "ALL", label: "ALL"},
-    { value: "6110000", label: "서울특별시"},
-    { value: "6260000", label: "부산광역시"},
-    { value: "6270000", label: "대구광역시"},
-    { value: "6280000", label: "인천광역시"},
-    { value: "6290000", label: "광주광역시"},
-    { value: "5690000", label: "세종특별자치시"},
-    { value: "6300000", label: "대전광역시"},
-    { value: "6310000", label: "울산광역시"},
-    { value: "6410000", label: "경기도"},
-    { value: "6530000", label: "강원특별자치도"},
-    { value: "6430000", label: "충청북도"}, 
-    { value: "6440000", label: "충청남도"},
-    { value: "6450000", label: "전라북도"},
-    { value: "6460000", label: "전라남도"},
-    { value: "6270000", label: "경상북도"},
-    { value: "6470000", label: "경상남도"},
-    { value: "6500000", label: "제주특별자치도"}
-   ];
+  const [uprCd, setUprCd] = useState('ALL');
 
-   const [selectOnline, setSelectOnline] = useState(online[0]);
-   const [filteredAdoptList, setFilteredAdoptList] = useState([]);
+  const online = [
+    { value: 'ALL', label: 'ALL' },
+    { value: '6110000', label: '서울특별시' },
+    { value: '6260000', label: '부산광역시' },
+    { value: '6270000', label: '대구광역시' },
+    { value: '6280000', label: '인천광역시' },
+    { value: '6290000', label: '광주광역시' },
+    { value: '5690000', label: '세종특별자치시' },
+    { value: '6300000', label: '대전광역시' },
+    { value: '6310000', label: '울산광역시' },
+    { value: '6410000', label: '경기도' },
+    { value: '6530000', label: '강원특별자치도' },
+    { value: '6430000', label: '충청북도' },
+    { value: '6440000', label: '충청남도' },
+    { value: '6450000', label: '전라북도' },
+    { value: '6460000', label: '전라남도' },
+    { value: '6270000', label: '경상북도' },
+    { value: '6470000', label: '경상남도' },
+    { value: '6500000', label: '제주특별자치도' },
+  ];
 
+  const [selectOnline, setSelectOnline] = useState(online[0]);
+  const [filteredAdoptList, setFilteredAdoptList] = useState([]);
 
-   const handleSelectChange = (selectedOption) => {
+  const handleSelectChange = (selectedOption) => {
     setSelectOnline(selectedOption);
     setUprCd(selectedOption.value); // 선택된 값으로 uprCd 업데이트
-    };
+  };
 
     //입양 리스트
    const [adoptList, setAdoptList] = useState([]);
@@ -76,7 +78,9 @@ const AdoptionList = () => {
       .then((data) => {
         // 상세 페이지로 이동하는 로직을 추가
         // const selectedDog = adoptList.find(item => item.desertionNo === desertionNo);
-        navigate(`/adopt/detail/${desertionNo}`, { state: { adoptListDetail: data }});
+        navigate(`/adopt/detail/${desertionNo}`, {
+          state: { adoptListDetail: data },
+        });
         console.log('상세 페이지 데이터:', data);
       })
       .catch((error) => {
@@ -100,7 +104,6 @@ const AdoptionList = () => {
   }, [uprCd]);
 
   useEffect(() => {
-
     // 입양 리스트 '/adopt 요청'
     axios
       .get(`${API_BASE_URL}${ADOPT}`)
@@ -113,26 +116,23 @@ const AdoptionList = () => {
       });
   }, []);
 
-   // 카테고리 선택에 따른 필터링
-   useEffect(() => {
-    if (uprCd && uprCd !== "ALL") {
+  // 카테고리 선택에 따른 필터링
+  useEffect(() => {
+    if (uprCd && uprCd !== 'ALL') {
       const filteredList = adoptList.filter((item) => item.uprCd === uprCd);
       setFilteredAdoptList(filteredList);
     } else {
       // 카테고리가 선택되지 않은 경우 전체 목록 표시
       setFilteredAdoptList(adoptList);
     }
-    }, [uprCd, adoptList]);
+  }, [uprCd, adoptList]);
 
   console.log('입양리스트 : axios 후에', adoptList);
-   
+
   const cutAdoptList = adoptList.slice(0, 12);
 
-  
-
-  
   // 입양 리스트 페이징 설정
-  const totalItems = filteredAdoptList.length;       //adoptList.length;
+  const totalItems = filteredAdoptList.length; //adoptList.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   const handleClick = (page) => {
@@ -163,15 +163,15 @@ const AdoptionList = () => {
         ) : (
           <>
         <form>
-        <label>  
-          <Select 
-          className='category'
-          options={online} 
-          onChange={handleSelectChange} 
-          defaultValue={online[0]}
-          value={selectOnline}
-          />
-          {/* <select  className='category'  >
+          <label>
+            <Select
+              className='category'
+              options={online}
+              onChange={handleSelectChange}
+              defaultValue={online[0]}
+              value={selectOnline}
+            />
+            {/* <select  className='category'  >
             <option >ALL</option>
             <option value='6110000'>서울특별시</option>
             <option value='6260000'>부산광역시</option>
@@ -191,13 +191,16 @@ const AdoptionList = () => {
             <option value='6480000'>경상남도</option>
             <option value='6500000'>제주특별자치도</option>     
           </select> */}
-        </label>
+          </label>
 
-        <label>
-          <input className='searchbar' type='text' placeholder=''></input>
-        </label>
+          <label>
+            <input
+              className='searchbar'
+              type='text'
+              placeholder=''
+            ></input>
+          </label>
         </form>
-
 
         {/* {cutAdoptList.map((adoptList, index) => (
           <div key={index} className={`frame-${index + 1}`} onClick={goAdoptionListDetail}>        
@@ -212,12 +215,19 @@ const AdoptionList = () => {
           
         ))} */}
 
-
         {/* 여기에 폼 코드를 추가하세요 */}
        
         {paginatedData.map((item, index) => (
-          <div key={index} className={`frame-${index + 1}`} onClick={() => goAdoptionListDetail(item.desertionNo)}>
-            <img className={`image-${index + 1}`} src={item.profileImg} alt={`dogImg ${index + 1}`} />
+          <div
+            key={index}
+            className={`frame-${index + 1}`}
+            onClick={() => goAdoptionListDetail(item.desertionNo)}
+          >
+            <img
+              className={`image-${index + 1}`}
+              src={item.profileImg}
+              alt={`dogImg ${index + 1}`}
+            />
             <div className={`frameInfo-${index + 1}`}>
               견종: {item.kindCd} <br />
               성별: {item.gender} <br />
@@ -227,9 +237,7 @@ const AdoptionList = () => {
           </div>
         ))}
 
-
-
-         {/* 현재 페이지에 해당하는 데이터 표시
+        {/* 현재 페이지에 해당하는 데이터 표시
           <ul>
             {paginatedData.map(item => (
               <li key={item.id}>{item.name}</li>
@@ -237,15 +245,15 @@ const AdoptionList = () => {
           </ul> */}
 
         <div className='pageNum'>
-        <Stack spacing={2}>
-            <Pagination            
+          <Stack spacing={2}>
+            <Pagination
               count={totalPages}
               page={currentPage}
               onChange={(event, page) => handleClick(page)}
               showFirstButton //맨 마지막
-              showLastButton  //맨 처음
-              variant='outlined'         
-            />           
+              showLastButton //맨 처음
+              variant='outlined'
+            />
           </Stack>
           </div>
 
@@ -255,8 +263,8 @@ const AdoptionList = () => {
         )}
      
     </div>
-  </div>
-  )
-}
+    </div>
+  );
+};
 
-export default AdoptionList
+export default AdoptionList;

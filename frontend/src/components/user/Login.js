@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
 import './Login.scss';
 import { useNavigate } from 'react-router-dom';
-import { KAKAO_AUTH_URL } from '../../global/kakaoAuth.js';
 import AuthContext from '../../global/utils/AuthContext.js';
 import { API_BASE_URL } from '../../global/config/host-config.js';
+import { KAKAO_AUTH_URL } from '../../global/kakaoAuth.js';
 
 const Login = () => {
   const redirection = useNavigate();
@@ -16,11 +16,12 @@ const Login = () => {
   const [userId, setUserId] = useState('');
   const [userPass, setUserPass] = useState('');
 
+  const [loginText, setLoginText] = useState('');
+
   // 서버에 로그인 요청
   const fetchLogin = async () => {
     const $userId = document.getElementById('id');
     const $userPass = document.getElementById('password');
-
     try {
       const res = await fetch(`${API_BASE_URL}/user/login`, {
         method: 'POST',
@@ -38,24 +39,46 @@ const Login = () => {
         localStorage.setItem('ACCESS_TOKEN', token);
         localStorage.setItem('userId', userId);
         onLogin(token, role);
-
-        redirection('/');
+        if (role === 'ADMIN') {
+          redirection('/adminmain');
+        } else {
+          // 일반 사용자일 경우
+          redirection('/');
+        }
       } else {
         const text = await res.text();
-        alert(text);
-        console.log('로그인 실패');
+        setLoginText(
+          '아이디 또는 비밀번호를 잘못 입력했습니다.\n입력하신 내용을 다시 확인해주세요.'
+        );
+        setUserPass('');
+        console.log('로그인 실패', text);
       }
     } catch (error) {
       console.error('로그인 오류:', error);
     }
   };
+
   // 로그인
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    // 로그인 요청하기
-    fetchLogin();
-    console.log('로그인 요청이 들어옴! ');
+    setLoginText('');
+    if (!userId) {
+      setLoginText('아이디를 입력해주세요');
+      return;
+    } else if (!userPass) {
+      setLoginText('비밀번호를 입력해주세요');
+      return;
+    }
+
+    console.log('userId:', userId, 'userPass:', userPass);
+    try {
+      // 로그인 요청하기
+      await fetchLogin();
+    } catch (error) {
+      console.error('로그인 오류:', error);
+      setLoginText('아이디 또는 비밀번호를 잘못 입력했습니다.');
+    }
   };
 
   return (
@@ -71,6 +94,7 @@ const Login = () => {
             onChange={(e) => setUserId(e.target.value)}
             placeholder='아이디를 입력해주세요'
           />
+
           <br />
           <input
             type='password'
@@ -80,13 +104,15 @@ const Login = () => {
             onChange={(e) => setUserPass(e.target.value)}
             placeholder='비밀번호를 입력해주세요.'
           />
+          <div className='error-message'>
+            <p>{loginText}</p>
+          </div>
           <button
             type='submit'
             className='loginbtn'
           >
             로그인
           </button>
-
           <div className='haha'>
             <img
               className='kakaobtnimg'
@@ -96,14 +122,12 @@ const Login = () => {
                 window.location.href = KAKAO_AUTH_URL;
               }}
             />
-
             <img
               className='naverbtnimg'
               src='/img/naverLoginBtn.png'
               alt='naverlogin'
             />
           </div>
-
           <div className='account'>
             <span
               className='findid'
@@ -129,5 +153,4 @@ const Login = () => {
     </div>
   );
 };
-
 export default Login;

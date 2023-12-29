@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&family=Jua&family=Noto+Sans+KR:wght@100&family=Poiret+One&display=swap');
+
 .mypage-fixed {
   background-color: #ffffff;
   display: flex;
@@ -11,12 +13,13 @@
 
   button {
     border: none;
-    border-radius: 15px;
+
     height: 50px;
     background-color: #fff;
     padding: 0;
     cursor: pointer;
     transition: 0.4s;
+    font-family: 'Noto Sans KR', sans-serif;
 
     &:hover {
       color: white;
@@ -31,15 +34,26 @@
   }
 
   .group {
-    height: 655px;
+    height: 500px;
     left: 90px;
     position: relative;
-    width: 300px;
+    width: 240px;
+    background-color: #fff;
+    box-shadow: 5px 1px 8px 0 rgba(0, 0, 0, 0.06);
+    border-left: 1px solid rgba(0, 0, 0, 0.08);
+    vertical-align: top;
+
+    &.fixed {
+      position: fixed;
+      top: 0;
+      left: 50%; /* Adjust the left value as needed */
+      transform: translateX(-50%);
+    }
   }
 
   .mypage-tap,
   .modify-tap {
-    color: #000000;
+    color: #969696;
     font-family: 'Days One', Helvetica;
     font-size: 25px;
     font-weight: 400px;
@@ -49,6 +63,7 @@
     top: 30px;
     width: 240px;
     left: 0;
+    font-family: 'Noto Sans KR', sans-serif;
   }
 
   .modify-tap {
@@ -60,8 +75,9 @@
     left: 0;
   }
 
-  .like-list-tap {
-    color: #000000;
+  .like-list-tap,
+  .adoptionstatus {
+    color: #969696;
     font-family: 'Days One', Helvetica;
     font-size: 25px;
     font-weight: 400;
@@ -69,16 +85,15 @@
     top: 210px;
     width: 240px;
     left: 0;
+    font-family: 'Noto Sans KR', sans-serif;
   }
-  .text-wrapper-2 {
-    color: #000000;
-    font-family: 'Days One', Helvetica;
-    font-size: 25px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
+
+  .like-list-tap {
+    top: 210px;
+  }
+
+  .adoptionstatus {
     top: 300px;
-    width: 240px;
   }
 
   .completion-group {
@@ -96,7 +111,6 @@
 
     .completion {
       position: relative;
-      color: #000000;
       font-family: 'Courgette', Helvetica;
       font-size: 40px;
       top: 20px;
@@ -124,7 +138,6 @@
 
     .knowledge {
       position: relative;
-      color: #000000;
       font-family: 'Courgette', Helvetica;
       font-size: 40px;
       top: 20px;

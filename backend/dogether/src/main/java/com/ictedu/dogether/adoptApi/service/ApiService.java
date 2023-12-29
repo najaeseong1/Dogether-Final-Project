@@ -220,6 +220,8 @@ public class ApiService {
         //좋아요 누른 그 유저
         User targetUser = getUser(userInfo.getUserId());
 
+
+
         //좋아요 등록하려는 그 분양 게시물 정보
         Adopt adoptBoard = bringAdoptListBoard(desertionNo);
 

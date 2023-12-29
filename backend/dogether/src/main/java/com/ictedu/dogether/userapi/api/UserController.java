@@ -133,8 +133,8 @@ public class UserController {
 
     }
 
-    //개인정보 변경 페이지 요청 (비번 변경, 전화번호, 주소, 결제수단 ->  변경가능)
-    @PostMapping("/modify")
+    //개인정보 변경 페이지에 사용자 데이터 끌고오기 (비번 변경, 전화번호, 주소, 결제수단 ->  변경가능)
+    @GetMapping("/modify")
     public ResponseEntity<?> modifyPage( @AuthenticationPrincipal TokenUserInfo userInfo) {
         log.info("개인정보 변경 페이지 요청 들어옴 ");
 
@@ -153,7 +153,7 @@ public class UserController {
 
 
     //개인정보 변경 수정 요청 들어옴
-    @PatchMapping("/modify")
+    @PostMapping("/modify")
     public ResponseEntity<?> updateUserInfo(
             @AuthenticationPrincipal TokenUserInfo userInfo,
             UserUpdateRequestDTO dto,
@@ -177,6 +177,26 @@ public class UserController {
                     .body(e.getMessage());
         }
 
+    }
+
+    // 카카오 로그인
+    @GetMapping("/kakaologin")
+    public ResponseEntity<?> kakaoLogin(String code) {
+        log.info("/user/kakaologin - GET! -code: {}", code);
+        LoginResponseDTO responseDTO = userService.kakaoService(code);
+        log.info("responseData : {}", responseDTO);
+        return ResponseEntity.ok().body(responseDTO);
+    }
+
+    // 로그아웃 처리
+    @GetMapping("/logout")
+    public ResponseEntity<?> logout(
+            @AuthenticationPrincipal TokenUserInfo userInfo
+    ) {
+        log.info("/api/auth/logout - GET! - user {}", userInfo.getUserId());
+        String result = userService.logout(userInfo);
+
+        return ResponseEntity.ok().body(result);
     }
 
 

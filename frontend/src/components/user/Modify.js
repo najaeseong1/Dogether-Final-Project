@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './Modify.scss';
 import axios from 'axios';
-import { API_BASE_URL } from '../../global/config/host-config';
+import DaumPostcode from 'react-daum-postcode';
+import { API_BASE_URL, USER } from '../../global/config/host-config';
+
+import Swal from 'sweetalert2';
 
 const Modify = () => {
+  const redirection = useNavigate();
+
   // 기본 정보 상태
   const [userId, setUserId] = useState('');
   const [userName, setUserName] = useState('');
@@ -16,6 +21,43 @@ const Modify = () => {
   const [postNo, setPostNo] = useState('');
   const [postAddr, setPostAddr] = useState('');
 
+  // 정보 수정
+  const postcodeInputRef = useRef(); //우편번호
+  const addressInputRef = useRef(); //기본 주소
+  const detailAddressInputRef = useRef(); // 상세주소
+  const extraAddressInputRef = useRef(); //첨부주소
+
+  // 비밀번호 유효성 검사
+  const [isPasswordValid, setIsPasswordValid] = useState(true);
+  const [isUserPass, setIsUserPass] = useState(false);
+  const validatePassword = (password) => {
+    const passwordRegExp =
+      /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+    return passwordRegExp.test(password);
+  };
+
+  // 비밀번호 확인  일치하는지
+  const isPasswordConfirmed = userPass === checkUserPass;
+  // 비밀번호 유효성 검사
+
+  const [userPassMessage, setUserPassMessage] = useState('');
+
+  const handleUserPassChange = (e) => {
+    const newPassword = e.target.value;
+    const isValidPassword = validatePassword(newPassword);
+
+    setUserPass(newPassword);
+
+    if (!isValidPassword) {
+      setUserPassMessage(
+        '숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!'
+      );
+    } else {
+      setUserPassMessage('');
+    }
+    setIsUserPass(isValidPassword);
+  };
+
   // 페이지 로드 시 사용자 정보 불러오기
   useEffect(() => {
     fetchUserInfo();
@@ -24,16 +66,15 @@ const Modify = () => {
   // 사용자 정보 불러오기
   const fetchUserInfo = async () => {
     try {
-      const res = await axios.post(
-        `${API_BASE_URL}/user/modify`,
-        {},
+      const res = await axios.get(
+        `${API_BASE_URL}${USER}/modify`,
+
         {
           headers: {
             Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
           },
         }
       );
-      console.log('User Info:', res.data);
       const { userId, userName, userPhone, postNo, postAddr } = res.data;
       setUserId(userId);
       setUserName(userName);
@@ -45,23 +86,33 @@ const Modify = () => {
     }
   };
 
-  // 비밀번호 변경 핸들러
-  const handleChangePassword = async (e) => {
+  // 개인정보 변경 핸들러
+  const handleChangeUserInfo = async (e) => {
     e.preventDefault();
+    console.log('수정요청들어옴!');
 
-    if (userPass !== checkUserPass) {
-      alert('비밀번호가 일치하지 않습니다.');
+    // 만약 "주소찾기" 버튼을 클릭했을 경우에는 추가 처리 없이 종료
+    if (e.target.className.includes('address-btn')) {
       return;
     }
 
+    if (!validatePassword(userPass) || !isPasswordConfirmed) {
+      Swal.fire({
+        icon: 'error',
+        text: '비밀번호를 올바르게 입력해주세요',
+      });
+      return;
+    }
+    const formData = new FormData();
+    formData.append('userPass', userPass);
+    formData.append('userPhone', userPhone);
+    formData.append('postAddr', postAddr);
+    formData.append('postNo', postNo);
+
     try {
-      const res = await axios.patch(
-        `${API_BASE_URL}/user/modify`,
-        {
-          password: userPass,
-          userPhone: userPhone,
-          postAddr: postAddr || '',
-        },
+      const res = await axios.post(
+        `${API_BASE_URL}${USER}/modifypass`,
+        formData,
         {
           headers: {
             Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
@@ -69,38 +120,88 @@ const Modify = () => {
         }
       );
 
-      console.log('Password changed successfully:', res.data);
-      if (res.data.code === 'success') {
-        alert('비밀번호가 변경되었습니다.');
-      } else {
-        alert('비밀번호 변경에 실패했습니다.');
-      }
-    } catch (error) {
-      console.error('Error while changing password:', error);
-    }
-  };
-
-  // 개인정보 수정 핸들러
-  /* const handleModify = async (e) => {
-    e.preventDefault();
-
-    try {
-      const res = await axios.patch(`${API_BASE_URL}/user/modify`, {
-        password: '1010101010!!',
-        phone: userPhone,
-        post_addr: postAddr,
-      });
+      console.log('넘어온 데이터 ', res.data);
 
       if (res.status === 200) {
-        alert('개인정보가 성공적으로 수정되었습니다.');
-      } else {
-        alert('개인정보 수정에 실패했습니다.');
+        console.log('사용자 정보가 성공적으로 업데이트되었습니다:', res.data);
       }
     } catch (error) {
-      console.error('Error while modifying user info:', error);
+      console.error(
+        '사용자 정보를 업데이트하는 중에 오류가 발생했습니다:',
+        error
+      );
     }
+
+    let timerInterval;
+    Swal.fire({
+      title: '변경되었습니다. <b></b>',
+      html: '로그인을 다시 해주세요 ',
+      timer: 2000,
+      timerProgressBar: true,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+      willClose: () => {
+        clearInterval(timerInterval);
+      },
+    }).then((result) => {
+      if (result.dismiss === Swal.DismissReason.timer) {
+        console.log('I was closed by the timer');
+      }
+    });
+    redirection(`${USER}/login`);
   };
-  */
+
+  // 주소 변경
+  const handleOpenAddressModal = (e) => {
+    e.preventDefault();
+    console.log('주소찾기 요청들어옴');
+    // Daum 주소 검색 모달 열기
+    // eslint-disable-next-line no-undef
+    new daum.Postcode({
+      oncomplete: handleComplete,
+    }).open();
+  };
+
+  const handleComplete = (data) => {
+    let addr = '';
+    let extraAddr = '';
+
+    if (data.userSelectedType === 'R') {
+      addr = data.roadAddress;
+    } else {
+      addr = data.jibunAddress;
+    }
+
+    if (data.userSelectedType === 'R') {
+      if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+        extraAddr += data.bname;
+      }
+
+      if (data.buildingName !== '' && data.apartment === 'Y') {
+        extraAddr +=
+          extraAddr !== '' ? `, ${data.buildingName}` : data.buildingName;
+      }
+
+      if (extraAddr !== '') {
+        extraAddr = ` (${extraAddr})`;
+        extraAddressInputRef.current.value = extraAddr;
+      } else {
+        extraAddressInputRef.current.value = '';
+      }
+    } else {
+      extraAddressInputRef.current.value = '';
+    }
+
+    console.log('Selected Postcode:', data);
+    console.log('Selected zonecode:', data.zonecode);
+    console.log('Selected Address:', addr);
+
+    setPostNo(data.zonecode);
+    setPostAddr(addr);
+
+    detailAddressInputRef.current.focus();
+  };
 
   return (
     <>
@@ -113,7 +214,7 @@ const Modify = () => {
             <button className='modify-tap'>
               <Link to='/user/modify'>개인정보변경</Link>
             </button>
-            <button className='text-wrapper-2'>
+            <button className='adoptionstatus'>
               <Link to='/user/adoptionstatus'>입양신청현황</Link>
             </button>
             <button className='like-list-tap'>
@@ -129,89 +230,128 @@ const Modify = () => {
         <span className='text'> 개인정보변경</span>
       </div>
       <div className='joinform-box'>
-        <form className='joinForm'>
-          <div class='textFormf'>
+        <form
+          name='user'
+          className='joinForm'
+        >
+          <div className='textFormf'>
             <input
               name='userId'
               type='text'
-              class='id'
+              className='id'
               placeholder={userId}
               readOnly
             ></input>
           </div>
-          <div class='textForm'>
+          <div className={`textForm ${isPasswordValid ? '' : 'input-error'}`}>
             <input
               name='userPass'
               type='password'
-              class='pw'
+              className='pw'
               value={userPass}
-              onChange={(e) => setUserPass(e.target.value)}
+              onChange={handleUserPassChange}
               placeholder='비밀번호'
             />
+            <span className='error-message'> {userPassMessage}</span>
           </div>
-          <div class='textForm'>
+          <div className='textForm'>
             <input
               name='userPass'
               type='password'
-              class='pwcheck'
+              className='pwcheck'
               value={checkUserPass}
-              onChange={(e) => setCheckUserPass(e.target.value)}
+              onChange={(e) => {
+                setCheckUserPass(e.target.value);
+              }}
               placeholder='비밀번호 확인'
             />
           </div>
-          <div class='textFormf '>
+          <div className='textFormf '>
             <input
               name='userName'
               type='text'
-              class='name'
+              className='name'
               placeholder={userName}
               readOnly
             />
           </div>
-          <div class='textForm'>
+          <div className='textForm'>
             <input
               name='userPhone'
               type='text'
-              class='phone-num'
+              className='phone-num'
               value={userPhone}
-              onChange={(e) => setUserPhone(e.target.value)}
+              onChange={(e) => {
+                setUserPhone(e.target.value);
+              }}
               placeholder='핸드폰번호'
             />
           </div>
-          <div class='textForm'>
+          <div className='postTextForm'>
             <input
-              name='postNo '
+              name='postNo'
               type='text'
-              class='address'
+              className='address'
               value={postNo}
-              onChange={(e) => setPostNo(e.target.value)}
-              placeholder='우편주소'
+              ref={postcodeInputRef}
+              onChange={(e) => {
+                setPostNo(e.target.value);
+              }}
+              placeholder='우편번호'
             />
+            <button
+              className='address-btn'
+              onClick={handleOpenAddressModal}
+            >
+              주소찾기
+            </button>
           </div>
-          <div class='textForm'>
+
+          <div className='textForm'>
             <input
               name='postAddr'
               type='text'
-              class='address'
+              className='address'
               value={postAddr}
-              onChange={(e) => setPostAddr(e.target.value)}
+              ref={addressInputRef}
+              onChange={(e) => {
+                setPostAddr(e.target.value);
+              }}
               placeholder='주소'
             />
           </div>
-          <div class='textForm'>
-            <input
-              name='payment'
-              type='text'
-              class='payment '
-              placeholder='결제수단등록'
-            />
-            <input placeholder='카카오뱅크 1234 **** **** ****' />
+          <div className='addr'>
+            <div className='addr1'>
+              <input
+                name='postAddr'
+                type='text'
+                className='address'
+                ref={detailAddressInputRef}
+                placeholder='상세주소(동, 호수)'
+              />
+            </div>
+            <div className='addr2'>
+              <input
+                name='postAddr'
+                type='text'
+                className='address'
+                ref={extraAddressInputRef}
+                placeholder='참고항목'
+              />
+            </div>
           </div>
+
+          <DaumPostcode
+            className='daum'
+            onComplete={handleComplete}
+            autoClose
+          />
+
           <input
-            onClick={handleChangePassword}
             type='submit'
-            class='btn'
+            className='btn'
             value='수정'
+            onClick={handleChangeUserInfo}
           />
         </form>
       </div>
