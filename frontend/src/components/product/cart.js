@@ -20,18 +20,35 @@ const Cart = () => {
     const storedCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
     setCartItems(storedCartItems);
 
-    // 로컬 스토리지에서 저장된 수량 정보 불러오기
     const storedQuantityMap =
       JSON.parse(localStorage.getItem('quantityMap')) || {};
-
-    // 수량 정보를 확인하고 초기화
     const initializedQuantityMap = {};
+    let totalPrice = 0;
+
     storedCartItems.forEach((item, index) => {
       initializedQuantityMap[index] = storedQuantityMap[index] || 1;
+
+      // 총 상품 가격 계산
+      const price = Number(item.price.replace(/[^0-9]/g, ''));
+      totalPrice += initializedQuantityMap[index] * price;
     });
 
     setQuantityMap(initializedQuantityMap);
-  }, []);
+
+    // 총 상품 가격을 업데이트
+    const updatedCartWithPrice = storedCartItems.map((item, index) => {
+      const price = Number(item.price.replace(/[^0-9]/g, ''));
+      return {
+        ...item,
+        totalPrice: initializedQuantityMap[index] * price,
+      };
+    });
+
+    setCartItems(updatedCartWithPrice);
+
+    localStorage.setItem('cartItems', JSON.stringify(updatedCartWithPrice));
+    localStorage.setItem('quantityMap', JSON.stringify(initializedQuantityMap));
+  }, []); // 빈 배열은 컴포넌트가 마운트될 때 한 번만 실행
 
   const addToCart = (product) => {
     const updatedCart = [...cartItems, { ...product }];
@@ -51,16 +68,29 @@ const Cart = () => {
     Swal.fire({
       text: '선택하신 상품을 삭제하시겠습니까?',
       icon: 'warning',
-      showCancelButton: true, // cancel버튼 보이기
-      confirmButtonText: '삭제하기', // confirm 버튼 텍스트 지정
-      cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+      showCancelButton: true,
+      confirmButtonText: '삭제하기',
+      cancelButtonText: '취소',
     }).then((result) => {
       if (result.isConfirmed) {
         // 만약 모달창에서 confirm 버튼을 눌렀다면
-        const updatedCart = [...cartItems];
-        updatedCart.splice(index, 1);
+        const updatedCart = cartItems.filter((item, i) => i !== index);
+        const updatedQuantityMap = {};
+        // 삭제한 상품 이후의 상품만 수량 업데이트
+        updatedCart.forEach((item, i) => {
+          if (i >= index) {
+            // 삭제한 상품 이후의 상품에 대해서만 수량을 업데이트
+            updatedQuantityMap[i] = quantityMap[i + 1];
+          } else {
+            updatedQuantityMap[i] = quantityMap[i];
+          }
+        });
+
         setCartItems(updatedCart);
+        setQuantityMap(updatedQuantityMap);
+
         localStorage.setItem('cartItems', JSON.stringify(updatedCart));
+        localStorage.setItem('quantityMap', JSON.stringify(updatedQuantityMap));
 
         const Toast = Swal.mixin({
           toast: true,
@@ -256,9 +286,6 @@ const Cart = () => {
                 </tr>
               </tbody>
             </table>
-            {/* <div className='checkoutButton'>
-              <button>주문하기</button>
-            </div> */}
           </div>
           <div className='orderTemplate'>
             <div className='cart_title'>ORDER</div>
