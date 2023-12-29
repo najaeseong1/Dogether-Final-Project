@@ -98,7 +98,7 @@ public class UserService {
         log.info("encoded-{}", encoded);
         findUser.setUserPass(encoded); // 비번 변경
         findUser.setPostAddr(dto.getPostAddr());
-
+        findUser.setPostNo(dto.getPostNo());
         log.info("finduser정보 -{}", findUser);
         User saveInfo = userRepository.save(findUser);
 
