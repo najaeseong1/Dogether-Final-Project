@@ -55,7 +55,7 @@ const MyPage = () => {
           <button className='modify-tap'>
             <Link to='/user/modify'>개인정보변경</Link>
           </button>
-          <button className='text-wrapper-2'>
+          <button className='adoptionstatus'>
             <Link to='/user/adoptionstatus'>입양신청현황</Link>
           </button>
           <button className='like-list-tap'>

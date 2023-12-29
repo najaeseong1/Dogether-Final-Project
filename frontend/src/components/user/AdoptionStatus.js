@@ -41,7 +41,7 @@ const AdoptionStatus = () => {
           <button className='modify-tap'>
             <Link to='/user/modify'>개인정보변경</Link>
           </button>
-          <button className='text-wrapper-2'>
+          <button className='adoptionstatus'>
             <Link to='/user/adoptionstatus'>입양신청현황</Link>
           </button>
           <button className='like-list-tap'>
@@ -58,10 +58,10 @@ const AdoptionStatus = () => {
               src={AdoptionStatuslist.profile_img}
               alt='강아지 사진'
             />
-            <p>이름: {AdoptionStatuslist.name} </p>
-            <p>나이: {AdoptionStatuslist.age} </p>
-            <p>성별: {AdoptionStatuslist.gender} </p>
-            <p>견종: {AdoptionStatuslist.neuter_yn} </p>
+            <p className='dog-profil'>이름: {AdoptionStatuslist.name} </p>
+            <p className='dog-profil'>나이: {AdoptionStatuslist.age} </p>
+            <p className='dog-profil'>성별: {AdoptionStatuslist.gender} </p>
+            <p className='dog-profil'> 견종: {AdoptionStatuslist.neuter_yn} </p>
             <button onClick={handleShowModal}>결과확인</button>
           </div>
         </div>

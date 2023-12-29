@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Quiz.scss';
 import { useNavigate } from 'react-router-dom';
+import { LuDog } from 'react-icons/lu';
 
 const Quiz = () => {
   // 마이페이지에 점수 띄우기
@@ -16,6 +17,8 @@ const Quiz = () => {
   const [score, setScore] = useState(0);
 
   const [nyaHoProgress, setNyaHoProgress] = useState(0);
+
+  const [opneModal, setOpenModal] = useState(false);
 
   const questions = [
     {
@@ -34,7 +37,6 @@ const Quiz = () => {
           text: '따로 준비해야하는 건 없다',
           isCorrect: false,
         },
-        { id: 1, text: '어떻게든 되겠다는 생각', isCorrect: false },
         {
           id: 2,
           text: '강아지를 자랑하기 위한 인스타 계정',
@@ -81,7 +83,7 @@ const Quiz = () => {
     },
   ];
 
-  // 정답을 클릭했을 때
+  // 사용자가 문제 답을 선택 했을 때
   const optionClicked = (isCorrect) => {
     if (isCorrect) {
       setScore(score + 1);
@@ -100,15 +102,96 @@ const Quiz = () => {
     setNyaHoProgress(0);
   };
 
+  // 정답 보기 모달창
+
+  const quizModal = () => {
+    setOpenModal(true);
+  };
+
+  // 정답 보기 모달창 닫기
+  const closeModal = () => {
+    setOpenModal(false);
+  };
+
+  useEffect(() => {
+    setOpenModal(false);
+  }, []);
   return (
     //App
     <div className='quiz'>
       {showResult ? (
-        <div className='result'>
-          <h1>최종결과</h1>
-          <h2>{score * 20} 점</h2>
-          <button onClick={restart}> 다시하기 </button>
-        </div>
+        <>
+          <div className='result'>
+            <h1>최종결과</h1>
+            <h2>{score * 20} 점</h2>
+          </div>
+          <button
+            className='result-btn'
+            onClick={restart}
+          >
+            다시풀기
+          </button>
+          <button
+            className='isCorrect-btn'
+            onClick={quizModal}
+          >
+            정답보기
+          </button>
+          {opneModal && (
+            <>
+              <div className='background'></div>
+              <div className='modal-group'>
+                <div className='wrap-modal'>
+                  <h2 className='title'>
+                    정답이다
+                    <LuDog className='icon' />
+                  </h2>
+                  <div className='content'>
+                    <p className='check-info'>정답을 확인해보세요</p>
+                    <ul className='answer-list'>
+                      <li className='list-content'>
+                        뭘까
+                        <i>아이콘</i>
+                        <p>내용내용내용이다</p>
+                      </li>
+                      <li className='list-content'>
+                        뭘까
+                        <i>아이콘</i>
+                        <p>내용내용내용이다</p>
+                      </li>
+                      <li className='list-content'>
+                        뭘까
+                        <i>아이콘</i>
+                        <p>내용내용내용이다</p>
+                      </li>
+                      <li className='list-content'>
+                        뭘까
+                        <i>아이콘</i>
+                        <p>내용내용내용이다</p>
+                      </li>
+                      <li className='list-content'>
+                        뭘까
+                        <i>아이콘</i>
+                        <p>내용내용내용이다</p>
+                      </li>
+                      <li className='list-content'>
+                        뭘까
+                        <i>아이콘</i>
+                        <p>내용내용내용이다</p>
+                      </li>
+                    </ul>
+                  </div>
+                  <button
+                    className='close-btn'
+                    onClick={closeModal}
+                  >
+                    X
+                  </button>
+                </div>
+              </div>
+            </>
+          )}
+        </>
       ) : (
         <div className='quiz-card'>
           <h2 className='question-num'>{question + 1} </h2>

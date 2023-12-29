@@ -5,8 +5,6 @@ import AuthContext from '../../global/utils/AuthContext.js';
 import { API_BASE_URL } from '../../global/config/host-config.js';
 import { KAKAO_AUTH_URL } from '../../global/kakaoAuth.js';
 
-import { ErrorAlert, ErrorAlert2 } from '../../global/Alerts.js';
-import { setAppElement } from 'react-modal';
 const Login = () => {
   const redirection = useNavigate();
   const { onLogin } = useContext(AuthContext);
@@ -41,9 +39,18 @@ const Login = () => {
 
         localStorage.setItem('ACCESS_TOKEN', token);
         onLogin(token, role);
-        redirection('/');
+        if (role === 'ADMIN') {
+          redirection('/adminmain');
+        } else {
+          // 일반 사용자일 경우
+          redirection('/');
+        }
       } else {
         const text = await res.text();
+        setLoginText(
+          '아이디 또는 비밀번호를 잘못 입력했습니다.\n입력하신 내용을 다시 확인해주세요.'
+        );
+        setUserPass('');
         console.log('로그인 실패', text);
       }
     } catch (error) {
@@ -68,9 +75,9 @@ const Login = () => {
     try {
       // 로그인 요청하기
       await fetchLogin();
-      console.log('로그인 요청이 들어옴! ');
     } catch (error) {
       console.error('로그인 오류:', error);
+      setLoginText('아이디 또는 비밀번호를 잘못 입력했습니다.');
     }
   };
 
