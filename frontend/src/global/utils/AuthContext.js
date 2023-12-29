@@ -18,6 +18,7 @@ export const AuthContextProvider = (props) => {
   const [userName, setUserName] = useState(
     localStorage.getItem('LOGIN_USERNAME')
   );
+  const [role, setRole] = useState(localStorage.getItem('USER_ROLE'));
   const [token, setToken] = useState(localStorage.getItem('ACCESS_TOKEN'));
   const [loading, setLoading] = useState(true);
 
@@ -75,10 +76,16 @@ export const AuthContextProvider = (props) => {
     localStorage.setItem('ACCESS_TOKEN', token);
     localStorage.setItem('LOGIN_USERNAME', userName);
     localStorage.setItem('USER_ROLE', role);
+
     setIsLoggedIn(true);
     setUserName(userName);
+    setRole(role);
+    console.log(role);
   };
 
+  // 관리자 여부 확인
+  const isAdminFlag = () => role === 'ADMIN';
+  console.log('role: ', role);
   // 카카오 로그인 핸들러
   // const kakaoLogin = (token, userEmail, role) => {
   //   localStorage.setItem('isLoggedIn', '1');
@@ -94,6 +101,7 @@ export const AuthContextProvider = (props) => {
   // };
 
   console.log('AuthContext의 마지막 부분');
+  console.log('isAdminFlag: ', isAdminFlag());
 
   return (
     <AuthContext.Provider
@@ -101,6 +109,7 @@ export const AuthContextProvider = (props) => {
         isLoggedIn,
         userName,
         loading,
+        isAdmin: isAdminFlag(),
         onLogout: logoutHandler,
         onLogin: loginHandler,
       }}
