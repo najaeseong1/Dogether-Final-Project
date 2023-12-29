@@ -21,3 +21,4 @@ export const REPLY = '/reply';
 export const KNOWLEDGES = '/knowledges';
 export const PRODUCT = '/product';
 export const ADMIN = '/admin';
+export const PAYMENT = '/payment';

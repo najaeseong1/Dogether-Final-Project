@@ -149,15 +149,15 @@ function App() {
               element={<Product />}
             />
             <Route
-              path='/PaymentCheckout'
+              path='/paymentcheckout'
               element={<PaymentCheckout />}
             />
             <Route
-              path='/fail'
+              path='/paymentfail'
               element={<PaymentFail />}
             />
             <Route
-              path='/succeess'
+              path='/paymentsuccess'
               element={<PaymentSuccess />}
             />
           </Routes>

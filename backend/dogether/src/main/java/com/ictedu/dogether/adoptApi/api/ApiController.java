@@ -24,7 +24,7 @@ public class ApiController {
     private  final ApiService apiService;
 
     //api 통한 강아지 목록 불러오기
-    @GetMapping
+    @GetMapping()
     public ResponseEntity<?> getAdoptList() {
         try {
             AdoptListResponseDTO adoptList = apiService.getAdoptList();

@@ -8,14 +8,14 @@ const selector = '#payment-widget';
 // TODO: customerKey는 구매자와 1:1 관계로 무작위한 고유값을 생성하세요.
 // @docs https://docs.tosspayments.com/reference/widget-sdk#sdk-설치-및-초기화
 const clientKey = process.env.REACT_APP_PAYMENTS_CLIENT_KEY;
-const customerKey = nanoid(); // 여기에 고객 키 값이 들어와야 함
+const customerKey = nanoid(); // 주문 번호
 console.log(customerKey);
 
 function PaymentCheckout() {
   const [paymentWidget, setPaymentWidget] = useState(null);
   // const paymentWidget = usePaymentWidget(clientKey, ANONYMOUS); // 비회원 결제
   const paymentMethodsWidgetRef = useRef(null);
-  const [price, setPrice] = useState(50000);
+  const [price, setPrice] = useState(300); // 가격 설정
 
   useEffect(() => {
     // ------  결제 UI 렌더링 ------
@@ -72,13 +72,11 @@ function PaymentCheckout() {
                   // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
                   // @docs https://docs.tosspayments.com/reference/widget-sdk#requestpayment결제-정보
                   await paymentWidget?.requestPayment({
-                    orderId: nanoid(),
-                    orderName: '토스 티셔츠 외 2건',
-                    customerName: '김토스',
-                    customerEmail: 'customer123@gmail.com',
-                    customerMobilePhone: '01012341234',
-                    successUrl: `${window.location.origin}/success`,
-                    failUrl: `${window.location.origin}/fail`,
+                    orderId: nanoid(), // 자동 생성 주문 번호
+                    orderName: '토스 티셔츠 외 2건', // 주문 이름
+                    userId: 'asd',
+                    successUrl: `${window.location.origin}/paymentsuccess`, // 성공 경로
+                    failUrl: `${window.location.origin}/paymentfail`, // 실패 경로
                   });
                 } catch (error) {
                   // 에러 처리하기

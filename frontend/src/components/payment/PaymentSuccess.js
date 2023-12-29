@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { API_BASE_URL, PAYMENT } from '../../global/config/host-config';
 
 function PaymentSuccess() {
   const navigate = useNavigate();
@@ -9,31 +10,44 @@ function PaymentSuccess() {
   useEffect(() => {
     const requestData = {
       orderId: searchParams.get('orderId'),
+      orderName: searchParams.get('orderName'),
+      userId: searchParams.get('userId'),
       amount: searchParams.get('amount'),
       paymentKey: searchParams.get('paymentKey'),
     };
 
     // TODO: 개발자센터에 로그인해서 내 결제위젯 연동 키 > 시크릿 키를 입력하세요. 시크릿 키는 외부에 공개되면 안돼요.
     // @docs https://docs.tosspayments.com/reference/using-api/api-keys
-    const secretKey = 'test_gsk_docs_OaPz8L5KdmQXkzRz3y47BMw6';
+    const secretKey = process.env.REACT_APP_PAYMENTS_SERECT_KEY;
 
     // 토스페이먼츠 API는 시크릿 키를 사용자 ID로 사용하고, 비밀번호는 사용하지 않습니다.
     // 비밀번호가 없다는 것을 알리기 위해 시크릿 키 뒤에 콜론을 추가합니다.
     // @docs https://docs.tosspayments.com/reference/using-api/authorization#%EC%9D%B8%EC%A6%9D
     const encryptedSecretKey = `Basic ${btoa(secretKey + ':')}`;
 
+    // async function confirm() {
+    //   const response = await fetch(
+    //     'https://api.tosspayments.com/v1/payments/confirm',
+    //     {
+    //       method: 'POST',
+    //       headers: {
+    //         Authorization: encryptedSecretKey,
+    //         'Content-Type': 'application/json',
+    //       },
+    //       body: JSON.stringify(requestData),
+    //     }
+    //   );
     async function confirm() {
-      const response = await fetch(
-        'https://api.tosspayments.com/v1/payments/confirm',
-        {
-          method: 'POST',
-          headers: {
-            Authorization: encryptedSecretKey,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(requestData),
-        }
-      );
+      console.log(`${API_BASE_URL}${PAYMENT}`);
+      console.log(JSON.stringify(requestData));
+      const response = await fetch(`${API_BASE_URL}${PAYMENT}`, {
+        method: 'POST',
+        headers: {
+          Authorization: encryptedSecretKey,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData),
+      });
 
       const json = await response.json();
 
@@ -57,36 +71,16 @@ function PaymentSuccess() {
           <img
             width='35px'
             src='https://static.toss.im/3d-emojis/u1F389_apng.png'
+            alt='축하 이미지 '
           />
-          결제 성공
+          결제가 완료 되었습니다.
         </h2>
         <p>{`paymentKey = ${searchParams.get('paymentKey')}`}</p>
         <p>{`orderId = ${searchParams.get('orderId')}`}</p>
         <p>{`amount = ${Number(
           searchParams.get('amount')
         ).toLocaleString()}원`}</p>
-        <div className='result wrapper'>
-          <Link to='https://docs.tosspayments.com/guides/payment-widget/integration'>
-            <button
-              className='button'
-              style={{ marginTop: '30px', marginRight: '10px' }}
-            >
-              연동 문서
-            </button>
-          </Link>
-          <Link to='https://discord.gg/A4fRFXQhRu'>
-            <button
-              className='button'
-              style={{
-                marginTop: '30px',
-                backgroundColor: '#e8f3ff',
-                color: '#1b64da',
-              }}
-            >
-              실시간 문의
-            </button>
-          </Link>
-        </div>
+        <div className='result wrapper'></div>
       </div>
     </div>
   );
