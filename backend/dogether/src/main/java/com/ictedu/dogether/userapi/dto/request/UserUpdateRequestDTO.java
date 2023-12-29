@@ -30,6 +30,9 @@ public class UserUpdateRequestDTO {
     @NotBlank
     private String postAddr;
 
+    @NotBlank
+    private int postNo;
+
 
 
     // DTO를 Entity로 변경하는 메서드
