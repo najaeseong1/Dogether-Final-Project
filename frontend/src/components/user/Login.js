@@ -34,10 +34,10 @@ const Login = () => {
 
       if (res.status === 200) {
         const data = await res.json();
-        console.log('서버 응답 ', data);
-        const { token, role } = data;
+        const { token, role , userId} = data;
 
         localStorage.setItem('ACCESS_TOKEN', token);
+        localStorage.setItem('userId', userId);
         onLogin(token, role);
         if (role === 'ADMIN') {
           redirection('/adminmain');
