@@ -16,7 +16,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
 @Table(name = "payment")
 public class Payment {
     @Id
@@ -30,16 +29,14 @@ public class Payment {
     @Column(name = "amount", nullable = false)
     private String amount;                    // 주문 가격
 
-    @Column(name = "user_id", nullable = false)
-    private String userId;               // 고객 아이디
+    @Column(name = "payment_key",nullable = false)
+    private String paymentKey;			// 결제 고유 번호
 
-    @Setter
-    @Column
-    private String paymentKey;				// 결제 고유 번호
-
+    @Column(name = "method",nullable = false)
     private String method;          // 지불 수단
+
+    @Column(name = "status",nullable = false)
     private String status;          // 결제 상태
-    private CardInfo card;          // 카드 정보
 
     @Setter
     @Column(updatable = false)
@@ -52,7 +49,7 @@ public class Payment {
 
     @Setter
     @Column(nullable = false)
-    @ColumnDefault("Y")
+    @ColumnDefault("결제성공")
     private String paySuccessYn;			// 결제 성공 여부
 
     @Setter
@@ -62,24 +59,11 @@ public class Payment {
     @Setter
     @Column(nullable = false)
     @ColumnDefault("false")
-    private boolean cancelYn;				// 결제 취소 여부
+    private String cancelYn;				// 결제 취소 여부
 
     @Setter
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private User customer;                  // 유저 정보
 
-    public PaymentResponse toRes() {
-        return PaymentResponse.builder()
-                .paymentKey(paymentKey)
-                .orderId(orderId)
-                .orderName(orderName)
-                .totalAmount(this.amount)
-                .method(method)
-                .status(status)
-                .card(card)
-                .requestedAt(requestedAt)
-                .approvedAt(approvedAt)
-                .method(this.method)
-                .build();
-    }
+
 }

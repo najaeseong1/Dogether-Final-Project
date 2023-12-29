@@ -34,7 +34,19 @@ public class PaymentService {
                 PaymentResponse.class
         );
         System.out.println(response.getBody());
+        
+        // response를 PaymentEntity로 변환
+        Payment payment = Payment.builder()
+                .paymentKey(response.getBody().getPaymentKey())
+                .orderId(response.getBody().getOrderId())
+                .orderName(response.getBody().getOrderName())
+                .amount(response.getBody().getTotalAmount())
+                .method(response.getBody().getMethod())
+                .status(response.getBody().getStatus())
+                .build();
 
+        // 데이터베이스에 저장
+        paymentEntityRepository.save(payment);
 
         return response.getBody();
     }
