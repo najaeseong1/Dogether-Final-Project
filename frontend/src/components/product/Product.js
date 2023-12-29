@@ -140,12 +140,9 @@ const Product = () => {
         id='video-zoom1'
         src='https://player.vimeo.com/video/848943597?autoplay=1&loop=1&color=080037&title=0&byline=0&portrait=0&background=1'
         allow='autoplay; fullscreen; picture-in-picture'
-        allowfullscreen
+        allowFullScreen
       />
-      <div
-        div
-        id='productProductContainer'
-      >
+      <div id='productProductContainer'>
         <div id='divproductsearch'>
           <div className='productTitle'>ALL PRODUCTS</div>
           <input
