@@ -30,6 +30,7 @@ import { AuthContextProvider } from './global/utils/AuthContext';
 import OrderManagement from './components/admin/OrderManagement';
 import OrderHistory from './components/user/OrderHistory';
 import Cart from './components/product/cart';
+import KakaoLoginHandler from './components/user/KakaoLoginHandler';
 
 function App() {
   return (
@@ -39,6 +40,10 @@ function App() {
         <div className='content-wrapper'>
           <ScrollToTop />
           <Routes>
+            <Route
+              path='/user/join'
+              element={<KakaoLoginHandler />}
+            />
             <Route
               path='/'
               element={<MainTemplate />}
@@ -105,11 +110,11 @@ function App() {
               element={<AdoptionList />}
             />
             <Route
-              path='/adopt/detail/{}'
+              path='/adopt/detail/:desertionNo'
               element={<AdoptionListDetail />}
             />
             <Route
-              path='/contract/{}/{}'
+              path='/contract/:userId/:desertionNo'
               element={<AdoptionApplication />}
             />
             <Route
@@ -120,7 +125,6 @@ function App() {
               path='/knowledges/quiz'
               element={<Quiz />}
             />
-
             <Route
               path='*'
               element={<PageNotFound />}

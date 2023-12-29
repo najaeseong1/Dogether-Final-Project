@@ -1,8 +1,9 @@
 import React, { useRef, useState } from 'react';
 import './Board.scss'; // SCSS 파일 import
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL, BOARD } from '../../global/config/host-config';
 
-const API_URL = 'http://localhost:8181/board/regist';
+const API_URL = `${API_BASE_URL}${BOARD}/regist'`;
 
 const Board = () => {
   const redirection = useNavigate();
@@ -115,13 +116,13 @@ const Board = () => {
   };
 
   return (
-    <div className='board-container'>
-      <div className='boardTitle'>게시물 작성</div>
+    <div className="board-container">
+      <div className="boardTitle">게시물 작성</div>
       <form onSubmit={handleSubmit}>
         <label>
           제목
           <input
-            type='text'
+            type="text"
             value={title}
             onChange={boardTitleHandler}
           />
@@ -133,15 +134,15 @@ const Board = () => {
             value={category}
             onChange={boardCategoryHandler}
           >
-            <option value=''>카테고리 선택</option>
-            <option value='category1'>후기 게시판</option>
-            <option value='category2'>자유 게시판</option>
+            <option value="">카테고리 선택</option>
+            <option value="category1">후기 게시판</option>
+            <option value="category2">자유 게시판</option>
           </select>
         </label>
         <label>
           파일 첨부
           <input
-            type='file'
+            type="file"
             onChange={handleFileChange}
             ref={$fileTag}
           />
@@ -149,10 +150,10 @@ const Board = () => {
 
         {/* 사용자 이미지 첨부시 보여질 이미지 */}
         {imagePreview && (
-          <div className='image-preview'>
+          <div className="image-preview">
             <img
               src={imagePreview}
-              alt='이미지 미리보기'
+              alt="이미지 미리보기"
               style={{ width: '550px', height: '400px' }}
             />
           </div>
@@ -165,16 +166,16 @@ const Board = () => {
           />
         </label>
 
-        <div className='buttoncn'>
+        <div className="buttoncn">
           <button
-            type='submit'
-            className='boardButton'
+            type="submit"
+            className="boardButton"
           >
             작성하기
           </button>
           <button
-            type='button'
-            className='boardButton'
+            type="button"
+            className="boardButton"
             onClick={() => toLink('/board')}
           >
             취소

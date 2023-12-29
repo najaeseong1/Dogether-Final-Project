@@ -1,6 +1,7 @@
 package com.ictedu.dogether.userapi.entity;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -44,8 +45,11 @@ public class User {
     private int score; // 회원 퀴즈 점수
 
     @Enumerated(EnumType.STRING)
-//    @ColumnDefault("'COMMON'") // Enum타입으로 안쪽에 홑따옴표.
+    //@ColumnDefault("'COMMON'") // Enum타입으로 안쪽에 홑따옴표.
     @Builder.Default
     private Role role = Role.COMMON;
+
+    // 카카오 로그인 시 발급받는 accessToken을 저장 -> 로그아웃 때 필요.
+    private String accessToken;
 
 }
