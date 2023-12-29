@@ -2,19 +2,22 @@ import React, { useEffect, useRef, useState } from "react";
 import "./Join.scss";
 import DaumPostcode from "react-daum-postcode";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL, USER } from "../../global/config/host-config";
+import axios from "axios";
 
 const Join = () => {
   
 
   const redirect = useNavigate();
-  const API_URL_USER = 'http://localhost:8181/user/join';
+  // const API_URL_USER = 'http://localhost:8181/user/join';
 
   // 초기값 세팅 (아이디(이메일?))
   const [userId, setUserId] = useState(""); //아이디
   const [userPass, setUserPass] = useState(""); //비밀번호
   const [userPassCheck, setUserPassCheck] = useState(""); //비밀번호 확인
   const [userEmail, setUserEmail] = useState(""); //이메일
-  //const [emailCheck, setEmailCheck] = useState(""); //이메일 확인
+  const [verifyEmail, setVerifyEmail] = useState(""); //이메일 인증번호
+  const [verificationCodeFromServer, setVerificationCodeFromServer] = useState("");
   const [userName, setUserName] = useState(""); //이름
   const [userPhone, setUserPhone] = useState(""); // 휴대전화번호
   const [postNo, setPostNo] = useState("") //우편번호 (04108)
@@ -44,79 +47,40 @@ const Join = () => {
   const [userPassMessage, setUserPassMessage] = useState("");
   const [userPassCheckMessage, setUserPassCheckMessage] = useState("");
   const [userEmailMessage, setUserEmailMessage] = useState("");
-  const [UserEmailCheckMessage, setUserEmailCheckMessage] = useState("");
+  const [emailCheckMessage, setEmailCheckMessage] = useState("");
   const [userPhoneMessage, setUserPhoneMessage] = useState("");
-  
+ 
 
 
   // 유효성 검사
   const [isUserId, setIsUserId] = useState(false);
   const [isUserPass, setIsUserPass] = useState(false);
   const [isUserPassCheck, setIsUserPassCheck] = useState(false);
-  const [isUserEmail, setIsUserEmail] = useState(false);
-  const [isUserEmailCheck, setIsUserEmailCheck] = useState(false);
+  const [isUserEmail, setIsUserEmail] = useState(false); //이메일 확인
+  const [isEmailCheck, setIsEmailCheck] = useState(false); //이메일 인증 확인
   const [isUserPhone, setIsUserPhone] = useState(false);
   const [isUserName, setIsUserName] = useState(false);
   
 
-    // 아이디 유효성 검사 
-    // const onChangeId = (e) => {
-    //   const currentId = e.target.value;
-    //   setUserId(currentId);
-      
-    //   const idRegExp = /^[a-zA-z0-9]{4,12}$/;
-    //     if(!idRegExp.test(currentId)){
-    //       setUserIdMessage("아이디는 12~15글자만 입력해주세요");
-    //       setIsUserId(false);
-    //     } else {
-    //       setUserIdMessage("사용 가능한 아이디입니다.");
-    //       setIsUserId(true);
-    //     }
-    //     };
-    
-    //회원가입 아아디 체크
-    // const checkDuplicateId = async (userId) => {
-    //   try {
-    //     const response = await fetch(`http://localhost:8181/user/checkId?userId=${userId}`, {
-    //       method: 'GET',
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //       },
-    //     });
-        
-    //     if (!response.ok) {
-    //       // throw new Error('서버 응답이 실패했습니다.');
-    //       throw new Error(`서버 응답이 실패했습니다. 상태 코드: ${response.status}`);
-    //     }
-    
-    //     const result = await response.json();
-    //     return result.isDuplicate;
-    //   } catch (error) {
-    //     console.error(error);
-    //     return false; // 중복 확인 중 에러가 발생하면 기본적으로 중복되지 않음으로 처리
-    //   }
-    // };
-
+   
+    // 아아디 중복 테스트
     const checkDuplicateId = async (userId) => {
       try {
-        const response = await fetch(`http://localhost:8181/user/checkId?userId=${userId}`, {
+        const response = await fetch(`${API_BASE_URL}${USER}/checkid?userId=${userId}`, {
           method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
         });
         if (!response.ok) {
-          // throw new Error('서버 응답이 실패했습니다.');
           throw new Error(`서버 응답이 실패했습니다. 상태 코드: ${response.status}`);
         }
-        const result_1 = await response.json();
-        return result_1.isDuplicate;
+        const result = await response.json();
+        console.log('Duplicate Check Result:', result);
+        
+        return result.isDuplicate;
       } catch (error) {
         console.error(error);
         return false;
       }
     };
-    
     
     const onChangeId = async (e) => {
       const currentId = e.target.value;
@@ -128,17 +92,21 @@ const Join = () => {
         setUserIdMessage('아이디는 12~15글자만 입력해주세요');
         setIsUserId(false);
       } else {
-        setUserIdMessage('사용 가능한 아이디입니다.');
+        try {
+          // 중복 확인 요청
+          const isDuplicate = await checkDuplicateId(currentId);
     
-        // 중복 확인 요청
-        const isDuplicate = await checkDuplicateId(currentId);
-    
-        if (isDuplicate) {
-          setUserIdMessage('이미 사용 중인 아이디입니다.');
+          if (isDuplicate) {
+            setUserIdMessage('이미 사용 중인 아이디입니다.');
+            setIsUserId(false);
+          } else {
+            setUserIdMessage('사용 가능한 아이디입니다.');
+            setIsUserId(true);
+          }
+        } catch (error) {
+          console.error(error);
+          setUserIdMessage('중복 확인 중 오류가 발생했습니다.');
           setIsUserId(false);
-        } else {
-          setUserIdMessage('사용 가능한 아이디입니다.');
-          setIsUserId(true);
         }
       }
     };
@@ -186,8 +154,6 @@ const Join = () => {
           }
         };
 
-        
-      
        
         // 이메일 유효성 검사
         const onChangeEmail = (e) => {
@@ -237,70 +203,96 @@ const Join = () => {
         };
 
       
-      // 이메일 발송 요청 처리
-      // const onSendVerificationCode = async () => {
-      //   try {
-      //     // 이메일 주소를 서버에 전송
-      //     const response = await fetch('http://localhost:8181/user/join/checkMailSend', {
-      //       method: 'POST',
-      //       headers: {
-      //         'Content-Type': 'application/json',
-      //       },
-      //       body: JSON.stringify({
-      //         userEmail,
-      //       }),
-      //     });
-
-      //     if (response.status === 200) {
-      //       const result = await response.json();
-      //       if (result.success) {
-      //         alert('이메일이 발송되었습니다. 인증번호를 확인하세요.');
-      //       } else {
-      //         alert('이메일 발송에 실패했습니다.');
-      //       }
-      //     } else {
-      //       throw new Error('서버 응답이 실패했습니다.');
-      //     }
-      //   } catch (error) {
-      //     console.error(error);
-      //   }
-      // };
-
+        // 이메일 발송 요청 함수
+        const sendVerificationEmail = async () => {
+          try {
+            const response = await axios.post(
+              `${API_BASE_URL}${USER}/checkmailsend`,
+              {
+                email: userEmail,
+              },
+              {
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              }
+            );
       
- 
+            console.log('이메일 발송 응답:', response.data);
 
+            // 서버에서 받은 인증 코드를 상태로 저장
+            setVerificationCodeFromServer(response.data.code);
+            //alert(`이메일이 성공적으로 발송되었습니다. 코드: ${response.data.code}`);
+          } catch (error) {
+            console.error('이메일 발송 중 오류 발생:', error);
+            // 오류 처리 로직을 추가할 수 있습니다.
+          }
+        };
+
+        // 인증 확인 버튼 클릭 시 호출
+        const handleVerifyEmail = () => {
+          // 인증 코드 확인
+          if (verificationCodeFromServer === "") {
+            setIsEmailCheck(false);
+            setEmailCheckMessage("이메일을 발송하고 인증 코드를 기다려주세요.");
+          } else {
+            // 사용자가 입력한 코드와 서버에서 받은 코드 비교
+            if (verificationCodeFromServer === verifyEmail) {
+              setIsEmailCheck(true);
+              setEmailCheckMessage('이메일 인증이 확인되었습니다.');
+            } else {
+              setIsEmailCheck(false);
+              setEmailCheckMessage('이메일 인증 코드가 일치하지 않습니다.');
+            }
+          }
+        };
+      
         //회원가입 요청 처리 
-      const onSubmit = async() => {
-
-      console.log("ID:", userId);
-      console.log("Password:", userPass);
-      console.log("Email:", userEmail);
-      console.log("ninkname:", userName);
-      console.log("phone:", userPhone);
-      console.log("postcode:", postNo);
-      console.log("address:", postAddr);
-     
-
-      const res = await fetch('http://localhost:8181/user/join', {
-        method: 'POST',
-        body: JSON.stringify({
-          userId: '',
-          userPass: '',
-          userEmail: '',
-          userName: '',
-          userPhone: '',
-          postNo: '',
-          postAddr: '',
-        }),
-      });
-
-      if(res.status ===200) {
-        alert('회원가입이 완료되었습니다.');
-        redirect('/user/login');
-      } else {
-        alert('서버와의 통신이 원활하지 않습니다.')
-      }
-    };
+        const onSubmit = async () => {
+          try {
+            // 필수 필드가 모두 채워져 있고 동의가 되어있는지 확인
+            if (
+              isUserId &&
+              isUserPass &&
+              isUserPassCheck &&
+              isUserEmail &&
+              isUserPhone &&
+              mustCheckbox
+            ) {
+              const response = await axios.post(
+                `${API_BASE_URL}${USER}/join`,
+                {
+                  userId: userId,
+                  userPass: userPass,
+                  userName: userName,
+                  userEmail: userEmail,
+                  userPhone: userPhone,
+                  postNo: postNo,
+                  postAddr: postAddr,
+                },
+                {
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                }
+              );
+      
+              // 서버 응답 확인
+              if (response.status === 200) {
+                // 등록 성공
+                console.log('사용자 등록 성공:', response.data);
+                redirect(`${USER}/login`); 
+              } else {
+                console.error('사용자 등록 실패:', response.data);
+              }
+            } else {
+              console.error('모든 필수 필드를 작성하고 약관에 동의하세요.');
+            }
+          } catch (error) {
+            console.error('사용자 등록 중 오류 발생:', error);
+          }
+        };
+      
 
  
     // const postcodeInputRef = useRef();
@@ -345,6 +337,10 @@ const Join = () => {
       extraAddressInputRef.current.value = '';
     }
 
+    // 주소 입력 관련 상태 업데이트
+    setPostNo(data.zonecode);
+    setPostAddr(addr);
+
     postcodeInputRef.current.value = data.zonecode;
     addressInputRef.current.value = addr;
     detailAddressInputRef.current.focus();
@@ -378,7 +374,7 @@ const Join = () => {
     <div className="joinmain">
       <div className="joinmsg">회원가입</div>
       
-
+      <div className="feelsudiv">필수 정보 입력</div>
    
       {/* <form action="#"> */}
         <div className="iddiv">
@@ -395,6 +391,12 @@ const Join = () => {
         <div className="joogbokid">
           <p className={`message ${isUserId ? "blue-message" : "red-message"}`}>{userIdMessage}</p>
         </div>
+
+{/* <div className="joogbokid">
+  <p className={`message ${isUserId && !isDuplicate ? "blue-message" : "red-message"}`}>
+    {userIdMessage}
+  </p>
+</div> */}
 
         {/* <div className="idcheckbtn">
           <button>아이디 중복확인</button>
@@ -436,8 +438,8 @@ const Join = () => {
 
         <div className="joogbokemail"><p className={`message ${isUserEmail ? "blue-message" : "red-message"}`}>{userEmailMessage}</p></div>
 
-        <div className="emailcheckbtn">
-          <button >이메일 발송받기</button>
+        <div className="emailCheckBtn">
+          <button onClick={sendVerificationEmail} >이메일 발송받기</button>
         </div>
          
 
@@ -445,16 +447,16 @@ const Join = () => {
           <input
             type="email"
             placeholder="인증메일을 입력하세요."
-            id="email"
-            // value={userEmailCheck}
-            // onChange={onChangeEmailcheck}
+            id="verifyEmail"
+            value={verifyEmail}
+            onChange={(e) => setVerifyEmail(e.target.value)}
           ></input>
         </div> 
 
-        {/* <div className="joogbokemailcheck"><p className={`message ${isEmailCheck ? "blue-message" : "red-message"}`}>{emailCheckMessage}</p></div> */}
+        <div className="joogbokemailcheck"><p className={`message ${isEmailCheck ? "blue-message" : "red-message"}`}>{emailCheckMessage}</p></div>
 
-        <div className="emailcheckbtn">
-          <button>이메일 인증확인</button>
+        <div className="emailVerifyBtn">
+          <button onClick={handleVerifyEmail}>이메일 인증확인</button>
         </div>
 
         <div className="namediv">
@@ -532,10 +534,7 @@ const Join = () => {
             readOnly
           />
         </div>
-      {/*
-        리액트에서는 외부 라이브러리와 연동할 때, ref 또는 state를 사용하여 상태를 업데이트하고,
-        이에 따라 화면이 자동으로 업데이트되도록 하는 것이 좋습니다.
-      */}
+   
       <DaumPostcode
       className="daum"
         onComplete={handleComplete}
@@ -566,6 +565,7 @@ const Join = () => {
         <div className="lastjoinbtn">
           <button type="submit"
            disabled={
+            isUserId === true &&
             isUserPass === true &&
             isUserPassCheck === true &&
             isUserEmail === true &&

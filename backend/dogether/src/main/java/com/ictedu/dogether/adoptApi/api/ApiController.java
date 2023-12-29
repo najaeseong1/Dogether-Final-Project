@@ -79,7 +79,7 @@ public class ApiController {
 
     //좋아요 등록 취소
     @DeleteMapping("/wish/{wishno}")
-    public ResponseEntity<?> wishDelete(@PathVariable("wishNo") int wishNo,
+    public ResponseEntity<?> wishDelete(@PathVariable("wishno") int wishNo,
                                         @AuthenticationPrincipal TokenUserInfo userInfo
                                         ) {
         apiService.deleteWish(wishNo, userInfo);

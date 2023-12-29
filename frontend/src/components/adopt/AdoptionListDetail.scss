@@ -1,16 +1,15 @@
 .main .adopt-button {
   // border: 1px solid pink;
   position: relative;
-  left: 50%;
-  right: 50%;
-  bottom: 0px;
+  left: 480px;
+  bottom: 130px;
 }
 
 .main .border {
-  border: 1px solid pink;
+  border: 3px solid pink;
   border-radius: 10%;
-  width: 1000px;
-  height: 1000px;
+  width: 1100px;
+  height: 900px;
   top: 30px;
   position: relative;
 }
@@ -18,14 +17,26 @@
 // 관심등록 버튼
 .main .likebtn {
   position: relative;
-  left: 800px;
-  bottom: 80px;
+  left: 900px;
+  bottom: 140px;
+  //top: 00px;
 
   button {
-    border: 1px solid pink;
-    border-radius: 10px;
+    //border: 1px solid pink;
+    //border-radius: 10px;
+    border: none;
     background-color: white;
     font-weight: bold;
+    position: relative;
+    right: 100px;
+    width: 100px;
+    height: 30px;
+  }
+
+  img {
+    width: 100px;
+    position: relative;
+    bottom: 20px;
   }
 }
 
@@ -43,18 +54,34 @@
   }
 }
 
+.main .dog-info1 {
+  //border: 1px solid black;
+  position: relative;
+  right: 250px;
+  top: 200px;
+}
+
+.main .dog-info2 {
+  //border: 1px solid blue;
+  position: relative;
+  left: 150px;
+  bottom: 215px;
+}
+
 // 강아지 프로필 사진
 .main .dog-profileimg {
   //border: 1px solid red;
-  // position: relative;
-  // width: 250px;
-  // right: -170px;
-  // top: 100px;
+  //  position: relative;
+  //  width: 250px;
+  //  right: -170px;
+  //  top: 100px;
 
   img {
+    border: 5px solid pink;
+    border-radius: 10px;
     position: relative;
-    width: 250px;
-    right: -170px;
-    top: 100px;
+    width: 300px;
+    right: -390px;
+    top: 90px;
   }
 }
