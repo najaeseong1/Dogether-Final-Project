@@ -27,8 +27,7 @@ public class Board {
     @Column(nullable = false)
     private String content; //글 내용
 
-    @CreationTimestamp
-    private LocalDateTime createDate; // 작성일자
+
 
     @UpdateTimestamp
     private LocalDateTime updateDate; //수정 일자

@@ -115,6 +115,16 @@ public class ApiService {
                 .adoptLists(adoptLists)
                 .build();
     }
+    //db에 담겨진 adopt 데이터 불러오기
+    public AdoptListResponseDTO getAdoptionList() {
+        List<Adopt> all = adoptRepository.findAll();
+        List<AdoptResponseDTO> requestList = all.stream().map(AdoptResponseDTO::new)
+                .collect(Collectors.toList());
+        return AdoptListResponseDTO.builder()
+                .adoptLists(requestList)
+                .build();
+    }
+
 
     //반복문 돌릴 때 필요한 total 값 얻기 메서드
     private int getTotalCodeItems() throws IOException {
@@ -123,7 +133,6 @@ public class ApiService {
         return getTotal();
 
     }
-
 
 
     //시도 코드에 따라 api 요청 보내기
@@ -196,6 +205,7 @@ public class ApiService {
                 .build();
 
     }
+
     //   반복문 돌릴 때 필요한 total 값 얻기 메서드
     private int getTotalItems() throws IOException {
         return getTotal();
@@ -219,7 +229,6 @@ public class ApiService {
     public WishRegisterResponseDTO registWith(String desertionNo, TokenUserInfo userInfo) {
         //좋아요 누른 그 유저
         User targetUser = getUser(userInfo.getUserId());
-
 
 
         //좋아요 등록하려는 그 분양 게시물 정보
@@ -338,8 +347,8 @@ public class ApiService {
     //엔티티 adopt에 값 주입 메서드 추출
     private static Adopt getAdopt(JsonObject temp) {
         Adopt save = Adopt.builder()
-                .noticeSdt(temp.get("noticeSdt").getAsString() == null? "-" : temp.get("noticeSdt").getAsString())
-                .noticeEdt(temp.get("noticeEdt").getAsString() == null? "-" : temp.get("noticeEdt").getAsString())
+                .noticeSdt(temp.get("noticeSdt").getAsString() == null ? "-" : temp.get("noticeSdt").getAsString())
+                .noticeEdt(temp.get("noticeEdt").getAsString() == null ? "-" : temp.get("noticeEdt").getAsString())
                 .desertionNo(temp.get("desertionNo").getAsString() == null ? "-" : temp.get("desertionNo").getAsString())
                 .kindCd(temp.get("kindCd").getAsString() == null ? "-" : temp.get("kindCd").getAsString())
                 .gender(temp.get("sexCd").getAsString() == null ? "-" : temp.get("sexCd").getAsString())

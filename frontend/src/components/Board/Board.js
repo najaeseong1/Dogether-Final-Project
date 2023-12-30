@@ -65,7 +65,7 @@ const Board = () => {
       });
 
       if (!response.ok) {
-        // 서버 응답이 오류인 경우 처리
+        // 서버 응답이 오류일때
         console.error('Server error:', response.status, response.statusText);
         try {
           const errorData = await response.json();
@@ -79,8 +79,8 @@ const Board = () => {
       }
 
       // 성공적으로 등록된 경우의 처리
-      alert('게시판 글이 등록되었습니다.');
-      // redirection('/board');
+      Swal.fire('게시판 글이 등록되었습니다.', '', 'success');
+      redirection('/board');
     } catch (error) {
       // 네트워크 오류 등의 문제 발생 시 처리
       console.error('Error during data submission:', error);

@@ -200,5 +200,36 @@ public class UserController {
     }
 
 
+    //스코어 등록 처리
+    @PostMapping("/knowledges/quiz")
+    public ResponseEntity<?> saveScore(@RequestPart int score,
+                                       @AuthenticationPrincipal TokenUserInfo userInfo
+                                       ) {
+        try {
+            UserSignUpResponseDTO userSignUpResponseDTO = userService.saveScore(score, userInfo);
+            return ResponseEntity.ok().body(userSignUpResponseDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
+
+        }
+    }
+
+
+
+    //마이페이지 내 스코어 요청 처리
+    @GetMapping("/knowledges/quiz")
+    public ResponseEntity<?> requestScore( @AuthenticationPrincipal TokenUserInfo userInfo) {
+
+        try {
+            UserSignUpResponseDTO userSignUpResponseDTO = userService.requestScore(userInfo);
+            return ResponseEntity.ok().body(userSignUpResponseDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+        return ResponseEntity.badRequest().body(e.getMessage());
+
+        }
+
+    }
 
 }
