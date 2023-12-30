@@ -91,23 +91,3 @@ const OrderManagement = () => {
 };
 
 export default OrderManagement;
-
-/*  <button
-              className={tab === '접수' ? 'active' : ''}
-              onClick={() => changeTab('접수')}
-            >
-              접수 대기
-            </button>
-
-            <button
-              className={tab === '승인' ? 'active' : ''}
-              onClick={() => changeTab('승인')}
-            >
-              처리중 / 배달완료
-            </button>
-            <button
-              className={tab === '거절' ? 'active' : ''}
-              onClick={() => changeTab('거절')}
-            >
-              주문 취소
-            </button> */
