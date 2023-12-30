@@ -141,6 +141,7 @@ const Product = () => {
         src='https://player.vimeo.com/video/848943597?autoplay=1&loop=1&color=080037&title=0&byline=0&portrait=0&background=1'
         allow='autoplay; fullscreen; picture-in-picture'
         allowfullscreen
+        title='강아지사진'
       />
       <div
         div

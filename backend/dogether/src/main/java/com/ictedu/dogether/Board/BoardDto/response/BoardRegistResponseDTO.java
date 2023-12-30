@@ -39,7 +39,7 @@ public class BoardRegistResponseDTO {
             this.title = board.getTitle();
             this.content = board.getContent();
             this.category = board.getCategory();
-            this.registDate = board.getCreateDate();
+            this.registDate = board.getUpdateDate();
             this.userId =board.getUser().getUserId();
             this.image = board.getImage();
     }
