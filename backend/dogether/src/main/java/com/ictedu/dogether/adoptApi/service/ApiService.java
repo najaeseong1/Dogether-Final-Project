@@ -269,18 +269,18 @@ public class ApiService {
         List<Wish> wishList = wishRepository.findDesertionNoByUserUserId(userId);
         log.info("레파지토리에서 가져온 List -{}", wishList);
 
-        List<String> desertionNoList = wishList.stream().map(
-                wish -> wish.getAdopt().getDesertionNo()
-        ).collect(Collectors.toList());// 분양게시판 글번호 목록 받기
-
-
-        List<Adopt> wishAdoptList = new ArrayList<>();
-
-        for (String adoptNo : desertionNoList) {
-            Adopt wishAdopt = bringAdoptListBoard(adoptNo);
-            wishAdoptList.add(wishAdopt);
-        }
-        List<AdoptResponseDTO> AdoptionList = wishAdoptList.stream()
+//        List<String> desertionNoList = wishList.stream().map(
+//                wish -> wish.getAdopt().getDesertionNo()
+//        ).collect(Collectors.toList());// 분양게시판 글번호 목록 받기
+//
+//
+//        List<Adopt> wishAdoptList = new ArrayList<>();
+//
+//        for (String adoptNo : desertionNoList) {
+//            Adopt wishAdopt = bringAdoptListBoard(adoptNo);
+//            wishAdoptList.add(wishAdopt);
+//        }
+        List<AdoptResponseDTO> AdoptionList = wishList.stream()
                 .map(AdoptResponseDTO::new)
                 .collect(Collectors.toList());//글목록 받기
 

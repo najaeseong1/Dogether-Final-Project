@@ -103,10 +103,10 @@ const BoardUpdate = () => {
         try {
           const errorData = await response.json();
           console.error('Server error data:', errorData);
-          alert('서버 오류: ' + errorData.message);
+          alert('수정 권한이 없습니다.');
         } catch (error) {
           console.error('Failed to parse error response:', error);
-          alert('서버 오류');
+          alert('수정 권한이 없습니다.');
         }
         return;
       }

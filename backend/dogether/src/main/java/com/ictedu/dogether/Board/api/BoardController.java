@@ -253,8 +253,13 @@ public class BoardController {
     ) {
 
         log.info("댓글 삭제 요청 들어옴 !");
-        ReplyListResponseDTO replyListResponseDTO = boardService.deleteReply(replyNo, userInfo, boardNo);
-        return ResponseEntity.ok().body(replyListResponseDTO);
+        try {
+            ReplyListResponseDTO replyListResponseDTO = boardService.deleteReply(replyNo, userInfo, boardNo);
+            return ResponseEntity.ok().body(replyListResponseDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
 
