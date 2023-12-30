@@ -7,15 +7,17 @@ function PaymentSuccess() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
+  const userId = JSON.parse(localStorage.getItem('userId'));
+  const cartItems = JSON.parse(localStorage.getItem('cartItems'));
   useEffect(() => {
     const requestData = {
       orderId: searchParams.get('orderId'),
-      orderName: searchParams.get('orderName'),
-      userId: searchParams.get('userId'),
+      orderName: decodeURIComponent(searchParams.get('orderName')),
       amount: searchParams.get('amount'),
       paymentKey: searchParams.get('paymentKey'),
+      userId: userId,
+      productInfo: cartItems,
     };
-
     // TODO: 개발자센터에 로그인해서 내 결제위젯 연동 키 > 시크릿 키를 입력하세요. 시크릿 키는 외부에 공개되면 안돼요.
     // @docs https://docs.tosspayments.com/reference/using-api/api-keys
     const secretKey = process.env.REACT_APP_PAYMENTS_SERECT_KEY;
@@ -57,6 +59,11 @@ function PaymentSuccess() {
         navigate(`/fail?code=${json.code}&message=${json.message}`);
         return;
       }
+      // 요청이 성공적으로 완료된 후에 로컬 스토리지의 항목 삭제
+      localStorage.removeItem('cartItems');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('quantityMap');
+      localStorage.removeItem('@tosspayments/client-id');
 
       // TODO: 구매 완료 비즈니스 로직 구현
       console.log(json);

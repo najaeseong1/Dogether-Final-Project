@@ -5,6 +5,7 @@ import com.ictedu.dogether.userapi.entity.User;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -47,15 +48,10 @@ public class Payment {
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name =  "user_id" )
-    private User User;                  // 유저 정보
+    private User user;                  // 유저 정보
 
     @Setter
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name =  "product_id" )
-    private Product product;                  // 제품 정보
-
-    @Setter
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name =  "card_reg_no" )
     private CardInfo card;                  // 카드 정보
 

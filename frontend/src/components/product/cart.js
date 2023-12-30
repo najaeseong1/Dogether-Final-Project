@@ -26,6 +26,7 @@ const Cart = () => {
       JSON.parse(localStorage.getItem('quantityMap')) || {};
     const initializedQuantityMap = {};
     let totalPrice = 0;
+    let totalCount = 0;
 
     storedCartItems.forEach((item, index) => {
       initializedQuantityMap[index] = storedQuantityMap[index] || 1;
@@ -33,6 +34,7 @@ const Cart = () => {
       // 총 상품 가격 계산
       const price = Number(item.price.replace(/[^0-9]/g, ''));
       totalPrice += initializedQuantityMap[index] * price;
+      totalCount += initializedQuantityMap[index];
     });
 
     setQuantityMap(initializedQuantityMap);
@@ -43,6 +45,7 @@ const Cart = () => {
       return {
         ...item,
         totalPrice: initializedQuantityMap[index] * price,
+        totalCount: initializedQuantityMap[index],
       };
     });
 
@@ -122,6 +125,7 @@ const Cart = () => {
         return {
           ...item,
           totalPrice: newAmount * price,
+          totalCount: newAmount,
         };
       }
       return item;
@@ -425,39 +429,7 @@ const Cart = () => {
               >
                 결제수단
               </div>
-
-              <table className='paymentTable'>
-                <tbody>
-                  <tr>
-                    <td>
-                      <PaymentCheckout />
-                    </td>
-                    <td
-                      rowSpan={3}
-                      id='rowspan3'
-                      style={{ padding: '0' }}
-                    >
-                      <div className='finalPrice'> 최종 결제 금액</div>
-                      <div id='paymentPrice'>50800원</div>
-                      <br />
-                      <div
-                        id='centerPay'
-                        style={{ textAlign: 'center' }}
-                      >
-                        <button className='orderbutton'>결제하기</button>
-                      </div>
-                      <div className='pricePoint'>
-                        <div>
-                          총 적립예정금액 : <strong> 470원</strong>
-                        </div>
-                        <div>상품별 적립금 0원</div>
-                        <div>회원 적립금 470원</div>
-                        <div>쿠폰 적립금 0원</div>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <PaymentCheckout /> {/* 여기서 유저 정보 전달해 줘야 함 */}
             </div>
           </div>
         </>

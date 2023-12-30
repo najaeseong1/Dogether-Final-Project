@@ -21,7 +21,7 @@ public class CardInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "card_reg_no")
-    private Long cardRegNo;          // 카드 테이블 번호
+    private int cardRegNo;          // 카드 테이블 번호
 
     @Column(name = "issuer_code")
     private String issuerCode;      // 카드 발급사 숫자
