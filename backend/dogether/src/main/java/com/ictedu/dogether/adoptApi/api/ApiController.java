@@ -24,7 +24,7 @@ public class ApiController {
     private  final ApiService apiService;
 
     //api 통한 강아지 데이터베이스에 저장하기
-    @GetMapping
+    @GetMapping("/save")
     public ResponseEntity<?> getAdoptList() {
         try {
             AdoptListResponseDTO adoptList = apiService.getAdoptList();
@@ -36,7 +36,17 @@ public class ApiController {
     }
 
 //    //데이터베이스를 통한 강아지 목록 불러오기
-//    @GetMapping()
+    @GetMapping
+    public ResponseEntity<?> getAdoptionList() {
+        try {
+            AdoptListResponseDTO adoptionList = apiService.getAdoptionList();
+            return ResponseEntity.ok().body(adoptionList);
+        } catch (Exception e) {
+           e.printStackTrace();
+           return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+    }
 
 
     //시도코드 통한 강아지 목록 불러오기

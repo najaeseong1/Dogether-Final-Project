@@ -41,6 +41,11 @@ public class ContractService {
         Adopt adopt = adoptRepository.findById(dto.getDesertionNo()).orElseThrow(
                 () -> new RuntimeException("게시물 정보가 없습니다.")
         );
+        //만약 사용자가 같은 분양게시물에서 입양 신청을 한다면 막아줘야 한다.
+        boolean exist = contractRepository.existsByUser_UserIdAndAdopt_DesertionNo(userInfo.getUserId(), dto.getDesertionNo());
+        if(exist) {
+            throw new RuntimeException("중복된 신청입니다.");
+        }
 
         AdoptContract saveAdopt = contractRepository.save(dto.ToEntity(user,adopt));
 

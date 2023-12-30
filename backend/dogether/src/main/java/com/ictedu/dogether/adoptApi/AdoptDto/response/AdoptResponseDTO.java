@@ -1,6 +1,7 @@
 package com.ictedu.dogether.adoptApi.AdoptDto.response;
 
 import com.ictedu.dogether.adoptApi.Entity.Adopt;
+import com.ictedu.dogether.adoptApi.Entity.Wish;
 import lombok.*;
 
 @Getter
@@ -11,6 +12,7 @@ import lombok.*;
 @Builder
 public class AdoptResponseDTO {
 
+    private int wishNo;
     private String noticeSdt;
     private String noticeEdt;
     private String desertionNo;
@@ -53,4 +55,25 @@ public class AdoptResponseDTO {
     }
 
 
+    public AdoptResponseDTO(Wish wish) {
+        this.wishNo = wish.getWishNo();
+        this.noticeSdt =wish.getAdopt().getNoticeSdt();
+        this.noticeEdt = wish.getAdopt().getNoticeEdt();
+        this.desertionNo = wish.getAdopt().getDesertionNo();
+        this.kindCd = wish.getAdopt().getKindCd();
+        this.gender = wish.getAdopt().getGender();
+        this.weight = wish.getAdopt().getWeight();
+        this.happenAddr = wish.getAdopt().getHappenAddr();
+        this.profileImg = wish.getAdopt().getProfileImg();
+        this.neuterYn = wish.getAdopt().getNeuterYn();
+        this.age = wish.getAdopt().getAge();
+        this.colorCd = wish.getAdopt().getColorCd();
+        this.specialMark = wish.getAdopt().getSpecialMark();
+        this.careNm = wish.getAdopt().getCareNm();
+        this.careTel = wish.getAdopt().getCareTel();
+        this.careAddr = wish.getAdopt().getCareAddr();
+        this.orgNm = wish.getAdopt().getOrgNm();
+        this.chargeNm = wish.getAdopt().getChargeNm();
+        this.officeTel = wish.getAdopt().getOfficeTel();
+    }
 }
