@@ -17,6 +17,13 @@ const AdoptionListDetail = () => {
 
   const userId = localStorage.getItem('userId'); 
   const token = localStorage.getItem('ACCESS_TOKEN');
+
+  // const [profileImgStyle, setProfileImgStyle] = useState({
+  //   position: 'relative',
+  //   width: '250px',
+  //   right: '-420px',
+  //   top: '90px',
+  // });
   
    
 
@@ -136,6 +143,7 @@ const AdoptionListDetail = () => {
           <img
             src={adoptListDetail?.profileImg}
             alt="profile"
+            
           />
         </div>
 
@@ -161,10 +169,6 @@ const AdoptionListDetail = () => {
             <p> 색상: {adoptListDetail?.colorCd}</p>
             <p> 무게: {adoptListDetail?.weight}</p>
             <p> 성별: {adoptListDetail?.gender}</p>  
-            
-          </div>
-
-          <div className='dog-info2'>   
             <p> 중성화 여부: {adoptListDetail?.neuterYn}</p>  
             <p> 특이사항: {adoptListDetail?.specialMark}</p>
             <p> 보호소 이름: {adoptListDetail?.careNm}</p>    
@@ -173,6 +177,11 @@ const AdoptionListDetail = () => {
             <p> 관할기관: {adoptListDetail?.orgNm}</p>   
             <p> 담당자: {adoptListDetail?.chargeNm}</p>  
             <p> 담당자 연락처: {adoptListDetail?.officeTel}</p>
+            
+          </div>
+
+          <div className='dog-info2'>   
+           
          </div>
 
         </div>

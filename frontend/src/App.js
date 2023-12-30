@@ -41,7 +41,7 @@ function App() {
           <ScrollToTop />
           <Routes>
             <Route
-              path='/user/join'
+              path='/user'
               element={<KakaoLoginHandler />}
             />
             <Route
