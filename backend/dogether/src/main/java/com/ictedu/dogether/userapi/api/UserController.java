@@ -188,6 +188,15 @@ public class UserController {
         return ResponseEntity.ok().body(responseDTO);
     }
 
+    // 네이버 로그인
+    @GetMapping("/naverlogin")
+    public ResponseEntity<?> naverlogin(String code) {
+        log.info("/user/naverlogin - GET! code: {}", code);
+        LoginResponseDTO responseDTO = userService.naverService(code);
+        log.info("responseData : {}", responseDTO);
+        return ResponseEntity.ok().body(responseDTO);
+    }
+
     // 로그아웃 처리
     @GetMapping("/logout")
     public ResponseEntity<?> logout(

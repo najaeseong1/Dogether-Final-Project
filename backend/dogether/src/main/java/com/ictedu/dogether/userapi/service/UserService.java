@@ -42,6 +42,13 @@ public class UserService {
     @Value("${kakao.client_secret}")
     private String KAKAO_CLIENT_SECRET;
 
+    @Value("${naver.client_id}")
+    private String NAVER_CLIENT_ID;
+    @Value("${naver.redirect_url}")
+    private String NAVER_REDIRECT_URI;
+    @Value("${naver.client_secret}")
+    private String NAVER_CLIENT_SECRET;
+
     // 회원 가입 처리
     public UserSignUpResponseDTO create(final UserRequestSignUpDTO dto) {
 
@@ -266,4 +273,47 @@ public class UserService {
     }
 
 
+    public LoginResponseDTO naverService(String code) {
+
+
+    }
+
+    private Map<String, Object> getNaverAccessToken(String code) {
+
+        // 요청 uri
+        String requestUri = "https://nid.naver.com/oauth2.0/token";
+
+        // 요청 헤더 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+
+        // 요청 바디(파라미터) 설정
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("grant_type", "authorization_code"); // 카카오 공식 문서 기준 값으로 세팅
+        params.add("client_id", NAVER_CLIENT_ID); // 카카오 디벨로퍼 REST API 키
+        params.add("redirect_uri", NAVER_REDIRECT_URI); // 카카오 디벨로퍼 등록된 redirect uri
+        params.add("code", code); // 프론트에서 인가 코드 요청시 전달받은 코드값
+        params.add("client_secret", NAVER_CLIENT_SECRET); // 카카오 디벨로퍼 client secret(활성화 시 추가해 줘야 함)
+
+        // 헤더와 바디 정보를 합치기 위해 HttpEntity 객체 생성
+        HttpEntity<Object> requestEntity = new HttpEntity<>(params, headers);
+
+        // 카카오 서버로 POST 통신
+        RestTemplate template = new RestTemplate();
+
+        // 통신을 보내면서 응답데이터를 리턴
+        // param1: 요청 url
+        // param2: 요청 메서드 (전송 방식)
+        // param3: 헤더와 요청 파라미터정보 엔터티
+        // param4: 응답 데이터를 받을 객체의` 타입 (ex: dto, map)
+        // 만약 구조가 복잡한 경우에는 응답 데이터 타입을 String으로 받아서 JSON-simple 라이브러리로 직접 해체.
+        ResponseEntity<Map> responseEntity
+                = template.exchange(requestUri, HttpMethod.POST, requestEntity, Map.class);
+
+        // 응답 데이터에서 필요한 정보를 가져오기
+        Map<String, Object> responseData = (Map<String, Object>)responseEntity.getBody();
+        log.info("토큰 요청 응답 데이터: {}", responseData);
+
+        return responseData;
+    }
 }
