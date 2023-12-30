@@ -6,7 +6,6 @@ import com.ictedu.dogether.Board.BoardDto.request.BoardModifyRequestDTO;
 import com.ictedu.dogether.Board.BoardDto.request.BoardRegistRequestDTO;
 import com.ictedu.dogether.Board.ReplyDto.request.ReplyModifyRequestDTO;
 import com.ictedu.dogether.Board.ReplyDto.response.ReplyListResponseDTO;
-import com.ictedu.dogether.Board.ReplyDto.response.ReplyModifyResponseDTO;
 import com.ictedu.dogether.Board.ReplyDto.request.ReplyRequestDTO;
 import com.ictedu.dogether.Board.BoardDto.response.BoardListResponseDTO;
 import com.ictedu.dogether.Board.BoardDto.response.BoardRegistResponseDTO;
@@ -146,34 +145,39 @@ public class BoardService {
         //////댓글 쪽 /////
 
     //댓글 등록
-    public ReplyRegistResponseDTO replySave(ReplyRequestDTO dto, TokenUserInfo userInfo) {
+    public ReplyListResponseDTO replySave(ReplyRequestDTO dto, TokenUserInfo userInfo) {
         User user = getUser(userInfo.getUserId()); //댓글 등록하려는 해당 유저 정보
 
         Board board = bringBoard(dto.getBoardNo()); //댓글 등록하려는 해당 게시물 정보
         Reply reply = replyRepository.save(dto.toEntity(board, user));
 
-        return new ReplyRegistResponseDTO(reply);
+        
+        return getReplyList(dto.getBoardNo()); //댓글 리스트 반환
 
 
 
     }
 
     //댓글 삭제
-    public void deleteReply(int replyNo, TokenUserInfo userInfo) {
+    public ReplyListResponseDTO deleteReply(int replyNo, TokenUserInfo userInfo, int boardNo) {
         //삭제하려는 해당 댓글 정보
         Reply reply = bringWriter(replyNo);
 
-
+            log.info("userInfo아이디", userInfo.getUserId());
         if(!userInfo.getUserId().equals(reply.getUser().getUserId())) {
             throw new RuntimeException("삭제 권한이 없습니다.");
         }
 
         replyRepository.deleteById(replyNo);
 
+        return getReplyList(boardNo);
+
+
+
     }
 
     //댓글 수정
-    public ReplyModifyResponseDTO replyModify(ReplyModifyRequestDTO dto, TokenUserInfo userInfo) {
+    public ReplyListResponseDTO replyModify(ReplyModifyRequestDTO dto, TokenUserInfo userInfo) {
         //댓글 작성자와 지금 댓글 수정을 누른 사람이 같은지를 비교해야 함
         log.info("dto의값:-{}", dto);
         Reply targetReply = bringWriter(dto.getReplyNo());
@@ -187,7 +191,8 @@ public class BoardService {
 
         Reply modifyReply = replyRepository.save(targetReply);
 
-        return new ReplyModifyResponseDTO(modifyReply);
+        return getReplyList(dto.getBoardNo());
+
     }
 
 
@@ -220,7 +225,11 @@ public class BoardService {
 
 
     }
+    public String findImagePath(int boardNo) {
+        Board board = boardRepository.findById(boardNo).orElseThrow();
 
+        return uploadRootPath + "/" + board.getImage();
+    }
 
 
     //사진 파일 저장하고 경로 리턴할 메서드(이거 컨트롤러에서)
@@ -265,5 +274,5 @@ public class BoardService {
     }
 
 
- 
+
 }

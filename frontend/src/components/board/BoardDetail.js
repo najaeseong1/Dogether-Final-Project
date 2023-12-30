@@ -1,100 +1,223 @@
-import React, { useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import './BoardDetail.scss';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { API_BASE_URL, BOARD } from '../../global/config/host-config';
+import Swal from 'sweetalert2';
 
 let today = new Date();
 const BoardDetail = () => {
+  const $fileTag = useRef();
+  const navigate = useNavigate();
   const [comments, setComments] = useState([]); // 댓글 목록을 저장하는 상태, 배열로 아이디 내용을 담을 거임
   const [newComment, setNewComment] = useState(''); // 새로 작성 중인 댓글
   const redirection = useNavigate();
   const [boardDetail, setBoardDetail] = useState(null);
   const { boardNo } = useParams();
-
+  const location = useLocation();
+  const [image, setImage] = useState(null);
+  const ReplyRegist_URL = `${API_BASE_URL}${BOARD}/reply`;
+  const API_URL = `${API_BASE_URL}${BOARD}/${boardNo}`;
+  const MODIFY_URL = `${API_BASE_URL}${BOARD}/${boardNo}`;
+  const imageRequestURL = `${API_BASE_URL}${BOARD}/load-profile/${boardNo}`;
+  const ReplyList_URL = `${API_BASE_URL}${BOARD}/replylist/${boardNo}`;
+  const ReplyDelete_URL = `${API_BASE_URL}${BOARD}/reply`;
+  const ReplyUpdate_URL = `${API_BASE_URL}${BOARD}/replymodify`;
+  // 댓글 수정 상태 관리
+  const [editingComment, setEditingComment] = useState(null);
   const toLink = (loc) => {
     redirection(loc);
   };
 
-  // 더미 데이터
-  const post = {
-    title: '고양이 귀요웡',
-    date: '2023-01-01',
-    content:
-      '고양이가 너무 귀욥네요 사실 키울 생각은 없었는데용 다들 고양이 어떻게 키우고 계신가요 궁금해요 저는 정말로 고양이 키울생각은 없엇는데 살다보니 이런일도 생기네요 ',
-    imageUrl:
-      'https://www.fitpetmall.com/wp-content/uploads/2023/09/shutterstock_2205178589-1-1.png', // 예시 이미지 URL
-    userId: '춘식이',
-  };
-
   useEffect(() => {
-    console.log('useEffect 실행중 !');
-    const fetchBoardDetail = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:8181/board/detail/${String(boardNo)}`
-        );
-        console.log(boardNo);
-        const data = await response.json();
-        console.log(data);
-        setBoardDetail(data);
-      } catch (error) {
-        console.error('Error fetching board detail:', error);
+    const fetchImage = async () => {
+      const res = await fetch(imageRequestURL, {
+        method: 'GET',
+      });
+
+      if (res.status === 200) {
+        const imageBlob = await res.blob();
+        const img = window.URL.createObjectURL(imageBlob);
+        console.log(img);
+        setImage(img);
+      } else {
+        const err = await res.text();
+        setImage(null);
       }
     };
-
-    fetchBoardDetail();
-  }, [boardNo]);
+    const { state } = location;
+    setBoardDetail(state ? state.boarddetail : null);
+    fetchImage();
+    replyList();
+  }, [location]);
 
   // 가상의 로그인 상태를 나타내는 함수
   const getLoggedInUserId = () => {
     //여기서 토큰 안에 있는 사용자 id 가져오면 될듯??
     return '로그인된사용자';
   };
+  const requestHeader = {
+    'Content-Type': 'application/json',
+    Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
+  };
 
-  // 댓글 작성 핸들러
+  // 댓글 등록 핸들러
   const handleCommentSubmit = () => {
-    const loggedInUserId = getLoggedInUserId();
+    console.log(boardNo, newComment);
+    fetch(ReplyRegist_URL, {
+      method: 'POST',
+      headers: requestHeader,
+      body: JSON.stringify({
+        boardNo: boardNo,
+        replyContent: newComment,
+      }),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((json) => {
+        console.log(json.replyContent);
+        const addComment = {
+          content: json.replyContent,
+          userId: json.userId,
+          regDate: json.registDate,
+        };
+        setComments(json.replyLists);
+        // 입력 폼 초기화
+        setNewComment('');
+      })
+      .catch((error) => {
+        console.error('Error during comment submission:', error);
+      });
+  };
 
-    if (newComment.trim() !== '' && loggedInUserId) {
-      // 새로운 댓글을 댓글 목록에 추가
-      setComments([
-        ...comments,
-        //DB에서 갖고 온 값들 뿌리면 될듯
-        {
-          content: newComment,
-          userId: loggedInUserId,
-          regDate: today.toLocaleString(),
-        },
-      ]);
-      // 입력 폼 초기화
-      setNewComment('');
-    } else if (newComment === '') {
-      alert('댓글을 입력해주세요');
-      return;
-    } else if (loggedInUserId) {
-      alert('로그인을 하신 후 이용해 주시기 바랍니다.');
-      return;
+  //댓글 목록 불러오기 요청
+  const replyList = async () => {
+    try {
+      const response = await fetch(ReplyList_URL);
+      const data = await response.json();
+      console.log(data.replyLists);
+      setComments(data.replyLists);
+    } catch (error) {
+      console.error(error);
     }
   };
 
-  // 게시물 삭제
+  //댓글 삭제 요청
+
+  const replyDeleteHandler = async (replyNo) => {
+    if (window.confirm('댓글을 삭제하시겠습니까?')) {
+      console.log(`${ReplyDelete_URL}/${boardNo}/${replyNo}`);
+      const res = await fetch(`${ReplyDelete_URL}/${boardNo}/${replyNo}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
+        },
+      })
+        .then((res) => res.json())
+        .then((json) => {
+          setComments(json.replyLists);
+        });
+    }
+  };
+
+  //댓글 수정 요청
+  // 수정 중인 댓글의 내용을 변경하는 핸들러
+  const handleEditChange = (e, comment) => {
+    const updatedComments = comments.map((c) =>
+      c.replyNo === comment.replyNo ? { ...c, replyContent: e.target.value } : c
+    );
+    setComments(updatedComments);
+  };
+
+  // 수정 완료 버튼을 누르면 호출되는 핸들러
+  const handleEditSubmit = async (comment) => {
+    console.log(ReplyUpdate_URL);
+    console.log('값', boardNo, comment.replyContent, comment.replyNo);
+    try {
+      const response = await fetch(ReplyUpdate_URL, {
+        method: 'PUT',
+        headers: requestHeader,
+        body: JSON.stringify({
+          replyNo: comment.replyNo,
+          replyContent: comment.replyContent,
+          boardNo: boardNo,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      // 수정 완료 후 서버에서 댓글 목록을 다시 받아와서 UI 업데이트
+      const updatedComments = await response.json();
+      console.log(updatedComments);
+      setComments(updatedComments.replyLists);
+
+      // 수정 완료 후 editingComment 초기화
+      setEditingComment(null);
+    } catch (error) {
+      console.error('Error during comment update:', error);
+    }
+  };
+  //게시물 삭제 요청
   const deleteBoard = async () => {
     if (window.confirm('게시글을 삭제하시겠습니까?')) {
+      const res = await fetch(MODIFY_URL, {
+        method: 'DELETE',
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
+        },
+      });
+
+      if (res.status === 200) {
+        alert('게시글이 삭제되었습니다.');
+        redirection('/board');
+      } else {
+        alert('삭제권한이 없습니다.');
+      }
     }
+  };
+
+  //게시물 수정 요청 베이스 끌고오기
+  const modifyHandler = (boardNo) => {
+    const token = localStorage.getItem('ACCESS_TOKEN');
+
+    fetch(`http://localhost:8181/board/detail/${boardNo}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        navigate(`/boardupdate/${boardNo}`, {
+          state: { boardupdate: data },
+        });
+        console.log('상세 페이지 데이터:', data);
+      })
+      .catch((error) => {
+        console.error('상세 페이지로 이동 중 에러 발생:', error);
+      });
   };
 
   return (
     <div className='post-detail'>
-      <h2>{post.title}</h2>
+      <h2>{boardDetail?.title}</h2>
       <p className='post-date'>
-        작성자:{post.userId} | 작성일: {post.date}
+        작성자:{boardDetail?.userId} | 작성일: {boardDetail?.registDate}
       </p>
-      <div className='post-content'>
-        <img
-          src={post.imageUrl}
-          alt='게시물 이미지'
-        />
-        <p>{post.content}</p>
-      </div>
+      {image && (
+        <div className='post-content'>
+          <img
+            src={image}
+            alt='게시물 이미지'
+          />
+        </div>
+      )}
+      <p>{boardDetail?.content}</p>
+
       <button
         onClick={deleteBoard}
         className='detail-btn'
@@ -102,7 +225,7 @@ const BoardDetail = () => {
         삭제
       </button>
       <button
-        onClick={() => toLink('/boardupdate')}
+        onClick={() => modifyHandler(boardDetail.boardNo)}
         className='detail-btn'
       >
         수정
@@ -112,8 +235,42 @@ const BoardDetail = () => {
         <ul>
           {comments.map((comment, index) => (
             <li key={index}>
-              <strong>{comment.userId}</strong>: {comment.content}
-              <p className='replyRegDate'>{comment.regDate}</p>
+              {editingComment === comment.replyNo ? (
+                <div>
+                  <input
+                    type='text'
+                    value={comment.replyContent}
+                    onChange={(e) => handleEditChange(e, comment)}
+                    id='modifyInput'
+                  />
+                  <button
+                    className='modifybutton'
+                    onClick={() => handleEditSubmit(comment)}
+                  >
+                    수정 완료
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <strong>{comment.userId}</strong>: {comment.replyContent}
+                  <p className='replyRegDate'>
+                    {comment.registDate}&nbsp;
+                    <span
+                      className='replybutton'
+                      onClick={() => replyDeleteHandler(comment.replyNo)}
+                    >
+                      삭제
+                    </span>
+                    &nbsp;
+                    <span
+                      className='replybutton'
+                      onClick={() => setEditingComment(comment.replyNo)}
+                    >
+                      수정
+                    </span>
+                  </p>
+                </>
+              )}
             </li>
           ))}
         </ul>

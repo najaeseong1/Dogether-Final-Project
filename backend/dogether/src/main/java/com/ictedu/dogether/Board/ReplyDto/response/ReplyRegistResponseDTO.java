@@ -15,6 +15,8 @@ import java.time.LocalDateTime;
 @Builder
 public class ReplyRegistResponseDTO {
 
+    private int replyNo;
+
     //작성자
     private String userId;
 
@@ -31,9 +33,10 @@ public class ReplyRegistResponseDTO {
 
 
     public ReplyRegistResponseDTO(Reply reply) {
+        this.replyNo  = reply.getReplyNo();
         this.userId=reply.getUser().getUserId();
         this.replyContent = reply.getReplyContent();
-        this.registDate = reply.getCreateDate();
+        this.registDate = reply.getUpdateDate();
         this.modifyDate=reply.getUpdateDate();
 
     }
