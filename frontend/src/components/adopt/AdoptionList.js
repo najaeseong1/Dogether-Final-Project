@@ -10,6 +10,8 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 import Select from 'react-select';
+import LoadingPink from '../../global/LoadingPink';
+import { ADOPT, API_BASE_URL } from '../../global/config/host-config';
 
 const AdoptionList = () => {
   const navigate = useNavigate();
@@ -61,13 +63,16 @@ const AdoptionList = () => {
     setUprCd(selectedOption.value); // 선택된 값으로 uprCd 업데이트
   };
 
-  const [adoptList, setAdoptList] = useState([]);
-  // 페이지 당 보여줄 프레임 개수
-  const itemsPerPage = 12;
-  const [currentPage, setCurrentPage] = useState(1);
+    //입양 리스트
+   const [adoptList, setAdoptList] = useState([]);
+   //로딩 상태 변수
+   const [loading, setLoding] = useState();
+   // 페이지 당 보여줄 프레임 개수
+   const itemsPerPage = 12;
+   const [currentPage, setCurrentPage] = useState(1);
 
-  // 입양 상세페이지로 요청
-  const goAdoptionListDetail = (desertionNo) => {
+   // 입양 상세페이지로 요청
+   const goAdoptionListDetail = (desertionNo) => {
     fetch(`http://localhost:8181/adopt/detail/${desertionNo}`)
       .then((response) => response.json())
       .then((data) => {
@@ -85,22 +90,25 @@ const AdoptionList = () => {
 
   // 입양 리스트 조건 검색
   useEffect(() => {
+    setLoding(true);
     axios
-      .get(`http://localhost:8181/adopt/adminicode?uprCd=${uprCd}`)
+      .get(`${API_BASE_URL}${ADOPT}/adminicode?uprCd=${uprCd}`)
       .then((res) => {
-        setFilteredAdoptList(res.data.adoptLists);
+        setFilteredAdoptList(res.data.adoptLists)
+        setLoding(false);
       })
       .catch((err) => {
         console.error(err);
+        setLoding(false);
       });
   }, [uprCd]);
 
   useEffect(() => {
     // 입양 리스트 '/adopt 요청'
     axios
-      .get('http://localhost:8181/adopt')
-      .then((res) => {
-        setAdoptList(res.data.adoptLists); //.slice(0,12)
+      .get(`${API_BASE_URL}${ADOPT}`)
+      .then((res)=>{
+        setAdoptList(res.data.adoptLists);      //.slice(0,12)
         setFilteredAdoptList(res.data.adoptLists);
       })
       .catch((err) => {
@@ -141,9 +149,19 @@ const AdoptionList = () => {
   //   currentPage * itemsPerPage
   // );
 
+
+ 
   return (
-    <div className='index'>
-      <div className='div'>
+    <div className="index">
+
+    <div className="div">
+    {loading ? (
+      <div className="loading-pink" style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 9999 }}>
+      {/* 로딩 바의 내용 */}
+          <LoadingPink />
+          </div>
+        ) : (
+          <>
         <form>
           <label>
             <Select
@@ -198,6 +216,7 @@ const AdoptionList = () => {
         ))} */}
 
         {/* 여기에 폼 코드를 추가하세요 */}
+       
         {paginatedData.map((item, index) => (
           <div
             key={index}
@@ -236,8 +255,14 @@ const AdoptionList = () => {
               variant='outlined'
             />
           </Stack>
-        </div>
-      </div>
+          </div>
+
+       
+            
+          </>
+        )}
+     
+    </div>
     </div>
   );
 };

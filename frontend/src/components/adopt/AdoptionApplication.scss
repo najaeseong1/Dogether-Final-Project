@@ -46,7 +46,7 @@
     //border: 1px solid green;
     position: relative;
     left: 360px;
-    top: -6px;
+    top: -16px;
     font-weight: bold;
 
     input{
@@ -90,7 +90,7 @@
     }
 }
 
-.main2 .job {
+.main2 .job1 {
     position: relative;
     left: 360px;
     top: 23px;
@@ -135,7 +135,7 @@
     }
 }
 
-.main2 .reason {
+.main2 .reason1 {
     position: relative;
     left: 10px;
     top: 110px;
@@ -265,8 +265,8 @@
     top: 280px;
     font-weight: bold;
 
-    button{
-        border: 1px solid #F3DED7;
+    input{
+        border: 1px solid #E89B93;
         border-width: 3px;
         border-radius: 20px;
         width: 130px;
