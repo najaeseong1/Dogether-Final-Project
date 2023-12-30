@@ -10,14 +10,20 @@ const Footer = () => {
   };
   const location = useLocation();
   const [isNotFoundPage, setIsNotFoundPage] = useState(false);
+  const [isExcludedPage, setIsExcludedPage] = useState(false);
+  const [isOrdermanagement, setIsOrdermanagement] = useState(false);
 
   useEffect(() => {
     // 페이지 경로가 '/pagenotfound'이면 isNotFoundPage를 true로 설정
     setIsNotFoundPage(location.pathname === '/pagenotfound');
+    setIsExcludedPage(location.pathname === '/adminmain');
+    setIsOrdermanagement(location.pathname === '/ordermanagement');
   }, [location.pathname]);
 
   return (
-    !isNotFoundPage && (
+    !isNotFoundPage &&
+    !isExcludedPage &&
+    !isOrdermanagement && (
       <>
         <div className='footerContainer1'>
           <div>이용약관 | 개인정보 방침</div>

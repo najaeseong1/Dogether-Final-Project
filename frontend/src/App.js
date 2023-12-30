@@ -57,11 +57,11 @@ function App() {
               element={<Board />}
             />
             <Route
-              path='/boardDetail'
+              path='/boardDetail/:boardNo'
               element={<BoardDetail />}
             />
             <Route
-              path='/boardupdate'
+              path='/boardupdate/:boardNo'
               element={<BoardUpdate />}
             />
             <Route

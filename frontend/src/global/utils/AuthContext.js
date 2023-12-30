@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { API_BASE_URL, USER } from '../config/host-config';
+import { format } from 'date-fns';
 
 // 새로운 전역 컨텍스트 생성
 const AuthContext = React.createContext({
@@ -117,6 +118,10 @@ export const AuthContextProvider = (props) => {
       {props.children}
     </AuthContext.Provider>
   );
+};
+
+export const formattedDate = (dateString) => {
+  return format(new Date(dateString), 'yyyy-MM-dd');
 };
 
 export default AuthContext;
