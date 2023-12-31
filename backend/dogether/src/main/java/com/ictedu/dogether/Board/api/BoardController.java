@@ -44,9 +44,12 @@ public class BoardController {
             @AuthenticationPrincipal TokenUserInfo userInfo,
             @Validated @RequestPart("board") BoardRegistRequestDTO dto,
             @RequestPart(value = "ImageFile", required = false) MultipartFile imageFile,
+
             BindingResult result) {
 
         log.info("/board/ 글 작성 요청 들어옴 ");
+
+
         if (result.hasErrors()) {
             log.warn(result.toString());
             return ResponseEntity.badRequest()
@@ -156,6 +159,7 @@ public class BoardController {
     @PutMapping("/modify")
     public ResponseEntity<?> modify(
             @RequestPart(value = "ImageFile", required = false) MultipartFile imageFile,
+            @RequestPart(value = "oldFile", required = false) MultipartFile oldFile,
              @RequestPart("board") BoardModifyRequestDTO dto,
             @AuthenticationPrincipal TokenUserInfo userInfo,
             BindingResult result) {
@@ -169,7 +173,7 @@ public class BoardController {
         }
         try {
             String uploadFilePath = getUploadFilePath(imageFile); //여기 메서드 추출한 거 사용
-            BoardModifyResponseDTO modifyDTO = boardService.modify(dto, uploadFilePath, userInfo);
+            BoardModifyResponseDTO modifyDTO = boardService.modify(dto, uploadFilePath, userInfo, oldFile);
             return ResponseEntity.ok().body(modifyDTO);
 
         } catch (RuntimeException e) {

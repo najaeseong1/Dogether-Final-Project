@@ -1,24 +1,25 @@
- .joinmain {
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&family=Jua&family=Noto+Sans+KR:wght@100&family=Poiret+One&display=swap');
+.joinmain {
   position: relative;
   top: 100px;
-  height: 1500px;   
-    
- }
+  height: 1500px;
+  font-family: 'Noto Sans KR', sans-serif;
+}
 
- // 다음 우편번호 검색 기능 툴
- .daum {
+// 다음 우편번호 검색 기능 툴
+.daum {
   display: none;
- }
+}
 
- .red-message{
+.red-message {
   color: red;
- }
+}
 
- .blue-message {
+.blue-message {
   color: green;
- }
+}
 
-.joinmain .joinmain2{
+.joinmain .joinmain2 {
   position: relative;
   bottom: 130px;
 }
@@ -161,7 +162,6 @@
     border: 2px solid grey;
     background-color: pink;
     border-radius: 10px;
-    
   }
 }
 
@@ -307,7 +307,6 @@
     background-color: pink;
     width: 100px;
     height: 45px;
-    
   }
 }
 
@@ -382,28 +381,25 @@
 
 .joinmain .dongebtn {
   position: relative;
-  
+
   top: 150px;
   left: 600px;
 
-  input{
+  input {
     width: px;
   }
 }
 
 .joinmain .dongetext {
   position: relative;
-  
+
   top: 170px;
-  
 }
 
-.joinmain .dongebtn2{
+.joinmain .dongebtn2 {
   position: relative;
   left: 600px;
   top: 150px;
-
-    
 }
 
 .joinmain .lastjoinbtn {
@@ -417,6 +413,5 @@
     border-radius: 10px;
     width: 130px;
     height: 45px;
-    
   }
 }

@@ -4,6 +4,7 @@ import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE_URL, BOARD } from '../../global/config/host-config';
 import Swal from 'sweetalert2';
+import BoardDetail from './BoardDetail';
 
 const BoardUpdate = () => {
   const $fileTag = useRef();
@@ -16,6 +17,7 @@ const BoardUpdate = () => {
   const [category, setCategory] = useState('');
   const [content, setContent] = useState('');
   const [file, setFile] = useState(null);
+  const [oldFile, setOldFile] = useState(null);
   const API_URL = `http://localhost:8181/board/modify`;
   const imageRequestURL = `${API_BASE_URL}${BOARD}/load-profile/${boardNo}`;
   const [image, setImage] = useState(null);
@@ -27,8 +29,8 @@ const BoardUpdate = () => {
   useEffect(() => {
     const { state } = location;
     setBoardDetail(state ? state.boardupdate : null);
-    console.log('boardDetail', boardDetail);
 
+    console.log('boardData의 값은?', boardData);
     const fetchImage = async () => {
       const res = await fetch(imageRequestURL, {
         method: 'GET',
@@ -37,8 +39,21 @@ const BoardUpdate = () => {
       if (res.status === 200) {
         const imageBlob = await res.blob();
         const img = window.URL.createObjectURL(imageBlob);
-        console.log('img', img);
+
+        setImage(imageBlob); //이미지 밥
+        console.log('boardDetail', boardDetail);
+        // 파일 객체 얻기
+        // const selectedFile = $fileTag.current.files[0];
+        // console.log();
+
+        // console.log('$file', selectedFile);
+
         setImagePreview(img);
+        //그럼 여기서 파일 객체로 변환..?
+
+        // setFile(files);
+
+        console.log(file);
       } else {
         const err = await res.text();
         setImagePreview(null);
@@ -48,15 +63,33 @@ const BoardUpdate = () => {
     fetchImage();
   }, [location]);
 
-  console.log(boardDetail?.category);
+  useEffect(() => {
+    try {
+      setOldFile(
+        new File([image], boardDetail?.image, {
+          type: 'image/png',
+        })
+      );
+      // console.log('기존 파일 경로', files);
+
+      // setOldFile(files);
+      // setOldFile 함수가 Promise를 반환하는 것으로 가정하고 await로 기다림
+    } catch (error) {
+      console.error('처리 중 오류 발생:', error);
+    }
+  }, [boardDetail]);
+
+  // 함수 호출
 
   // 게시물 수정 함수
   const handleSubmit = (e) => {
     // 비동기 함수로 변경
     e.preventDefault();
-
+    console.log('file수정되엇나?', oldFile);
     boardRegist(boardNo, title, content, category);
   };
+
+  //사용자가 입력값을 비워놓은채 요청 보내면 기본값들로 채워짐
   const boardRegist = async (boardNo, title, content, category) => {
     const formData = new FormData();
 
@@ -65,26 +98,49 @@ const BoardUpdate = () => {
       boardNo: boardNo,
       title: title !== '' ? title : boardDetail?.title,
       content: content !== '' ? content : boardDetail?.content,
-      category: category !== undefined ? category : boardDetail?.category,
+      category: category !== '' ? category : boardDetail?.category,
     };
 
-    if (!category) {
-      alert('카테고리를 선택해주세요');
-      return;
-    }
-
+    // console.log('setOldFile의 값', setOldFile(files));
     formData.append(
       'board',
       new Blob([JSON.stringify(jsonData)], { type: 'application/json' })
     );
+    console.log('oldFile 존재? ', oldFile);
 
     // 이미지 파일 추가
     if (file) {
+      console.log('file존재?', file);
       formData.append('ImageFile', $fileTag.current.files[0]);
       console.log('file', file);
     }
 
+    if (!file && oldFile) {
+      //추가된 파일이 존재하지않고 기존 파일 존재하는 경우
+
+      formData.append('oldFile', oldFile);
+    }
+
+    console.log('oldFile의 값은?', oldFile);
+
+    // }else if()
+
+    console.log('폼데이터의 값은?', formData);
+
+    // if (title === '' || content === '') {
+    //   alert('입력창이 비었습니다.');
+    //   return;
+    // }
+
+    // if (!category) {
+    //   alert('카테고리를 선택해주세요');
+    //   return;
+    // }
+
     try {
+      console.log('왜 oldFile이 달라?', oldFile);
+
+      console.log('formdata', formData);
       const response = await fetch(API_URL, {
         method: 'PUT',
         body: formData,
@@ -99,10 +155,10 @@ const BoardUpdate = () => {
         try {
           const errorData = await response.json();
           console.error('Server error data:', errorData);
-          alert('수정 권한이 없습니다.');
+          Swal.fire('수정 권한이 없습니다.', '', 'warning');
         } catch (error) {
           console.error('Failed to parse error response:', error);
-          alert('수정 권한이 없습니다.');
+          Swal.fire('수정 권한이 없습니다.', '', 'warning');
         }
         return;
       }
@@ -138,7 +194,7 @@ const BoardUpdate = () => {
   const handleFileChange = (e) => {
     // 선택한 파일을 상태에 저장
     const file = $fileTag.current.files[0];
-
+    console.log('선택 file', file);
     //확장자 얻기
     const fileExt = file.name.slice(file.name.indexOf('.') + 1).toLowerCase();
 
@@ -192,6 +248,7 @@ const BoardUpdate = () => {
             type='file'
             onChange={handleFileChange}
             ref={$fileTag}
+            id='fileInput'
           />
         </label>
 

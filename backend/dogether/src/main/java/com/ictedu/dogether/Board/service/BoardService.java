@@ -52,8 +52,13 @@ public class BoardService {
             log.info("컨트롤러가 서비스에게 요청 보냈따 ");
             log.info(userInfo.getUserId());
             //회원 정보 찾기
+        
         User user = getUser(userInfo.getUserId());
          log.info("서비스 쪽에서 회원정보-{}", user);
+
+        log.info("현재 파일", uploadRootPath);
+
+
         Board saved = boardRepository.save(dto.toEntity(uploadRootPath, user));
          log.info("자유게시판에서 받아온 엔터티 -{}", saved);
         return new BoardRegistResponseDTO(saved);
@@ -80,7 +85,9 @@ public class BoardService {
 
 
     //게시물 수정
-    public BoardModifyResponseDTO modify(BoardModifyRequestDTO dto, String uploadFilePath, TokenUserInfo userInfo) {
+    public BoardModifyResponseDTO modify(BoardModifyRequestDTO dto, String uploadFilePath, TokenUserInfo userInfo,
+    MultipartFile oldFile
+    ) {
 
         //게시물 작성자 아이디랑 지금 요청온 아이디랑 비교
         Board targetBoard = bringBoard(dto.getBoardNo());
@@ -90,7 +97,7 @@ public class BoardService {
             //작성자 아이다와 같으면 실행될 구문 
             throw new RuntimeException("수정 권한이 없습니다.");
         }
-        
+        String originalFilename = oldFile.getOriginalFilename();
         Board board = boardRepository.findById(dto.getBoardNo()).orElseThrow(
                 () -> new RuntimeException("게시물 정보가 없습니다.")
         );
@@ -99,7 +106,11 @@ public class BoardService {
         board.setTitle(dto.getTitle());
         board.setContent(dto.getContent());
         board.setCategory(dto.getCategory());
-        board.setImage(uploadFilePath);
+        if (uploadFilePath != null) {
+            board.setImage(uploadFilePath);
+        }else if (originalFilename != null) {
+            board.setImage(originalFilename);
+        }
 
         //사용자가 수정할 새 정보를 save 함
         Board modifyBoard = boardRepository.save(board);
