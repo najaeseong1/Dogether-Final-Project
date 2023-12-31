@@ -206,13 +206,13 @@ const Quiz = () => {
   useEffect(() => {
     setOpenModal(false);
   }, []);
-
   //결과화면볼때
   useEffect(() => {
     if (showResult) {
       scoreSave();
     }
   }, [showResult]);
+
   return (
     //App
     <div className='quiz'>

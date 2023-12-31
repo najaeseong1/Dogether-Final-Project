@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './MyPage.scss';
 import { Link, useNavigate } from 'react-router-dom';
-import { API_BASE_URL } from '../../global/config/host-config';
+import { API_BASE_URL, USER } from '../../global/config/host-config';
 import axios from 'axios';
 
 const MyPage = () => {
@@ -18,13 +18,18 @@ const MyPage = () => {
   useEffect(() => {
     // 점수 가져오기
     axios
-      .post(`${API_BASE_URL}/knowledges/quiz`)
-      .then((res) => {
-        setScore(res.data);
-      })
-      .catch((err) => {
-        console.log('err', err);
-      });
+    .get(`${API_BASE_URL}${USER}/knowledges/quiz`,{
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
+      },
+    })
+    .then((res) => {
+      console.log(res);
+      setScore(res.data.score);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
 
     //글 목록 가져오기
     axios
