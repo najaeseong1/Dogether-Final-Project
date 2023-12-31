@@ -42,18 +42,8 @@ const BoardUpdate = () => {
 
         setImage(imageBlob); //이미지 밥
         console.log('boardDetail', boardDetail);
-        // 파일 객체 얻기
-        // const selectedFile = $fileTag.current.files[0];
-        // console.log();
-
-        // console.log('$file', selectedFile);
 
         setImagePreview(img);
-        //그럼 여기서 파일 객체로 변환..?
-
-        // setFile(files);
-
-        console.log(file);
       } else {
         const err = await res.text();
         setImagePreview(null);
@@ -70,10 +60,6 @@ const BoardUpdate = () => {
           type: 'image/png',
         })
       );
-      // console.log('기존 파일 경로', files);
-
-      // setOldFile(files);
-      // setOldFile 함수가 Promise를 반환하는 것으로 가정하고 await로 기다림
     } catch (error) {
       console.error('처리 중 오류 발생:', error);
     }
@@ -85,7 +71,7 @@ const BoardUpdate = () => {
   const handleSubmit = (e) => {
     // 비동기 함수로 변경
     e.preventDefault();
-    console.log('file수정되엇나?', oldFile);
+
     boardRegist(boardNo, title, content, category);
   };
 
@@ -106,41 +92,19 @@ const BoardUpdate = () => {
       'board',
       new Blob([JSON.stringify(jsonData)], { type: 'application/json' })
     );
-    console.log('oldFile 존재? ', oldFile);
 
+    console.log('뉴파일', $fileTag.current.files[0]);
     // 이미지 파일 추가
     if (file) {
-      console.log('file존재?', file);
       formData.append('ImageFile', $fileTag.current.files[0]);
-      console.log('file', file);
-    }
-
-    if (!file && oldFile) {
-      //추가된 파일이 존재하지않고 기존 파일 존재하는 경우
-
+      console.log('file 존재?', $fileTag.current.files[0]);
+    } else if (!file && oldFile) {
+      console.log('추가된 파일이 존재하지 않고 기존 파일이 존재하는 경우');
       formData.append('oldFile', oldFile);
     }
-
     console.log('oldFile의 값은?', oldFile);
 
-    // }else if()
-
-    console.log('폼데이터의 값은?', formData);
-
-    // if (title === '' || content === '') {
-    //   alert('입력창이 비었습니다.');
-    //   return;
-    // }
-
-    // if (!category) {
-    //   alert('카테고리를 선택해주세요');
-    //   return;
-    // }
-
     try {
-      console.log('왜 oldFile이 달라?', oldFile);
-
-      console.log('formdata', formData);
       const response = await fetch(API_URL, {
         method: 'PUT',
         body: formData,

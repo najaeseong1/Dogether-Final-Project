@@ -164,7 +164,8 @@ public class BoardController {
             @AuthenticationPrincipal TokenUserInfo userInfo,
             BindingResult result) {
 
-
+    log.info("ImageFile-{}", imageFile);
+    log.info("oldFile -{}", oldFile);
         log.info("/modify/ 글 수정 요청이 들어옴  ");
         if (result.hasErrors()) {
             log.warn(result.toString());
@@ -172,7 +173,8 @@ public class BoardController {
                     .body(result.getFieldError());
         }
         try {
-            String uploadFilePath = getUploadFilePath(imageFile); //여기 메서드 추출한 거 사용
+            String uploadFilePath = getUploadFilePath(imageFile);
+            log.info("새로운 파일 경로 -{}", uploadFilePath);//여기 메서드 추출한 거 사용
             BoardModifyResponseDTO modifyDTO = boardService.modify(dto, uploadFilePath, userInfo, oldFile);
             return ResponseEntity.ok().body(modifyDTO);
 

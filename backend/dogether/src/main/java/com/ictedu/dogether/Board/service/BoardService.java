@@ -19,6 +19,7 @@ import com.ictedu.dogether.userapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.websocket.server.UpgradeUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -88,30 +89,37 @@ public class BoardService {
     public BoardModifyResponseDTO modify(BoardModifyRequestDTO dto, String uploadFilePath, TokenUserInfo userInfo,
     MultipartFile oldFile
     ) {
-
+        log.info("새로운 파일 경로-{}", uploadFilePath);
         //게시물 작성자 아이디랑 지금 요청온 아이디랑 비교
         Board targetBoard = bringBoard(dto.getBoardNo());
 
+        log.info("이쪽에서 오류났나?1 ");
         //게시물
         if(!userInfo.getUserId().equals(targetBoard.getUser().getUserId())) {
             //작성자 아이다와 같으면 실행될 구문 
             throw new RuntimeException("수정 권한이 없습니다.");
         }
-        String originalFilename = oldFile.getOriginalFilename();
+        log.info("이쪽에서 오류났나?2 ");
+        String originalFilename;
+        if (oldFile != null) {
+            originalFilename = oldFile.getOriginalFilename();
+        } else {
+            originalFilename = null;
+        }
         Board board = boardRepository.findById(dto.getBoardNo()).orElseThrow(
                 () -> new RuntimeException("게시물 정보가 없습니다.")
         );
-
+        log.info("이쪽에서 오류났나? ");
         board.setBoardNo(dto.getBoardNo());
         board.setTitle(dto.getTitle());
         board.setContent(dto.getContent());
         board.setCategory(dto.getCategory());
-        if (uploadFilePath != null) {
-            board.setImage(uploadFilePath);
-        }else if (originalFilename != null) {
+        if (originalFilename != null) {
             board.setImage(originalFilename);
+        }else if (uploadFilePath != null) {
+            board.setImage(uploadFilePath);
         }
-
+        log.info("새로운 파일 저장 보드 -{}", board);
         //사용자가 수정할 새 정보를 save 함
         Board modifyBoard = boardRepository.save(board);
         return new BoardModifyResponseDTO(modifyBoard);
