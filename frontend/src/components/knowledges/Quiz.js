@@ -2,10 +2,18 @@ import React, { useEffect, useState } from 'react';
 import './Quiz.scss';
 import { useNavigate } from 'react-router-dom';
 import { LuDog } from 'react-icons/lu';
+import axios from 'axios';
+import { API_BASE_URL, USER } from '../../global/config/host-config';
 
 const Quiz = () => {
   // 마이페이지에 점수 띄우기
   const myScore = useNavigate();
+
+  const getUserIdFromLocalStorage = () => {
+    return localStorage.getItem('userId');
+  };
+
+  const [userId, setUserId] = useState(getUserIdFromLocalStorage());
 
   //현재 질문 변경
   const [question, setQuestion] = useState(0);
@@ -18,8 +26,26 @@ const Quiz = () => {
 
   const [nyaHoProgress, setNyaHoProgress] = useState(0);
 
-  const [opneModal, setOpenModal] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
+  // 퀴즈 점수 저장
+  const scoreSave = async () => {
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}${USER}/knowledges/quiz?score=${score * 10}`,
+        null,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
+          },
+        }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error('퀴즈 결과 저장 중 에러 발생:', error);
+    }
+  };
   const questions = [
     {
       text: '강아지가 살기 적합한 공간은?',
@@ -53,22 +79,38 @@ const Quiz = () => {
       text: '반려견 우울증에 대해 옳은 것은?',
       options: [
         { id: 0, text: '반려견은 우울증에 걸리지 않는다', isCorrect: false },
-        { id: 1, text: '갑작스런 이사로 우울증에 걸릴 수 있다', isCorrect: true },
-        { id: 2, text: '우을증은 행동 교육으로는 치료할 수 없다', isCorrect: false },
+        {
+          id: 1,
+          text: '갑작스런 이사로 우울증에 걸릴 수 있다',
+          isCorrect: true,
+        },
+        {
+          id: 2,
+          text: '우을증은 행동 교육으로는 치료할 수 없다',
+          isCorrect: false,
+        },
       ],
     },
     {
       text: '반려견을 유기하면 받는 처벌 사항은? (맹견 제외)',
       options: [
         { id: 0, text: '300만원 이하의 벌금이 부과된다', isCorrect: true },
-        { id: 1, text: '100만원 이하의 과태료 처분을 받는다', isCorrect: false },
+        {
+          id: 1,
+          text: '100만원 이하의 과태료 처분을 받는다',
+          isCorrect: false,
+        },
         { id: 2, text: '법적 처벌을 받지 않는다 ', isCorrect: false },
       ],
     },
     {
       text: '반려견 입양 첫날 행동으로 바람직한 것은?',
       options: [
-        { id: 0, text: '입양 전 강아지가 썻던 담요를 준비한다', isCorrect: true },
+        {
+          id: 0,
+          text: '입양 전 강아지가 썻던 담요를 준비한다',
+          isCorrect: true,
+        },
         { id: 1, text: '활발한 어린이들과 같이 놀게 한다', isCorrect: false },
         { id: 2, text: '배변 훈련을 시작한다', isCorrect: false },
       ],
@@ -84,8 +126,16 @@ const Quiz = () => {
     {
       text: '반려동물과 자동차 탑승 시 주의사항은?',
       options: [
-        { id: 0, text: '반려동물이 차 안에 움직이게 하는 게 좋다 ', isCorrect: false },
-        { id: 1, text: '반려동물을 손으로 안고 운전해도 된다 ', isCorrect: false },
+        {
+          id: 0,
+          text: '반려동물이 차 안에 움직이게 하는 게 좋다 ',
+          isCorrect: false,
+        },
+        {
+          id: 1,
+          text: '반려동물을 손으로 안고 운전해도 된다 ',
+          isCorrect: false,
+        },
         { id: 2, text: '반려동물을 안은 채 운전하면 안된다', isCorrect: true },
       ],
     },
@@ -100,9 +150,17 @@ const Quiz = () => {
     {
       text: '반려견 임신 중 주의사항이 아닌 것은?',
       options: [
-        { id: 0, text: '목욕 시 배를 압박하지 않도록 조심한다 ', isCorrect: false },
+        {
+          id: 0,
+          text: '목욕 시 배를 압박하지 않도록 조심한다 ',
+          isCorrect: false,
+        },
         { id: 1, text: '계단을 오르내리는 일을 주의한다 ', isCorrect: false },
-        { id: 2, text: '임신 중에는 꼭 구충약을 복용해야 한다', isCorrect: true },
+        {
+          id: 2,
+          text: '임신 중에는 꼭 구충약을 복용해야 한다',
+          isCorrect: true,
+        },
       ],
     },
     {
@@ -148,6 +206,13 @@ const Quiz = () => {
   useEffect(() => {
     setOpenModal(false);
   }, []);
+
+  //결과화면볼때
+  useEffect(() => {
+    if (showResult) {
+      scoreSave();
+    }
+  }, [showResult]);
   return (
     //App
     <div className='quiz'>
@@ -169,7 +234,7 @@ const Quiz = () => {
           >
             정답보기
           </button>
-          {opneModal && (
+          {openModal && (
             <>
               <div className='background'></div>
               <div className='modal-group'>
@@ -181,29 +246,46 @@ const Quiz = () => {
                   <div className='content'>
                     <p className='check-info'>정답을 확인해보세요</p>
                     <ul className='answer-list'>
-
-                      <li className='list-content'>                
-                        <p>1. 반려견은 자유롭게 움직일 수 있는 공간에서 살기 적합하다</p>
+                      <li className='list-content'>
+                        <p>
+                          1. 반려견은 자유롭게 움직일 수 있는 공간에서 살기
+                          적합하다
+                        </p>
                       </li>
 
                       <li className='list-content'>
-                        <p>2. 매월 정기적으로 예방접종을 해야 하는 것은 심장사상충</p>
+                        <p>
+                          2. 매월 정기적으로 예방접종을 해야 하는 것은
+                          심장사상충
+                        </p>
                       </li>
 
                       <li className='list-content'>
-                        <p>3. 반려견은 갑작스러운 이사로 인해 우울증에 걸릴 수 있다</p>
+                        <p>
+                          3. 반려견은 갑작스러운 이사로 인해 우울증에 걸릴 수
+                          있다
+                        </p>
                       </li>
 
                       <li className='list-content'>
-                        <p>4. 반려동물을 유기하면 300만원 이하의 벌금이 부과된다(맹견 제외)</p>
-                      </li>
-
-                      <li className='list-content'>             
-                        <p>5. 유기견 입양 첫날 입양 전 강아지가 썻던 담요를 준비하는 게 좋다</p>
+                        <p>
+                          4. 반려동물을 유기하면 300만원 이하의 벌금이
+                          부과된다(맹견 제외)
+                        </p>
                       </li>
 
                       <li className='list-content'>
-                        <p>6. 월령 2개월 이상인 반려동물은 반려동물 등록을 해야한다</p>
+                        <p>
+                          5. 유기견 입양 첫날 입양 전 강아지가 썻던 담요를
+                          준비하는 게 좋다
+                        </p>
+                      </li>
+
+                      <li className='list-content'>
+                        <p>
+                          6. 월령 2개월 이상인 반려동물은 반려동물 등록을
+                          해야한다
+                        </p>
                       </li>
 
                       <li className='list-content'>
@@ -219,9 +301,11 @@ const Quiz = () => {
                       </li>
 
                       <li className='list-content'>
-                        <p>10. 낮은 목소리로 오랫동안 이야기하는 건 반려견을 잘 칭찬하는 방법이 아니다</p>
+                        <p>
+                          10. 낮은 목소리로 오랫동안 이야기하는 건 반려견을 잘
+                          칭찬하는 방법이 아니다
+                        </p>
                       </li>
-                      
                     </ul>
                   </div>
                   <button
