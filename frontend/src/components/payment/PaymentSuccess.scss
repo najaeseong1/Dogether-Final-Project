@@ -1,0 +1,29 @@
+.payment-result-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 60vh;
+  p {
+    color: #633e3e;
+    font-size: x-large;
+    font-family: 'Nanum Gothic', sans-serif;
+    text-align: center;
+  }
+  .buttonSection {
+    margin-top: 10vh;
+    display: flex;
+    justify-content: space-evenly;
+    button {
+      border-radius: 5px;
+      border: 1px solid #dad6d6;
+      background: #6e6e6d;
+      width: 120px;
+      height: 50px;
+      flex-shrink: 0;
+      color: azure;
+      &:hover {
+        background-color: #b4b4b4;
+        cursor: pointer;
+      }
+    }
+  }
+}

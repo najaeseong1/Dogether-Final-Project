@@ -13,7 +13,7 @@ const Cart = () => {
   const [postAddr, setPostAddr] = useState(''); //기본주소 (서울 마포구 백범로 23)
   const [detailAddress, setDetailAddress] = useState(''); //상세주소 (사용자가 직접 입력)
   const [extraAddress, setExtraAddress] = useState(''); //첨부주소(목동, 청담동)
-  const [isSameAddress, setIsSameAddress] = useState(''); // 배송지 선택에 따라 창열리기
+  const [isSameAddress, setIsSameAddress] = useState('sameAddr'); // 배송지 선택에 따라 창열리기
   const [quantityMap, setQuantityMap] = useState({}); //각 상품의 수량
   const [userInfo, setUserInfo] = useState('');
 
@@ -24,6 +24,8 @@ const Cart = () => {
 
   const redirection = useNavigate();
 
+  console.log(userInfo);
+  console.log(detailAddress);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -203,17 +205,26 @@ const Cart = () => {
 
     postcodeInputRef.current.value = data.zonecode;
     addressInputRef.current.value = addr;
+    setUserInfo((prevUserInfo) => ({
+      ...prevUserInfo,
+      postNo: data.zonecode,
+      postAddr: addr,
+    }));
     detailAddressInputRef.current.focus();
   };
   const onChangePostCode = (e) => {
     //const currentPostCode = e.target.value;
     setPostNo(e.target.value);
+    setUserInfo((prevUserInfo) => ({
+      ...prevUserInfo,
+      postNo: e.target.value,
+    }));
   };
 
   const handleAddressTypeChange = (e) => {
-    const value = document.getElementById(e.target.id);
-    setIsSameAddress(value);
+    setIsSameAddress(e.target.value);
   };
+
   const shoppinghandler = () => {
     redirection('/product');
   };
@@ -377,6 +388,7 @@ const Cart = () => {
                   </td>
                 </tr>
                 <tr>
+                  {/* 주소 설정 */}
                   <th scope='row'>배송지 선택</th>
                   <td>
                     <input
@@ -384,8 +396,8 @@ const Cart = () => {
                       id='sameAddr'
                       name='addrType'
                       value='sameAddr'
-                      checked
-                      onClick={handleAddressTypeChange}
+                      checked={isSameAddress === 'sameAddr'}
+                      onChange={handleAddressTypeChange}
                     ></input>
                     <label
                       htmlFor='sameAddr'
@@ -398,7 +410,8 @@ const Cart = () => {
                       id='newAddr'
                       name='addrType'
                       value='newAddr'
-                      onClick={handleAddressTypeChange}
+                      checked={isSameAddress === 'newAddr'}
+                      onChange={handleAddressTypeChange}
                     ></input>
 
                     <label
@@ -418,8 +431,9 @@ const Cart = () => {
                       ref={postcodeInputRef}
                       value={userInfo.postNo}
                       onChange={onChangePostCode}
+                      readOnly
                     ></input>
-                    {isSameAddress.id === 'newAddr' && (
+                    {isSameAddress === 'newAddr' && (
                       <button onClick={handleOpenAddressModal}>우편번호</button>
                     )}
                     <br />
@@ -430,9 +444,10 @@ const Cart = () => {
                       value={userInfo.postAddr}
                       ref={addressInputRef}
                       style={{ width: '700px' }}
+                      readOnly
                     />
                     <br />
-                    {isSameAddress.id === 'newAddr' && (
+                    {isSameAddress === 'newAddr' && (
                       <input
                         type='text'
                         placeholder='상세주소'
@@ -440,10 +455,13 @@ const Cart = () => {
                         value={detailAddress}
                         ref={detailAddressInputRef}
                         style={{ width: '700px' }}
+                        onChange={(e) => {
+                          setDetailAddress(e.target.value);
+                        }}
                       />
                     )}
                     <br />
-                    {isSameAddress.id === 'newAddr' && (
+                    {isSameAddress === 'newAddr' && (
                       <input
                         type='text'
                         className='cartaddr'
@@ -451,6 +469,7 @@ const Cart = () => {
                         ref={extraAddressInputRef}
                         value={extraAddress}
                         style={{ width: '300px' }}
+                        readOnly
                       />
                     )}
                     <ul>
