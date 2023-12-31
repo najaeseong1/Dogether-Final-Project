@@ -175,6 +175,8 @@ const BoardDetail = () => {
       if (res.status === 200) {
         alert('게시글이 삭제되었습니다.');
         redirection('/board');
+      } else {
+        alert('삭제 권한이 없습니다.');
       }
     }
   };

@@ -54,15 +54,6 @@ const BoardUpdate = () => {
   const handleSubmit = (e) => {
     // 비동기 함수로 변경
     e.preventDefault();
-    if (title === '' || content === '') {
-      alert('입력창이 비었습니다.');
-      return;
-    }
-
-    if (!category) {
-      alert('카테고리를 선택해주세요');
-      return;
-    }
 
     boardRegist(boardNo, title, content, category);
   };
@@ -72,10 +63,15 @@ const BoardUpdate = () => {
     // JSON 데이터 추가
     const jsonData = {
       boardNo: boardNo,
-      title: title,
-      content: content,
-      category: category,
+      title: title !== '' ? title : boardDetail?.title,
+      content: content !== '' ? content : boardDetail?.content,
+      category: category !== undefined ? category : boardDetail?.category,
     };
+
+    if (!category) {
+      alert('카테고리를 선택해주세요');
+      return;
+    }
 
     formData.append(
       'board',
@@ -182,7 +178,7 @@ const BoardUpdate = () => {
         <label>
           카테고리
           <select
-            defaultValue={boardDetail?.category}
+            value={category || boardDetail?.category}
             onChange={boardCategoryHandler}
           >
             <option value=''>카테고리 선택</option>
