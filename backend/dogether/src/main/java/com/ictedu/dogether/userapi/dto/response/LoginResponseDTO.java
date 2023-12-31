@@ -20,13 +20,14 @@ public class LoginResponseDTO {
 
 
 
-    public LoginResponseDTO(User user, String token) {
+    public LoginResponseDTO(User user, String token, String state) {
         this.userId = user.getUserId();
         this.userName = user.getUserName();
         this.userEmail = user.getUserEmail();
         this.token = token;
         this.role = String.valueOf(user.getRole());
-
     }
 
+    public LoginResponseDTO(User foundUser, String token) {
+    }
 }

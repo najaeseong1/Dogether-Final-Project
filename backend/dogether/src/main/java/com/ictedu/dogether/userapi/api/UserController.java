@@ -190,12 +190,25 @@ public class UserController {
 
     // 네이버 로그인
     @GetMapping("/naverlogin")
-    public ResponseEntity<?> naverlogin(String code) {
-        log.info("/user/naverlogin - GET! code: {}", code);
+    public ResponseEntity<?> naverLogin(@RequestParam String code,
+                                        @RequestParam String state) {
+        log.info("/user/naverlogin - GET! -code, state: {}, {}", code, state);
         LoginResponseDTO responseDTO = userService.naverService(code);
         log.info("responseData : {}", responseDTO);
         return ResponseEntity.ok().body(responseDTO);
     }
+
+    // 구글
+//    @RequestMapping(value = "/google", method = RequestMethod.GET)
+//    public ResponseEntity<?> googleSignIn(@RequestParam(name = "code") String code) {
+//
+//        log.info("토큰 정보: {}", userService.googleLogin(code));
+//        userService.googleLogin(code);
+//
+//        return ResponseEntity.ok().body(TokenUserInfo.builder()
+//                .email().build());
+//
+//    }
 
     // 로그아웃 처리
     @GetMapping("/logout")
@@ -207,7 +220,5 @@ public class UserController {
 
         return ResponseEntity.ok().body(result);
     }
-
-
 
 }
