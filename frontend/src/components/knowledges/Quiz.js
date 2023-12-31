@@ -186,7 +186,7 @@ const Quiz = () => {
     }
   };
   const restart = () => {
-    setScore(0);
+      setScore(0);
     setQuestion(0);
     setShowResult(false);
     setNyaHoProgress(0);
@@ -206,13 +206,14 @@ const Quiz = () => {
   useEffect(() => {
     setOpenModal(false);
   }, []);
-
+  
   //결과화면볼때
   useEffect(() => {
     if (showResult) {
       scoreSave();
     }
   }, [showResult]);
+
   return (
     //App
     <div className='quiz'>
