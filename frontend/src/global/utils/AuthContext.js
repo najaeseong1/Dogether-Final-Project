@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { API_BASE_URL, USER } from '../config/host-config';
+import { format } from 'date-fns';
 
 // 새로운 전역 컨텍스트 생성
 const AuthContext = React.createContext({
@@ -62,19 +63,16 @@ export const AuthContextProvider = (props) => {
   };
 
   // 로그인 핸들러
-  const loginHandler = (token, role, userEmail, userName) => {
+  const loginHandler = (token, role) => {
     console.log('세션 저장요청이들어옴');
     console.log('token : ', token);
-    console.log('userName : ', userName);
     console.log('role: ', role);
-    console.log('userEmail: ', userEmail);
 
     localStorage.setItem('isLoggedIn', '1');
     //json에 담긴 인증정보를 클라이언트에 보관
     // 1. 로컬 스토리지 - 브라우저가 종료되어도 보관됨.
     // 2. 세션 스토리지 - 브라우저가 종료되면 사라짐.
     localStorage.setItem('ACCESS_TOKEN', token);
-    localStorage.setItem('LOGIN_USERNAME', userName);
     localStorage.setItem('USER_ROLE', role);
 
     setIsLoggedIn(true);
@@ -117,6 +115,10 @@ export const AuthContextProvider = (props) => {
       {props.children}
     </AuthContext.Provider>
   );
+};
+
+export const formattedDate = (dateString) => {
+  return format(new Date(dateString), 'yyyy-MM-dd');
 };
 
 export default AuthContext;

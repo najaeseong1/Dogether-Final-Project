@@ -1,24 +1,46 @@
 import React, { useEffect, useRef, useState } from 'react';
 import DaumPostcode from 'react-daum-postcode';
 import './cart.scss';
+import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import PaymentCheckout from '../payment/PaymentCheckout';
 
+import { API_BASE_URL, USER } from '../../global/config/host-config';
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [postNo, setPostNo] = useState(''); //우편번호 (04108)
   const [postAddr, setPostAddr] = useState(''); //기본주소 (서울 마포구 백범로 23)
   const [detailAddress, setDetailAddress] = useState(''); //상세주소 (사용자가 직접 입력)
+  const [extraAddress, setExtraAddress] = useState(''); //첨부주소(목동, 청담동)
+  const [isSameAddress, setIsSameAddress] = useState(''); // 배송지 선택에 따라 창열리기
+  const [quantityMap, setQuantityMap] = useState({}); //각 상품의 수량
+  const [userInfo, setUserInfo] = useState('');
+
   const postcodeInputRef = useRef(); //우편번호
   const addressInputRef = useRef(); //기본 주소
   const detailAddressInputRef = useRef(); // 상세주소
   const extraAddressInputRef = useRef(); //첨부주소
-  const [isSameAddress, setIsSameAddress] = useState(''); // 배송지 선택에 따라 창열리기
-  const [quantityMap, setQuantityMap] = useState({});
+
   const redirection = useNavigate();
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(`${API_BASE_URL}${USER}/modify`, {
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
+          },
+        });
+        // 비동기 작업 성공 시 수행할 작업
+        setUserInfo(res.data);
+
+        console.log(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     const storedCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
     setCartItems(storedCartItems);
 
@@ -53,6 +75,7 @@ const Cart = () => {
 
     localStorage.setItem('cartItems', JSON.stringify(updatedCartWithPrice));
     localStorage.setItem('quantityMap', JSON.stringify(initializedQuantityMap));
+    fetchData();
   }, []); // 빈 배열은 컴포넌트가 마운트될 때 한 번만 실행
 
   const addToCart = (product) => {
@@ -116,6 +139,10 @@ const Cart = () => {
   };
 
   const changeAmountHandler = (newAmount, index) => {
+    if (newAmount <= 0) {
+      removeFromCart(index);
+      return;
+    }
     const newQuantityMap = { ...quantityMap, [index]: newAmount };
     setQuantityMap(newQuantityMap);
 
@@ -184,8 +211,8 @@ const Cart = () => {
   };
 
   const handleAddressTypeChange = (e) => {
-    console.log(e.target.value);
-    setIsSameAddress(e.target.value);
+    const value = document.getElementById(e.target.id);
+    setIsSameAddress(value);
   };
   const shoppinghandler = () => {
     redirection('/product');
@@ -200,10 +227,10 @@ const Cart = () => {
             <img
               src='https://pethroom.com/pethroom/images/PR_web_fixed_empty.png'
               style={{ width: '300px', height: '400px' }}
+              alt='강아지 냉장고 문열고 있는 사진'
             />
             <div>아직 담은 상품이 없어요.</div>
             <button onClick={() => shoppinghandler()}>Continue Shopping</button>
-            <spn></spn>
           </div>
         </div>
       ) : (
@@ -224,7 +251,7 @@ const Cart = () => {
                   <td>
                     <img
                       src={item.img}
-                      alt='Product Image'
+                      alt='제품 이미지'
                       style={{ width: '80x', height: '85px' }}
                     />
                   </td>
@@ -274,19 +301,19 @@ const Cart = () => {
               <tbody>
                 <tr>
                   <td>
-                    {cartItems.reduce(
-                      (total, item) => total + item.totalPrice,
-                      0
-                    )}
+                    {cartItems
+                      .reduce((total, item) => total + item.totalPrice, 0)
+                      .toLocaleString()}
                     원
                   </td>
-                  <td>+ 3000원</td>
+                  <td>3000원</td>
                   <td>
-                    =
-                    {cartItems.reduce(
-                      (total, item) => total + item.totalPrice,
-                      0
-                    ) + 3000}
+                    {(
+                      cartItems.reduce(
+                        (total, item) => total + item.totalPrice,
+                        0
+                      ) + 3000
+                    ).toLocaleString()}
                     원
                   </td>
                 </tr>
@@ -305,7 +332,10 @@ const Cart = () => {
                     <input
                       type='text'
                       id='name'
-                    ></input>
+                      value={userInfo.userName}
+                      placeholder='이름을 입력해주세요'
+                      readOnly
+                    />
                   </td>
                 </tr>
                 <tr>
@@ -314,10 +344,15 @@ const Cart = () => {
                     <input
                       type='text'
                       id='phoneNum'
+                      value={userInfo.userPhone}
+                      placeholder='연락처를 입력해주세요'
+                      onChange={(e) =>
+                        setUserInfo({ ...userInfo, userPhone: e.target.value })
+                      }
                     ></input>
                     <ul>
                       <li> '-'(하이픈)을 빼고 번호만 입력해주세요.</li>
-                      <li> - 연락처를 통해 주문처리과정을 보내드립니다.</li>
+                      <li> 연락처를 통해 주문처리과정을 보내드립니다.</li>
                     </ul>
                   </td>
                 </tr>
@@ -327,12 +362,16 @@ const Cart = () => {
                     <input
                       type='text'
                       id='phoneNum'
+                      value={userInfo.userEmail}
+                      placeholder='이메일을 입력해주세요'
+                      readOnly
                     ></input>
+                    <button>이메일 변경</button>
                     <ul>
                       <li> - 이메일을 통해 주문처리과정을 보내드립니다.</li>
                       <li>
-                        - 이메일 주소란에는 반드시 수신가능한 이메일주소를
-                        입력해 주세요.
+                        - 이메일 주소는 반드시 수신 가능한 이메일주소를
+                        사용해주세요
                       </li>
                     </ul>
                   </td>
@@ -345,10 +384,11 @@ const Cart = () => {
                       id='sameAddr'
                       name='addrType'
                       value='sameAddr'
+                      checked
                       onClick={handleAddressTypeChange}
                     ></input>
                     <label
-                      for='sameAddr'
+                      htmlFor='sameAddr'
                       className='addrInfo'
                     >
                       주문자 정보와 동일
@@ -360,8 +400,9 @@ const Cart = () => {
                       value='newAddr'
                       onClick={handleAddressTypeChange}
                     ></input>
+
                     <label
-                      for='newAddr'
+                      htmlFor='newAddr'
                       className='addrInfo'
                     >
                       새로운 배송지
@@ -373,33 +414,44 @@ const Cart = () => {
                   <td>
                     <input
                       type='text'
-                      id='postAddr'
+                      id='postNo'
                       ref={postcodeInputRef}
-                      value={postNo}
+                      value={userInfo.postNo}
                       onChange={onChangePostCode}
                     ></input>
-                    {isSameAddress === 'newAddr' && (
+                    {isSameAddress.id === 'newAddr' && (
                       <button onClick={handleOpenAddressModal}>우편번호</button>
                     )}
                     <br />
                     <input
                       type='text'
                       placeholder='기본주소'
-                      className='addr'
-                      value={postAddr}
+                      className='cartaddr'
+                      value={userInfo.postAddr}
                       ref={addressInputRef}
                       style={{ width: '700px' }}
-                    ></input>
+                    />
                     <br />
-                    {isSameAddress === 'newAddr' && (
+                    {isSameAddress.id === 'newAddr' && (
                       <input
                         type='text'
                         placeholder='상세주소'
-                        className='addr'
+                        className='cartaddr'
                         value={detailAddress}
                         ref={detailAddressInputRef}
                         style={{ width: '700px' }}
-                      ></input>
+                      />
+                    )}
+                    <br />
+                    {isSameAddress.id === 'newAddr' && (
+                      <input
+                        type='text'
+                        className='cartaddr'
+                        placeholder='참고항목'
+                        ref={extraAddressInputRef}
+                        value={extraAddress}
+                        style={{ width: '300px' }}
+                      />
                     )}
                     <ul>
                       <li>
@@ -429,7 +481,7 @@ const Cart = () => {
               >
                 결제수단
               </div>
-              <PaymentCheckout /> {/* 여기서 유저 정보 전달해 줘야 함 */}
+              <PaymentCheckout />
             </div>
           </div>
         </>

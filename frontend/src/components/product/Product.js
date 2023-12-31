@@ -18,7 +18,6 @@ const Product = () => {
   const [scrollOffset, setScrollOffset] = useState(0);
   const [product, setProduct] = useState([]);
   const [cartItems, setCartItems] = useState([]);
-  const [amount, setAmount] = useState(1);
 
   const addToCart = (product) => {
     const Toast = Swal.mixin({
@@ -141,6 +140,7 @@ const Product = () => {
         src='https://player.vimeo.com/video/848943597?autoplay=1&loop=1&color=080037&title=0&byline=0&portrait=0&background=1'
         allow='autoplay; fullscreen; picture-in-picture'
         allowFullScreen
+        title='강아지사진'
       />
       <div id='productProductContainer'>
         <div id='divproductsearch'>

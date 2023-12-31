@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { API_BASE_URL, PAYMENT } from '../../global/config/host-config';
@@ -6,9 +6,12 @@ import { API_BASE_URL, PAYMENT } from '../../global/config/host-config';
 function PaymentSuccess() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-
-  const userId = JSON.parse(localStorage.getItem('userId'));
-  const cartItems = JSON.parse(localStorage.getItem('cartItems'));
+  const [userId, setUserId] = useState(
+    JSON.parse(localStorage.getItem('LOGIN_USERID'))
+  );
+  const [cartItems, setCartItems] = JSON.parse(
+    localStorage.getItem('cartItems')
+  );
   useEffect(() => {
     const requestData = {
       orderId: searchParams.get('orderId'),

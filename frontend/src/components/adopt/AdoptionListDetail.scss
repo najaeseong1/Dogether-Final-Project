@@ -1,16 +1,15 @@
 .main .adopt-button {
   // border: 1px solid pink;
   position: relative;
-  left: 50%;
-  right: 50%;
-  bottom: 0px;
+  left: 480px;
+  bottom: 130px;
 }
 
 .main .border {
-  border: 1px solid pink;
+  border: 3px solid pink;
   border-radius: 10%;
-  width: 1000px;
-  height: 1000px;
+  width: 1100px;
+  height: 900px;
   top: 30px;
   position: relative;
 }
@@ -18,14 +17,26 @@
 // 관심등록 버튼
 .main .likebtn {
   position: relative;
-  left: 800px;
-  bottom: 80px;
+  left: 900px;
+  bottom: 140px;
+  //top: 00px;
 
   button {
-    border: 1px solid pink;
-    border-radius: 10px;
+    //border: 1px solid pink;
+    //border-radius: 10px;
+    border: none;
     background-color: white;
     font-weight: bold;
+    position: relative;
+    right: 100px;
+    width: 100px;
+    height: 30px;
+  }
+
+  img {
+    width: 100px;
+    position: relative;
+    bottom: 20px;
   }
 }
 
@@ -43,18 +54,62 @@
   }
 }
 
+.main .dog-info1 {
+  //border: 1px solid black;
+  // position: relative;
+  // right: 250px;
+  // top: 200px;
+
+  position: relative;
+  left: -125px;
+  top: 160px;
+  height: 400px;
+  width: 400px;
+  margin-top: 20px;
+  padding: 20px;
+  //border: 4px solid #6e6e6d;
+  border: 4px solid #6e6e6d;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-family: 'IBM Plex Sans KR', sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
+  max-height: 500px;
+  overflow-y: auto;
+  overflow-x: hidden; /* 가로 스크롤바 감춤 */
+
+  &::-webkit-scrollbar {
+    width: 12px; /* 스크롤바 너비 */
+   
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #6e6e6d; /* 스크롤바 색상 */
+    border-radius: 4px; /* 스크롤바 모서리 둥글게 */
+  }
+}
+
+.main .dog-info2 {
+  //border: 1px solid blue;
+  position: relative;
+  left: 150px;
+  bottom: 215px;
+}
+
 // 강아지 프로필 사진
 .main .dog-profileimg {
   //border: 1px solid red;
-  // position: relative;
-  // width: 250px;
-  // right: -170px;
-  // top: 100px;
+  //  position: relative;
+  //  width: 250px;
+  //  right: -170px;
+  //  top: 100px;
 
   img {
+    border: 5px solid pink;
+    border-radius: 10px;
+    height: 200px;
     position: relative;
-    width: 250px;
-    right: -170px;
-    top: 100px;
+    width: 300px;
+    right: -385px;
+    top: 90px;
   }
 }

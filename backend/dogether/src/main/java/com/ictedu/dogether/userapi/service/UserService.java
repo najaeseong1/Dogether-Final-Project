@@ -265,5 +265,21 @@ public class UserService {
         return null;
     }
 
+        //스코어 저장
+    public UserSignUpResponseDTO saveScore(int score, TokenUserInfo userInfo) {
+        User user = userRepository.findById(userInfo.getUserId()).orElseThrow();
 
+        user.setScore(score);
+
+        User save = userRepository.save(user);
+
+        return new UserSignUpResponseDTO(save);
+    }
+
+    //스코어 요청
+    public UserSignUpResponseDTO requestScore(TokenUserInfo userInfo) {
+        User user = userRepository.findById(userInfo.getUserId()).orElseThrow();
+
+        return new UserSignUpResponseDTO((user));
+    }
 }

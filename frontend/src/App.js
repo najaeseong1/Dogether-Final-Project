@@ -1,7 +1,7 @@
 import './App.css';
 import { Header, Footer } from './components/layout';
 import MainTemplate from './components/main/MainTemplate';
-import { Router, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import {
   AdoptionStatus,
   Join,
@@ -47,7 +47,7 @@ function App() {
           <ScrollToTop />
           <Routes>
             <Route
-              path='/user/join'
+              path='/user'
               element={<KakaoLoginHandler />}
             />
             <Route
@@ -63,11 +63,11 @@ function App() {
               element={<Board />}
             />
             <Route
-              path='/board/detail/:boardNo'
+              path='/boardDetail/:boardNo'
               element={<BoardDetail />}
             />
             <Route
-              path='/board/modify'
+              path='/boardupdate/:boardNo'
               element={<BoardUpdate />}
             />
             <Route

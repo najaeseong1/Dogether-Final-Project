@@ -17,7 +17,6 @@ function PaymentCheckout() {
   const [paymentWidget, setPaymentWidget] = useState(null);
   // const paymentWidget = usePaymentWidget(clientKey, ANONYMOUS); // 비회원 결제
   const paymentMethodsWidgetRef = useRef(null);
-  const [userId, setUserId] = useState('asd');
   const [price, setPrice] = useState(0);
   const [orderName, setOrderName] = useState('');
 
@@ -107,8 +106,6 @@ function PaymentCheckout() {
     }
   };
 
-  localStorage.setItem('userId', JSON.stringify(userId));
-
   return (
     <table className='paymentTable'>
       <tbody>
@@ -132,7 +129,7 @@ function PaymentCheckout() {
             style={{ padding: '0' }}
           >
             <div className='finalPrice'> 최종 결제 금액</div>
-            <div id='paymentPrice'>{price}원</div>
+            <div id='paymentPrice'>{price.toLocaleString()}원</div>
             <br />
             <div
               id='centerPay'

@@ -46,7 +46,6 @@ const Header = () => {
   }, [isLoggedIn]); // 로그인 상태가 바뀔때마다
 
   return (
-    // 페이지가 '/pagenotfound'인 경우에만 헤더를 감추도록 조건 추가
     !isNotFoundPage && (
       <>
         <div className='HeaderContainer1'>

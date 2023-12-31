@@ -16,7 +16,7 @@ const transporter = createTransport({
   service: 'naver',
   auth: {
     user: 'hunmo089300@gmail.com', // 발송 이메일 주소
-    pass: '', // 발송 이메일 비밀번호
+    pass: 'yhm@089300', // 발송 이메일 비밀번호
   },
 });
 

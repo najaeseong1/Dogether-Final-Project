@@ -30,55 +30,87 @@ const Quiz = () => {
       ],
     },
     {
-      text: '반려견을 키우기 전에 준비해야 할 것들은 무엇인가요?',
+      text: '매월 정기적으로 예방접종을 해야 하는 것은?',
       options: [
         {
           id: 0,
-          text: '따로 준비해야하는 건 없다',
-          isCorrect: false,
+          text: '심장 사상충',
+          isCorrect: true,
         },
         {
           id: 2,
-          text: '강아지를 자랑하기 위한 인스타 계정',
+          text: '코로나 장염',
           isCorrect: false,
         },
         {
           id: 3,
-          text: '사료 그릇, 목줄, 산책용 배변 패드, 샴푸',
-          isCorrect: true,
+          text: '인플루엔자',
+          isCorrect: false,
         },
       ],
     },
     {
-      text: '강아지 귀여운 이유?',
+      text: '반려견 우울증에 대해 옳은 것은?',
       options: [
-        { id: 0, text: '글쎄 ', isCorrect: true },
-        { id: 1, text: '걍 귀여움', isCorrect: false },
-        { id: 2, text: '뭘까 ', isCorrect: false },
+        { id: 0, text: '반려견은 우울증에 걸리지 않는다', isCorrect: false },
+        { id: 1, text: '갑작스런 이사로 우울증에 걸릴 수 있다', isCorrect: true },
+        { id: 2, text: '우을증은 행동 교육으로는 치료할 수 없다', isCorrect: false },
       ],
     },
     {
-      text: '강아지 귀여운 이유?',
+      text: '반려견을 유기하면 받는 처벌 사항은? (맹견 제외)',
       options: [
-        { id: 0, text: '글쎄 ', isCorrect: false },
-        { id: 1, text: '걍 귀여움', isCorrect: false },
-        { id: 2, text: '뭘까 ', isCorrect: false },
+        { id: 0, text: '300만원 이하의 벌금이 부과된다', isCorrect: true },
+        { id: 1, text: '100만원 이하의 과태료 처분을 받는다', isCorrect: false },
+        { id: 2, text: '법적 처벌을 받지 않는다 ', isCorrect: false },
       ],
     },
     {
-      text: '강아지 귀여운 이유?',
+      text: '반려견 입양 첫날 행동으로 바람직한 것은?',
       options: [
-        { id: 0, text: '글쎄 ', isCorrect: false },
-        { id: 1, text: '걍 귀여움', isCorrect: false },
-        { id: 2, text: '뭘까 ', isCorrect: false },
+        { id: 0, text: '입양 전 강아지가 썻던 담요를 준비한다', isCorrect: true },
+        { id: 1, text: '활발한 어린이들과 같이 놀게 한다', isCorrect: false },
+        { id: 2, text: '배변 훈련을 시작한다', isCorrect: false },
       ],
     },
     {
-      text: '강아지 귀여운 이유?',
+      text: '반려동물등록을 필수로 해야 하는 시기는?',
       options: [
-        { id: 0, text: '글쎄 ', isCorrect: false },
-        { id: 1, text: '걍 귀여움', isCorrect: false },
-        { id: 2, text: '뭘까 ', isCorrect: false },
+        { id: 0, text: '월령 1개월 이상 ', isCorrect: false },
+        { id: 1, text: '월령 3개월 이상 ', isCorrect: false },
+        { id: 2, text: '월령 2개월 이상', isCorrect: true },
+      ],
+    },
+    {
+      text: '반려동물과 자동차 탑승 시 주의사항은?',
+      options: [
+        { id: 0, text: '반려동물이 차 안에 움직이게 하는 게 좋다 ', isCorrect: false },
+        { id: 1, text: '반려동물을 손으로 안고 운전해도 된다 ', isCorrect: false },
+        { id: 2, text: '반려동물을 안은 채 운전하면 안된다', isCorrect: true },
+      ],
+    },
+    {
+      text: '반려동물이 먹으면 위험한 음식은?',
+      options: [
+        { id: 0, text: '당근 ', isCorrect: false },
+        { id: 1, text: '사과 ', isCorrect: false },
+        { id: 2, text: '초콜릿', isCorrect: true },
+      ],
+    },
+    {
+      text: '반려견 임신 중 주의사항이 아닌 것은?',
+      options: [
+        { id: 0, text: '목욕 시 배를 압박하지 않도록 조심한다 ', isCorrect: false },
+        { id: 1, text: '계단을 오르내리는 일을 주의한다 ', isCorrect: false },
+        { id: 2, text: '임신 중에는 꼭 구충약을 복용해야 한다', isCorrect: true },
+      ],
+    },
+    {
+      text: '반려견을 잘 칭찬하는 방법이 아닌 것은?',
+      options: [
+        { id: 0, text: '낮은 목소리로 오랫동안 이야기하기 ', isCorrect: true },
+        { id: 1, text: '맛있는 간식 주기 ', isCorrect: false },
+        { id: 2, text: '함께 산책하기', isCorrect: false },
       ],
     },
   ];
@@ -90,7 +122,7 @@ const Quiz = () => {
     }
     if (question + 1 < questions.length) {
       setQuestion(question + 1);
-      setNyaHoProgress(nyaHoProgress + 20);
+      setNyaHoProgress(nyaHoProgress + 10);
     } else {
       setShowResult(true);
     }
@@ -123,7 +155,7 @@ const Quiz = () => {
         <>
           <div className='result'>
             <h1>최종결과</h1>
-            <h2>{score * 20} 점</h2>
+            <h2>{score * 10} 점</h2>
           </div>
           <button
             className='result-btn'
@@ -149,36 +181,47 @@ const Quiz = () => {
                   <div className='content'>
                     <p className='check-info'>정답을 확인해보세요</p>
                     <ul className='answer-list'>
-                      <li className='list-content'>
-                        뭘까
-                        <i>아이콘</i>
-                        <p>내용내용내용이다</p>
+
+                      <li className='list-content'>                
+                        <p>1. 반려견은 자유롭게 움직일 수 있는 공간에서 살기 적합하다</p>
                       </li>
+
                       <li className='list-content'>
-                        뭘까
-                        <i>아이콘</i>
-                        <p>내용내용내용이다</p>
+                        <p>2. 매월 정기적으로 예방접종을 해야 하는 것은 심장사상충</p>
                       </li>
+
                       <li className='list-content'>
-                        뭘까
-                        <i>아이콘</i>
-                        <p>내용내용내용이다</p>
+                        <p>3. 반려견은 갑작스러운 이사로 인해 우울증에 걸릴 수 있다</p>
                       </li>
+
                       <li className='list-content'>
-                        뭘까
-                        <i>아이콘</i>
-                        <p>내용내용내용이다</p>
+                        <p>4. 반려동물을 유기하면 300만원 이하의 벌금이 부과된다(맹견 제외)</p>
                       </li>
+
+                      <li className='list-content'>             
+                        <p>5. 유기견 입양 첫날 입양 전 강아지가 썻던 담요를 준비하는 게 좋다</p>
+                      </li>
+
                       <li className='list-content'>
-                        뭘까
-                        <i>아이콘</i>
-                        <p>내용내용내용이다</p>
+                        <p>6. 월령 2개월 이상인 반려동물은 반려동물 등록을 해야한다</p>
                       </li>
+
                       <li className='list-content'>
-                        뭘까
-                        <i>아이콘</i>
-                        <p>내용내용내용이다</p>
+                        <p>7. 반려동물을 안은 채 운전하면 안된다</p>
                       </li>
+
+                      <li className='list-content'>
+                        <p>8. 반려견이 먹으면 위험한 음식은 초콜릿</p>
+                      </li>
+
+                      <li className='list-content'>
+                        <p>9. 반려견 임신 중 구충약을 복용하면 안된다</p>
+                      </li>
+
+                      <li className='list-content'>
+                        <p>10. 낮은 목소리로 오랫동안 이야기하는 건 반려견을 잘 칭찬하는 방법이 아니다</p>
+                      </li>
+                      
                     </ul>
                   </div>
                   <button

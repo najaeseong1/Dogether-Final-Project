@@ -81,9 +81,15 @@
       right: -75px;
       -webkit-transform: translate(-50%, -50%);
       transform: translate(-50%, -50%);
-      background: url(../../../public/img/puppyIcon.png) no-repeat;
+      background: url(../../../public/img/dog_icon.png) no-repeat;
       background-size: 100%;
       color: pink;
+    }
+    h3 {
+      //border: 1px solid red;
+      // width: 110%;
+      // position: relative;
+      
     }
   }
   .result {
@@ -225,5 +231,7 @@
       border-bottom: 1px solid #999;
       width: 100%;
     }
+
+   
   }
 }

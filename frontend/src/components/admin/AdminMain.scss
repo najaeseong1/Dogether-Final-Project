@@ -18,7 +18,7 @@
 
   .title-management {
     height: 78px;
-    padding: 24px 10px 24px 56px;
+    padding: 0px 10px 24px 56px;
   }
 
   .logo {
@@ -30,28 +30,33 @@
     text-align: center;
   }
 
-  .profile {
-    display: block;
+  .profil {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     background-color: #fff;
-    padding: 50px 80px 20px;
+    padding: 100px 60px 30px;
+    font-size: 20px;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+
+  .img {
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: url('../../../public/img/adminIcon.png') no-repeat; /* 이미지 경로 수정 */
+    background-size: 100%;
   }
 
   .header-left {
     display: block;
     padding: 0 39px;
     box-sizing: border-box;
-
-    .left-menu {
-      display: block;
-      margin-top: 100px;
-    }
   }
 
-  .left-tap {
-    text-decoration: none;
-    cursor: pointer;
-    margin-top: 90px;
-  }
   .main-management {
     display: table-cell;
     width: 100%;
@@ -62,11 +67,37 @@
   }
   .box {
     padding: 16px 17px 0;
-    border-radius: 12px;
     box-shadow: 2px 2px 14px 0 rgba(0, 164, 73, 0.08);
-    border: solid 1px rgba(3, 213, 128, 0.8);
+    display: table-cell;
+    width: 500px;
     background-color: #fff;
+    box-shadow: 5px 1px 8px 0 rgba(0, 0, 0, 0.06);
+    border-left: 1px solid rgba(0, 0, 0, 0.08);
+    vertical-align: top;
+    z-index: 1;
     box-sizing: border-box;
     height: 780px;
+  }
+}
+.main-btn {
+  display: block;
+  margin-left: 15%;
+  width: 60%;
+  padding: 10px 0;
+  background-color: #d6d6d6;
+  color: #000;
+  border: none;
+  font-size: 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Noto Sans KR', sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+
+  margin-top: 20px;
+  height: 70px;
+
+  &:hover {
+    background-color: #d4776b;
+    color: #fff;
   }
 }
