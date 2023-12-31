@@ -1,5 +1,5 @@
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+
 import './PaymentSuccess.scss';
 
 function PaymentFail() {

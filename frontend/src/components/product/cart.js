@@ -24,8 +24,6 @@ const Cart = () => {
 
   const redirection = useNavigate();
 
-  console.log(userInfo);
-  console.log(detailAddress);
   useEffect(() => {
     const fetchData = async () => {
       try {

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import { API_BASE_URL, PAYMENT, USER } from '../../global/config/host-config';
 import './PaymentSuccess.scss';
+import LoadingPink from '../../global/LoadingPink';
 
 function PaymentSuccess() {
   const navigate = useNavigate();
@@ -12,6 +12,8 @@ function PaymentSuccess() {
     localStorage.getItem('cartItems')
   );
   const [paymentData, setPaymentData] = useState('');
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const requestData = {
       orderId: searchParams.get('orderId'),
@@ -30,54 +32,58 @@ function PaymentSuccess() {
     // @docs https://docs.tosspayments.com/reference/using-api/authorization#%EC%9D%B8%EC%A6%9D
     const encryptedSecretKey = `Basic ${btoa(secretKey + ':')}`;
 
+    // async function confirm() {
+    //   const response = await fetch(
+    //     'https://api.tosspayments.com/v1/payments/confirm',
+    //     {
+    //       method: 'POST',
+    //       headers: {
+    //         Authorization: encryptedSecretKey,
+    //         'Content-Type': 'application/json',
+    //       },
+    //       body: JSON.stringify(requestData),
+    //     }
+    //   );
     async function confirm() {
-      const response = await fetch(
-        'https://api.tosspayments.com/v1/payments/confirm',
-        {
-          method: 'POST',
-          headers: {
-            Authorization: encryptedSecretKey,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(requestData),
-        }
-      );
-      async function confirm() {
-        console.log(`${API_BASE_URL}${PAYMENT}`);
-        console.log(JSON.stringify(requestData));
-        const response = await fetch(`${API_BASE_URL}${PAYMENT}`, {
-          method: 'POST',
-          headers: {
-            Authorization: encryptedSecretKey,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(requestData),
-        });
+      console.log(`${API_BASE_URL}${PAYMENT}`);
+      console.log(JSON.stringify(requestData));
+      const response = await fetch(`${API_BASE_URL}${PAYMENT}`, {
+        method: 'POST',
+        headers: {
+          Authorization: encryptedSecretKey,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData),
+      });
 
-        const json = await response.json();
-        // 상태 업데이트
-        setPaymentData(json);
+      const json = await response.json();
+      // 상태 업데이트
+      setPaymentData(json);
+      console.log('PaymentData 상태 저장한거', paymentData);
 
-        if (!response.ok) {
-          // TODO: 구매 실패 비즈니스 로직 구현
-          console.log(json);
-          navigate(`/fail?code=${json.code}&message=${json.message}`);
-          return;
-        }
-        // 요청이 성공적으로 완료된 후에 로컬 스토리지의 항목 삭제
-        // localStorage.removeItem('cartItems');
-        // localStorage.removeItem('userId');
-        // localStorage.removeItem('quantityMap');
-        // localStorage.removeItem('@tosspayments/client-id');
-
-        // TODO: 구매 완료 비즈니스 로직 구현
-        console.log('요청 받은 JSON : ', json);
+      if (!response.ok) {
+        // TODO: 구매 실패 비즈니스 로직 구현
+        console.log(json);
+        navigate(`/paymentfail?code=${json.code}&message=${json.message}`);
+        return;
       }
-      confirm();
+
+      // TODO: 구매 완료 비즈니스 로직 구현
+      console.log('요청받은 JSON : ', json);
+      setLoading(false);
     }
+    confirm();
   }, []);
 
-  console.log('PaymentData 상태 저장한거', paymentData);
+  // paymentData에 데이터가 쌓이면 사용한 로컬스토리지 삭제
+  useEffect(() => {
+    if (paymentData) {
+      localStorage.removeItem('cartItems');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('quantityMap');
+      localStorage.removeItem('@tosspayments/client-id');
+    }
+  }, [paymentData]);
 
   const redirection = useNavigate();
   const ToMainhome = () => {
@@ -86,8 +92,13 @@ function PaymentSuccess() {
   const ToOrderHistory = () => {
     redirection(`${USER}/orderhistory`);
   };
-  return (
-    <div className='payment-result-wrapper'>
+
+  // 로딩 상태와 컴포넌트 렌더링 부분을 분리합니다.
+  let content;
+  if (loading) {
+    content = <LoadingPink />; // 로딩 상태이면 LoadingPink 컴포넌트를 보여주기
+  } else {
+    content = (
       <div className='box_section'>
         <h2 style={{ padding: '20px 0px 10px 0px' }}>
           <img
@@ -114,8 +125,9 @@ function PaymentSuccess() {
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
+  return <div className='payment-result-wrapper'>{content}</div>;
 }
 
 export default PaymentSuccess;
