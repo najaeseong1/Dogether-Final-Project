@@ -89,7 +89,7 @@ const AdoptionApplication = () => {
           나이&nbsp;&nbsp;&nbsp;&nbsp; <input type='text' id='userAge' className='userAge' onChange={handleInputChange}  />
         </div>
 
-        <div className='addr'>
+        <div className='addrr'>
           주소&nbsp;&nbsp;&nbsp;&nbsp; <input type='text' id='postAddr' className='postAddr' value={formData.postAddr} readOnly/>
         </div>
 
