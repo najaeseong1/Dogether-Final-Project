@@ -143,7 +143,7 @@ const AdoptionListDetail = () => {
 
         {/* 관심등록 버튼 */}
         <div className='likebtn'>
-          <img
+          <img  onClick={handleLikeBtn}
             src={
               isLiked
                 ? '/img/dogPic/likeBtnAfter.png'
@@ -151,7 +151,7 @@ const AdoptionListDetail = () => {
             }
             alt='likebtn'
           />
-          <button onClick={handleLikeBtn}>
+          <button>
             {' '}
             {isLiked ? '관심 취소' : '관심 등록'}
           </button>
