@@ -221,6 +221,8 @@ const Quiz = () => {
           <div className='result'>
             <h1>최종결과</h1>
             <h2>{score * 10} 점</h2>
+            <span className='result-score'>70점</span>
+            <span> 이상은 수료가 가능합니다. </span>
           </div>
           <button
             className='result-btn'

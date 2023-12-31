@@ -27,6 +27,9 @@ const AdoptionManagement = () => {
   //  목록 없을 때
   const [adoptionText, setAdoptionText] = useState('');
 
+  //입양 신청서 상세보기
+  const [adoptionDetail, setAdoptionDetail] = useState(null);
+
   const handleChangeTab = (Tab) => {
     setTab(Tab);
   };
@@ -74,33 +77,46 @@ const AdoptionManagement = () => {
 
   // 입양  신청 승인 핸들러
   const handleApprovedlist = async (item) => {
-    const result = await Swal.fire({
-      title: '입양신청을 승인하시겠습니까?',
-      confirmButtonText: '승인',
-      showCancelButton: true,
-    });
-
-    if (result.isConfirmed) {
-      // 입양 버튼 true 라면 !
-      item.adoptionStatus = 'APPROVED';
-      const res = await axios.post(
-        `${API_BASE_URL}/contract/adminapproved/${item.contractNo}`,
-        { adoptionStatus: 'APPROVED' },
-        {
-          headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
+    try {
+      const result = await new Promise((resolve) => {
+        // 모달 열기
+        Swal.fire({
+          title: '입양신청을 승인하시겠습니까?',
+          confirmButtonText: '승인',
+          showCancelButton: true,
+          didOpen: () => {
+            // 여기서 상세보기 모달을 닫도록 설정
+            setAdoptionDetail(null);
           },
-        }
-      );
-      // 해당 항목을 접수 목록에서 제거 히고
-      setAdoptionList((prevList) =>
-        prevList.filter((adoption) => adoption.contractNo !== item.contractNo)
-      );
+        }).then((result) => {
+          // 모달이 닫힌 후의 로직
+          resolve(result);
+        });
+      });
 
-      // 해당 항목을 승인 목록에 추가
-      setApprovedList((prevList) => [...prevList, item]);
+      // 확인 버튼이 눌렸을 때의 로직
+      if (result.isConfirmed) {
+        item.adoptionStatus = 'APPROVED';
 
-      Swal.fire('입양이 승인되었습니다!', '', 'success');
+        // 입양 승인 API 호출
+        await axios.post(
+          `${API_BASE_URL}/contract/adminapproved/${item.contractNo}`,
+          { adoptionStatus: 'APPROVED' },
+          {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
+            },
+          }
+        );
+
+        // 승인된 목록 업데이트
+        setApprovedList((prevList) => [...prevList, item]);
+
+        Swal.fire('입양이 승인되었습니다!', '', 'success');
+      }
+    } catch (error) {
+      console.error('입양 승인 중 오류 발생:', error);
+      Swal.fire('에러가 발생했습니다.', '', 'error');
     }
   };
 
@@ -189,6 +205,7 @@ const AdoptionManagement = () => {
       console.error(error);
     }
   };
+
   return (
     <>
       <div className='mainmain'>
@@ -261,11 +278,16 @@ const AdoptionManagement = () => {
                           </p>
                           <div>
                             <p className='applicant'>
-                              작성자 : {item.userName}
+                              유기견No:{item.desertionNo}
                             </p>
-                            <p className='applicant'>
-                              유기견No :{item.desertionNo}
-                            </p>
+                            <p className='applicant'>신청자: {item.userName}</p>
+                            <span className='applicant'>직업: {item.job} </span>
+                            <span className='applicant'>
+                              | 나이: {item.userAge}
+                            </span>
+
+                            <p className='applicant'>주소: {item.postAddr}</p>
+                            <p className='applicant'>사유 :{item.reason}</p>
                           </div>
                         </div>
                         <button
@@ -297,10 +319,17 @@ const AdoptionManagement = () => {
                       <div className='item-info'>
                         <p className='time'>{formattedDate(item.createDate)}</p>
                         <div>
-                          <p className='applicant'>작성자 : {item.userName}</p>
                           <p className='applicant'>
-                            유기견No :{item.desertionNo}
+                            유기견No:{item.desertionNo}
                           </p>
+                          <p className='applicant'>신청자: {item.userName}</p>
+                          <span className='applicant'>직업: {item.job} </span>
+                          <span className='applicant'>
+                            | 나이: {item.userAge}
+                          </span>
+
+                          <p className='applicant'>주소: {item.postAddr}</p>
+                          <p className='applicant'>사유 :{item.reason}</p>
                         </div>
                       </div>
                     </div>
@@ -318,10 +347,17 @@ const AdoptionManagement = () => {
                       <div className='item-info'>
                         <p className='time'>{formattedDate(item.createDate)}</p>
                         <div>
-                          <p className='applicant'>작성자 : {item.userName}</p>
                           <p className='applicant'>
-                            유기견No :{item.desertionNo}
+                            유기견No:{item.desertionNo}
                           </p>
+                          <p className='applicant'>신청자: {item.userName}</p>
+                          <span className='applicant'>직업: {item.job} </span>
+                          <span className='applicant'>
+                            | 나이: {item.userAge}
+                          </span>
+
+                          <p className='applicant'>주소: {item.postAddr}</p>
+                          <p className='applicant'>사유 :{item.reason}</p>
                         </div>
                       </div>
                     </div>

@@ -45,7 +45,7 @@
 
 .list-container {
   width: 100%;
-  max-width: 700px;
+  max-width: 800px;
 }
 
 .list-item {
@@ -58,7 +58,7 @@
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   font-family: 'Noto Sans KR', sans-serif;
-  height: 70px;
+  height: 150px;
 
   .item-info {
     display: flex;
@@ -68,8 +68,9 @@
     cursor: pointer;
 
     .time {
+      width: 100px;
       font-weight: bold;
-      margin-right: 20px;
+      margin-right: 10px;
     }
 
     .applicant {
@@ -77,6 +78,7 @@
       color: #555;
       margin: 0;
       bottom: 0;
+      width: 200px;
     }
   }
 
