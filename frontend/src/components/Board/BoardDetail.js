@@ -175,8 +175,6 @@ const BoardDetail = () => {
       if (res.status === 200) {
         alert('게시글이 삭제되었습니다.');
         redirection('/board');
-      } else {
-        alert('삭제권한이 없습니다.');
       }
     }
   };
@@ -231,12 +229,13 @@ const BoardDetail = () => {
         수정
       </button>
       <div className='comment-section'>
-        <h3>댓글</h3>
         <ul>
+          <h3>댓글 {comments.length}</h3>
           {comments.map((comment, index) => (
             <li key={index}>
               {editingComment === comment.replyNo ? (
                 <div>
+                  <p>{comment.userId}</p>
                   <input
                     type='text'
                     value={comment.replyContent}
