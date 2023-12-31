@@ -202,7 +202,7 @@ public class UserController {
 
     //스코어 등록 처리
     @PostMapping("/knowledges/quiz")
-    public ResponseEntity<?> saveScore(@RequestPart int score,
+    public ResponseEntity<?> saveScore(@RequestParam int score,
                                        @AuthenticationPrincipal TokenUserInfo userInfo
                                        ) {
         try {

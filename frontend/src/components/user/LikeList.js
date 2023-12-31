@@ -77,8 +77,8 @@ const LikeList = () => {
           <div className='like-list'>
             {likedInfo.length > 0 ? (
               <div className='notContent'>
-                <span className='text'>좋아요를 누른 목록</span>
                 <ul>
+                  <span className='text'>좋아요를 누른 목록</span>
                   {likedInfo.map((item) => (
                     <div
                       className='list'
