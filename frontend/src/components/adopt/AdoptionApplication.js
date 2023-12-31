@@ -10,6 +10,21 @@ const AdoptionApplication = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const {desertionNo} = useParams();
+
+  const [modalVisible, setModalVisible] = useState(true);
+
+    const handleImageClick = () => {
+      setModalVisible(false);
+    };
+
+    useEffect(() => {
+      // 페이지 로딩 후 2초 뒤에 모달 창 숨김
+      const timer = setTimeout(() => {
+        setModalVisible(false);
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }, []); // 빈 배열은 컴포넌트가 처음 마운트될 때만 실행
   
   const [formData, setFormData] = useState({
     userName: '',
@@ -77,7 +92,22 @@ const AdoptionApplication = () => {
   return (
     <div className='main2'>
 
-      
+         {/* 모달 오버레이 */}
+          {modalVisible &&( <div
+            className={'modal-overlayy'}
+            onClick={handleImageClick}
+          >
+            {/* 모달 콘텐츠 */}
+            <div className='modal-contentt'>
+              <img onClick={handleImageClick}
+                className='modal-image'
+                src='/img/dogPic/caution.png'
+                alt='Dog Profile'
+              />
+            </div>
+          </div>
+          )}
+          
       
       <div className='userinfo'>입양신청서 기본정보</div>
         
@@ -94,7 +124,7 @@ const AdoptionApplication = () => {
         </div>
 
         <div className='yeobu'>
-          반려동물 여부 &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; <input type='text' id='petStatus' className='petStatus' onChange={handleInputChange}  />
+          반려동물 여부 &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; <input type='text' id='petStatus' className='petStatus' placeholder='false or true' onChange={handleInputChange}  />
         </div>
 
         <div className='job1'> 

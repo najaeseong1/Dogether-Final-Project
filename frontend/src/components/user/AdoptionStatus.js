@@ -150,41 +150,31 @@ const AdoptionStatus = () => {
           <div className='mypage-title'>
             <span> 입양 신청 현황</span>
           </div>
-          <div className='adoption-status' >
-            {/* <img
-              src={AdoptionStatuslist.profile_img}
-              alt='강아지 사진'
-            />
-            <p className='dog-profil'>이름: {AdoptionStatuslist.name} </p>
-            <p className='dog-profil'>나이: {AdoptionStatuslist.age} </p>
-            <p className='dog-profil'>성별: {AdoptionStatuslist.gender} </p>
-            <p className='dog-profil'> 견종: {AdoptionStatuslist.neuter_yn} </p>
-            <button onClick={handleShowModal}>결과확인</button> */}
-            
-             {adoptionList.map((adoptionStatus) => (
-          <div key={adoptionStatus.contractNo}  className='divv'>
-            {/* <img src={adoptionStatus.profile_img} alt='강아지 사진' /> */}
-            <p className='dog-profil'>신청자 성함 : {adoptionStatus.userName} </p>
-            <p className='dog-profil'> {adoptionStatus.userAge}세 </p>
-            <p className='dog-profil'> 직업 : {adoptionStatus.job} </p>
-            <p className='dog-profil'> 신청사유 : {adoptionStatus.reason} </p>
-            <p className='dog-profil'> 유기번호 : {adoptionStatus.desertionNo} </p>
-            <p className='dog-profil2'> 신청날짜 : {adoptionStatus.createDate} </p>
-            <p className='dog-profil2'> 휴대전화번호 : {adoptionStatus.userPhone} </p>
-            <p className='dog-profil2'> 이메일 : {adoptionStatus.userEmail} </p>
-            <p className='dog-profil2'> 신청자 거주지 : {adoptionStatus.userEmail} </p>
-            <p className='dog-profil2'> 입양신청 상태 : {adoptionStatus.adoptionStatus} </p>
-           
-            {/* <button onClick={handleShowModal}>결과확인</button> */}
-            {/* <button onClick={() => handleShowModal(adoptionStatus.contractNo)}>결과확인</button> */}
-             {/* Conditionally render the button based on adoptionStatus */}
-              {adoptionStatus.adoptionStatus === 'PENDING' ? (
-                <button disabled>처리중</button>
-              ) : (
-                <button onClick={() => handleShowModal(adoptionStatus.contractNo)}>결과확인</button>
-              )}
-          </div>
-        ))}
+         
+          <div className='adoption-status'>
+            {adoptionList.length === 0 ? (
+              <p>입양 신청 현황이 없습니다.</p>
+            ) : (
+              adoptionList.map((adoptionStatus) => (
+                <div key={adoptionStatus.contractNo} className='divv'>
+                  <p className='dog-profil'>신청자 성함 : {adoptionStatus.userName} </p>
+                  <p className='dog-profil'> {adoptionStatus.userAge}세 </p>
+                  <p className='dog-profil'> 직업 : {adoptionStatus.job} </p>
+                  <p className='dog-profil'> 신청사유 : {adoptionStatus.reason} </p>
+                  <p className='dog-profil'> 유기번호 : {adoptionStatus.desertionNo} </p>
+                  <p className='dog-profil2'> 신청날짜 : {adoptionStatus.createDate} </p>
+                  <p className='dog-profil2'> 휴대전화번호 : {adoptionStatus.userPhone} </p>
+                  <p className='dog-profil2'> 이메일 : {adoptionStatus.userEmail} </p>
+                  <p className='dog-profil2'> 신청자 거주지 : {adoptionStatus.userEmail} </p>
+                  <p className='dog-profil2'> 입양신청 상태 : {adoptionStatus.adoptionStatus} </p>
+                  {adoptionStatus.adoptionStatus === 'PENDING' ? (
+                    <button disabled>처리중</button>
+                  ) : (
+                    <button onClick={() => handleShowModal(adoptionStatus.contractNo)}>결과확인</button>
+                  )}
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>

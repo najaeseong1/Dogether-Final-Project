@@ -157,7 +157,12 @@ const AdoptionList = () => {
  
   return (
     <div className="index">
-
+      {/* 로딩 중일 때 전체 화면을 덮기 위한 로딩 오버레이 */}
+      {loading && (
+        <div className="loading-overlay">
+          <LoadingPink />
+        </div>
+      )}
     <div className="div">
     {loading ? (
       <div className="loading-pink" style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 9999 }}>
