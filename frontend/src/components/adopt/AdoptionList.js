@@ -136,6 +136,10 @@ const AdoptionList = () => {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   const handleClick = (page) => {
+    if (loading) {
+      // 로딩 중일 때는 클릭 이벤트를 무시
+      return;
+    }
     setCurrentPage(page);
   };
 

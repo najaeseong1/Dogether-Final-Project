@@ -128,7 +128,7 @@ const Quiz = () => {
     }
   };
   const restart = () => {
-    setScore(0);
+      setScore(0);
     setQuestion(0);
     setShowResult(false);
     setNyaHoProgress(0);
@@ -148,6 +148,8 @@ const Quiz = () => {
   useEffect(() => {
     setOpenModal(false);
   }, []);
+
+  
   return (
     //App
     <div className='quiz'>
