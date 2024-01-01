@@ -33,15 +33,17 @@ const BoardDetail = () => {
       const res = await fetch(imageRequestURL, {
         method: 'GET',
       });
+      console.log(res);
 
       if (res.status === 200) {
         const imageBlob = await res.blob();
         const img = window.URL.createObjectURL(imageBlob);
+
         console.log(img);
         setImage(img);
+        console.log('이미지는?', image);
       } else {
         const err = await res.text();
-        setImage(null);
       }
     };
     const { state } = location;
@@ -173,10 +175,10 @@ const BoardDetail = () => {
       });
 
       if (res.status === 200) {
-        alert('게시글이 삭제되었습니다.');
+        Swal.fire('게시물이 삭제되었습니다.', '', 'success');
         redirection('/board');
       } else {
-        alert('삭제권한이 없습니다.');
+        Swal.fire('삭제 권한이 없습니다.', '', 'warning');
       }
     }
   };
@@ -231,12 +233,13 @@ const BoardDetail = () => {
         수정
       </button>
       <div className='comment-section'>
-        <h3>댓글</h3>
         <ul>
+          <h3>댓글 {comments.length}</h3>
           {comments.map((comment, index) => (
             <li key={index}>
               {editingComment === comment.replyNo ? (
                 <div>
+                  <p>{comment.userId}</p>
                   <input
                     type='text'
                     value={comment.replyContent}

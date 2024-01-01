@@ -100,7 +100,7 @@
     height: 234px;
     left: 593px;
     position: relative;
-    top: 54px;
+    top: 20px;
     background-color: #ffffff;
     border: 1px solid;
     border-color: #f3ded7;
@@ -133,7 +133,7 @@
     height: 234px;
     left: 320px;
     position: absolute;
-    top: 53px;
+    top: 20px;
     width: 252px;
 
     .knowledge {
@@ -161,7 +161,7 @@
     height: 234px;
     left: 866px;
     position: absolute;
-    top: 54px;
+    top: 20px;
     width: 256px;
 
     .quiz {
@@ -195,40 +195,89 @@
 
   .board {
     padding-bottom: 7px;
-    border-bottom: 5px solid pink;
-    color: #000000;
-    font-size: 30px;
+    border-bottom: 3px solid pink;
+    font-size: 25px;
     font-weight: 400;
     left: 320px;
     position: absolute;
-    top: 384px;
+    top: 310px;
     width: 790px;
     margin-bottom: 5px;
+    font-family: 'Courgette', Helvetica;
+  }
+
+  .board-list {
+    display: flex;
+    font-size: 20px;
+    left: 320px;
+    padding-bottom: 7px;
+    border-bottom: 1px solid pink;
+    position: absolute;
+    top: 360px;
+    width: 790px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-family: 'Courgette', Helvetica;
+    .category {
+      margin-left: 30px;
+      font-family: 'Courgette', Helvetica;
+    }
+    .text {
+      margin-left: 110px;
+      left: 20px;
+    }
+    .date {
+      position: absolute;
+      right: 200px;
+    }
   }
   .board-content {
-    display: inline;
-    left: 350px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
     width: 600px;
-    position: absolute;
-    top: 443px;
+    position: relative;
     font-size: 20px;
+    margin: 20px;
+    margin-top: 20px;
+    top: 400px;
+    left: 350px;
     cursor: pointer;
 
+    .category {
+      margin-right: 10px;
+      font-family: 'Courgette', Helvetica;
+    }
+    .text {
+      margin-left: 0;
+      width: 200px;
+      margin-left: 120px;
+    }
+    .date {
+      position: absolute;
+      right: -40px;
+      top: 0;
+      width: 200px;
+    }
     &:hover {
       color: rgb(153, 153, 153);
     }
+  }
 
-    .text {
-      display: inline;
-    }
-    .date {
-      display: inline;
-    }
+  .board-content-not {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    width: 600px;
+    position: relative;
+    font-size: 20px;
+    margin: 20px;
+    margin-top: 20px;
+    top: 400px;
+    left: 550px;
   }
 
   @media only screen and (max-width: 768px) {
-    /* 화면 폭이 768px 이하일 때 적용되는 스타일 */
-
     .group {
       width: 100%;
       left: 0;

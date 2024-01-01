@@ -7,26 +7,28 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
-@Setter
-@Getter
+@Setter @Getter
 @ToString
-public class KakaoUserDTO {
+@Slf4j
+public class NaverUserDTO {
 
-    @JsonProperty("kakao_account")
-    private KakaoAccount kakaoAccount;
+    @JsonProperty("naver_account")
+    private NaverUserDTO.NaverAccount naverAccount;
+
 
     @Setter
     @Getter
     @ToString
-    public static class KakaoAccount {
+    public static class NaverAccount {
 
+        private String name;
         private String email;
+        private String phone;
 
     }
 
     public User toEntity(String accessToken) {
-        String email = this.kakaoAccount.email;
+        String email = this.naverAccount.email;
         // '@' 기호의 위치를 찾습니다.
         int atIndex = email.indexOf('@');
 
@@ -36,14 +38,15 @@ public class KakaoUserDTO {
 
         return User.builder()
                 .userId(userId)
-                .userName("kakaoName")
-                .userPass("kakaoPass")
-                .userPhone("kakaoPhone")
+                .userName(this.naverAccount.name)
+                .userPass("NaverPass")
+                .userPhone(this.naverAccount.phone)
                 .userEmail(email)
                 .postNo(11111)
                 .postAddr("kakaoPost")
                 .accessToken(accessToken)
                 .build();
     }
+
 
 }

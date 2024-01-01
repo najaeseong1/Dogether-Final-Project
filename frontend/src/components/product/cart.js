@@ -79,6 +79,8 @@ const Cart = () => {
   }, []); // 빈 배열은 컴포넌트가 마운트될 때 한 번만 실행
 
   const addToCart = (product) => {
+    const existingIndex = cartItems.findIndex((item) => item.id === product.id);
+
     const updatedCart = [...cartItems, { ...product }];
     setCartItems(updatedCart);
     // 이미 해당 제품에 대한 수량이 있다면 기존 수량을 사용, 없다면 1로 초기화

@@ -26,7 +26,5 @@ public class LoginResponseDTO {
         this.userEmail = user.getUserEmail();
         this.token = token;
         this.role = String.valueOf(user.getRole());
-
     }
-
 }

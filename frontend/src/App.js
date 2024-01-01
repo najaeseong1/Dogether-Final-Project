@@ -47,7 +47,7 @@ function App() {
           <ScrollToTop />
           <Routes>
             <Route
-              path='/user'
+              path='/user/kakaologin'
               element={<KakaoLoginHandler />}
             />
             <Route

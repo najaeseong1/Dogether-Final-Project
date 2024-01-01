@@ -50,6 +50,7 @@ const Board = () => {
     );
 
     // 이미지 파일 추가
+    console.log('등록쪽에 파일 추가?/', $fileTag.current.files[0]);
     if (file) {
       formData.append('ImageFile', $fileTag.current.files[0]);
       console.log('file', file);
@@ -117,6 +118,7 @@ const Board = () => {
   const handleFileChange = (e) => {
     // 선택한 파일을 상태에 저장
     const file = $fileTag.current.files[0];
+    console.log('$file', $fileTag.current.files[0]);
 
     //확장자 얻기
     const fileExt = file.name.slice(file.name.indexOf('.') + 1).toLowerCase();
@@ -137,6 +139,7 @@ const Board = () => {
     reader.onloadend = () => {
       setFile(reader.result);
       setImagePreview(reader.result); // 이미지 미리보기
+      console.log('image', imagePreview);
     };
   };
   const boardListHandler = () => {

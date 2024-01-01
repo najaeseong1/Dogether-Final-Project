@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import './MyPage.scss';
 import { Link, useNavigate } from 'react-router-dom';
-import { API_BASE_URL, USER } from '../../global/config/host-config';
+import { API_BASE_URL, BOARD, USER } from '../../global/config/host-config';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const MyPage = () => {
   const navigate = useNavigate();
   const [userPosts, setUserPosts] = useState([]);
 
-  const toLink = (loc) => {
-    navigate(loc);
-  };
+  const userId = localStorage.getItem('userId');
+
   // 점수 70 점 이상이면 수료 /
   //const score = 75;
   const [score, setScore] = useState('');
@@ -18,25 +18,28 @@ const MyPage = () => {
   useEffect(() => {
     // 점수 가져오기
     axios
-    .get(`${API_BASE_URL}${USER}/knowledges/quiz`,{
-      headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
-      },
-    })
-    .then((res) => {
-      console.log(res);
-      setScore(res.data.score);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
+      .get(`${API_BASE_URL}${USER}/knowledges/quiz`, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        setScore(res.data.score);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
     //글 목록 가져오기
     axios
-      .get(`${API_BASE_URL}/board/myBoardlist/{userId}`)
+      .get(`${API_BASE_URL}${BOARD}/myboardlist/${userId}`)
       .then((res) => {
-        console.log(res);
-        setUserPosts(res.data);
+        if (res.data && res.data.boards && Array.isArray(res.data.boards)) {
+          setUserPosts(res.data.boards);
+        } else {
+          setUserPosts([]);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -44,7 +47,11 @@ const MyPage = () => {
   }, []);
 
   // 게시물 상세 페이지 이동
-  const toPostDetail = (postId) => {};
+  const toPostDetail = (boardNo) => {
+    console.log('boardNo:', boardNo);
+    const postDetailPath = `/boardDetail/${boardNo}`;
+    navigate(postDetailPath);
+  };
 
   // 점수에 따라 수료 여부 결정
   const completionStatus = score >= 70 ? '수료' : '미수료';
@@ -94,17 +101,31 @@ const MyPage = () => {
               <p className='quiz-score'>{score}점</p>
             </div>
           )}
-          <div className='board'>게시판</div>
 
-          {userPosts.map((post) => (
-            <div
-              className='board-content'
-              onClick={() => toLink('/boarddetail')}
-            >
-              <p className='text'>{post.title}</p>
-              <p className='date'>{post.regDate}</p>
-            </div>
-          ))}
+          <div className='board'>게시판</div>
+          <div
+            className='board-list'
+            style={{ display: userPosts.length > 0 ? 'flex' : 'none' }}
+          >
+            <div className='category'>카테고리</div>
+            <div className='text'>제목</div>
+            <div className='date'>작성일</div>
+          </div>
+          {Array.isArray(userPosts) && userPosts.length > 0 ? (
+            userPosts.map((post) => (
+              <div
+                className='board-content'
+                onClick={() => toPostDetail(post.boardNo)}
+                key={post.boardNo}
+              >
+                <div className='category'>{post.category}</div>
+                <div className='text'>{post.title}</div>
+                <div className='date'>{post.registDate}</div>
+              </div>
+            ))
+          ) : (
+            <div className='board-content-not'>등록한 게시글이 없습니다.</div>
+          )}
         </div>
       </div>
     </div>
