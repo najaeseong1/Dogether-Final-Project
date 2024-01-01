@@ -28,6 +28,7 @@ public class BoardRegistRequestDTO {
     private String category;
 
     public Board toEntity(String uploadRootPath, User user) {
+
        return Board.builder()
                 .title(this.title)
                 .content(this.content)
