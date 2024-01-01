@@ -6,6 +6,7 @@ import DaumPostcode from 'react-daum-postcode';
 import { API_BASE_URL, USER } from '../../global/config/host-config';
 
 import Swal from 'sweetalert2';
+import { WarningAlert } from '../../global/Alerts';
 
 const Modify = () => {
   const redirection = useNavigate();
@@ -36,7 +37,7 @@ const Modify = () => {
     return passwordRegExp.test(password);
   };
 
-  // 비밀번호 확인  일치하는지
+  // 비밀번호 확인 일치하는지
   const isPasswordConfirmed = userPass === checkUserPass;
   // 비밀번호 유효성 검사
 
@@ -66,15 +67,11 @@ const Modify = () => {
   // 사용자 정보 불러오기
   const fetchUserInfo = async () => {
     try {
-      const res = await axios.get(
-        `${API_BASE_URL}${USER}/modify`,
-
-        {
-          headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
-          },
-        }
-      );
+      const res = await axios.get(`${API_BASE_URL}${USER}/modify`, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
+        },
+      });
       const { userId, userName, userPhone, postNo, postAddr } = res.data;
       setUserId(userId);
       setUserName(userName);
@@ -91,34 +88,42 @@ const Modify = () => {
     e.preventDefault();
     console.log('수정요청들어옴!');
 
-    // 만약 "주소찾기" 버튼을 클릭했을 경우에는 추가 처리 없이 종료
     if (e.target.className.includes('address-btn')) {
       return;
     }
 
-    if (!validatePassword(userPass) || !isPasswordConfirmed) {
-      Swal.fire({
-        icon: 'error',
-        text: '비밀번호를 올바르게 입력해주세요',
-      });
+    // 비밀번호 확인 불일치 시 메시지 표시
+    if (userPass !== checkUserPass) {
+      setUserPassMessage('비밀번호가 일치하지 않습니다.');
+      return;
+    } else {
+      setUserPassMessage(''); // 비밀번호 일치 시 메시지 초기화
+    }
+
+    if (!userPass) {
+      WarningAlert('비밀번호를 입력하세요');
+
       return;
     }
+    // 비밀번호, 핸드폰 번호, 주소
     const formData = new FormData();
     formData.append('userPass', userPass);
     formData.append('userPhone', userPhone);
-    formData.append('postAddr', postAddr);
+
+    const detailAddress = detailAddressInputRef.current.value; // 상세 주소 가져오기
+    const combinedAddress = `${postAddr} ${detailAddress}`; // 주소와 상세 주소 합치기
+    formData.append('postAddr', combinedAddress);
     formData.append('postNo', postNo);
+    // Full 주소
+    const fullAddress = `${postAddr} ${detailAddress}`;
+    formData.append('fullAddress', fullAddress);
 
     try {
-      const res = await axios.post(
-        `${API_BASE_URL}${USER}/modifypass`,
-        formData,
-        {
-          headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
-          },
-        }
-      );
+      const res = await axios.post(`${API_BASE_URL}${USER}/modify`, formData, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
+        },
+      });
 
       console.log('넘어온 데이터 ', res.data);
 
@@ -156,9 +161,8 @@ const Modify = () => {
   const handleOpenAddressModal = (e) => {
     e.preventDefault();
     console.log('주소찾기 요청들어옴');
-    // Daum 주소 검색 모달 열기
-    // eslint-disable-next-line no-undef
-    new daum.Postcode({
+
+    new window.daum.Postcode({
       oncomplete: handleComplete,
     }).open();
   };
@@ -200,6 +204,7 @@ const Modify = () => {
     setPostNo(data.zonecode);
     setPostAddr(addr);
 
+    // 조건 상태변수 추가해서
     detailAddressInputRef.current.focus();
   };
 
@@ -258,13 +263,15 @@ const Modify = () => {
             <input
               name='userPass'
               type='password'
-              className='pwcheck'
+              className={`pwcheck ${isPasswordValid ? '' : 'input-error'}`}
               value={checkUserPass}
               onChange={(e) => {
                 setCheckUserPass(e.target.value);
               }}
               placeholder='비밀번호 확인'
             />
+            <span className='error-message'> {userPassMessage}</span>
+            <div className='spacing-div'></div>
           </div>
           <div className='textFormf '>
             <input
@@ -323,7 +330,8 @@ const Modify = () => {
           <div className='addr'>
             <div className='addr1'>
               <input
-                name='postAddr'
+                id='addrDetail'
+                name='addrDetail'
                 type='text'
                 className='address'
                 ref={detailAddressInputRef}

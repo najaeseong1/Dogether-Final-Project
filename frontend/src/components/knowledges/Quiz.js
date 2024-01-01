@@ -186,7 +186,7 @@ const Quiz = () => {
     }
   };
   const restart = () => {
-      setScore(0);
+    setScore(0);
     setQuestion(0);
     setShowResult(false);
     setNyaHoProgress(0);
@@ -206,7 +206,6 @@ const Quiz = () => {
   useEffect(() => {
     setOpenModal(false);
   }, []);
-  
   //결과화면볼때
   useEffect(() => {
     if (showResult) {
@@ -222,6 +221,8 @@ const Quiz = () => {
           <div className='result'>
             <h1>최종결과</h1>
             <h2>{score * 10} 점</h2>
+            <span className='result-score'>70점</span>
+            <span> 이상은 수료가 가능합니다. </span>
           </div>
           <button
             className='result-btn'
