@@ -7,7 +7,6 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
-
 @Slf4j
 @Setter
 @Getter
@@ -16,7 +15,6 @@ public class KakaoUserDTO {
 
     @JsonProperty("kakao_account")
     private KakaoAccount kakaoAccount;
-
 
     @Setter
     @Getter
