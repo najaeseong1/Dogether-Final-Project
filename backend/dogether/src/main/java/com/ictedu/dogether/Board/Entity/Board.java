@@ -4,7 +4,6 @@ import com.ictedu.dogether.userapi.entity.User;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -44,7 +43,7 @@ public class Board {
     private String image; //글 이미지
 
     //한명의 유저는 여러개의 게시물을 가질 수 있다.
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name =  "user_id" )
     private User user;
 
