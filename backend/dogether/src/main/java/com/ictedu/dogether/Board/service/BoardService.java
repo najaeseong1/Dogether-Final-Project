@@ -44,6 +44,8 @@ public class BoardService {
 
     private final ReplyRepository replyRepository;
 
+    //private final S3Service s3Service;
+
     @Value("${upload.path}")
     private String uploadRootPath;
 
@@ -247,24 +249,34 @@ public class BoardService {
     public String findImagePath(int boardNo) {
         Board board = boardRepository.findById(boardNo).orElseThrow();
 
+        //지워도 됨.
         return uploadRootPath + "/" + board.getImage();
+
+        //s3일때
+        //return board.getImage();
     }
 
 
     //사진 파일 저장하고 경로 리턴할 메서드(이거 컨트롤러에서)
     public String uploadImage(MultipartFile imageFile) throws IOException {
         log.info("uploadImage 메서드 요청 들어옴 ");
+
+       //이거 지워도됨
         File rootDir = new File(uploadRootPath);
         if(!rootDir.exists()) rootDir.mkdir();
+
 
         //이름 충돌 가능성 배제하기
         String uniqueFileName = UUID.randomUUID() + "-" + imageFile.getOriginalFilename();
         log.info("파일이름 -{}",uniqueFileName);
-        //파일 저장하기
+
+        //파일 저장하기(이것도 지워도됨)
         File uploadFile = new File(uploadRootPath + "/" + uniqueFileName);
         imageFile.transferTo(uploadFile);
 
         return uniqueFileName;
+        //파일 s3에 저장
+        //return s3Service.uploadToS3Bucket(imageFile.getByte(), uniqueFileName);
     }
 
 

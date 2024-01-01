@@ -307,6 +307,23 @@ public class BoardController {
             return ResponseEntity.ok().body(replyList);
         }
 
+        //s3에서 불러온 이미지 사진 처리
+        @GetMapping("/load-s3/{boardNo}")
+        public ResponseEntity<?> loadS3(@RequestParam int boardNo) {
+        log.info("load-s3 -{}", boardNo);
+
+            try {
+                String imagePath = boardService.findImagePath(boardNo);
+                return ResponseEntity.ok().body(imagePath);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResponseEntity.badRequest().body(e.getMessage());
+            }
+
+
+        }
+
+
 
 
 

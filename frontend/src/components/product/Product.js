@@ -186,6 +186,12 @@ const Product = () => {
         </div>
         <div className='cart'>
           <div
+            className='showcart'
+            onClick={() => cartdatailhandler()}
+          >
+            카트 보기
+          </div>
+          <div
             className='cart-icon'
             onClick={() => cartdatailhandler()}
           >
