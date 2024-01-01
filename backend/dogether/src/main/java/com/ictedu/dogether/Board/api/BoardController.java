@@ -44,9 +44,12 @@ public class BoardController {
             @AuthenticationPrincipal TokenUserInfo userInfo,
             @Validated @RequestPart("board") BoardRegistRequestDTO dto,
             @RequestPart(value = "ImageFile", required = false) MultipartFile imageFile,
+
             BindingResult result) {
 
         log.info("/board/ 글 작성 요청 들어옴 ");
+
+
         if (result.hasErrors()) {
             log.warn(result.toString());
             return ResponseEntity.badRequest()
@@ -156,11 +159,13 @@ public class BoardController {
     @PutMapping("/modify")
     public ResponseEntity<?> modify(
             @RequestPart(value = "ImageFile", required = false) MultipartFile imageFile,
+            @RequestPart(value = "oldFile", required = false) MultipartFile oldFile,
              @RequestPart("board") BoardModifyRequestDTO dto,
             @AuthenticationPrincipal TokenUserInfo userInfo,
             BindingResult result) {
 
-
+    log.info("ImageFile-{}", imageFile);
+    log.info("oldFile -{}", oldFile);
         log.info("/modify/ 글 수정 요청이 들어옴  ");
         if (result.hasErrors()) {
             log.warn(result.toString());
@@ -168,8 +173,9 @@ public class BoardController {
                     .body(result.getFieldError());
         }
         try {
-            String uploadFilePath = getUploadFilePath(imageFile); //여기 메서드 추출한 거 사용
-            BoardModifyResponseDTO modifyDTO = boardService.modify(dto, uploadFilePath, userInfo);
+            String uploadFilePath = getUploadFilePath(imageFile);
+            log.info("새로운 파일 경로 -{}", uploadFilePath);//여기 메서드 추출한 거 사용
+            BoardModifyResponseDTO modifyDTO = boardService.modify(dto, uploadFilePath, userInfo, oldFile);
             return ResponseEntity.ok().body(modifyDTO);
 
         } catch (RuntimeException e) {
@@ -300,6 +306,23 @@ public class BoardController {
 
             return ResponseEntity.ok().body(replyList);
         }
+
+        //s3에서 불러온 이미지 사진 처리
+        @GetMapping("/load-s3/{boardNo}")
+        public ResponseEntity<?> loadS3(@RequestParam int boardNo) {
+        log.info("load-s3 -{}", boardNo);
+
+            try {
+                String imagePath = boardService.findImagePath(boardNo);
+                return ResponseEntity.ok().body(imagePath);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResponseEntity.badRequest().body(e.getMessage());
+            }
+
+
+        }
+
 
 
 
