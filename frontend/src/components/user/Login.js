@@ -34,7 +34,7 @@ const Login = () => {
 
       if (res.status === 200) {
         const data = await res.json();
-        const { token, role , userId} = data;
+        const { token, role, userId } = data;
 
         localStorage.setItem('ACCESS_TOKEN', token);
         localStorage.setItem('userId', userId);

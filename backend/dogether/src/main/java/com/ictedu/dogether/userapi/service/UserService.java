@@ -45,22 +45,37 @@ public class UserService {
     // 회원 가입 처리
     public UserSignUpResponseDTO create(final UserRequestSignUpDTO dto) {
 
-        String userId = dto.getUserId();
 
-        if (isDuplicate(userId)) {
-            log.warn("아이디가 중복되었습니다. - {}", userId);
-            throw new RuntimeException("중복된 아이디 입니다.");
+        boolean kakao = userRepository.existsByUserEmail(dto.getUserEmail());
+
+        if(kakao) {
+            //카카오 사용자의 회원 가입 처리
+            User user = userRepository.findById(dto.getUserId()).orElseThrow();
+            user.setUserName(dto.getUserName());
+            user.setUserPhone(dto.getUserPhone());
+            user.setPostNo(dto.getPostNo());
+            user.setPostAddr(dto.getPostAddr());
+            User kakaoUser = userRepository.save(user);
+            return new UserSignUpResponseDTO(kakaoUser);
+        }else {
+            //일반 사용자의 회원 가입 처리
+
+            String userId = dto.getUserId();
+            if (isDuplicate(userId)) {
+                log.warn("아이디가 중복되었습니다. - {}", userId);
+                throw new RuntimeException("중복된 아이디 입니다.");
+            }
+            // 패스워드 인코딩
+            String encoded = passwordEncoder.encode(dto.getUserPass());
+            dto.setUserPass(encoded);
+
+            // dto를 User Entity로 변환해서 저장
+            User saved = userRepository.save(dto.toEntity());
+            log.info("회원 가입 정상 수행됨! - saved user - {}", saved);
+
+            return new UserSignUpResponseDTO(saved);
         }
 
-        // 패스워드 인코딩
-        String encoded = passwordEncoder.encode(dto.getUserPass());
-        dto.setUserPass(encoded);
-
-        // dto를 User Entity로 변환해서 저장
-        User saved = userRepository.save(dto.toEntity());
-        log.info("회원 가입 정상 수행됨! - saved user - {}", saved);
-
-        return new UserSignUpResponseDTO(saved);
 
     }
 
@@ -180,7 +195,7 @@ public class UserService {
 
         foundUser.setAccessToken((String)responseData.get("access_token"));
         userRepository.save(foundUser);
-
+    //만약 사용자가
 
         return new LoginResponseDTO(foundUser, token);
 

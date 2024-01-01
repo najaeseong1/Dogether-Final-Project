@@ -23,7 +23,7 @@ public class ApiController {
 
     private  final ApiService apiService;
 
-    //api 통한 강아지 데이터베이스에 저장하기
+    //api 통한 강아지 불러오기
     @GetMapping
     public ResponseEntity<?> getAdoptList() {
         try {

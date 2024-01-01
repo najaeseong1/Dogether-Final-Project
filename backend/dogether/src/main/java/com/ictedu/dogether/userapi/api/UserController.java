@@ -182,7 +182,7 @@ public class UserController {
     // 카카오 로그인
     @GetMapping("/kakaologin")
     public ResponseEntity<?> kakaoLogin(String code) {
-        log.info("/user/kakaologin - GET! -code: {}", code);
+        log.info("코드 요청 들어옴?", code);
         LoginResponseDTO responseDTO = userService.kakaoService(code);
         log.info("responseData : {}", responseDTO);
         return ResponseEntity.ok().body(responseDTO);
