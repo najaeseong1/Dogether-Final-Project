@@ -141,6 +141,29 @@
     font-size: 0.8em;
   }
 }
+
+@keyframes floatAnimation {
+  0% {
+    transform: translateY(-40px) translateX(68px);
+  }
+  50% {
+    transform: translateY(-30px) translateX(68px);
+  }
+  100% {
+    transform: translateY(-40px) translateX(68px);
+  }
+}
+.showcart {
+  background-color: #6e6e6d;
+  color: #fff;
+  font-size: 14px;
+  width: 70px;
+  border-radius: 4px;
+  font-family: 'Noto Sans KR', sans-serif;
+
+  text-align: center;
+  animation: floatAnimation 2s infinite;
+}
 .order-details {
   font-family: 'Noto Sans KR', sans-serif;
   .product-img {

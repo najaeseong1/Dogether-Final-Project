@@ -4,10 +4,11 @@ import com.ictedu.dogether.userapi.entity.User;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -42,8 +43,12 @@ public class Board {
     private String image; //글 이미지
 
     //한명의 유저는 여러개의 게시물을 가질 수 있다.
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name =  "user_id" )
     private User user;
 
+
+    // 게시물 삭제될때 foreign key 오류로 인해 설정한거
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reply> replies = new ArrayList<>();
 }

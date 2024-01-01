@@ -63,16 +63,16 @@ const AdoptionList = () => {
     setUprCd(selectedOption.value); // 선택된 값으로 uprCd 업데이트
   };
 
-    //입양 리스트
-   const [adoptList, setAdoptList] = useState([]);
-   //로딩 상태 변수
-   const [loading, setLoding] = useState();
-   // 페이지 당 보여줄 프레임 개수
-   const itemsPerPage = 12;
-   const [currentPage, setCurrentPage] = useState(1);
+  //입양 리스트
+  const [adoptList, setAdoptList] = useState([]);
+  //로딩 상태 변수
+  const [loading, setLoding] = useState();
+  // 페이지 당 보여줄 프레임 개수
+  const itemsPerPage = 12;
+  const [currentPage, setCurrentPage] = useState(1);
 
-   // 입양 상세페이지로 요청
-   const goAdoptionListDetail = (desertionNo) => {
+  // 입양 상세페이지로 요청
+  const goAdoptionListDetail = (desertionNo) => {
     fetch(`http://localhost:8181/adopt/detail/${desertionNo}`)
       .then((response) => response.json())
       .then((data) => {
@@ -94,7 +94,7 @@ const AdoptionList = () => {
     axios
       .get(`${API_BASE_URL}${ADOPT}/adminicode?uprCd=${uprCd}`)
       .then((res) => {
-        setFilteredAdoptList(res.data.adoptLists)
+        setFilteredAdoptList(res.data.adoptLists);
         setLoding(false);
       })
       .catch((err) => {
@@ -107,8 +107,9 @@ const AdoptionList = () => {
     // 입양 리스트 '/adopt 요청'
     axios
       .get(`${API_BASE_URL}${ADOPT}`)
-      .then((res)=>{
-        setAdoptList(res.data.adoptLists);      //.slice(0,12)
+      .then((res) => {
+        console.log(res.data.adoptLists);
+        setAdoptList(res.data.adoptLists); //.slice(0,12)
         setFilteredAdoptList(res.data.adoptLists);
       })
       .catch((err) => {
@@ -153,34 +154,41 @@ const AdoptionList = () => {
   //   currentPage * itemsPerPage
   // );
 
-
- 
   return (
-    <div className="index">
+    <div className='index'>
       {/* 로딩 중일 때 전체 화면을 덮기 위한 로딩 오버레이 */}
       {loading && (
-        <div className="loading-overlay">
+        <div className='loading-overlay'>
           <LoadingPink />
         </div>
       )}
-    <div className="div">
-    {loading ? (
-      <div className="loading-pink" style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 9999 }}>
-      {/* 로딩 바의 내용 */}
-          <LoadingPink />
+      <div className='div'>
+        {loading ? (
+          <div
+            className='loading-pink'
+            style={{
+              position: 'fixed',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 9999,
+            }}
+          >
+            {/* 로딩 바의 내용 */}
+            <LoadingPink />
           </div>
         ) : (
           <>
-        <form>
-          <label>
-            <Select
-              className='category'
-              options={online}
-              onChange={handleSelectChange}
-              defaultValue={online[0]}
-              value={selectOnline}
-            />
-            {/* <select  className='category'  >
+            <form>
+              <label>
+                <Select
+                  className='category'
+                  options={online}
+                  onChange={handleSelectChange}
+                  defaultValue={online[0]}
+                  value={selectOnline}
+                />
+                {/* <select  className='category'  >
             <option >ALL</option>
             <option value='6110000'>서울특별시</option>
             <option value='6260000'>부산광역시</option>
@@ -200,18 +208,18 @@ const AdoptionList = () => {
             <option value='6480000'>경상남도</option>
             <option value='6500000'>제주특별자치도</option>     
           </select> */}
-          </label>
+              </label>
 
-          <label>
-            <input
-              className='searchbar'
-              type='text'
-              placeholder=''
-            ></input>
-          </label>
-        </form>
+              <label>
+                <input
+                  className='searchbar'
+                  type='text'
+                  placeholder=''
+                ></input>
+              </label>
+            </form>
 
-        {/* {cutAdoptList.map((adoptList, index) => (
+            {/* {cutAdoptList.map((adoptList, index) => (
           <div key={index} className={`frame-${index + 1}`} onClick={goAdoptionListDetail}>        
             <img className={`image-${index + 1}`} src={adoptList.profileImg} alt={`dogImg ${index + 1}`} />
               <div className={`frameInfo-${index + 1}`}>
@@ -224,54 +232,50 @@ const AdoptionList = () => {
           
         ))} */}
 
-        {/* 여기에 폼 코드를 추가하세요 */}
-       
-        {paginatedData.map((item, index) => (
-          <div
-            key={index}
-            className={`frame-${index + 1}`}
-            onClick={() => goAdoptionListDetail(item.desertionNo)}
-          >
-            <img
-              className={`image-${index + 1}`}
-              src={item.profileImg}
-              alt={`dogImg ${index + 1}`}
-            />
-            <div className={`frameInfo-${index + 1}`}>
-              견종: {item.kindCd} <br />
-              성별: {item.gender} <br />
-              나이: {item.age} <br />
-              중성화여부: {item.neuterYn}
-            </div>
-          </div>
-        ))}
+            {/* 여기에 폼 코드를 추가하세요 */}
 
-        {/* 현재 페이지에 해당하는 데이터 표시
+            {paginatedData.map((item, index) => (
+              <div
+                key={index}
+                className={`frame-${index + 1}`}
+                onClick={() => goAdoptionListDetail(item.desertionNo)}
+              >
+                <img
+                  className={`image-${index + 1}`}
+                  src={item.profileImg}
+                  alt={`dogImg ${index + 1}`}
+                />
+                <div className={`frameInfo-${index + 1}`}>
+                  견종: {item.kindCd} <br />
+                  성별: {item.gender} <br />
+                  나이: {item.age} <br />
+                  중성화여부: {item.neuterYn}
+                </div>
+              </div>
+            ))}
+
+            {/* 현재 페이지에 해당하는 데이터 표시
           <ul>
             {paginatedData.map(item => (
               <li key={item.id}>{item.name}</li>
             ))}
           </ul> */}
 
-        <div className='pageNum'>
-          <Stack spacing={2}>
-            <Pagination
-              count={totalPages}
-              page={currentPage}
-              onChange={(event, page) => handleClick(page)}
-              showFirstButton //맨 마지막
-              showLastButton //맨 처음
-              variant='outlined'
-            />
-          </Stack>
-          </div>
-
-       
-            
+            <div className='pageNum'>
+              <Stack spacing={2}>
+                <Pagination
+                  count={totalPages}
+                  page={currentPage}
+                  onChange={(event, page) => handleClick(page)}
+                  showFirstButton //맨 마지막
+                  showLastButton //맨 처음
+                  variant='outlined'
+                />
+              </Stack>
+            </div>
           </>
         )}
-     
-    </div>
+      </div>
     </div>
   );
 };
