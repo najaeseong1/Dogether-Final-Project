@@ -8,9 +8,10 @@ function PaymentSuccess() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [userId, setUserId] = useState(localStorage.getItem('LOGIN_USERID'));
-  const [cartItems, setCartItems] = JSON.parse(
-    localStorage.getItem('cartItems')
+  const [cartItems, setCartItems] = useState(
+    JSON.parse(localStorage.getItem('cartItems'))
   );
+
   const [paymentData, setPaymentData] = useState('');
   const [loading, setLoading] = useState(true);
 
@@ -21,7 +22,7 @@ function PaymentSuccess() {
       amount: searchParams.get('amount'),
       paymentKey: searchParams.get('paymentKey'),
       userId: userId,
-      productInfo: [cartItems],
+      productInfo: cartItems,
     };
     // TODO: 개발자센터에 로그인해서 내 결제위젯 연동 키 > 시크릿 키를 입력하세요. 시크릿 키는 외부에 공개되면 안돼요.
     // @docs https://docs.tosspayments.com/reference/using-api/api-keys
@@ -45,8 +46,6 @@ function PaymentSuccess() {
     //     }
     //   );
     async function confirm() {
-      console.log(`${API_BASE_URL}${PAYMENT}`);
-      console.log(JSON.stringify(requestData));
       const response = await fetch(`${API_BASE_URL}${PAYMENT}`, {
         method: 'POST',
         headers: {
@@ -59,7 +58,6 @@ function PaymentSuccess() {
       const json = await response.json();
       // 상태 업데이트
       setPaymentData(json);
-      console.log('PaymentData 상태 저장한거', paymentData);
 
       if (!response.ok) {
         // TODO: 구매 실패 비즈니스 로직 구현

@@ -1,11 +1,11 @@
 package com.ictedu.dogether.payment.service;
 
+import com.ictedu.dogether.auth.TokenUserInfo;
 import com.ictedu.dogether.ownproduct.dto.response.productDetailResponseDTO;
 import com.ictedu.dogether.ownproduct.entity.Product;
+import com.ictedu.dogether.ownproduct.repository.ownProductRepository;
 import com.ictedu.dogether.ownproduct.service.productService;
-import com.ictedu.dogether.payment.dto.PaymentRequest;
-import com.ictedu.dogether.payment.dto.PaymentResponse;
-import com.ictedu.dogether.payment.dto.ProductInfo;
+import com.ictedu.dogether.payment.dto.*;
 import com.ictedu.dogether.payment.entity.CardInfo;
 import com.ictedu.dogether.payment.entity.Payment;
 import com.ictedu.dogether.payment.entity.PaymentDetail;
@@ -25,7 +25,10 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static com.ictedu.dogether.ownproduct.entity.QProduct.product;
 
 @Service
 @Slf4j
@@ -40,12 +43,14 @@ public class PaymentService {
     private PaymentDetailEntityRepository paymentDetailEntityRepository;
 
     @Autowired
+    private ownProductRepository ownProductRepository;
+
+    @Autowired
     private productService productService;
 
     @Autowired
     private final UserService userService;
 
-    // 요청 응답을 위한 우리랑 안맞는 서비스
     public PaymentResponse confirmPayment(PaymentRequest paymentRequest, String paymentKey) {
 
         System.out.println("컨펌페이먼츠 서비스 요청"+ paymentRequest +"쁘라스"+ paymentKey);
@@ -75,11 +80,6 @@ public class PaymentService {
         );
         System.out.println("\n\n PaymentService에서 토스 서버로 요청 후 받은 값"+response.getBody());
 
-        // response를 CardInfo로 변환
-        if(response.getBody().getCard() != null) {
-            payToSaveCardInfo(response);
-        }
-
         // response를 PaymentEntity로 변환
         Payment payment = Payment.builder()
                 .paymentKey(response.getBody().getPaymentKey())
@@ -95,7 +95,7 @@ public class PaymentService {
 
         CardInfo cardInfo = null;
         if(response.getBody().getCard() != null) {
-            cardInfo = payToSaveCardInfo(response);
+            cardInfo = payToSaveCardInfo(response, user);
         }
         payment.setCard(cardInfo); // 카드 정보 설정
         log.info("\n\n\n 그 위에 서비스에서 페이먼트에 저장하기 위해 넣어놓은거 {}", payment);
@@ -109,7 +109,7 @@ public class PaymentService {
         return response.getBody();
     }
 
-    private CardInfo payToSaveCardInfo(ResponseEntity<PaymentResponse> response) {
+    private CardInfo payToSaveCardInfo(ResponseEntity<PaymentResponse> response, User user ) {
         CardInfo card = CardInfo.builder()
                 .cardRegNo(response.getBody().getCard().getCardRegNo())
                 .issuerCode(response.getBody().getCard().getIssuerCode())
@@ -121,6 +121,7 @@ public class PaymentService {
                 .approveNo(response.getBody().getCard().getApproveNo())
                 .acquireStatus(response.getBody().getCard().getAcquireStatus())
                 .build();
+        card.setUser(user);
         // 데이터베이스 카드 정보 저장
         return cardInfoEntityRepository.save(card);
     }
@@ -129,21 +130,53 @@ public class PaymentService {
     // 전달받은 productInfo를 PaymentDetail에 저장할 서비스
     public void  savePaymentDetails(PaymentRequest paymentRequest, Payment payment) {
         List<ProductInfo> productInfos = paymentRequest.getProductInfo();
+        log.info("\n\n\n\n\n\n 세이브페이먼츠 디테일에서 전달 받은 프로덕트 인포 {} ",productInfos);
         List<PaymentDetail> paymentDetails = new ArrayList<>();
-        PaymentDetail paymentDetail = new PaymentDetail();
 
-        int totalCount = 0;
-        int totalPrice = 0;
         for (ProductInfo productInfo : productInfos) {
-            totalCount += productInfo.getTotalCount();
-            totalPrice += productInfo.getTotalPrice();
+            PaymentDetail paymentDetail = new PaymentDetail();
             paymentDetail.setOrderId(payment); // 주문 ID를 설정
-            paymentDetail.setTotalCount(totalCount);
-            paymentDetail.setTotalPrice(totalPrice);
-            if(paymentDetail.getProducts() == null) {
-                paymentDetail.setProducts(productService.getDetailProduct(productInfo.getProductId()).toProduct());
-            }
+            paymentDetail.setTotalCount(productInfo.getTotalCount());
+            paymentDetail.setTotalPrice(productInfo.getTotalPrice());
+            paymentDetail.setProducts(productService.getDetailProduct(productInfo.getProductId()).toProduct());
+            log.info("\n\n\n저장하기 직전에 뭐가 저장되는지 한번 봅시다 {}",paymentDetail);
+            paymentDetailEntityRepository.save(paymentDetail);
         }
-        paymentDetails.add(paymentDetailEntityRepository.save(paymentDetail));
     }
+
+    public UserPaymentResponse getPaymentList(TokenUserInfo userInfo) {
+        UserPaymentResponse response = new UserPaymentResponse();
+
+        // 페이먼츠 테이블에서 userId가 같은 orderId 검색
+        List<Payment> payments = paymentEntityRepository.findByUser_UserId(userInfo.getUserId());
+
+        log.info("\n\n\n\n 페이먼츠 테이블에서 userId가 같은 orderId를 검색 했음 {}", payments);
+
+        for (Payment payment : payments) {
+            PaymentResponse paymentResponse = new PaymentResponse(payment);
+            log.info("\n\n\n\n PaymentResponse paymentResponse   {}", paymentResponse);
+
+            // 페이먼츠 디테일 테이블에서 order_id가 같은 product_id 검색
+            List<PaymentDetail> paymentDetails = paymentDetailEntityRepository.findByOrderId(payment.getOrderId());
+            log.info("\n\n\n\n List<PaymentDetail> paymentDetails   {}", paymentDetails);
+            for (PaymentDetail paymentDetail : paymentDetails) {
+                // 프로덕트 테이블에서 product_id가 같은 제품들 검색하고 제품 정보를 ProductInfo로
+                ProductInfo productInfo = new ProductInfo();
+                productInfo.setProductId(paymentDetail.getProducts().getProductId());
+                productInfo.setTitle(paymentDetail.getProducts().getTitle());
+                productInfo.setSubtitle(paymentDetail.getProducts().getSubtitle());
+                productInfo.setPrice(paymentDetail.getProducts().getPrice());
+                productInfo.setImg(paymentDetail.getProducts().getImg());
+                productInfo.setTotalCount(paymentDetail.getTotalCount());
+                productInfo.setTotalPrice(paymentDetail.getTotalPrice());
+                response.setProductInfos((List<ProductInfo>) productInfo);
+                log.info("\n\n\n\n ProductInfo productInfo   {}", productInfo);
+            }
+            log.info("\n\n\n\n 서비스에서 응답 직전 response   {}", response);
+            response.setPaymentResponse(paymentResponse);
+        }
+
+        return response;
+    }
+
 }

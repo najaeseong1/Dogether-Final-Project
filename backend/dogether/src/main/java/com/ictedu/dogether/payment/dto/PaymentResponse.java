@@ -1,6 +1,7 @@
 package com.ictedu.dogether.payment.dto;
 
 import com.ictedu.dogether.payment.entity.CardInfo;
+import com.ictedu.dogether.payment.entity.Payment;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -37,4 +38,15 @@ public class PaymentResponse {
 
     @JsonProperty("approvedAt")
     private String approvedAt;		// 결제 응답 날짜
+
+    public PaymentResponse(Payment payment) {
+        this.paymentKey = payment.getPaymentKey();
+        this.orderId = payment.getOrderId();
+        this.orderName = payment.getOrderName();
+        this.totalAmount = payment.getAmount();
+        this.method = payment.getMethod();
+        this.status = payment.getStatus();
+        this.requestedAt = payment.getRequestedAt();
+        this.approvedAt = payment.getApprovedAt();
+    }
 }

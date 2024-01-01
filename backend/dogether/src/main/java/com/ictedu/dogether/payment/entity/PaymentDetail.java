@@ -22,13 +22,13 @@ public class PaymentDetail {
     @Column(name = "payment_detail_id")
     private int paymentDetailId;            // 제품상세서 번호
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name =  "order_id" )
     private Payment orderId;    // 주문 번호
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "product_id")
-    private Product products;    // 제품 번호
+    private Product products;    // 제품
 
     @Column(name="total_count")
     private int totalCount;    // 주문 총 수

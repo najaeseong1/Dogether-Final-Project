@@ -207,6 +207,7 @@ const Cart = () => {
       ...prevUserInfo,
       postNo: data.zonecode,
       postAddr: addr,
+      postExtraAddr: extraAddr,
     }));
     detailAddressInputRef.current.focus();
   };
@@ -465,7 +466,7 @@ const Cart = () => {
                         className='cartaddr'
                         placeholder='참고항목'
                         ref={extraAddressInputRef}
-                        value={extraAddress}
+                        value={userInfo.postExtraAddr}
                         style={{ width: '300px' }}
                         readOnly
                       />
