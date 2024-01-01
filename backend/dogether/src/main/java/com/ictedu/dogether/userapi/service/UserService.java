@@ -23,6 +23,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.Map;
 
 @Service
@@ -268,10 +270,10 @@ public class UserService {
         return null;
     }
 
-public LoginResponseDTO naverService(String code) {
+public LoginResponseDTO naverService(String code, String state) {
     log.info("code -{}", code);
     // 인가코드를 통해 토큰 발급받기
-    Map<String, Object> responseData = getNaverAccessToken(code);
+    Map<String, Object> responseData = getNaverAccessToken(code, state);
     log.info("naverToken: {}", responseData.get("access_token"));
 
     // 토큰을 통해 사용자 정보 가져오기
@@ -306,7 +308,7 @@ public LoginResponseDTO naverService(String code) {
         // 요청 헤더 설정
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + accessToken);
-        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+        headers.add("Content-type", "UTF-8");
 
         // 요청 보내기
         RestTemplate template = new RestTemplate();
@@ -317,10 +319,12 @@ public LoginResponseDTO naverService(String code) {
         NaverUserDTO responseData = responseEntity.getBody();
         log.info("user profile: {}", responseData);
 
+
+
         return responseData;
     }
 
-    private Map<String, Object> getNaverAccessToken(String code) {
+    private Map<String, Object> getNaverAccessToken(String code, String state) {
 
         // 요청 uri
         String requestUri = "https://nid.naver.com/oauth2.0/token";
@@ -330,8 +334,8 @@ public LoginResponseDTO naverService(String code) {
         headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
         // state 코드 생성 테스트 시 임의의값 아직 사용x
-//        SecureRandom random = new SecureRandom();
-//        String state = new BigInteger(130, random).toString();
+        SecureRandom random = new SecureRandom();
+        String naverState = new BigInteger(130, random).toString();
 
         // 요청 바디(파라미터) 설정
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
@@ -339,7 +343,7 @@ public LoginResponseDTO naverService(String code) {
         params.add("client_id", NAVER_CLIENT_ID); // 카카오 디벨로퍼 REST API 키
         params.add("code", code); // 프론트에서 인가 코드 요청시 전달받은 코드값
         params.add("client_secret", NAVER_CLIENT_SECRET); // 카카오 디벨로퍼 client secret(활성화 시 추가해 줘야 함)
-        params.add("state", "1234"); // 스테이트 코드
+        params.add("state", naverState); // 스테이트 코드
 
         // 헤더와 바디 정보를 합치기 위해 HttpEntity 객체 생성
         HttpEntity<Object> requestEntity = new HttpEntity<>(params, headers);
@@ -363,5 +367,18 @@ public LoginResponseDTO naverService(String code) {
         return responseData;
     }
 
+//    public String delete(TokenUserInfo userInfo) {
+//
+//        userRepository.delete(userInfo.getUserId());
+//
+//    }
+
+    //회원탈퇴
+    public void deleteUser(TokenUserInfo userId) {
+
+        log.info("삭제 -{}", userId);
+        userRepository.deleteById(userId.getUserId());
+
+    }
 }
 

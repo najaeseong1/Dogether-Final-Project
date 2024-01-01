@@ -1,12 +1,9 @@
 package com.ictedu.dogether.userapi.entity;
 
+import com.ictedu.dogether.Board.Entity.Board;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @ToString
@@ -51,5 +48,11 @@ public class User {
 
     // 카카오 로그인 시 발급받는 accessToken을 저장 -> 로그아웃 때 필요.
     private String accessToken;
+
+    // 회원 탈퇴시 작성한 게시물도 삭제.
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Board> boardList;
+
+
 
 }

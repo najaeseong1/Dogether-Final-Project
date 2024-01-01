@@ -190,10 +190,10 @@ public class UserController {
 
     // 네이버 로그인
     @GetMapping("/naverlogin")
-    public ResponseEntity<?> naverLogin(@RequestParam String code,
-                                        @RequestParam String state) {
+    public ResponseEntity<?> naverLogin(@RequestParam(name = "code") String code,
+                                        @RequestParam(name = "state") String state) {
         log.info("/user/naverlogin - GET! -code, state: {}, {}", code, state);
-        LoginResponseDTO responseDTO = userService.naverService(code);
+        LoginResponseDTO responseDTO = userService.naverService(code, state);
         log.info("responseData : {}", responseDTO);
         return ResponseEntity.ok().body(responseDTO);
     }
@@ -215,10 +215,21 @@ public class UserController {
     public ResponseEntity<?> logout(
             @AuthenticationPrincipal TokenUserInfo userInfo
     ) {
-        log.info("/api/auth/logout - GET! - user {}", userInfo.getUserId());
+        log.info("/user/logout - GET! - user {}", userInfo.getUserId());
         String result = userService.logout(userInfo);
 
         return ResponseEntity.ok().body(result);
     }
+
+    // 회원 탈퇴
+    @DeleteMapping("/deleteuser")
+    public ResponseEntity<?> deleteUser(@AuthenticationPrincipal TokenUserInfo user) {
+
+        log.info("/user/deleteuser - DELETE! - user {}",user);
+        userService.deleteUser(user);
+
+        return ResponseEntity.ok().build();
+    }
+
 
 }
