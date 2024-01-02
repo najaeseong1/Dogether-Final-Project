@@ -166,9 +166,8 @@
   #phoneNum {
     width: 380px;
   }
-  #postAddr {
+  #postNo {
     width: 200px;
-    margin-right: 10px;
   }
   .cartaddr {
     width: 100px; ///이거 왜 안먹음..?
@@ -199,6 +198,11 @@
       padding: 8px;
       box-sizing: border-box;
       margin-bottom: 8px;
+      margin-right: 10px;
+    }
+    input[readOnly] {
+      background-color: #f8f8f8;
+      border: 1px solid #666;
     }
 
     button {

@@ -4,6 +4,8 @@ import './cart.scss';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import PaymentCheckout from '../payment/PaymentCheckout';
+
 import { API_BASE_URL, USER } from '../../global/config/host-config';
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -11,7 +13,7 @@ const Cart = () => {
   const [postAddr, setPostAddr] = useState(''); //기본주소 (서울 마포구 백범로 23)
   const [detailAddress, setDetailAddress] = useState(''); //상세주소 (사용자가 직접 입력)
   const [extraAddress, setExtraAddress] = useState(''); //첨부주소(목동, 청담동)
-  const [isSameAddress, setIsSameAddress] = useState(''); // 배송지 선택에 따라 창열리기
+  const [isSameAddress, setIsSameAddress] = useState('sameAddr'); // 배송지 선택에 따라 창열리기
   const [quantityMap, setQuantityMap] = useState({}); //각 상품의 수량
   const [userInfo, setUserInfo] = useState('');
 
@@ -46,6 +48,7 @@ const Cart = () => {
       JSON.parse(localStorage.getItem('quantityMap')) || {};
     const initializedQuantityMap = {};
     let totalPrice = 0;
+    let totalCount = 0;
 
     storedCartItems.forEach((item, index) => {
       initializedQuantityMap[index] = storedQuantityMap[index] || 1;
@@ -53,6 +56,7 @@ const Cart = () => {
       // 총 상품 가격 계산
       const price = Number(item.price.replace(/[^0-9]/g, ''));
       totalPrice += initializedQuantityMap[index] * price;
+      totalCount += initializedQuantityMap[index];
     });
 
     setQuantityMap(initializedQuantityMap);
@@ -63,6 +67,7 @@ const Cart = () => {
       return {
         ...item,
         totalPrice: initializedQuantityMap[index] * price,
+        totalCount: initializedQuantityMap[index],
       };
     });
 
@@ -136,6 +141,10 @@ const Cart = () => {
   };
 
   const changeAmountHandler = (newAmount, index) => {
+    if (newAmount <= 0) {
+      removeFromCart(index);
+      return;
+    }
     const newQuantityMap = { ...quantityMap, [index]: newAmount };
     setQuantityMap(newQuantityMap);
 
@@ -145,6 +154,7 @@ const Cart = () => {
         return {
           ...item,
           totalPrice: newAmount * price,
+          totalCount: newAmount,
         };
       }
       return item;
@@ -195,17 +205,27 @@ const Cart = () => {
 
     postcodeInputRef.current.value = data.zonecode;
     addressInputRef.current.value = addr;
+    setUserInfo((prevUserInfo) => ({
+      ...prevUserInfo,
+      postNo: data.zonecode,
+      postAddr: addr,
+      postExtraAddr: extraAddr,
+    }));
     detailAddressInputRef.current.focus();
   };
   const onChangePostCode = (e) => {
     //const currentPostCode = e.target.value;
     setPostNo(e.target.value);
+    setUserInfo((prevUserInfo) => ({
+      ...prevUserInfo,
+      postNo: e.target.value,
+    }));
   };
 
   const handleAddressTypeChange = (e) => {
-    const value = document.getElementById(e.target.id);
-    setIsSameAddress(value);
+    setIsSameAddress(e.target.value);
   };
+
   const shoppinghandler = () => {
     redirection('/product');
   };
@@ -219,6 +239,7 @@ const Cart = () => {
             <img
               src='https://pethroom.com/pethroom/images/PR_web_fixed_empty.png'
               style={{ width: '300px', height: '400px' }}
+              alt='강아지 냉장고 문열고 있는 사진'
             />
             <div>아직 담은 상품이 없어요.</div>
             <button onClick={() => shoppinghandler()}>Continue Shopping</button>
@@ -242,7 +263,7 @@ const Cart = () => {
                   <td>
                     <img
                       src={item.img}
-                      alt='Product Image'
+                      alt='제품 이미지'
                       style={{ width: '80x', height: '85px' }}
                     />
                   </td>
@@ -292,19 +313,19 @@ const Cart = () => {
               <tbody>
                 <tr>
                   <td>
-                    {cartItems.reduce(
-                      (total, item) => total + item.totalPrice,
-                      0
-                    )}
+                    {cartItems
+                      .reduce((total, item) => total + item.totalPrice, 0)
+                      .toLocaleString()}
                     원
                   </td>
-                  <td>+ 3000원</td>
+                  <td>3000원</td>
                   <td>
-                    =
-                    {cartItems.reduce(
-                      (total, item) => total + item.totalPrice,
-                      0
-                    ) + 3000}
+                    {(
+                      cartItems.reduce(
+                        (total, item) => total + item.totalPrice,
+                        0
+                      ) + 3000
+                    ).toLocaleString()}
                     원
                   </td>
                 </tr>
@@ -324,6 +345,8 @@ const Cart = () => {
                       type='text'
                       id='name'
                       value={userInfo.userName}
+                      placeholder='이름을 입력해주세요'
+                      readOnly
                     />
                   </td>
                 </tr>
@@ -334,10 +357,14 @@ const Cart = () => {
                       type='text'
                       id='phoneNum'
                       value={userInfo.userPhone}
+                      placeholder='연락처를 입력해주세요'
+                      onChange={(e) =>
+                        setUserInfo({ ...userInfo, userPhone: e.target.value })
+                      }
                     ></input>
                     <ul>
                       <li> '-'(하이픈)을 빼고 번호만 입력해주세요.</li>
-                      <li> - 연락처를 통해 주문처리과정을 보내드립니다.</li>
+                      <li> 연락처를 통해 주문처리과정을 보내드립니다.</li>
                     </ul>
                   </td>
                 </tr>
@@ -348,17 +375,21 @@ const Cart = () => {
                       type='text'
                       id='phoneNum'
                       value={userInfo.userEmail}
+                      placeholder='이메일을 입력해주세요'
+                      readOnly
                     ></input>
+                    <button>이메일 변경</button>
                     <ul>
                       <li> - 이메일을 통해 주문처리과정을 보내드립니다.</li>
                       <li>
-                        - 이메일 주소란에는 반드시 수신가능한 이메일주소를
-                        입력해 주세요.
+                        - 이메일 주소는 반드시 수신 가능한 이메일주소를
+                        사용해주세요
                       </li>
                     </ul>
                   </td>
                 </tr>
                 <tr>
+                  {/* 주소 설정 */}
                   <th scope='row'>배송지 선택</th>
                   <td>
                     <input
@@ -366,8 +397,8 @@ const Cart = () => {
                       id='sameAddr'
                       name='addrType'
                       value='sameAddr'
-                      checked
-                      onClick={handleAddressTypeChange}
+                      checked={isSameAddress === 'sameAddr'}
+                      onChange={handleAddressTypeChange}
                     ></input>
                     <label
                       htmlFor='sameAddr'
@@ -380,7 +411,8 @@ const Cart = () => {
                       id='newAddr'
                       name='addrType'
                       value='newAddr'
-                      onClick={handleAddressTypeChange}
+                      checked={isSameAddress === 'newAddr'}
+                      onChange={handleAddressTypeChange}
                     ></input>
 
                     <label
@@ -396,13 +428,13 @@ const Cart = () => {
                   <td>
                     <input
                       type='text'
-                      id='postAddr'
+                      id='postNo'
                       ref={postcodeInputRef}
                       value={userInfo.postNo}
                       onChange={onChangePostCode}
                       readOnly
                     ></input>
-                    {isSameAddress.id === 'newAddr' && (
+                    {isSameAddress === 'newAddr' && (
                       <button onClick={handleOpenAddressModal}>우편번호</button>
                     )}
                     <br />
@@ -416,7 +448,7 @@ const Cart = () => {
                       readOnly
                     />
                     <br />
-                    {isSameAddress.id === 'newAddr' && (
+                    {isSameAddress === 'newAddr' && (
                       <input
                         type='text'
                         placeholder='상세주소'
@@ -424,16 +456,19 @@ const Cart = () => {
                         value={detailAddress}
                         ref={detailAddressInputRef}
                         style={{ width: '700px' }}
+                        onChange={(e) => {
+                          setDetailAddress(e.target.value);
+                        }}
                       />
                     )}
                     <br />
-                    {isSameAddress.id === 'newAddr' && (
+                    {isSameAddress === 'newAddr' && (
                       <input
                         type='text'
                         className='cartaddr'
                         placeholder='참고항목'
                         ref={extraAddressInputRef}
-                        value={extraAddress}
+                        value={userInfo.postExtraAddr}
                         style={{ width: '300px' }}
                         readOnly
                       />
@@ -466,37 +501,7 @@ const Cart = () => {
               >
                 결제수단
               </div>
-
-              <table className='paymentTable'>
-                <tbody>
-                  <tr>
-                    <td>토스 자리</td>
-                    <td
-                      rowSpan={3}
-                      id='rowspan3'
-                      style={{ padding: '0' }}
-                    >
-                      <div className='finalPrice'> 최종 결제 금액</div>
-                      <div id='paymentPrice'>50800원</div>
-                      <br />
-                      <div
-                        id='centerPay'
-                        style={{ textAlign: 'center' }}
-                      >
-                        <button className='orderbutton'>결제하기</button>
-                      </div>
-                      <div className='pricePoint'>
-                        <div>
-                          총 적립예정금액 : <strong> 470원</strong>
-                        </div>
-                        <div>상품별 적립금 0원</div>
-                        <div>회원 적립금 470원</div>
-                        <div>쿠폰 적립금 0원</div>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <PaymentCheckout />
             </div>
           </div>
         </>
