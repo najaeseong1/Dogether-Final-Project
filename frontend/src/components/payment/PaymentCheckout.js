@@ -9,7 +9,7 @@ const selector = '#payment-widget';
 // @docs https://docs.tosspayments.com/reference/widget-sdk#sdk-설치-및-초기화
 const clientKey = process.env.REACT_APP_PAYMENTS_CLIENT_KEY;
 const customerKey = nanoid(); // 주문 번호
-console.log('주문번호 : ' + customerKey);
+// console.log('주문번호 : ' + customerKey);
 
 // 유저 정보 받아야 함
 // function PaymentCheckout({userId}) {

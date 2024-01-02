@@ -1,5 +1,6 @@
 package com.ictedu.dogether.payment.service;
 
+import com.ictedu.dogether.Board.Entity.Board;
 import com.ictedu.dogether.auth.TokenUserInfo;
 import com.ictedu.dogether.ownproduct.repository.ownProductRepository;
 import com.ictedu.dogether.ownproduct.service.productService;
@@ -44,6 +45,7 @@ public class PaymentService {
     @Autowired
     private final UserService userService;
 
+    // 결제 요청 서비스
     public PaymentResponse confirmPayment(PaymentRequest paymentRequest, String paymentKey) {
 
         System.out.println("confirmPayment 서비스 요청"+ paymentRequest +"쁘라스"+ paymentKey);
@@ -102,6 +104,7 @@ public class PaymentService {
         return response.getBody();
     }
 
+    // 사용한 카드 데이터베이스에 등록하는 메서드
     private CardInfo payToSaveCardInfo(ResponseEntity<PaymentResponse> response, User user ) {
         CardInfo card = CardInfo.builder()
                 .cardRegNo(response.getBody().getCard().getCardRegNo())
@@ -172,6 +175,31 @@ public class PaymentService {
         response.setProductInfos(productInfos);
         log.info("\n\n\n\n 서비스에서 응답 직전 response   {}", response);
         return response;
+    }
+
+
+    //주문번호로 결제내역 찾기 서비스
+    private Payment bringPayment(String orderId) {
+        return paymentEntityRepository.findByOrderId(orderId).orElseThrow(
+                () -> new RuntimeException("게시물 정보가 없습니다.")
+        );
+    }
+
+    // 결제내역 삭제
+    public void deletePayment(String orderId, TokenUserInfo userId) {
+
+        log.info("\n\n\n삭제 -{}", userId);
+        log.info("\n\n\n삭제 -{}", userId.getUserId());
+
+//        //삭제하려는 해당 댓글 정보
+//        Reply reply = bringWriter(replyNo);
+        Payment payment = bringPayment(orderId);
+        log.info("userInfo아이디", userId.getUserId());
+        if(!userId.getUserId().equals(payment.getUser().getUserId())) {
+            throw new RuntimeException("삭제 권한이 없습니다.");
+        }
+
+        paymentEntityRepository.deleteById(orderId);
     }
 
 }

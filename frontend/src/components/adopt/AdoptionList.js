@@ -79,12 +79,12 @@ const AdoptionList = () => {
 
   // 입양 상세페이지로 요청
   const goAdoptionListDetail = (desertionNo) => {
-    fetch(`http://localhost:8181/adopt/detail/${desertionNo}`)
+    fetch(`${API_BASE_URL}${ADOPT}/detail/${desertionNo}`)
       .then((response) => response.json())
       .then((data) => {
         // 상세 페이지로 이동하는 로직을 추가
         // const selectedDog = adoptList.find(item => item.desertionNo === desertionNo);
-        navigate(`/adopt/detail/${desertionNo}`, {
+        navigate(`${ADOPT}/detail/${desertionNo}`, {
           state: { adoptListDetail: data },
         });
         console.log('상세 페이지 데이터:', data);

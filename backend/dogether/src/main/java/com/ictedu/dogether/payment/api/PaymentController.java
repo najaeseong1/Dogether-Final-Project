@@ -64,4 +64,20 @@ public class PaymentController {
                     .body(e.getMessage());
         }
     }
+
+    // Payment 결제 승인
+    @DeleteMapping("")
+    public ResponseEntity<?> confirmPayment(@PathVariable("orderId") String orderId,
+                                            @AuthenticationPrincipal TokenUserInfo userInfo) {
+        try {
+            paymentService.deletePayment(orderId, userInfo);
+
+            // 성공적인 경우
+            return ResponseEntity.ok().build(); //성공하면 200
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest()
+                    .body(e.getMessage());
+        }
+    }
 }

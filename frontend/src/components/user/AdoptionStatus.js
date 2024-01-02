@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './AdoptionStatus.scss';
 import Swal from 'sweetalert2';
+import { API_BASE_URL, CONTRACT } from '../../global/config/host-config';
 
 const AdoptionStatus = () => {
   // 더미데이터
@@ -29,20 +30,21 @@ const AdoptionStatus = () => {
   //   });
   // };
 
-  
-
   // 마이페이지 입양 목록 불러오기
   const [adoptionList, setAdoptionList] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8181/contract/mypageadoptionlist', {
-          method: 'GET',
-          headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
-          },
-        });
+        const response = await fetch(
+          `${API_BASE_URL}${CONTRACT}/mypageadoptionlist`,
+          {
+            method: 'GET',
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
+            },
+          }
+        );
 
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -51,7 +53,9 @@ const AdoptionStatus = () => {
         const data = await response.json();
 
         // 사용자의 아이디와 일치하는 입양신청서만 필터링
-        const userAdoptionList = data.dtoList.filter(adoption => adoption.userId === localStorage.getItem('userId'));
+        const userAdoptionList = data.dtoList.filter(
+          (adoption) => adoption.userId === localStorage.getItem('userId')
+        );
 
         setAdoptionList(userAdoptionList);
         console.log(userAdoptionList);
@@ -63,18 +67,21 @@ const AdoptionStatus = () => {
     };
 
     fetchData();
-  }, []); 
+  }, []);
 
   const handleShowModal = async (contractNo, status) => {
     try {
       // contractNo를 사용하여 입양 상세 정보를 가져오기 위한 요청
-      const res = await fetch(`http://localhost:8181/contract/mypageadoptiondetail?contractNo=${contractNo}`, {
-        method: 'GET',
-        headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
-        },
-      });
-  
+      const res = await fetch(
+        `${API_BASE_URL}${CONTRACT}/mypageadoptiondetail?contractNo=${contractNo}`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
+          },
+        }
+      );
+
       if (!res.ok) {
         // 400 Bad Request인 경우
         if (res.status === 400) {
@@ -90,7 +97,7 @@ const AdoptionStatus = () => {
           throw new Error(`네트워크 응답이 올바르지 않습니다: ${res.status}`);
         }
       }
-  
+
       // 200 OK인 경우
       const detailData = await res.json();
 
@@ -103,7 +110,7 @@ const AdoptionStatus = () => {
       } else {
         title = '알 수 없는 상태입니다.';
       }
-  
+
       // 입양 상세 정보를 모달에 표시
       Swal.fire({
         title: title,
@@ -150,27 +157,57 @@ const AdoptionStatus = () => {
           <div className='mypage-title'>
             <span> 입양 신청 현황</span>
           </div>
-         
+
           <div className='adoption-status'>
             {adoptionList.length === 0 ? (
               <p>입양 신청 현황이 없습니다.</p>
             ) : (
               adoptionList.map((adoptionStatus) => (
-                <div key={adoptionStatus.contractNo} className='divv'>
-                  <p className='dog-profil'>신청자 성함 : {adoptionStatus.userName} </p>
+                <div
+                  key={adoptionStatus.contractNo}
+                  className='divv'
+                >
+                  <p className='dog-profil'>
+                    신청자 성함 : {adoptionStatus.userName}{' '}
+                  </p>
                   <p className='dog-profil'> {adoptionStatus.userAge}세 </p>
                   <p className='dog-profil'> 직업 : {adoptionStatus.job} </p>
-                  <p className='dog-profil'> 신청사유 : {adoptionStatus.reason} </p>
-                  <p className='dog-profil'> 유기번호 : {adoptionStatus.desertionNo} </p>
-                  <p className='dog-profil2'> 신청날짜 : {adoptionStatus.createDate} </p>
-                  <p className='dog-profil2'> 휴대전화번호 : {adoptionStatus.userPhone} </p>
-                  <p className='dog-profil2'> 이메일 : {adoptionStatus.userEmail} </p>
-                  <p className='dog-profil2'> 신청자 거주지 : {adoptionStatus.userEmail} </p>
-                  <p className='dog-profil2'> 입양신청 상태 : {adoptionStatus.adoptionStatus} </p>
+                  <p className='dog-profil'>
+                    {' '}
+                    신청사유 : {adoptionStatus.reason}{' '}
+                  </p>
+                  <p className='dog-profil'>
+                    {' '}
+                    유기번호 : {adoptionStatus.desertionNo}{' '}
+                  </p>
+                  <p className='dog-profil2'>
+                    {' '}
+                    신청날짜 : {adoptionStatus.createDate}{' '}
+                  </p>
+                  <p className='dog-profil2'>
+                    {' '}
+                    휴대전화번호 : {adoptionStatus.userPhone}{' '}
+                  </p>
+                  <p className='dog-profil2'>
+                    {' '}
+                    이메일 : {adoptionStatus.userEmail}{' '}
+                  </p>
+                  <p className='dog-profil2'>
+                    {' '}
+                    신청자 거주지 : {adoptionStatus.userEmail}{' '}
+                  </p>
+                  <p className='dog-profil2'>
+                    {' '}
+                    입양신청 상태 : {adoptionStatus.adoptionStatus}{' '}
+                  </p>
                   {adoptionStatus.adoptionStatus === 'PENDING' ? (
                     <button disabled>처리중</button>
                   ) : (
-                    <button onClick={() => handleShowModal(adoptionStatus.contractNo)}>결과확인</button>
+                    <button
+                      onClick={() => handleShowModal(adoptionStatus.contractNo)}
+                    >
+                      결과확인
+                    </button>
                   )}
                 </div>
               ))

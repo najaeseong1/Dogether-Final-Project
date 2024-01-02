@@ -192,9 +192,9 @@ public class UserController {
 
     // 네이버 로그인
     @GetMapping("/naverlogin")
-    public ResponseEntity<?> naverLogin(@RequestParam(name = "code") String code,
-                                        @RequestParam(name = "state") String state) {
-        log.info("/user/naverlogin - GET! -code, state: {}, {}", code, state);
+    public ResponseEntity<?> naverLogin( @RequestParam (name = "code") String code,
+                                         @RequestParam (name = "state") String state) throws UnsupportedEncodingException {
+        log.info("왜 암것도 안찍혀?: {}, {}", code, state);
         LoginResponseDTO responseDTO = userService.naverService(code, state);
         log.info("responseData : {}", responseDTO);
         return ResponseEntity.ok().body(responseDTO);
@@ -263,16 +263,6 @@ public class UserController {
 
         }
 
-    }
-
-    // 네이버 로그인
-    @GetMapping("/naverlogin")
-    public ResponseEntity<?> naverLogin( @RequestParam (name = "code") String code,
-                                         @RequestParam (name = "state") String state) throws UnsupportedEncodingException {
-        log.info("왜 암것도 안찍혀?: {}, {}", code, state);
-        LoginResponseDTO responseDTO = userService.naverService(code, state);
-        log.info("responseData : {}", responseDTO);
-        return ResponseEntity.ok().body(responseDTO);
     }
 
 }

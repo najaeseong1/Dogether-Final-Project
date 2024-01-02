@@ -18,7 +18,7 @@ const BoardUpdate = () => {
   const [content, setContent] = useState('');
   const [file, setFile] = useState(null);
   const [oldFile, setOldFile] = useState(null);
-  const API_URL = `http://localhost:8181/board/modify`;
+  const API_URL = `${API_BASE_URL}${BOARD}/modify`;
   const imageRequestURL = `${API_BASE_URL}${BOARD}/load-profile/${boardNo}`;
   const [image, setImage] = useState(null);
   const [boardDetail, setBoardDetail] = useState(null);

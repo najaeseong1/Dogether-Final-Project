@@ -101,7 +101,7 @@ const Join = () => {
     const idRegExp = /^[a-zA-Z0-9]{4,12}$/;
 
     if (!idRegExp.test(currentId)) {
-      setUserIdMessage('아이디는 12~15글자만 입력해주세요');
+      setUserIdMessage('아이디는 4~13글자만 입력해주세요');
       setIsUserId(false);
     } else {
       try {

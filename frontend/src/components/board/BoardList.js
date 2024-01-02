@@ -19,7 +19,7 @@ const BoardList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8181/board/');
+        const response = await fetch(`${API_BASE_URL}${BOARD}`);
         const data = await response.json();
         console.log(data.boards);
         setBoardData(data.boards);
@@ -35,7 +35,7 @@ const BoardList = () => {
   const boardDetailHandler = (boardNo) => {
     const token = localStorage.getItem('ACCESS_TOKEN');
 
-    fetch(`http://localhost:8181/board/detail/${boardNo}`, {
+    fetch(`${API_BASE_URL}${BOARD}/detail/${boardNo}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
