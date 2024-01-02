@@ -37,6 +37,7 @@ import {
   PaymentSuccess,
 } from './components/payment';
 import KakaoLoginHandler from './components/user/KakaoLoginHandler';
+import NaverLoginHandler from './components/user/NaverLoginHandler';
 
 function App() {
   return (
@@ -49,6 +50,10 @@ function App() {
             <Route
               path='/user/kakaologin'
               element={<KakaoLoginHandler />}
+            />
+            <Route
+              path='/user/naverlogin'
+              element={<NaverLoginHandler />}
             />
             <Route
               path='/'
