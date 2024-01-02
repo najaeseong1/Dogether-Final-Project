@@ -11,7 +11,7 @@ const LikeList = () => {
   const [likedInfo, setLikedInfo] = useState([]);
   const authContext = useContext(AuthContext);
   // 유저 정보
-  const userId = localStorage.getItem('userId');
+  const userId = localStorage.getItem('LOGIN_USERID');
 
   // 좋아요 목록 요청
   const fetchLikeInfo = async () => {
