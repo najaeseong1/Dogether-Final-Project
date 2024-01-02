@@ -57,7 +57,17 @@ export const AuthContextProvider = (props) => {
 
   //로그아웃 핸들러
   const logoutHandler = () => {
-    localStorage.clear(); //로컬스토리지 내용 전체 삭제
+    // 'dontShowToday' 값을 임시로 저장
+    const dontShowTodayValue = localStorage.getItem('dontShowToday');
+
+    // 로컬스토리지 내용 전체 삭제
+    localStorage.clear();
+
+    // 'dontShowToday'의 값만 다시 저장
+    if (dontShowTodayValue) {
+      localStorage.setItem('dontShowToday', dontShowTodayValue);
+    }
+
     setIsLoggedIn(false);
     setUserName('');
   };
@@ -74,7 +84,6 @@ export const AuthContextProvider = (props) => {
     // 2. 세션 스토리지 - 브라우저가 종료되면 사라짐.
     localStorage.setItem('ACCESS_TOKEN', token);
     localStorage.setItem('USER_ROLE', role);
-    localStorage.setItem('USER_EMAIL', userEmail);
 
     setIsLoggedIn(true);
     setUserName(userName);

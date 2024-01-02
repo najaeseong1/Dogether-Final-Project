@@ -66,19 +66,25 @@ const AdoptionList = () => {
   //입양 리스트
   const [adoptList, setAdoptList] = useState([]);
   //로딩 상태 변수
-  const [loading, setLoding] = useState();
+  const [loading, setLoding] = useState(true);
   // 페이지 당 보여줄 프레임 개수
   const itemsPerPage = 12;
   const [currentPage, setCurrentPage] = useState(1);
 
+  useEffect(() => {
+    if (adoptList.length > 0 || filteredAdoptList > 0) {
+      setLoding(false);
+    }
+  }, [filteredAdoptList][adoptList]);
+
   // 입양 상세페이지로 요청
   const goAdoptionListDetail = (desertionNo) => {
-    fetch(`http://localhost:8181/adopt/detail/${desertionNo}`)
+    fetch(`${API_BASE_URL}${ADOPT}/detail/${desertionNo}`)
       .then((response) => response.json())
       .then((data) => {
         // 상세 페이지로 이동하는 로직을 추가
         // const selectedDog = adoptList.find(item => item.desertionNo === desertionNo);
-        navigate(`/adopt/detail/${desertionNo}`, {
+        navigate(`${ADOPT}/detail/${desertionNo}`, {
           state: { adoptListDetail: data },
         });
         console.log('상세 페이지 데이터:', data);
@@ -95,11 +101,9 @@ const AdoptionList = () => {
       .get(`${API_BASE_URL}${ADOPT}/adminicode?uprCd=${uprCd}`)
       .then((res) => {
         setFilteredAdoptList(res.data.adoptLists);
-        setLoding(false);
       })
       .catch((err) => {
         console.error(err);
-        setLoding(false);
       });
   }, [uprCd]);
 
@@ -157,11 +161,7 @@ const AdoptionList = () => {
   return (
     <div className='index'>
       {/* 로딩 중일 때 전체 화면을 덮기 위한 로딩 오버레이 */}
-      {loading && (
-        <div className='loading-overlay'>
-          <LoadingPink />
-        </div>
-      )}
+      {loading && <div className='loading-overlay' />}
       <div className='div'>
         {loading ? (
           <div
@@ -176,6 +176,17 @@ const AdoptionList = () => {
           >
             {/* 로딩 바의 내용 */}
             <LoadingPink />
+            <img
+              src='./img/loading_comment.png'
+              alt='정보를 불러오는 중입니다 잠시만 기다려주세요...'
+              style={{
+                position: 'fixed',
+                top: '150%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                zIndex: 9999,
+              }}
+            />
           </div>
         ) : (
           <>

@@ -3,6 +3,7 @@ import './AdoptionListDetail.scss';
 import { Button } from '@mui/material';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { ADOPT, API_BASE_URL, CONTRACT } from '../../global/config/host-config';
+import { WarningAlert, WarningAlert2 } from '../../global/Alerts';
 
 const AdoptionListDetail = () => {
   const navigate = useNavigate();
@@ -23,16 +24,19 @@ const AdoptionListDetail = () => {
   //   right: '-420px',
   //   top: '90px',
   // });
-  
-   
 
   // 입양 신청서 요청하기
   const goAdoptionApplication = async () => {
     try {
       // userId가 null이면 로그인되지 않은 상태이므로 오류를 출력하고 중단
       if (!userId) {
-        console.error('사용자가 로그인되어 있지 않습니다.');
-        alert('사용자가 로그인되어 있지 않습니다.');
+        WarningAlert2(
+          '로그인 이후에 이용해 주세요',
+          '',
+          '로그인되어 있지 않습니다.'
+        );
+        // console.error('사용자가 로그인되어 있지 않습니다.');
+        // alert('사용자가 로그인되어 있지 않습니다.');
         // 로그인 페이지로 이동하거나 다른 처리를 수행
         return;
       }
@@ -70,8 +74,13 @@ const AdoptionListDetail = () => {
     try {
       // userId가 null이면 로그인되지 않은 상태이므로 오류를 출력하고 중단
       if (!userId || !token) {
-        console.error('사용자가 로그인되어 있지 않습니다.');
-        alert('사용자가 로그인되어 있지 않습니다.');
+        WarningAlert(
+          '로그인 이후에 이용해 주세요',
+          '',
+          '로그인되어 있지 않습니다.'
+        );
+        // console.error('사용자가 로그인되어 있지 않습니다.');
+        // alert('사용자가 로그인되어 있지 않습니다.');
         // 로그인 페이지로 이동하거나 다른 처리를 수행
         return;
       }
@@ -136,14 +145,14 @@ const AdoptionListDetail = () => {
         <div className='dog-profileimg'>
           <img
             src={adoptListDetail?.profileImg}
-            alt="profile"
-            
+            alt='profile'
           />
         </div>
 
         {/* 관심등록 버튼 */}
         <div className='likebtn'>
-          <img  onClick={handleLikeBtn}
+          <img
+            onClick={handleLikeBtn}
             src={
               isLiked
                 ? '/img/dogPic/likeBtnAfter.png'
@@ -151,10 +160,7 @@ const AdoptionListDetail = () => {
             }
             alt='likebtn'
           />
-          <button>
-            {' '}
-            {isLiked ? '관심 취소' : '관심 등록'}
-          </button>
+          <button> {isLiked ? '관심 취소' : '관심 등록'}</button>
         </div>
 
         <div className='dog-info'>
@@ -167,8 +173,8 @@ const AdoptionListDetail = () => {
             <p> 견종: {adoptListDetail?.kindCd}</p>
             <p> 색상: {adoptListDetail?.colorCd}</p>
             <p> 무게: {adoptListDetail?.weight}</p>
-            <p> 성별: {adoptListDetail?.gender}</p>  
-            <p> 중성화 여부: {adoptListDetail?.neuterYn}</p>  
+            <p> 성별: {adoptListDetail?.gender}</p>
+            <p> 중성화 여부: {adoptListDetail?.neuterYn}</p>
             <p> 특이사항: {adoptListDetail?.specialMark}</p>
             <p> 보호소 이름: {adoptListDetail?.careNm}</p>
             <p> 보호소 전화번호: {adoptListDetail?.careTel}</p>
@@ -179,13 +185,9 @@ const AdoptionListDetail = () => {
             <p> 관할기관: {adoptListDetail?.orgNm}</p>
             <p> 담당자: {adoptListDetail?.chargeNm}</p>
             <p> 담당자 연락처: {adoptListDetail?.officeTel}</p>
-            
           </div>
 
-          <div className='dog-info2'>   
-           
-         </div>
-
+          <div className='dog-info2'></div>
         </div>
 
         <div className='adopt-button'>

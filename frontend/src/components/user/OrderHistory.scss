@@ -47,6 +47,12 @@
   td {
     border-bottom: 0.4px solid #d7d7d7;
   }
+  // 상품 정보 이름
+  .order-product {
+    span {
+      font-size: 15px;
+    }
+  }
 
   th {
     border-top: 3px solid #f3c2bd;
@@ -115,6 +121,7 @@
   border-bottom-left-radius: 10px;
   font-family: 'IBM Plex Sans KR', sans-serif;
   font-family: 'Noto Sans KR', sans-serif;
+  margin-bottom: 1em;
   p {
     font-size: 16px;
   }
@@ -127,5 +134,5 @@
 
 .order-number {
   font-weight: bold;
-  font-size: 18px;
+  font-size: 13px;
 }

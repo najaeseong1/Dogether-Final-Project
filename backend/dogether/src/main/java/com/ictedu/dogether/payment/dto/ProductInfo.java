@@ -17,4 +17,5 @@ public class ProductInfo {
     private String img;
     private int totalPrice;
     private int totalCount;
+    private String orderId;
 }

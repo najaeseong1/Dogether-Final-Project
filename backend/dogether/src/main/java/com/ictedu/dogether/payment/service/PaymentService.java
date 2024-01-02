@@ -1,8 +1,7 @@
 package com.ictedu.dogether.payment.service;
 
+import com.ictedu.dogether.Board.Entity.Board;
 import com.ictedu.dogether.auth.TokenUserInfo;
-import com.ictedu.dogether.ownproduct.dto.response.productDetailResponseDTO;
-import com.ictedu.dogether.ownproduct.entity.Product;
 import com.ictedu.dogether.ownproduct.repository.ownProductRepository;
 import com.ictedu.dogether.ownproduct.service.productService;
 import com.ictedu.dogether.payment.dto.*;
@@ -23,12 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import static com.ictedu.dogether.ownproduct.entity.QProduct.product;
 
 @Service
 @Slf4j
@@ -51,9 +45,10 @@ public class PaymentService {
     @Autowired
     private final UserService userService;
 
+    // 결제 요청 서비스
     public PaymentResponse confirmPayment(PaymentRequest paymentRequest, String paymentKey) {
 
-        System.out.println("컨펌페이먼츠 서비스 요청"+ paymentRequest +"쁘라스"+ paymentKey);
+        System.out.println("confirmPayment 서비스 요청"+ paymentRequest +"쁘라스"+ paymentKey);
 
         // userId로 User 정보 찾기
         UserSignUpResponseDTO userDTO = userService.getAdoptInfo(paymentRequest.getUserId());
@@ -78,7 +73,7 @@ public class PaymentService {
                 entity,
                 PaymentResponse.class
         );
-        System.out.println("\n\n PaymentService에서 토스 서버로 요청 후 받은 값"+response.getBody());
+        System.out.println("\n\n PaymentService 토스 서버로 요청 후 받은 값"+response.getBody());
 
         // response를 PaymentEntity로 변환
         Payment payment = Payment.builder()
@@ -98,7 +93,7 @@ public class PaymentService {
             cardInfo = payToSaveCardInfo(response, user);
         }
         payment.setCard(cardInfo); // 카드 정보 설정
-        log.info("\n\n\n 그 위에 서비스에서 페이먼트에 저장하기 위해 넣어놓은거 {}", payment);
+        log.info("\n\n\n 그 위에 서비스 payment 에 저장 하기 위해 넣어 놓은거 {}", payment);
 
         // 데이터베이스에 저장
         Payment savedPayment = paymentEntityRepository.save(payment); // 먼저 Payment를 저장
@@ -109,6 +104,7 @@ public class PaymentService {
         return response.getBody();
     }
 
+    // 사용한 카드 데이터베이스에 등록하는 메서드
     private CardInfo payToSaveCardInfo(ResponseEntity<PaymentResponse> response, User user ) {
         CardInfo card = CardInfo.builder()
                 .cardRegNo(response.getBody().getCard().getCardRegNo())
@@ -130,7 +126,7 @@ public class PaymentService {
     // 전달받은 productInfo를 PaymentDetail에 저장할 서비스
     public void  savePaymentDetails(PaymentRequest paymentRequest, Payment payment) {
         List<ProductInfo> productInfos = paymentRequest.getProductInfo();
-        log.info("\n\n\n\n\n\n 세이브페이먼츠 디테일에서 전달 받은 프로덕트 인포 {} ",productInfos);
+        log.info("\n\n\n\n\n\n savePaymentDetails 에서 전달 받은 productInfo's {} ",productInfos);
         List<PaymentDetail> paymentDetails = new ArrayList<>();
 
         for (ProductInfo productInfo : productInfos) {
@@ -144,20 +140,21 @@ public class PaymentService {
         }
     }
 
+    // 토큰을 통해서 결제내역 목록 리스트를 반환하는 서비스
     public UserPaymentResponse getPaymentList(TokenUserInfo userInfo) {
+        log.info("\n\n\n 서비스 getPaymentList 요청 들어옴");
         UserPaymentResponse response = new UserPaymentResponse();
 
         // 페이먼츠 테이블에서 userId가 같은 orderId 검색
         List<Payment> payments = paymentEntityRepository.findByUser_UserId(userInfo.getUserId());
-
-        log.info("\n\n\n\n 페이먼츠 테이블에서 userId가 같은 orderId를 검색 했음 {}", payments);
+        List<ProductInfo> productInfos = new ArrayList<>(); // 조회한 ProducInfo 를 쌓아둘 리스트 생성
+        List<PaymentResponse> paymentResponseList = new ArrayList<>(); // 조회한 PaymentResponse 를  쌓아둘 리스트 생성
 
         for (Payment payment : payments) {
             PaymentResponse paymentResponse = new PaymentResponse(payment);
-            log.info("\n\n\n\n PaymentResponse paymentResponse   {}", paymentResponse);
 
             // 페이먼츠 디테일 테이블에서 order_id가 같은 product_id 검색
-            List<PaymentDetail> paymentDetails = paymentDetailEntityRepository.findByOrderId(payment.getOrderId());
+            List<PaymentDetail> paymentDetails = paymentDetailEntityRepository.findByOrderId(payment);
             log.info("\n\n\n\n List<PaymentDetail> paymentDetails   {}", paymentDetails);
             for (PaymentDetail paymentDetail : paymentDetails) {
                 // 프로덕트 테이블에서 product_id가 같은 제품들 검색하고 제품 정보를 ProductInfo로
@@ -169,14 +166,40 @@ public class PaymentService {
                 productInfo.setImg(paymentDetail.getProducts().getImg());
                 productInfo.setTotalCount(paymentDetail.getTotalCount());
                 productInfo.setTotalPrice(paymentDetail.getTotalPrice());
-                response.setProductInfos((List<ProductInfo>) productInfo);
-                log.info("\n\n\n\n ProductInfo productInfo   {}", productInfo);
+                productInfo.setOrderId(paymentDetail.getOrderId().getOrderId());
+                productInfos.add(productInfo);
             }
-            log.info("\n\n\n\n 서비스에서 응답 직전 response   {}", response);
-            response.setPaymentResponse(paymentResponse);
+            paymentResponseList.add(paymentResponse);
+        }
+        response.setPaymentResponse(paymentResponseList);
+        response.setProductInfos(productInfos);
+        log.info("\n\n\n\n 서비스에서 응답 직전 response   {}", response);
+        return response;
+    }
+
+
+    //주문번호로 결제내역 찾기 서비스
+    private Payment bringPayment(String orderId) {
+        return paymentEntityRepository.findByOrderId(orderId).orElseThrow(
+                () -> new RuntimeException("게시물 정보가 없습니다.")
+        );
+    }
+
+    // 결제내역 삭제
+    public void deletePayment(String orderId, TokenUserInfo userId) {
+
+        log.info("\n\n\n삭제 -{}", userId);
+        log.info("\n\n\n삭제 -{}", userId.getUserId());
+
+//        //삭제하려는 해당 댓글 정보
+//        Reply reply = bringWriter(replyNo);
+        Payment payment = bringPayment(orderId);
+        log.info("userInfo아이디", userId.getUserId());
+        if(!userId.getUserId().equals(payment.getUser().getUserId())) {
+            throw new RuntimeException("삭제 권한이 없습니다.");
         }
 
-        return response;
+        paymentEntityRepository.deleteById(orderId);
     }
 
 }
