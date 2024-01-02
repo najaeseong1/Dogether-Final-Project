@@ -180,9 +180,7 @@ public class PaymentService {
 
     //주문번호로 결제내역 찾기 서비스
     private Payment bringPayment(String orderId) {
-        return paymentEntityRepository.findByOrderId(orderId).orElseThrow(
-                () -> new RuntimeException("게시물 정보가 없습니다.")
-        );
+        return paymentEntityRepository.findByOrderId(orderId);
     }
 
     // 결제내역 삭제
