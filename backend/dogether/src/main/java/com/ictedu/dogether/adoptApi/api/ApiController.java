@@ -23,7 +23,7 @@ public class ApiController {
 
     private  final ApiService apiService;
 
-    //api 통한 강아지 목록 불러오기
+    //api 통한 강아지 불러오기
     @GetMapping
     public ResponseEntity<?> getAdoptList() {
         try {
@@ -34,6 +34,20 @@ public class ApiController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+//    //데이터베이스를 통한 강아지 목록 불러오기
+    @GetMapping("/save")
+    public ResponseEntity<?> getAdoptionList() {
+        try {
+            AdoptListResponseDTO adoptionList = apiService.getAdoptionList();
+            return ResponseEntity.ok().body(adoptionList);
+        } catch (Exception e) {
+           e.printStackTrace();
+           return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+    }
+
 
     //시도코드 통한 강아지 목록 불러오기
     @GetMapping("/adminicode")
@@ -64,9 +78,9 @@ public class ApiController {
 
 
     //좋아요 등록
-    @GetMapping("/wishregist/{desertionNo}")
-    public ResponseEntity<?> wishRegist(@PathVariable("desertionNo") String desertionNo,
-                                        @AuthenticationPrincipal TokenUserInfo userInfo
+        @GetMapping("/wishregist/{desertionNo}")
+        public ResponseEntity<?> wishRegist(@PathVariable("desertionNo") String desertionNo,
+                                            @AuthenticationPrincipal TokenUserInfo userInfo
                                         ) {
         try {
             WishRegisterResponseDTO wishRegisterResponseDTO = apiService.registWith(desertionNo, userInfo);
@@ -77,12 +91,13 @@ public class ApiController {
         }
     }
 
+
     //좋아요 등록 취소
     @DeleteMapping("/wish/{wishno}")
-    public ResponseEntity<?> wishDelete(@PathVariable("wishNo") int wishNo,
+    public ResponseEntity<?> wishDelete(@PathVariable("wishno") int wishno,
                                         @AuthenticationPrincipal TokenUserInfo userInfo
                                         ) {
-        apiService.deleteWish(wishNo, userInfo);
+        apiService.deleteWish(wishno, userInfo);
 
         return ResponseEntity.ok().build();
 

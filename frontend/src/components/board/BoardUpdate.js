@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './BoardUpdate.scss'; // SCSS 파일 import
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
-const boardNo = 1;
-const API_URL = `http://localhost:8181/board/modify/${boardNo}`;
+import { API_BASE_URL, BOARD } from '../../global/config/host-config';
+import Swal from 'sweetalert2';
+import BoardDetail from './BoardDetail';
 
 const BoardUpdate = () => {
   const $fileTag = useRef();
@@ -11,79 +12,129 @@ const BoardUpdate = () => {
   const redirection = useNavigate();
 
   // 상태 관리를 위한 useState
+  const { boardNo } = useParams();
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState('');
   const [content, setContent] = useState('');
   const [file, setFile] = useState(null);
-
+  const [oldFile, setOldFile] = useState(null);
+  const API_URL = `${API_BASE_URL}${BOARD}/modify`;
+  const imageRequestURL = `${API_BASE_URL}${BOARD}/load-profile/${boardNo}`;
+  const [image, setImage] = useState(null);
+  const [boardDetail, setBoardDetail] = useState(null);
   // 게시물 정보 상태
   const [boardData, setBoardData] = useState(null);
-
+  const location = useLocation();
   // 페이지 로딩되자마자 보여야하는 데이터들
   useEffect(() => {
-    const resBoardData = async () => {
-      const boardNo = boardNo;
+    const { state } = location;
+    setBoardDetail(state ? state.boardupdate : null);
 
-      const response = await axios.get(`{API_URL}/${boardNo}`);
-      const resBoardData = response.data;
-
-      setBoardData({
-        title: resBoardData.title,
-        category: resBoardData.category,
-        content: resBoardData.content,
-      });
-    };
-
-    resBoardData();
-  }, []);
-
-  // 가져온 정보 저장
-
-  // 게시물 작성 함수
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (title.length === 0 || content.length === 0) {
-      alert('입력창이 비었습니다.');
-      return;
-    }
-
-    // 여기에서 fetch 보내기
-    const addList = async (title, content, category) => {
-      const create = {
-        title: title,
-        content: content,
-        category: category,
-      };
-
-      const postJsonBlob = new Blob([JSON.stringify(create)], {
-        type: 'application/json',
-      });
-
-      const postFormData = new FormData();
-      postFormData.append('board', postJsonBlob);
-      postFormData.append('ImageFile', $fileTag.current.files[0]);
-
-      const res = await fetch(API_URL, {
-        method: 'POST',
-        body: postFormData,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+    console.log('boardData의 값은?', boardData);
+    const fetchImage = async () => {
+      const res = await fetch(imageRequestURL, {
+        method: 'GET',
       });
 
       if (res.status === 200) {
-        alert('게시판 글이 등록되었습니다.');
-        redirection('/board');
+        const imageBlob = await res.blob();
+        const img = window.URL.createObjectURL(imageBlob);
+
+        setImage(imageBlob); //이미지 밥
+        console.log('boardDetail', boardDetail);
+
+        setImagePreview(img);
       } else {
-        alert('서버와의 통신이 원활하지 않습니다.');
+        const err = await res.text();
+        setImagePreview(null);
       }
     };
-    // 작업이 완료되면 입력값 초기화
-    setTitle('');
-    setContent('');
-    setFile(null);
-    setCategory('');
+
+    fetchImage();
+  }, [location]);
+
+  useEffect(() => {
+    try {
+      setOldFile(
+        new File([image], boardDetail?.image, {
+          type: 'image/png',
+        })
+      );
+    } catch (error) {
+      console.error('처리 중 오류 발생:', error);
+    }
+  }, [boardDetail]);
+
+  // 함수 호출
+
+  // 게시물 수정 함수
+  const handleSubmit = (e) => {
+    // 비동기 함수로 변경
+    e.preventDefault();
+
+    boardRegist(boardNo, title, content, category);
+  };
+
+  //사용자가 입력값을 비워놓은채 요청 보내면 기본값들로 채워짐
+  const boardRegist = async (boardNo, title, content, category) => {
+    const formData = new FormData();
+
+    // JSON 데이터 추가
+    const jsonData = {
+      boardNo: boardNo,
+      title: title !== '' ? title : boardDetail?.title,
+      content: content !== '' ? content : boardDetail?.content,
+      category: category !== '' ? category : boardDetail?.category,
+    };
+
+    // console.log('setOldFile의 값', setOldFile(files));
+    formData.append(
+      'board',
+      new Blob([JSON.stringify(jsonData)], { type: 'application/json' })
+    );
+
+    console.log('뉴파일', $fileTag.current.files[0]);
+    // 이미지 파일 추가
+    if (file) {
+      formData.append('ImageFile', $fileTag.current.files[0]);
+      console.log('file 존재?', $fileTag.current.files[0]);
+    } else if (!file && oldFile) {
+      console.log('추가된 파일이 존재하지 않고 기존 파일이 존재하는 경우');
+      formData.append('oldFile', oldFile);
+    }
+    console.log('oldFile의 값은?', oldFile);
+
+    try {
+      const response = await fetch(API_URL, {
+        method: 'PUT',
+        body: formData,
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
+        },
+      });
+
+      if (!response.ok) {
+        // 서버 응답이 오류일때
+        console.error('Server error:', response.status, response.statusText);
+        try {
+          const errorData = await response.json();
+          console.error('Server error data:', errorData);
+          Swal.fire('수정 권한이 없습니다.', '', 'warning');
+        } catch (error) {
+          console.error('Failed to parse error response:', error);
+          Swal.fire('수정 권한이 없습니다.', '', 'warning');
+        }
+        return;
+      }
+
+      // 성공적으로 등록된 경우의 처리
+      Swal.fire('게시판 글이 수정되었습니다.', '', 'success');
+      redirection('/board');
+    } catch (error) {
+      // 네트워크 오류 등의 문제 발생 시 처리
+      console.error('Error during data submission:', error);
+      alert('데이터 전송 중 오류가 발생했습니다.');
+    }
   };
 
   //타이틀 핸들러
@@ -107,7 +158,7 @@ const BoardUpdate = () => {
   const handleFileChange = (e) => {
     // 선택한 파일을 상태에 저장
     const file = $fileTag.current.files[0];
-
+    console.log('선택 file', file);
     //확장자 얻기
     const fileExt = file.name.slice(file.name.indexOf('.') + 1).toLowerCase();
 
@@ -127,6 +178,7 @@ const BoardUpdate = () => {
     reader.onloadend = () => {
       setFile(reader.result);
       setImagePreview(reader.result); // 이미지 미리보기
+      console.log(imagePreview);
     };
   };
 
@@ -138,7 +190,7 @@ const BoardUpdate = () => {
           제목
           <input
             type='text'
-            value={title}
+            defaultValue={boardDetail?.title}
             onChange={boardTitleHandler}
           />
         </label>
@@ -146,12 +198,12 @@ const BoardUpdate = () => {
         <label>
           카테고리
           <select
-            value={category}
+            value={category || boardDetail?.category}
             onChange={boardCategoryHandler}
           >
             <option value=''>카테고리 선택</option>
-            <option value='category1'>후기 게시판</option>
-            <option value='category2'>자유 게시판</option>
+            <option value='후기'>후기 게시판</option>
+            <option value='자유'>자유 게시판</option>
           </select>
         </label>
         <label>
@@ -160,6 +212,7 @@ const BoardUpdate = () => {
             type='file'
             onChange={handleFileChange}
             ref={$fileTag}
+            id='fileInput'
           />
         </label>
 
@@ -176,9 +229,10 @@ const BoardUpdate = () => {
         <label>
           내용
           <textarea
-            value={content}
+            defaultValue={boardDetail?.content}
             onChange={boardContentHandler}
           />
+          {/* {boardDetail.content} */}
         </label>
 
         <div className='buttoncn'>
@@ -186,7 +240,7 @@ const BoardUpdate = () => {
             type='submit'
             className='boardButton'
           >
-            작성하기
+            수정하기
           </button>
           <button
             type='button'

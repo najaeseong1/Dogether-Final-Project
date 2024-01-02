@@ -36,8 +36,15 @@ const ImageSlider = () => {
 
   return (
     <div className={styles['title-1-1']}>
-      <div className={`${styles.arrow} ${styles.left}`} onClick={prevSlide}>
-        <img src={arrowImg} alt='왼쪽 화살표' className={styles.arrowImg} />
+      <div
+        className={`${styles.arrow} ${styles.left}`}
+        onClick={prevSlide}
+      >
+        <img
+          src={arrowImg}
+          alt='왼쪽 화살표'
+          className={styles.arrowImg}
+        />
       </div>
       {images.map((img, idx) => (
         <div
@@ -47,10 +54,18 @@ const ImageSlider = () => {
           }`}
           onClick={() => toLink('/knowledges/quiz')}
         >
-          <img key={idx} src={img} alt='' className={styles.sliderImg} />
+          <img
+            key={idx}
+            src={img}
+            alt=''
+            className={styles.sliderImg}
+          />
         </div>
       ))}
-      <div className={`${styles.arrow} ${styles.right}`} onClick={nextSlide}>
+      <div
+        className={`${styles.arrow} ${styles.right}`}
+        onClick={nextSlide}
+      >
         <img
           src={arrowImg}
           alt='오른쪽 화살표'

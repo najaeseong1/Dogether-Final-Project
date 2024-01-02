@@ -15,6 +15,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
+
 @RestController
 @Slf4j
 @RequiredArgsConstructor
@@ -133,8 +135,8 @@ public class UserController {
 
     }
 
-    //개인정보 변경 페이지 요청 (비번 변경, 전화번호, 주소, 결제수단 ->  변경가능)
-    @PostMapping("/modify")
+    //개인정보 변경 페이지에 사용자 데이터 끌고오기 (비번 변경, 전화번호, 주소, 결제수단 ->  변경가능)
+    @GetMapping("/modify")
     public ResponseEntity<?> modifyPage( @AuthenticationPrincipal TokenUserInfo userInfo) {
         log.info("개인정보 변경 페이지 요청 들어옴 ");
 
@@ -153,7 +155,7 @@ public class UserController {
 
 
     //개인정보 변경 수정 요청 들어옴
-    @PatchMapping("/modify")
+    @PostMapping("/modify")
     public ResponseEntity<?> updateUserInfo(
             @AuthenticationPrincipal TokenUserInfo userInfo,
             UserUpdateRequestDTO dto,
@@ -179,6 +181,88 @@ public class UserController {
 
     }
 
+    // 카카오 로그인
+    @GetMapping("/kakaologin")
+    public ResponseEntity<?> kakaoLogin(String code) {
+        log.info("코드 요청 들어옴?", code);
+        LoginResponseDTO responseDTO = userService.kakaoService(code);
+        log.info("responseData : {}", responseDTO);
+        return ResponseEntity.ok().body(responseDTO);
+    }
 
+    // 네이버 로그인
+    @GetMapping("/naverlogin")
+    public ResponseEntity<?> naverLogin( @RequestParam (name = "code") String code,
+                                         @RequestParam (name = "state") String state) throws UnsupportedEncodingException {
+        log.info("왜 암것도 안찍혀?: {}, {}", code, state);
+        LoginResponseDTO responseDTO = userService.naverService(code, state);
+        log.info("responseData : {}", responseDTO);
+        return ResponseEntity.ok().body(responseDTO);
+    }
+
+    // 구글
+//    @RequestMapping(value = "/google", method = RequestMethod.GET)
+//    public ResponseEntity<?> googleSignIn(@RequestParam(name = "code") String code) {
+//
+//        log.info("토큰 정보: {}", userService.googleLogin(code));
+//        userService.googleLogin(code);
+//
+//        return ResponseEntity.ok().body(TokenUserInfo.builder()
+//                .email().build());
+//
+//    }
+
+    // 로그아웃 처리
+    @GetMapping("/logout")
+    public ResponseEntity<?> logout(
+            @AuthenticationPrincipal TokenUserInfo userInfo
+    ) {
+        log.info("/user/logout - GET! - user {}", userInfo.getUserId());
+        String result = userService.logout(userInfo);
+
+        return ResponseEntity.ok().body(result);
+    }
+
+    // 회원 탈퇴
+    @DeleteMapping("/deleteuser")
+    public ResponseEntity<?> deleteUser(@AuthenticationPrincipal TokenUserInfo user) {
+
+        log.info("/user/deleteuser - DELETE! - user {}",user);
+        userService.deleteUser(user);
+
+        return ResponseEntity.ok().build();
+    }
+
+    //스코어 등록 처리
+    @PostMapping("/knowledges/quiz")
+    public ResponseEntity<?> saveScore(@RequestParam int score,
+                                       @AuthenticationPrincipal TokenUserInfo userInfo
+                                       ) {
+        try {
+            UserSignUpResponseDTO userSignUpResponseDTO = userService.saveScore(score, userInfo);
+            return ResponseEntity.ok().body(userSignUpResponseDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
+
+        }
+    }
+
+
+
+    //마이페이지 내 스코어 요청 처리
+    @GetMapping("/knowledges/quiz")
+    public ResponseEntity<?> requestScore( @AuthenticationPrincipal TokenUserInfo userInfo) {
+
+        try {
+            UserSignUpResponseDTO userSignUpResponseDTO = userService.requestScore(userInfo);
+            return ResponseEntity.ok().body(userSignUpResponseDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+        return ResponseEntity.badRequest().body(e.getMessage());
+
+        }
+
+    }
 
 }

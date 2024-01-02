@@ -96,3 +96,46 @@ export const a = () => {
     }
   });
 };
+
+// 관리자 페이지에서 거절 누르면 뜨는 창
+export const rejectedAdoption = () => {
+  Swal.fire({
+    title: '입양 거절',
+    input: 'textarea',
+    inputLabel: '거절 이유를 입력하세요',
+    inputPlaceholder: '거절 이유를 자세히 적어주세요...',
+    showCancelButton: true,
+    confirmButtonText: '입력 완료',
+    cancelButtonText: '취소',
+    inputValidator: (value) => {
+      // 거절 이유가 입력되었는지 확인
+      if (!value) {
+        return '거절 이유를 입력해야 합니다!';
+      }
+    },
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const rejectionReason = result.value;
+      // 여기서 거절 이유를 서버로 보내거나 처리할 수 있습니다.
+      console.log('거절 이유:', rejectionReason);
+      Swal.fire(
+        '입양이 거절되었습니다!',
+        '거절 이유: ' + rejectionReason,
+        'success'
+      );
+    }
+  });
+};
+
+// 입양 승인하였을 때 confirm
+export const approvedAdoption = () => {
+  const result = Swal.fire({
+    title: '입양신청을 승인하시겠습니까?',
+    showCancelButton: true,
+    confirmButtonText: '승인',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire('입양이 승인되었습니다!', '', 'success');
+    }
+  });
+};

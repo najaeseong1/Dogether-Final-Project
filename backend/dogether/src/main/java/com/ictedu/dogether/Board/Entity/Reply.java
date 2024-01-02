@@ -30,9 +30,6 @@ public class Reply {
     @Column(name = "reply_content")
     private String replyContent; // 글 내용
 
-    @CreationTimestamp
-    @Column(updatable = false)
-    private LocalDateTime createDate; // 작성일자
 
     @UpdateTimestamp
     private LocalDateTime updateDate; // 수정일자

@@ -1,10 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&family=Jua&family=Noto+Sans+KR:wght@100&family=Poiret+One&display=swap');
+
 .userinfo-title {
   position: absolute;
   text-align: center;
-  font-size: 30px;
+  font-size: 25px;
   top: 18%;
-  border-bottom: 2px solid #e89b93;
-  padding-bottom: 10px;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
 .joinform-box {
@@ -23,28 +24,64 @@
   height: 700px;
   text-align: center;
   top: 50%;
-  border-radius: 15px;
   left: 300px;
 
-  .textForm,
-  .textFormf {
-    border: 2px solid #adadad;
+  .postTextForm {
+    border: 2px solid #ebebeb;
     margin: 15px;
     height: 40px;
     padding-left: 5px;
     line-height: 40px;
-    border-radius: 15px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+
+    button {
+      width: 150px;
+      height: 40px;
+      border-top-right-radius: 7px;
+      border-bottom-right-radius: 7px;
+      border: none;
+      background-color: #f3ded7;
+      color: white;
+      cursor: pointer;
+      font-size: 15px;
+    }
+  }
+  .textForm,
+  .textFormf {
+    border: 2px solid #ebebeb;
+    margin: 15px;
+    height: 40px;
+    padding-left: 5px;
+    line-height: 40px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
 
     .id,
     .name {
-      background-color: #b6b6b6;
+      background-color: #ebebeb;
     }
   }
 
+  .blank {
+    margin-bottom: 45px;
+  }
+  .error-message {
+    color: red;
+    position: absolute;
+    top: 190px;
+    display: block;
+    font-size: 15px;
+    margin-top: 10px;
+  }
+  .address-btn {
+    width: 20px;
+    height: 20px;
+  }
   .textFormf {
-    background-color: #b6b6b6;
+    background-color: #ebebeb;
     border: none;
   }
 
@@ -60,6 +97,7 @@
     outline: none;
     color: #636e72;
     font-size: 16px;
+    font-family: 'Noto Sans KR', sans-serif;
   }
 
   .pw,
@@ -69,6 +107,7 @@
     outline: none;
     color: #636e72;
     font-size: 16px;
+    font-family: 'Noto Sans KR', sans-serif;
   }
 
   .btn {
@@ -85,8 +124,33 @@
     font-size: 20px;
     transition: 0.4s;
   }
+}
+.btn:hover {
+  background-color: #e89b93;
+}
 
-  .btn:hover {
-    background-color: #e89b93;
+.addr {
+  border: 1px solid #ebebeb;
+  margin: 15px;
+  height: 40px;
+  padding-left: 5px;
+  line-height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+
+  .addr2 {
+    border-left: 1px solid #ebebeb;
+    padding-left: 3px;
   }
+}
+.withdrawal {
+  font-size: 15px;
+  font-weight: 400;
+  position: absolute;
+  top: 580px;
+  width: 100px;
+  right: 10px;
+  cursor: pointer;
+  color: #cacaca;
 }

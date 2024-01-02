@@ -15,13 +15,17 @@ import com.ictedu.dogether.Board.service.BoardService;
 import com.ictedu.dogether.auth.TokenUserInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 
 @RestController
@@ -40,9 +44,12 @@ public class BoardController {
             @AuthenticationPrincipal TokenUserInfo userInfo,
             @Validated @RequestPart("board") BoardRegistRequestDTO dto,
             @RequestPart(value = "ImageFile", required = false) MultipartFile imageFile,
+
             BindingResult result) {
 
         log.info("/board/ 글 작성 요청 들어옴 ");
+
+
         if (result.hasErrors()) {
             log.warn(result.toString());
             return ResponseEntity.badRequest()
@@ -79,6 +86,36 @@ public class BoardController {
         }
 
     }
+    //사진 이미지 데이터 응답 처리
+    @GetMapping("load-profile/{boardNo}")
+    public  ResponseEntity<?> loadFile(@PathVariable int boardNo) {
+        try {
+            String imagePath = boardService.findImagePath(boardNo);
+
+            File imageFile = new File(imagePath);
+
+            if(!imageFile.exists()) {
+                return ResponseEntity.notFound().build();
+            }
+
+            byte[] fileData = FileCopyUtils.copyToByteArray(imageFile);
+
+            HttpHeaders headers = new HttpHeaders();
+            MediaType contentType = findExtensionAndGetMediaType(imagePath);
+            if(contentType == null) {
+                return ResponseEntity.internalServerError()
+                        .body("발견된 파일은 이미지 파일이 아닙니다.");
+            }
+            headers.setContentType(contentType);
+            return ResponseEntity.ok().headers(headers).body(fileData);
+        } catch (IOException e) {
+            e.printStackTrace();
+          return ResponseEntity.internalServerError().body("파일을 찾을 수 없습니다.");
+        }
+
+    }
+
+
 
 
     //파일 경로를 리턴할 메서드 추출
@@ -93,15 +130,42 @@ public class BoardController {
     }
 
 
+    private MediaType findExtensionAndGetMediaType(String filePath) {
+
+        //파일 경로에서 확장자를 추출
+        //C:/todo_upload/sdjklfjksf_abc.jpg
+        //.다음부터 끝까지
+        String ext = filePath.substring(filePath.lastIndexOf(".") + 1);
+
+
+        //추출한 확장자를 바탕으로 MediaType을 설정. ->  Header에 들어갈 Content-type이 됨
+        switch (ext.toUpperCase()) {
+            case "JPG" : case "JPEG":
+                return MediaType.IMAGE_JPEG;
+            case "PNG":
+                return  MediaType.IMAGE_PNG;
+            case  "GIF" :
+                return MediaType.IMAGE_GIF;
+            default:
+                return null; //이 확장자들이 아니라면 이미지 파일이 아닌것임 즉 null 리턴
+        }
+
+    }
+    //자유게시판 글 끌어오기 (수정 베이스)
+
+
+
     //자유 게시판 글 수정
     @PutMapping("/modify")
     public ResponseEntity<?> modify(
             @RequestPart(value = "ImageFile", required = false) MultipartFile imageFile,
-             BoardModifyRequestDTO dto,
+            @RequestPart(value = "oldFile", required = false) MultipartFile oldFile,
+             @RequestPart("board") BoardModifyRequestDTO dto,
             @AuthenticationPrincipal TokenUserInfo userInfo,
             BindingResult result) {
 
-
+    log.info("ImageFile-{}", imageFile);
+    log.info("oldFile -{}", oldFile);
         log.info("/modify/ 글 수정 요청이 들어옴  ");
         if (result.hasErrors()) {
             log.warn(result.toString());
@@ -109,8 +173,9 @@ public class BoardController {
                     .body(result.getFieldError());
         }
         try {
-            String uploadFilePath = getUploadFilePath(imageFile); //여기 메서드 추출한 거 사용
-            BoardModifyResponseDTO modifyDTO = boardService.modify(dto, uploadFilePath, userInfo);
+            String uploadFilePath = getUploadFilePath(imageFile);
+            log.info("새로운 파일 경로 -{}", uploadFilePath);//여기 메서드 추출한 거 사용
+            BoardModifyResponseDTO modifyDTO = boardService.modify(dto, uploadFilePath, userInfo, oldFile);
             return ResponseEntity.ok().body(modifyDTO);
 
         } catch (RuntimeException e) {
@@ -124,8 +189,8 @@ public class BoardController {
     }
 
     //게시판 글 삭제
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id") int boardNo,
+    @DeleteMapping("/{boardNo}")
+    public ResponseEntity<?> delete(@PathVariable("boardNo") int boardNo,
                                     @AuthenticationPrincipal TokenUserInfo userInfo
     ) {
         boardService.delete(boardNo, userInfo);
@@ -162,12 +227,12 @@ public class BoardController {
 
 
 
-    //댓글 등록
-    @PostMapping("/reply")
-    public ResponseEntity<?> replySave(@RequestBody ReplyRequestDTO dto,
-                                       @AuthenticationPrincipal TokenUserInfo userInfo,
-                                       BindingResult result
-    ) {
+        //댓글 등록
+        @PostMapping("/reply")
+        public ResponseEntity<?> replySave(@RequestBody ReplyRequestDTO dto,
+                                           @AuthenticationPrincipal TokenUserInfo userInfo,
+                                           BindingResult result
+        ) {
 
         if (result.hasErrors()) {
             log.warn(result.toString());
@@ -176,8 +241,8 @@ public class BoardController {
         }
 
         try {
-            ReplyRegistResponseDTO replyRegistResponseDTO = boardService.replySave(dto, userInfo);
-            return ResponseEntity.ok().body(replyRegistResponseDTO);
+            ReplyListResponseDTO replyListResponseDTO = boardService.replySave(dto, userInfo);
+            return ResponseEntity.ok().body(replyListResponseDTO);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
@@ -187,20 +252,26 @@ public class BoardController {
     }
 
     //댓글 삭제
-    @DeleteMapping("/reply/{replyNo}")
+    @DeleteMapping("/reply/{boardNo}/{replyNo}")
     public ResponseEntity<?> deleteReply(@PathVariable("replyNo") int replyNo,
+                                         @PathVariable("boardNo") int boardNo,
                                          @AuthenticationPrincipal TokenUserInfo userInfo
     ) {
 
         log.info("댓글 삭제 요청 들어옴 !");
-        boardService.deleteReply(replyNo, userInfo);
-        return ResponseEntity.ok().build();
+        try {
+            ReplyListResponseDTO replyListResponseDTO = boardService.deleteReply(replyNo, userInfo, boardNo);
+            return ResponseEntity.ok().body(replyListResponseDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
 
     //댓글 수정
     @PutMapping("/replymodify")
-    public ResponseEntity<?> replyModify( ReplyModifyRequestDTO dto,
+    public ResponseEntity<?> replyModify( @RequestBody ReplyModifyRequestDTO dto,
             @AuthenticationPrincipal TokenUserInfo userInfo,
             BindingResult result
     ) {
@@ -213,8 +284,8 @@ public class BoardController {
         }
 
         try {
-            ReplyModifyResponseDTO replyModifyResponseDTO = boardService.replyModify(dto, userInfo);
-           return  ResponseEntity.ok().body(replyModifyResponseDTO);
+            ReplyListResponseDTO replyListResponseDTO = boardService.replyModify(dto, userInfo);
+            return  ResponseEntity.ok().body(replyListResponseDTO);
 
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -235,6 +306,23 @@ public class BoardController {
 
             return ResponseEntity.ok().body(replyList);
         }
+
+        //s3에서 불러온 이미지 사진 처리
+        @GetMapping("/load-s3/{boardNo}")
+        public ResponseEntity<?> loadS3(@RequestParam int boardNo) {
+        log.info("load-s3 -{}", boardNo);
+
+            try {
+                String imagePath = boardService.findImagePath(boardNo);
+                return ResponseEntity.ok().body(imagePath);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResponseEntity.badRequest().body(e.getMessage());
+            }
+
+
+        }
+
 
 
 

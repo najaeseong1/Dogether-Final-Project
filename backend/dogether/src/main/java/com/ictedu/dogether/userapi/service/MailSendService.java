@@ -38,7 +38,7 @@ public class MailSendService {
     // 인증번호만 보내는 메세지
     public String checkEmail(String email) {
         makeRandomNumber();
-        String setFrom = "gyu1061@naver.com"; // email-config에 설정한 자신의 이메일 주소를 입력
+        String setFrom = "${hunmmo.email}"; // email-config에 설정한 자신의 이메일 주소를 입력
         String toMail = email;
         String title = "[DOGETHER] 인증 메일입니다."; // 이메일 제목
         String content =
@@ -54,7 +54,7 @@ public class MailSendService {
     // 회원가입 인증메세지
     public String joinCheckEmail(String email) {
         makeRandomNumber();
-        String setFrom = "gyu1061@naver.com"; // email-config에 설정한 자신의 이메일 주소를 입력
+        String setFrom = "${hunmmo.email}"; // email-config에 설정한 자신의 이메일 주소를 입력
         String toMail = email;
         String title = "[DOGETHER] 회원가입 인증 메일입니다."; // 이메일 제목
         String content =

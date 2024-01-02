@@ -1,11 +1,9 @@
 package com.ictedu.dogether.userapi.entity;
 
+import com.ictedu.dogether.Board.Entity.Board;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @ToString
@@ -36,7 +34,7 @@ public class User {
     private String userEmail; // 회원 이메일
 
     @Column(name = "post_no", nullable = false)
-    private int postNo; // 회원 우편번호
+    private String postNo; // 회원 우편번호
 
     @Column(name = "post_addr", nullable = false)
     private String postAddr; // 회원 주소
@@ -44,8 +42,17 @@ public class User {
     private int score; // 회원 퀴즈 점수
 
     @Enumerated(EnumType.STRING)
-//    @ColumnDefault("'COMMON'") // Enum타입으로 안쪽에 홑따옴표.
+    //@ColumnDefault("'COMMON'") // Enum타입으로 안쪽에 홑따옴표.
     @Builder.Default
     private Role role = Role.COMMON;
+
+    // 카카오 로그인 시 발급받는 accessToken을 저장 -> 로그아웃 때 필요.
+    private String accessToken;
+
+    // 회원 탈퇴시 작성한 게시물도 삭제.
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    List<Board> boardList;
+
+
 
 }

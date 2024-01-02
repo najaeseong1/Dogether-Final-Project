@@ -1,24 +1,25 @@
- .joinmain {
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&family=Jua&family=Noto+Sans+KR:wght@100&family=Poiret+One&display=swap');
+.joinmain {
   position: relative;
-  top: 100px;
-  height: 1500px;   
-    
- }
+  top: 50px;
+  height: 1200px;
+  right: 30px;
+}
 
- // 다음 우편번호 검색 기능 툴
- .daum {
+// 다음 우편번호 검색 기능 툴
+.daum {
   display: none;
- }
+}
 
- .red-message{
+.red-message {
   color: red;
- }
+}
 
- .blue-message {
+.blue-message {
   color: green;
- }
+}
 
-.joinmain .joinmain2{
+.joinmain .joinmain2 {
   position: relative;
   bottom: 130px;
 }
@@ -28,33 +29,38 @@
   text-align: center;
   bottom: 50px;
   font-size: 25px;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
 .joinmain .feelsudiv {
   position: relative;
-  width: 700px;
+  width: 650px;
   border: 5px solid pink;
   border-top: none;
   border-left: none;
   border-right: none;
   font-size: 20px;
   color: pink;
+  bottom: 5px;
+  left: 8%;
 }
 .joinmain .iddiv {
   position: relative;
   border: 1px solid gray;
   border-radius: 10px;
-  width: 300px;
+  width: 450px;
   height: 40px;
-  top: 30px;
+  top: 20px;
   left: 150px;
 
   input {
     position: relative;
     border: none;
-    left: 10px;
     top: 10px;
+    width: 380px;
+    height: 20px;
     left: 50px;
+    padding: 0;
     outline: none;
   }
 }
@@ -63,7 +69,7 @@
   position: relative;
   font-weight: bold;
   font-size: 13px;
-  top: 25px;
+  top: 15px;
   left: 160px;
 }
 
@@ -94,6 +100,7 @@
     top: 10px;
     left: 50px;
     outline: none;
+    width: 380px;
   }
 }
 
@@ -111,7 +118,7 @@
   border-radius: 10px;
   width: 450px;
   height: 40px;
-  top: 30px;
+  top: 40px;
   left: 150px;
 
   input {
@@ -121,6 +128,7 @@
     top: 10px;
     left: 50px;
     outline: none;
+    width: 380px;
   }
 }
 
@@ -128,7 +136,7 @@
   position: relative;
   font-weight: bold;
   font-size: 13px;
-  top: 25px;
+  top: 35px;
   left: 160px;
 }
 
@@ -136,9 +144,9 @@
   position: relative;
   border: 1px solid gray;
   border-radius: 10px;
-  width: 300px;
+  width: 330px;
   height: 40px;
-  top: 30px;
+  top: 50px;
   left: 150px;
 
   input {
@@ -148,18 +156,23 @@
     top: 10px;
     left: 50px;
     outline: none;
+    width: 260px;
   }
 }
 
-.joinmain .emailsendbtn {
-  position: relative;
-  left: 460px;
-  top: -15px;
+.joinmain .emailCheckBtn {
+  position: absolute;
+  width: 120px;
+  bottom: 0px;
+  left: 340px;
 
   button {
-    border: 2px solid grey;
+    height: 40px;
+    border: none;
     background-color: pink;
+    border: 2px solid grey;
     border-radius: 10px;
+    cursor: pointer;
   }
 }
 
@@ -167,7 +180,7 @@
   position: relative;
   font-weight: bold;
   font-size: 13px;
-  top: 25px;
+  top: 45px;
   left: 160px;
 }
 
@@ -175,9 +188,9 @@
   position: relative;
   border: 1px solid gray;
   border-radius: 10px;
-  width: 450px;
+  width: 330px;
   height: 40px;
-  top: 10px;
+  top: 55px;
   left: 150px;
 
   input {
@@ -187,18 +200,23 @@
     top: 10px;
     left: 50px;
     outline: none;
+    width: 260px;
   }
 }
 
-.joinmain .emailcheckbtn {
-  position: relative;
-  left: 485px;
-  top: 5px;
+.joinmain .emailVerifyBtn {
+  position: absolute;
+  width: 120px;
+  bottom: 0px;
+  left: 340px;
 
   button {
-    border: 2px solid grey;
+    height: 40px;
+    border: none;
     background-color: pink;
+    border: 2px solid grey;
     border-radius: 10px;
+    cursor: pointer;
   }
 }
 
@@ -206,7 +224,7 @@
   position: relative;
   font-weight: bold;
   font-size: 13px;
-  //top: 2px;
+  top: 50px;
   left: 160px;
 }
 
@@ -216,7 +234,7 @@
   border-radius: 10px;
   width: 450px;
   height: 40px;
-  top: 20px;
+  top: 60px;
   left: 150px;
 
   input {
@@ -226,6 +244,7 @@
     top: 10px;
     left: 50px;
     outline: none;
+    width: 380px;
   }
 }
 
@@ -233,7 +252,7 @@
   position: relative;
   font-weight: bold;
   font-size: 13px;
-  top: 20px;
+  top: 50px;
   left: 160px;
 }
 
@@ -243,7 +262,7 @@
   border-radius: 10px;
   width: 450px;
   height: 40px;
-  top: 25px;
+  top: 70px;
   left: 150px;
 
   input {
@@ -253,6 +272,7 @@
     top: 10px;
     left: 50px;
     outline: none;
+    width: 380px;
   }
 }
 
@@ -260,13 +280,13 @@
   position: relative;
   font-weight: bold;
   font-size: 13px;
-  top: 25px;
+  top: 60px;
   left: 160px;
 }
 
 .joinmain .feelsudiv2 {
   position: relative;
-  width: 700px;
+  width: 650px;
   border: 5px solid pink;
   border-top: none;
   border-left: none;
@@ -274,13 +294,14 @@
   font-size: 20px;
   color: pink;
   top: 60px;
+  left: 8%;
 }
 
 .joinmain .postdiv {
   position: relative;
   border: 1px solid gray;
   border-radius: 10px;
-  width: 360px;
+  width: 330px;
   height: 40px;
   top: 100px;
   left: 150px;
@@ -292,20 +313,22 @@
     top: 10px;
     left: 50px;
     outline: none;
+    width: 260px;
   }
 }
 
 .joinmain .postbtn {
   position: relative;
-  left: 530px;
+  left: 500px;
   top: 56px;
 
   input {
     border: 2px solid grey;
     background-color: pink;
+    border-radius: 10px;
     width: 100px;
     height: 45px;
-    
+    cursor: pointer;
   }
 }
 
@@ -344,6 +367,7 @@
     top: 10px;
     left: 50px;
     outline: none;
+    width: 380px;
   }
 }
 
@@ -368,7 +392,7 @@
 
 .joinmain .feelsudiv3 {
   position: relative;
-  width: 700px;
+  width: 650px;
   border: 5px solid pink;
   border-top: none;
   border-left: none;
@@ -376,45 +400,44 @@
   font-size: 20px;
   color: pink;
   top: 180px;
+  left: 8%;
 }
 
 .joinmain .dongebtn {
   position: relative;
-  
   top: 150px;
   left: 600px;
-
-  input{
-    width: px;
-  }
 }
 
 .joinmain .dongetext {
   position: relative;
-  
+  left: 70px;
+
   top: 170px;
-  
 }
 
-.joinmain .dongebtn2{
+.joinmain .dongebtn2 {
   position: relative;
   left: 600px;
   top: 150px;
-
-    
 }
 
 .joinmain .lastjoinbtn {
   position: relative;
-  left: 300px;
+  left: 250px;
   top: 300px;
 
   button {
-    border: 2px solid grey;
+    color: white;
+    border: none;
     background-color: pink;
     border-radius: 10px;
-    width: 130px;
+    width: 200px;
     height: 45px;
-    
+    font-size: 20px;
+    font-family: 'Noto Sans KR', sans-serif;
+    &:hover {
+      background-color: #e89b93;
+    }
   }
 }

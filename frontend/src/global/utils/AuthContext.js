@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { API_BASE_URL, USER } from '../config/host-config';
+import { format } from 'date-fns';
 
 // 새로운 전역 컨텍스트 생성
 const AuthContext = React.createContext({
   isLoggedIn: false, // 로그인 했는지의 여부 추적
   userName: '',
   onLogout: () => {},
-  onLogin: (id, password) => {},
+  onLogin: (userId, userPass) => {},
 });
 
 // 위에서 생성한 Context를 제공할 수 있는 provider
@@ -18,6 +19,7 @@ export const AuthContextProvider = (props) => {
   const [userName, setUserName] = useState(
     localStorage.getItem('LOGIN_USERNAME')
   );
+  const [role, setRole] = useState(localStorage.getItem('USER_ROLE'));
   const [token, setToken] = useState(localStorage.getItem('ACCESS_TOKEN'));
   const [loading, setLoading] = useState(true);
 
@@ -55,25 +57,60 @@ export const AuthContextProvider = (props) => {
 
   //로그아웃 핸들러
   const logoutHandler = () => {
-    localStorage.clear(); //로컬스토리지 내용 전체 삭제
+    // 'dontShowToday' 값을 임시로 저장
+    const dontShowTodayValue = localStorage.getItem('dontShowToday');
+
+    // 로컬스토리지 내용 전체 삭제
+    localStorage.clear();
+
+    // 'dontShowToday'의 값만 다시 저장
+    if (dontShowTodayValue) {
+      localStorage.setItem('dontShowToday', dontShowTodayValue);
+    }
+
     setIsLoggedIn(false);
     setUserName('');
   };
 
   // 로그인 핸들러
-  const loginHandler = (token, userName, role) => {
+  const loginHandler = (token, role, userEmail) => {
+    console.log('세션 저장요청이들어옴');
+    console.log('token : ', token);
+    console.log('role: ', role);
+
     localStorage.setItem('isLoggedIn', '1');
     //json에 담긴 인증정보를 클라이언트에 보관
     // 1. 로컬 스토리지 - 브라우저가 종료되어도 보관됨.
     // 2. 세션 스토리지 - 브라우저가 종료되면 사라짐.
     localStorage.setItem('ACCESS_TOKEN', token);
-    localStorage.setItem('LOGIN_USERNAME', userName);
     localStorage.setItem('USER_ROLE', role);
+    localStorage.setItem('USER_EMAIL', userEmail);
+
     setIsLoggedIn(true);
     setUserName(userName);
+    setRole(role);
+    console.log(role);
   };
 
+  // 관리자 여부 확인
+  const isAdminFlag = () => role === 'ADMIN';
+  console.log('role: ', role);
+  // 카카오 로그인 핸들러
+  // const kakaoLogin = (token, userEmail, role) => {
+  //   localStorage.setItem('isLoggedIn', '1');
+  //   //json에 담긴 인증정보를 클라이언트에 보관
+  //   // 1. 로컬 스토리지 - 브라우저가 종료되어도 보관됨.
+  //   // 2. 세션 스토리지 - 브라우저가 종료되면 사라짐.
+  //   localStorage.setItem('ACCESS_TOKEN', token);
+  //   // localStorage.setItem('LOGIN_USERNAME', userName);
+  //   localStorage.setItem('USER_EMAIL', userEmail);
+  //   localStorage.setItem('USER_ROLE', role);
+  //   setIsLoggedIn(true);
+  //   setUserName(userName);
+  // };
+
   console.log('AuthContext의 마지막 부분');
+  console.log('isAdminFlag: ', isAdminFlag());
 
   return (
     <AuthContext.Provider
@@ -81,6 +118,7 @@ export const AuthContextProvider = (props) => {
         isLoggedIn,
         userName,
         loading,
+        isAdmin: isAdminFlag(),
         onLogout: logoutHandler,
         onLogin: loginHandler,
       }}
@@ -88,6 +126,10 @@ export const AuthContextProvider = (props) => {
       {props.children}
     </AuthContext.Provider>
   );
+};
+
+export const formattedDate = (dateString) => {
+  return format(new Date(dateString), 'yyyy-MM-dd');
 };
 
 export default AuthContext;

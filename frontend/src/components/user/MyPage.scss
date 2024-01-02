@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&family=Jua&family=Noto+Sans+KR:wght@100&family=Poiret+One&display=swap');
+
 .mypage-fixed {
   background-color: #ffffff;
   display: flex;
@@ -11,17 +13,14 @@
 
   button {
     border: none;
-    border-radius: 15px;
     height: 50px;
     background-color: #fff;
     padding: 0;
     cursor: pointer;
     transition: 0.4s;
+    font-family: 'Noto Sans KR', sans-serif;
 
-    &:hover {
-      color: white;
       background-color: #f3c2bd;
-    }
   }
 
   .group-wrapper {
@@ -31,15 +30,26 @@
   }
 
   .group {
-    height: 655px;
+    height: 500px;
     left: 90px;
     position: relative;
-    width: 300px;
+    width: 240px;
+    background-color: #fff;
+    box-shadow: 5px 1px 8px 0 rgba(0, 0, 0, 0.06);
+    border-left: 1px solid rgba(0, 0, 0, 0.08);
+    vertical-align: top;
+
+    &.fixed {
+      position: fixed;
+      top: 0;
+      left: 50%; /* Adjust the left value as needed */
+      transform: translateX(-50%);
+    }
   }
 
   .mypage-tap,
   .modify-tap {
-    color: #000000;
+    color: #969696;
     font-family: 'Days One', Helvetica;
     font-size: 25px;
     font-weight: 400px;
@@ -49,6 +59,7 @@
     top: 30px;
     width: 240px;
     left: 0;
+    font-family: 'Noto Sans KR', sans-serif;
   }
 
   .modify-tap {
@@ -60,8 +71,9 @@
     left: 0;
   }
 
-  .like-list-tap {
-    color: #000000;
+  .like-list-tap,
+  .adoptionstatus {
+    color: #969696;
     font-family: 'Days One', Helvetica;
     font-size: 25px;
     font-weight: 400;
@@ -69,23 +81,22 @@
     top: 210px;
     width: 240px;
     left: 0;
+    font-family: 'Noto Sans KR', sans-serif;
   }
-  .text-wrapper-2 {
-    color: #000000;
-    font-family: 'Days One', Helvetica;
-    font-size: 25px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
+
+  .like-list-tap {
+    top: 210px;
+  }
+
+  .adoptionstatus {
     top: 300px;
-    width: 240px;
   }
 
   .completion-group {
     height: 234px;
     left: 593px;
     position: relative;
-    top: 54px;
+    top: 20px;
     background-color: #ffffff;
     border: 1px solid;
     border-color: #f3ded7;
@@ -96,7 +107,6 @@
 
     .completion {
       position: relative;
-      color: #000000;
       font-family: 'Courgette', Helvetica;
       font-size: 40px;
       top: 20px;
@@ -119,12 +129,11 @@
     height: 234px;
     left: 320px;
     position: absolute;
-    top: 53px;
+    top: 20px;
     width: 252px;
 
     .knowledge {
       position: relative;
-      color: #000000;
       font-family: 'Courgette', Helvetica;
       font-size: 40px;
       top: 20px;
@@ -148,7 +157,7 @@
     height: 234px;
     left: 866px;
     position: absolute;
-    top: 54px;
+    top: 20px;
     width: 256px;
 
     .quiz {
@@ -182,40 +191,89 @@
 
   .board {
     padding-bottom: 7px;
-    border-bottom: 5px solid pink;
-    color: #000000;
-    font-size: 30px;
+    border-bottom: 3px solid pink;
+    font-size: 25px;
     font-weight: 400;
     left: 320px;
     position: absolute;
-    top: 384px;
+    top: 310px;
     width: 790px;
     margin-bottom: 5px;
+    font-family: 'Courgette', Helvetica;
+  }
+
+  .board-list {
+    display: flex;
+    font-size: 20px;
+    left: 320px;
+    padding-bottom: 7px;
+    border-bottom: 1px solid pink;
+    position: absolute;
+    top: 360px;
+    width: 790px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-family: 'Courgette', Helvetica;
+    .category {
+      margin-left: 30px;
+      font-family: 'Courgette', Helvetica;
+    }
+    .text {
+      margin-left: 110px;
+      left: 20px;
+    }
+    .date {
+      position: absolute;
+      right: 200px;
+    }
   }
   .board-content {
-    display: inline;
-    left: 350px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
     width: 600px;
-    position: absolute;
-    top: 443px;
+    position: relative;
     font-size: 20px;
+    margin: 20px;
+    margin-top: 20px;
+    top: 400px;
+    left: 350px;
     cursor: pointer;
 
+    .category {
+      margin-right: 10px;
+      font-family: 'Courgette', Helvetica;
+    }
+    .text {
+      margin-left: 0;
+      width: 200px;
+      margin-left: 120px;
+    }
+    .date {
+      position: absolute;
+      right: -40px;
+      top: 0;
+      width: 200px;
+    }
     &:hover {
       color: rgb(153, 153, 153);
     }
+  }
 
-    .text {
-      display: inline;
-    }
-    .date {
-      display: inline;
-    }
+  .board-content-not {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    width: 600px;
+    position: relative;
+    font-size: 20px;
+    margin: 20px;
+    margin-top: 20px;
+    top: 400px;
+    left: 550px;
   }
 
   @media only screen and (max-width: 768px) {
-    /* 화면 폭이 768px 이하일 때 적용되는 스타일 */
-
     .group {
       width: 100%;
       left: 0;

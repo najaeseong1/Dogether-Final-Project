@@ -15,8 +15,8 @@ const generateVerificationCode = () => {
 const transporter = createTransport({
   service: 'naver',
   auth: {
-    user: 'hunmo089300@gmail.com', // 발송 이메일 주소
-    pass: '', // 발송 이메일 비밀번호
+    user: `${process.env.REACT_APP_HUNMO_EMAIL}`, // 발송 이메일 주소
+    pass: `${process.env.REACT_APP_HUNMO_PASS}`, // 발송 이메일 비밀번호
   },
 });
 

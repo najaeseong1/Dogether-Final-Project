@@ -20,8 +20,8 @@ public class EmailConfig {
         mailSender.setHost("smtp.naver.com"); // 네이버 SMTP 서버 주소
         mailSender.setPort(587); // 네이버 SMTP 서버 포트
 
-        mailSender.setUsername(""); // 발송 네이버 이메일
-        mailSender.setPassword(""); // 발송 네이버 이메일 비밀번호
+        mailSender.setUsername("${hunmmo.email}"); // 발송 네이버 이메일
+        mailSender.setPassword("${hunmmo.pass_word}"); // 발송 네이버 이메일 비밀번호
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");

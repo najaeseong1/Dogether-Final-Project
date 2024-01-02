@@ -115,6 +115,16 @@ public class ApiService {
                 .adoptLists(adoptLists)
                 .build();
     }
+    //db에 담겨진 adopt 데이터 불러오기
+    public AdoptListResponseDTO getAdoptionList() {
+        List<Adopt> all = adoptRepository.findAll();
+        List<AdoptResponseDTO> requestList = all.stream().map(AdoptResponseDTO::new)
+                .collect(Collectors.toList());
+        return AdoptListResponseDTO.builder()
+                .adoptLists(requestList)
+                .build();
+    }
+
 
     //반복문 돌릴 때 필요한 total 값 얻기 메서드
     private int getTotalCodeItems() throws IOException {
@@ -125,12 +135,11 @@ public class ApiService {
     }
 
 
-
     //시도 코드에 따라 api 요청 보내기
     public AdoptListResponseDTO getAdminCodeList(String uprCd) throws IOException {
 
 
-        int numOfRows = 100; // 페이지당 아이템 개수
+        int numOfRows = 1000; // 페이지당 아이템 개수
         int totalItems = getTotalItems(); // 전체 아이템 개수
         List<Adopt> adoptList = new ArrayList<>();
 
@@ -258,18 +267,18 @@ public class ApiService {
         List<Wish> wishList = wishRepository.findDesertionNoByUserUserId(userId);
         log.info("레파지토리에서 가져온 List -{}", wishList);
 
-        List<String> desertionNoList = wishList.stream().map(
-                wish -> wish.getAdopt().getDesertionNo()
-        ).collect(Collectors.toList());// 분양게시판 글번호 목록 받기
-
-
-        List<Adopt> wishAdoptList = new ArrayList<>();
-
-        for (String adoptNo : desertionNoList) {
-            Adopt wishAdopt = bringAdoptListBoard(adoptNo);
-            wishAdoptList.add(wishAdopt);
-        }
-        List<AdoptResponseDTO> AdoptionList = wishAdoptList.stream()
+//        List<String> desertionNoList = wishList.stream().map(
+//                wish -> wish.getAdopt().getDesertionNo()
+//        ).collect(Collectors.toList());// 분양게시판 글번호 목록 받기
+//
+//
+//        List<Adopt> wishAdoptList = new ArrayList<>();
+//
+//        for (String adoptNo : desertionNoList) {
+//            Adopt wishAdopt = bringAdoptListBoard(adoptNo);
+//            wishAdoptList.add(wishAdopt);
+//        }
+        List<AdoptResponseDTO> AdoptionList = wishList.stream()
                 .map(AdoptResponseDTO::new)
                 .collect(Collectors.toList());//글목록 받기
 
@@ -320,8 +329,8 @@ public class ApiService {
         }
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic");
         urlBuilder.append("?" + "serviceKey" + "=" + apiKey);
-        urlBuilder.append("&" + URLEncoder.encode("bgnde", "UTF-8") + "=" + URLEncoder.encode("20231205", "UTF-8")); /*유기날짜(검색 시작일) (YYYYMMDD)*/
-        urlBuilder.append("&" + URLEncoder.encode("endde", "UTF-8") + "=" + URLEncoder.encode("20231219", "UTF-8")); /*유기날짜(검색 종료일) (YYYYMMDD)*/
+        urlBuilder.append("&" + URLEncoder.encode("bgnde", "UTF-8") + "=" + URLEncoder.encode("20231210", "UTF-8")); /*유기날짜(검색 시작일) (YYYYMMDD)*/
+        urlBuilder.append("&" + URLEncoder.encode("endde", "UTF-8") + "=" + URLEncoder.encode("20231215", "UTF-8")); /*유기날짜(검색 종료일) (YYYYMMDD)*/
         urlBuilder.append("&" + URLEncoder.encode("upkind", "UTF-8") + "=" + URLEncoder.encode("417000", "UTF-8")); /*축종코드 (개 : 417000, 고양이 : 422400, 기타 : 429900)*/
         if (uprCd != null && !uprCd.isEmpty()) {
             urlBuilder.append("&" + URLEncoder.encode("upr_cd", "UTF-8") + "=" + URLEncoder.encode(uprCd, "UTF-8"));
@@ -336,8 +345,8 @@ public class ApiService {
     //엔티티 adopt에 값 주입 메서드 추출
     private static Adopt getAdopt(JsonObject temp) {
         Adopt save = Adopt.builder()
-                .noticeSdt(temp.get("noticeSdt").getAsString() == null? "-" : temp.get("noticeSdt").getAsString())
-                .noticeEdt(temp.get("noticeEdt").getAsString() == null? "-" : temp.get("noticeEdt").getAsString())
+                .noticeSdt(temp.get("noticeSdt").getAsString() == null ? "-" : temp.get("noticeSdt").getAsString())
+                .noticeEdt(temp.get("noticeEdt").getAsString() == null ? "-" : temp.get("noticeEdt").getAsString())
                 .desertionNo(temp.get("desertionNo").getAsString() == null ? "-" : temp.get("desertionNo").getAsString())
                 .kindCd(temp.get("kindCd").getAsString() == null ? "-" : temp.get("kindCd").getAsString())
                 .gender(temp.get("sexCd").getAsString() == null ? "-" : temp.get("sexCd").getAsString())
@@ -362,8 +371,8 @@ public class ApiService {
     private StringBuilder getTotalApi() throws UnsupportedEncodingException {
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic");
         urlBuilder.append("?" + "serviceKey" + "=" + apiKey);
-        urlBuilder.append("&" + URLEncoder.encode("bgnde", "UTF-8") + "=" + URLEncoder.encode("20231117", "UTF-8")); /*유기날짜(검색 시작일) (YYYYMMDD)*/
-        urlBuilder.append("&" + URLEncoder.encode("endde", "UTF-8") + "=" + URLEncoder.encode("20231217", "UTF-8")); /*유기날짜(검색 종료일) (YYYYMMDD)*/
+        urlBuilder.append("&" + URLEncoder.encode("bgnde", "UTF-8") + "=" + URLEncoder.encode("20231210", "UTF-8")); /*유기날짜(검색 시작일) (YYYYMMDD)*/
+        urlBuilder.append("&" + URLEncoder.encode("endde", "UTF-8") + "=" + URLEncoder.encode("20231215", "UTF-8")); /*유기날짜(검색 종료일) (YYYYMMDD)*/
         urlBuilder.append("&" + URLEncoder.encode("upkind", "UTF-8") + "=" + URLEncoder.encode("417000", "UTF-8")); /*축종코드 (개 : 417000, 고양이 : 422400, 기타 : 429900)*/
         urlBuilder.append("&" + URLEncoder.encode("state", "UTF-8") + "=" + URLEncoder.encode("protect", "UTF-8")); /*상태(전체 : null(빈값), 공고중 : notice, 보호중 : protect)*/
         urlBuilder.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(1), "UTF-8")); /*페이지 번호 (기본값 : 1)*/
@@ -377,7 +386,7 @@ public class ApiService {
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic");
         urlBuilder.append("?" + "serviceKey" + "=" + apiKey);
         urlBuilder.append("&" + URLEncoder.encode("bgnde", "UTF-8") + "=" + URLEncoder.encode("20231210", "UTF-8")); /*유기날짜(검색 시작일) (YYYYMMDD)*/
-        urlBuilder.append("&" + URLEncoder.encode("endde", "UTF-8") + "=" + URLEncoder.encode("20231220", "UTF-8")); /*유기날짜(검색 종료일) (YYYYMMDD)*/
+        urlBuilder.append("&" + URLEncoder.encode("endde", "UTF-8") + "=" + URLEncoder.encode("20231215", "UTF-8")); /*유기날짜(검색 종료일) (YYYYMMDD)*/
         urlBuilder.append("&" + URLEncoder.encode("upkind", "UTF-8") + "=" + URLEncoder.encode("417000", "UTF-8")); /*축종코드 (개 : 417000, 고양이 : 422400, 기타 : 429900)*/
         urlBuilder.append("&" + URLEncoder.encode("state", "UTF-8") + "=" + URLEncoder.encode("protect", "UTF-8")); /*상태(전체 : null(빈값), 공고중 : notice, 보호중 : protect)*/
         urlBuilder.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(1), "UTF-8")); /*페이지 번호 (기본값 : 1)*/
