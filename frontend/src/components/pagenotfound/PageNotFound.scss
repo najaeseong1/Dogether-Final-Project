@@ -36,5 +36,8 @@
     flex-shrink: 0;
     color: azure;
     margin-top: 30px;
+    &:hover {
+      cursor: pointer;
+    }
   }
 }

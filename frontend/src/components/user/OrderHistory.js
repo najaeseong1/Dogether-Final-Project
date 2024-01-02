@@ -1,7 +1,8 @@
-import React from 'react';
+import { React, useState, useEffect } from 'react';
 import './OrderHistory.scss';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { API_BASE_URL, PAYMENT } from '../../global/config/host-config';
 
 const orders = [
   {
@@ -102,6 +103,36 @@ const OrderHistory = () => {
       }
     });
   };
+
+  // Payment 결제내역 목록 불러오기
+  const [orderHistory, setOrderHistory] = useState([]);
+
+  console.log(`${API_BASE_URL}${PAYMENT}`);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}${PAYMENT}`, {
+          method: 'GET',
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+
+        console.log(data);
+        // 사용자의 아이디와 일치하는 입양신청서만 필터링
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <>

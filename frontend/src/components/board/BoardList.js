@@ -137,7 +137,7 @@ const BoardList = () => {
         </Stack>
       </div>
       <div className='listButtonDiv'>
-        <Link to={'/boardRegist'}>
+        <Link to={'/boardregist'}>
           <button className='listButton'>글쓰기</button>
         </Link>
       </div>

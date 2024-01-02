@@ -2,10 +2,7 @@ package com.ictedu.dogether.userapi.service;
 
 import com.ictedu.dogether.auth.TokenProvider;
 import com.ictedu.dogether.auth.TokenUserInfo;
-import com.ictedu.dogether.userapi.dto.request.EmailRequestDTO;
-import com.ictedu.dogether.userapi.dto.request.LoginRequestDTO;
-import com.ictedu.dogether.userapi.dto.request.UserRequestSignUpDTO;
-import com.ictedu.dogether.userapi.dto.request.UserUpdateRequestDTO;
+import com.ictedu.dogether.userapi.dto.request.*;
 import com.ictedu.dogether.userapi.dto.response.KakaoUserDTO;
 import com.ictedu.dogether.userapi.dto.response.LoginResponseDTO;
 import com.ictedu.dogether.userapi.dto.response.NaverUserDTO;
@@ -19,6 +16,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -47,6 +45,10 @@ public class UserService {
     private String KAKAO_REDIRECT_URI;
     @Value("${kakao.client_secret}")
     private String KAKAO_CLIENT_SECRET;
+    @Value("${naver.client-id}")
+    private String NAVER_CLIENT_ID;
+    @Value("${naver.client_secret}")
+    private String NAVER_CLIENT_SECRET;
 
     @Value("${naver.redirect_uri}")
     private String NAVER_REDIRECT_URL;
@@ -184,29 +186,29 @@ public class UserService {
     }
 
     public LoginResponseDTO kakaoService(final String code) {
-            log.info("code -{}", code);
+        log.info("code -{}", code);
         // 인가코드를 통해 토큰 발급받기
         Map<String, Object> responseData = getKakaoAccessToken(code);
         log.info("kakaoToken: {}", responseData.get("access_token"));
 
         // 토큰을 통해 사용자 정보 가져오기
-        KakaoUserDTO dto = getKakaoUserInfo((String)responseData.get("access_token"));
+        KakaoUserDTO dto = getKakaoUserInfo((String) responseData.get("access_token"));
 
         // 일회성 로그인으로 처리 -> dto를 바로 화면단으로 리턴
         // 회원가입 처리 -> 이메일 중복 검사 진행 -> 자체 jwt를 생성해서 토큰을 화면단에 리턴.
         // -> 화면단에서는 적절한 url을 선택하여 redirect를 진행.
 
-        if(!isDuplicate(dto.getKakaoAccount().getEmail())) {
-            log.info("dto이메일, -{}",dto.getKakaoAccount().getEmail() );
+        if (!isDuplicate(dto.getKakaoAccount().getEmail())) {
+            log.info("dto이메일, -{}", dto.getKakaoAccount().getEmail());
             // 이메일이 중복되지 않았다 -> 이전에 로그인 한 적이 없음 -> DB에 데이터를 세팅
-            User saved = userRepository.save(dto.toEntity((String)responseData.get("access_token")));
+            User saved = userRepository.save(dto.toEntity((String) responseData.get("access_token")));
         }
         // 이메일이 중복됐다? -> 이전에 로그인 한 적이 있다. -> DB에 데이터를 또 넣을 필요는 없다.
         User foundUser = userRepository.findByUserEmail(dto.getKakaoAccount().getEmail());
 
         String token = tokenProvider.createToken(foundUser);
 
-        foundUser.setAccessToken((String)responseData.get("access_token"));
+        foundUser.setAccessToken((String) responseData.get("access_token"));
         userRepository.save(foundUser);
     //만약 사용자가
 
@@ -215,7 +217,7 @@ public class UserService {
     }
 
     private KakaoUserDTO getKakaoUserInfo(String accessToken) {
-            log.info("엑세스토큰 -{}", accessToken);
+        log.info("엑세스토큰 -{}", accessToken);
         // 요청 uri
         String requestUri = "https://kapi.kakao.com/v2/user/me";
 
@@ -226,8 +228,8 @@ public class UserService {
 
         // 요청 보내기
         RestTemplate template = new RestTemplate();
-        ResponseEntity<KakaoUserDTO> responseEntity
-                = template.exchange(requestUri, HttpMethod.GET, new HttpEntity<>(headers), KakaoUserDTO.class);
+        ResponseEntity<KakaoUserDTO> responseEntity = template.exchange(requestUri, HttpMethod.GET,
+                new HttpEntity<>(headers), KakaoUserDTO.class);
         log.info("responseEntity-{}", responseEntity);
         // 응답 바디 읽기
         KakaoUserDTO responseData = responseEntity.getBody();
@@ -265,11 +267,10 @@ public class UserService {
         // param3: 헤더와 요청 파라미터정보 엔터티
         // param4: 응답 데이터를 받을 객체의` 타입 (ex: dto, map)
         // 만약 구조가 복잡한 경우에는 응답 데이터 타입을 String으로 받아서 JSON-simple 라이브러리로 직접 해체.
-        ResponseEntity<Map> responseEntity
-                = template.exchange(requestUri, HttpMethod.POST, requestEntity, Map.class);
+        ResponseEntity<Map> responseEntity = template.exchange(requestUri, HttpMethod.POST, requestEntity, Map.class);
 
         // 응답 데이터에서 필요한 정보를 가져오기
-        Map<String, Object> responseData = (Map<String, Object>)responseEntity.getBody();
+        Map<String, Object> responseData = (Map<String, Object>) responseEntity.getBody();
         log.info("토큰 요청 응답 데이터: {}", responseData);
 
         return responseData;
@@ -280,20 +281,20 @@ public class UserService {
                 .orElseThrow();
 
         String accessToken = foundUser.getAccessToken();
-        if(accessToken != null) {
+        if (accessToken != null) {
             String reqUri = "https://kapi.kakao.com/v1/user/logout";
             HttpHeaders headers = new HttpHeaders();
             headers.add("Authorization", "Bearer " + accessToken);
 
             RestTemplate template = new RestTemplate();
-            ResponseEntity<String> responseData
-                    = template.exchange(reqUri, HttpMethod.POST, new HttpEntity<>(headers), String.class);
+            ResponseEntity<String> responseData = template.exchange(reqUri, HttpMethod.POST, new HttpEntity<>(headers),
+                    String.class);
             return responseData.getBody();
         }
         return null;
     }
 
-        //스코어 저장
+    // 스코어 저장
     public UserSignUpResponseDTO saveScore(int score, TokenUserInfo userInfo) {
         User user = userRepository.findById(userInfo.getUserId()).orElseThrow();
 
@@ -304,7 +305,7 @@ public class UserService {
         return new UserSignUpResponseDTO(save);
     }
 
-    //스코어 요청
+    // 스코어 요청
     public UserSignUpResponseDTO requestScore(TokenUserInfo userInfo) {
         User user = userRepository.findById(userInfo.getUserId()).orElseThrow();
 

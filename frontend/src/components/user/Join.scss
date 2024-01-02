@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&family=Jua&family=Noto+Sans+KR:wght@100&family=Poiret+One&display=swap');
 .joinmain {
   position: relative;
-  top: 100px;
-  height: 1500px;
-  font-family: 'Noto Sans KR', sans-serif;
+  top: 50px;
+  height: 1200px;
+  right: 30px;
 }
 
 // 다음 우편번호 검색 기능 툴
@@ -29,11 +29,12 @@
   text-align: center;
   bottom: 50px;
   font-size: 25px;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
 .joinmain .feelsudiv {
   position: relative;
-  width: 700px;
+  width: 650px;
   border: 5px solid pink;
   border-top: none;
   border-left: none;
@@ -41,6 +42,7 @@
   font-size: 20px;
   color: pink;
   bottom: 5px;
+  left: 8%;
 }
 .joinmain .iddiv {
   position: relative;
@@ -54,9 +56,11 @@
   input {
     position: relative;
     border: none;
-    left: 10px;
     top: 10px;
+    width: 380px;
+    height: 20px;
     left: 50px;
+    padding: 0;
     outline: none;
   }
 }
@@ -96,6 +100,7 @@
     top: 10px;
     left: 50px;
     outline: none;
+    width: 380px;
   }
 }
 
@@ -123,6 +128,7 @@
     top: 10px;
     left: 50px;
     outline: none;
+    width: 380px;
   }
 }
 
@@ -138,7 +144,7 @@
   position: relative;
   border: 1px solid gray;
   border-radius: 10px;
-  width: 450px;
+  width: 330px;
   height: 40px;
   top: 50px;
   left: 150px;
@@ -150,18 +156,23 @@
     top: 10px;
     left: 50px;
     outline: none;
+    width: 260px;
   }
 }
 
 .joinmain .emailCheckBtn {
   position: absolute;
-  left: 480px;
-  bottom: 1190px;
+  width: 120px;
+  bottom: 0px;
+  left: 340px;
 
   button {
-    border: 2px solid grey;
+    height: 40px;
+    border: none;
     background-color: pink;
+    border: 2px solid grey;
     border-radius: 10px;
+    cursor: pointer;
   }
 }
 
@@ -177,7 +188,7 @@
   position: relative;
   border: 1px solid gray;
   border-radius: 10px;
-  width: 450px;
+  width: 330px;
   height: 40px;
   top: 55px;
   left: 150px;
@@ -189,18 +200,23 @@
     top: 10px;
     left: 50px;
     outline: none;
+    width: 260px;
   }
 }
 
 .joinmain .emailVerifyBtn {
   position: absolute;
-  left: 480px;
-  //top: 5px;
-  bottom: 1130px;
+  width: 120px;
+  bottom: 0px;
+  left: 340px;
+
   button {
-    border: 2px solid grey;
+    height: 40px;
+    border: none;
     background-color: pink;
+    border: 2px solid grey;
     border-radius: 10px;
+    cursor: pointer;
   }
 }
 
@@ -228,6 +244,7 @@
     top: 10px;
     left: 50px;
     outline: none;
+    width: 380px;
   }
 }
 
@@ -255,6 +272,7 @@
     top: 10px;
     left: 50px;
     outline: none;
+    width: 380px;
   }
 }
 
@@ -268,7 +286,7 @@
 
 .joinmain .feelsudiv2 {
   position: relative;
-  width: 700px;
+  width: 650px;
   border: 5px solid pink;
   border-top: none;
   border-left: none;
@@ -276,13 +294,14 @@
   font-size: 20px;
   color: pink;
   top: 60px;
+  left: 8%;
 }
 
 .joinmain .postdiv {
   position: relative;
   border: 1px solid gray;
   border-radius: 10px;
-  width: 360px;
+  width: 330px;
   height: 40px;
   top: 100px;
   left: 150px;
@@ -294,19 +313,22 @@
     top: 10px;
     left: 50px;
     outline: none;
+    width: 260px;
   }
 }
 
 .joinmain .postbtn {
   position: relative;
-  left: 530px;
+  left: 500px;
   top: 56px;
 
   input {
     border: 2px solid grey;
     background-color: pink;
+    border-radius: 10px;
     width: 100px;
     height: 45px;
+    cursor: pointer;
   }
 }
 
@@ -345,6 +367,7 @@
     top: 10px;
     left: 50px;
     outline: none;
+    width: 380px;
   }
 }
 
@@ -369,7 +392,7 @@
 
 .joinmain .feelsudiv3 {
   position: relative;
-  width: 700px;
+  width: 650px;
   border: 5px solid pink;
   border-top: none;
   border-left: none;
@@ -377,21 +400,18 @@
   font-size: 20px;
   color: pink;
   top: 180px;
+  left: 8%;
 }
 
 .joinmain .dongebtn {
   position: relative;
-
   top: 150px;
   left: 600px;
-
-  input {
-    width: px;
-  }
 }
 
 .joinmain .dongetext {
   position: relative;
+  left: 70px;
 
   top: 170px;
 }
@@ -404,14 +424,20 @@
 
 .joinmain .lastjoinbtn {
   position: relative;
-  left: 300px;
+  left: 250px;
   top: 300px;
 
   button {
-    border: 2px solid grey;
+    color: white;
+    border: none;
     background-color: pink;
     border-radius: 10px;
-    width: 130px;
+    width: 200px;
     height: 45px;
+    font-size: 20px;
+    font-family: 'Noto Sans KR', sans-serif;
+    &:hover {
+      background-color: #e89b93;
+    }
   }
 }
