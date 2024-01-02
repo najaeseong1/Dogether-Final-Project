@@ -35,11 +35,13 @@ const Login = () => {
 
       if (res.status === 200) {
         const data = await res.json();
+        console.log('로그인 후 들어오는 data', data);
         const { token, role, userId, userName } = data;
 
         localStorage.setItem('ACCESS_TOKEN', token);
         localStorage.setItem('LOGIN_USERID', userId);
         localStorage.setItem('LOGIN_USERNAME', userName);
+
         onLogin(token, role);
         if (role === 'ADMIN') {
           redirection('/adminmain');

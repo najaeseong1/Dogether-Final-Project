@@ -12,7 +12,7 @@ if (clientHostName === 'localhost') {
 }
 
 export const API_BASE_URL = backEndHostName;
-
+export const API_FRONT_URL = 'http://localhost:3000';
 export const USER = '/user';
 export const ADOPT = '/adopt';
 export const CONTRACT = '/contract';

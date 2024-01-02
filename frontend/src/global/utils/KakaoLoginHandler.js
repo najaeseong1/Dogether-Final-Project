@@ -22,14 +22,16 @@ const KakaoLoginHandler = () => {
       const res = await fetch(REQUEST_URL + '/kakaologin?code=' + code);
       console.log('응답데이터', res);
       console.log('res.json', code);
-      const { token, userName, userEmail, role } = await res.json(); // 서버에서 온 json 읽기
+      const { token, userName, userEmail, role, userId } = await res.json(); // 서버에서 온 json 읽기
       console.log('이메일 값', userEmail);
       console.log('res값', res);
       console.log('userName: ', userName);
       console.log('userEmail: ', userEmail);
       console.log('role: ', role);
+      console.log('userid: ', userId);
+
       // Context API를 사용하여 로그인 상태를 업데이트 합니다.
-      onLogin(token, role, userEmail, userName);
+      onLogin(token, role, userEmail, userName, userId);
       // 리다이렉트
       redirection('/user/join');
     };
