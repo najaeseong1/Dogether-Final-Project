@@ -13,6 +13,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserPaymentResponse {
-    private PaymentResponse paymentResponse;
+    private List<PaymentResponse> paymentResponse;
     private List<ProductInfo> productInfos;
 }

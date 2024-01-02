@@ -8,4 +8,6 @@ import java.util.Objects;
 
 public interface PaymentEntityRepository extends JpaRepository<Payment, String> {
     List<Payment> findByUser_UserId(String userId);
+
+    Payment findByOrderId(String orderId);
 }

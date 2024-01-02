@@ -49,10 +49,8 @@ public class UserService {
     private String NAVER_CLIENT_ID;
     @Value("${naver.client_secret}")
     private String NAVER_CLIENT_SECRET;
-
     @Value("${naver.redirect_uri}")
     private String NAVER_REDIRECT_URL;
-
 
     // 회원 가입 처리
     public UserSignUpResponseDTO create(final UserRequestSignUpDTO dto) {
@@ -400,6 +398,14 @@ public class UserService {
             log.error("토큰 요청이 실패했습니다. HTTP 상태 코드: {}", responseEntity.getStatusCode());
             return Collections.emptyMap(); // 또는 예외를 던지세요
         }
+    }
+
+    // 회원탈퇴
+    public void deleteUser(TokenUserInfo userId) {
+
+        log.info("삭제 -{}", userId);
+        userRepository.deleteById(userId.getUserId());
+
     }
 
 

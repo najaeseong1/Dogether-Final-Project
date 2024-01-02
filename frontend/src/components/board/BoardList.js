@@ -36,7 +36,7 @@ const BoardList = () => {
   const boardDetailHandler = (boardNo) => {
     const token = localStorage.getItem('ACCESS_TOKEN');
 
-    fetch(`http://localhost:8181/board/detail/${boardNo}`, {
+    fetch(`${API_BASE_URL}${BOARD}/detail/${boardNo}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

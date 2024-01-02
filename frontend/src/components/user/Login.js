@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import AuthContext from '../../global/utils/AuthContext.js';
 import { API_BASE_URL } from '../../global/config/host-config.js';
 import { KAKAO_AUTH_URL } from '../../global/kakaoAuth.js';
-import { NAVER_AUTH_URL } from './naverAuth.js';
+import { NAVER_AUTH_URL } from '../../global/naverAuth.js';
 
 const Login = () => {
   const redirection = useNavigate();

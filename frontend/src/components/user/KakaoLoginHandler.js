@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../../global/utils/AuthContext';
 import { API_BASE_URL, USER } from '../../global/config/host-config';
+import { SuccessAlert2 } from '../../global/Alerts';
 
 const KakaoLoginHandler = () => {
   const { onLogin } = useContext(AuthContext);
@@ -34,6 +35,7 @@ const KakaoLoginHandler = () => {
 
       // const existEmail = localStorage.getItem('USER_EMAIL');
 
+      SuccessAlert2('추가 정보를 입력 해주세요.');
       if (userName === 'kakaoName') {
         redirection('/user/join');
       } else {
