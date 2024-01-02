@@ -13,7 +13,7 @@ public interface UserRepository
     //시용자 이메일 주면 그 사용자의 정보 다주는거
     User findByUserEmail(String email);
 
+
     //존재하는 이메일인지 확인
     boolean existsByUserEmail(String email);
-
 }

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import AuthContext from '../../global/utils/AuthContext.js';
 import { API_BASE_URL } from '../../global/config/host-config.js';
 import { KAKAO_AUTH_URL } from '../../global/kakaoAuth.js';
+import { NAVER_AUTH_URL } from './naverAuth.js';
 
 const Login = () => {
   const redirection = useNavigate();
@@ -127,6 +128,9 @@ const Login = () => {
               className='naverbtnimg'
               src='/img/naverLoginBtn.png'
               alt='naverlogin'
+              onClick={() => {
+                window.location.href = NAVER_AUTH_URL;
+              }}
             />
           </div>
           <div className='account'>

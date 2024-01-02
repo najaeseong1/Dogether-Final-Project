@@ -15,6 +15,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
+
 @RestController
 @Slf4j
 @RequiredArgsConstructor
@@ -182,7 +184,7 @@ public class UserController {
     // 카카오 로그인
     @GetMapping("/kakaologin")
     public ResponseEntity<?> kakaoLogin(String code) {
-        log.info("/user/kakaologin - GET! -code: {}", code);
+        log.info("코드 요청 들어옴?", code);
         LoginResponseDTO responseDTO = userService.kakaoService(code);
         log.info("responseData : {}", responseDTO);
         return ResponseEntity.ok().body(responseDTO);
@@ -261,6 +263,16 @@ public class UserController {
 
         }
 
+    }
+
+    // 네이버 로그인
+    @GetMapping("/naverlogin")
+    public ResponseEntity<?> naverLogin( @RequestParam (name = "code") String code,
+                                         @RequestParam (name = "state") String state) throws UnsupportedEncodingException {
+        log.info("왜 암것도 안찍혀?: {}, {}", code, state);
+        LoginResponseDTO responseDTO = userService.naverService(code, state);
+        log.info("responseData : {}", responseDTO);
+        return ResponseEntity.ok().body(responseDTO);
     }
 
 }

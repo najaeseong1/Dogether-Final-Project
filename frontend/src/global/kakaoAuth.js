@@ -5,7 +5,7 @@ const REDIRECT_URI = 'http://localhost:3000/user/kakaologin'; //Redirect URI
 // const REDIRECT_URI = 'https://happygetting.com/oauth/callback/kakao'; //Redirect URI
 // const REDIRECT_URI = 'http://imcute.shop/oauth/callback/kakao'; //Redirect URI
 
-export const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}`;
+export const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&prompt=login`;
 // 파라미터 시작은 ? 부터.
 
 //배포후 web플랫폼에서 배포주소 추가해주기.
