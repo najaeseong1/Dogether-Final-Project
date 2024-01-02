@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Modify.scss';
 import axios from 'axios';
 import DaumPostcode from 'react-daum-postcode';
 import { API_BASE_URL, USER } from '../../global/config/host-config';
-
 import Swal from 'sweetalert2';
+import AuthContext from '../../global/utils/AuthContext';
 import { WarningAlert, a } from '../../global/Alerts';
 
 const Modify = () => {
   const redirection = useNavigate();
-
+  const { onLogout } = useContext(AuthContext);
   // 기본 정보 상태
   const [userId, setUserId] = useState('');
   const [userName, setUserName] = useState('');
@@ -208,27 +208,41 @@ const Modify = () => {
   };
 
   // 회원탈퇴
-  const handleWithdrawal = () => {
-    Swal.fire({
-      title: '회원탈퇴',
-      text: '탈퇴한 아이디는 복구가 불가하오니 신중하게 선택하시기 바랍니다',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: '확인',
-      cancelButtonText: '취소',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire(
-          '회원탈퇴가 완료되었습니다.',
-          '이용해 주셔서 감사합니다.',
-          'success'
-        ).then(() => {
-          redirection('/');
+
+  const withdrawalButton = () => {
+    const handleWithdrawal = async () => {
+      try {
+        await axios.delete(`${API_BASE_URL}${USER}/deleteuser`, {
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
+          },
         });
+        Swal.fire({
+          title: '회원탈퇴',
+          text: '탈퇴한 아이디는 복구가 불가하오니 신중하게 선택하시기 바랍니다',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: '확인',
+          cancelButtonText: '취소',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire(
+              '회원탈퇴가 완료되었습니다.',
+              '이용해 주셔서 감사합니다.',
+              'success'
+            ).then(() => {
+              redirection('/');
+            });
+          }
+        });
+        onLogout();
+      } catch (error) {
+        console.log('error : ', error);
       }
-    });
+    };
+    handleWithdrawal();
   };
 
   return (
@@ -392,7 +406,7 @@ const Modify = () => {
         </form>
         <div
           className='withdrawal'
-          onClick={handleWithdrawal}
+          onClick={withdrawalButton}
         >
           회원탈퇴 <span>&gt;</span>
         </div>
