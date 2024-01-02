@@ -75,7 +75,7 @@ const Header = () => {
               <p onClick={() => toLink(`${BOARD}`)}>자유 게시판</p>
             </li>
             <li>
-              <p onClick={() => toLink(`${PRODUCT}`)}>자체 제작 상품</p>
+              <p onClick={() => toLink(`${PRODUCT}`)}>판매 상품</p>
             </li>
             <li>
               <p onClick={() => toLink(`${KNOWLEDGES}/knowledge`)}>반려 백과</p>

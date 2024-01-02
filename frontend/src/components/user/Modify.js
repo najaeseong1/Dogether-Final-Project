@@ -6,6 +6,7 @@ import DaumPostcode from 'react-daum-postcode';
 import { API_BASE_URL, USER } from '../../global/config/host-config';
 import Swal from 'sweetalert2';
 import AuthContext from '../../global/utils/AuthContext';
+import { WarningAlert, a } from '../../global/Alerts';
 
 const Modify = () => {
   const redirection = useNavigate();

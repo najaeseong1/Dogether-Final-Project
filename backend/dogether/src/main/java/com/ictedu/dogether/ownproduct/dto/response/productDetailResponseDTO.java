@@ -28,4 +28,15 @@ public class productDetailResponseDTO {
         this.price = product.getPrice();
         this.img = product.getImg();
     }
+
+    // productId를 통해서 제품 정보 찾으려고 추가
+    public Product toProduct() {
+        Product product = new Product();
+        product.setProductId(this.productId);
+        product.setTitle(this.title);
+        product.setSubtitle(this.subtitle);
+        product.setPrice(this.price);
+        product.setImg(this.img);
+        return product;
+    }
 }

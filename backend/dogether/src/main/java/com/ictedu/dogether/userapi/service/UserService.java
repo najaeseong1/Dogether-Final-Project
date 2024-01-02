@@ -23,8 +23,11 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.net.URLEncoder;
 import java.security.SecureRandom;
+import java.util.Collections;
 import java.util.Map;
 
 @Service
@@ -47,25 +50,47 @@ public class UserService {
     @Value("${naver.client_secret}")
     private String NAVER_CLIENT_SECRET;
 
+    @Value("${naver.redirect_uri}")
+    private String NAVER_REDIRECT_URL;
+    @Value("${naver.client_id}")
+    private String NAVER_CLIENT_ID;
+    @Value("${naver.client_secret}")
+    private String NAVER_CLIENT_SECRET;
+
     // 회원 가입 처리
     public UserSignUpResponseDTO create(final UserRequestSignUpDTO dto) {
 
-        String userId = dto.getUserId();
 
-        if (isDuplicate(userId)) {
-            log.warn("아이디가 중복되었습니다. - {}", userId);
-            throw new RuntimeException("중복된 아이디 입니다.");
+        boolean kakao = userRepository.existsByUserEmail(dto.getUserEmail());
+
+        if(kakao) {
+            //카카오 사용자의 회원 가입 처리
+            User user = userRepository.findById(dto.getUserId()).orElseThrow();
+            user.setUserName(dto.getUserName());
+            user.setUserPhone(dto.getUserPhone());
+            user.setPostNo(dto.getPostNo());
+            user.setPostAddr(dto.getPostAddr());
+            User kakaoUser = userRepository.save(user);
+            return new UserSignUpResponseDTO(kakaoUser);
+        }else {
+            //일반 사용자의 회원 가입 처리
+
+            String userId = dto.getUserId();
+            if (isDuplicate(userId)) {
+                log.warn("아이디가 중복되었습니다. - {}", userId);
+                throw new RuntimeException("중복된 아이디 입니다.");
+            }
+            // 패스워드 인코딩
+            String encoded = passwordEncoder.encode(dto.getUserPass());
+            dto.setUserPass(encoded);
+
+            // dto를 User Entity로 변환해서 저장
+            User saved = userRepository.save(dto.toEntity());
+            log.info("회원 가입 정상 수행됨! - saved user - {}", saved);
+
+            return new UserSignUpResponseDTO(saved);
         }
 
-        // 패스워드 인코딩
-        String encoded = passwordEncoder.encode(dto.getUserPass());
-        dto.setUserPass(encoded);
-
-        // dto를 User Entity로 변환해서 저장
-        User saved = userRepository.save(dto.toEntity());
-        log.info("회원 가입 정상 수행됨! - saved user - {}", saved);
-
-        return new UserSignUpResponseDTO(saved);
 
     }
 
@@ -185,6 +210,7 @@ public class UserService {
 
         foundUser.setAccessToken((String) responseData.get("access_token"));
         userRepository.save(foundUser);
+    //만약 사용자가
 
         return new LoginResponseDTO(foundUser, token);
 
@@ -228,10 +254,10 @@ public class UserService {
         params.add("redirect_uri", KAKAO_REDIRECT_URI); // 카카오 디벨로퍼 등록된 redirect uri
         params.add("code", code); // 프론트에서 인가 코드 요청시 전달받은 코드값
         params.add("client_secret", KAKAO_CLIENT_SECRET); // 카카오 디벨로퍼 client secret(활성화 시 추가해 줘야 함)
-
+        log.info("요청 바디 설정 -{}",params);
         // 헤더와 바디 정보를 합치기 위해 HttpEntity 객체 생성
         HttpEntity<Object> requestEntity = new HttpEntity<>(params, headers);
-
+        log.info("responseEntity -{} ",requestEntity);
         // 카카오 서버로 POST 통신
         RestTemplate template = new RestTemplate();
 
@@ -286,12 +312,12 @@ public class UserService {
         return new UserSignUpResponseDTO((user));
     }
 
-    // 네이버 로그인
-    public LoginResponseDTO naverService(String code, String state) {
+
+    public LoginResponseDTO naverService(String code, String state) throws UnsupportedEncodingException {
         log.info("code -{}", code);
         // 인가코드를 통해 토큰 발급받기
         Map<String, Object> responseData = getNaverAccessToken(code, state);
-        log.info("naverToken: {}", responseData.get("access_token"));
+        log.info("naverToken: {}", responseData);
 
         // 토큰을 통해 사용자 정보 가져오기
         NaverUserDTO dto = getNaverUserInfo((String) responseData.get("access_token"));
@@ -316,7 +342,6 @@ public class UserService {
         return new LoginResponseDTO(foundUser, token);
     }
 
-    // 네이버 로그인 토큰
     private NaverUserDTO getNaverUserInfo(String accessToken) {
         log.info("엑세스토큰 -{}", accessToken);
         // 요청 uri
@@ -339,53 +364,47 @@ public class UserService {
         return responseData;
     }
 
-    private Map<String, Object> getNaverAccessToken(String code, String state) {
+    private Map<String, Object> getNaverAccessToken(String code, String state) throws UnsupportedEncodingException {
 
-        // 요청 uri
+        // 요청 URI
         String requestUri = "https://nid.naver.com/oauth2.0/token";
 
         // 요청 헤더 설정
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
-        // state 코드 생성 테스트 시 임의의값 아직 사용x
-        SecureRandom random = new SecureRandom();
-        String naverState = new BigInteger(130, random).toString();
-
         // 요청 바디(파라미터) 설정
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("grant_type", "authorization_code"); // 카카오 공식 문서 기준 값으로 세팅
-        params.add("client_id", NAVER_CLIENT_ID); // 카카오 디벨로퍼 REST API 키
-        params.add("code", code); // 프론트에서 인가 코드 요청시 전달받은 코드값
-        params.add("client_secret", NAVER_CLIENT_SECRET); // 카카오 디벨로퍼 client secret(활성화 시 추가해 줘야 함)
-        params.add("state", naverState); // 스테이트 코드
+        params.add("grant_type" , "authorization_code");
+        params.add("client_id", NAVER_CLIENT_ID);
+        params.add("code", code);
+        params.add("redirect_uri", NAVER_REDIRECT_URL);
+        params.add("client_secret", NAVER_CLIENT_SECRET);
+        params.add("state",  URLEncoder.encode(state, "UTF-8"));
 
+    log.info("요청 바디 설정 -{}",params);
         // 헤더와 바디 정보를 합치기 위해 HttpEntity 객체 생성
         HttpEntity<Object> requestEntity = new HttpEntity<>(params, headers);
-
+        log.info("requestEntity -{}",requestEntity);
         // 카카오 서버로 POST 통신
         RestTemplate template = new RestTemplate();
 
         // 통신을 보내면서 응답데이터를 리턴
-        // param1: 요청 url
-        // param2: 요청 메서드 (전송 방식)
-        // param3: 헤더와 요청 파라미터정보 엔터티
-        // param4: 응답 데이터를 받을 객체의` 타입 (ex: dto, map)
-        // 만약 구조가 복잡한 경우에는 응답 데이터 타입을 String으로 받아서 JSON-simple 라이브러리로 직접 해체.
         ResponseEntity<Map> responseEntity = template.exchange(requestUri, HttpMethod.POST, requestEntity, Map.class);
-
-        // 응답 데이터에서 필요한 정보를 가져오기
-        Map<String, Object> responseData = (Map<String, Object>) responseEntity.getBody();
-        log.info("토큰 요청 응답 데이터: {}", responseData);
-
-        return responseData;
+        log.info("responseEntity -{} ",responseEntity);
+        // HTTP 상태 코드를 확인하고 에러를 처리
+        if (responseEntity.getStatusCode().is2xxSuccessful()) {
+            // 성공적인 응답일 경우 계속 처리
+            Map<String, Object> responseData = responseEntity.getBody();
+            log.info("토큰 요청 응답 데이터: {}", responseData);
+            return responseData;
+        } else {
+            // 에러를 처리하고 로그를 남기거나 예외를 던집니다.
+            log.error("토큰 요청이 실패했습니다. HTTP 상태 코드: {}", responseEntity.getStatusCode());
+            return Collections.emptyMap(); // 또는 예외를 던지세요
+        }
     }
 
-    // 회원탈퇴
-    public void deleteUser(TokenUserInfo userId) {
 
-        log.info("삭제 -{}", userId);
-        userRepository.deleteById(userId.getUserId());
 
-    }
 }

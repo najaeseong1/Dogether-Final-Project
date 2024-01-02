@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import AuthContext from '../../global/utils/AuthContext.js';
 import { API_BASE_URL } from '../../global/config/host-config.js';
 import { KAKAO_AUTH_URL } from '../../global/kakaoAuth.js';
+import { NAVER_AUTH_URL } from './naverAuth.js';
 
 const Login = () => {
   const redirection = useNavigate();
@@ -34,10 +35,11 @@ const Login = () => {
 
       if (res.status === 200) {
         const data = await res.json();
-        const { token, role , userId} = data;
+        const { token, role, userId, userName } = data;
 
         localStorage.setItem('ACCESS_TOKEN', token);
-        localStorage.setItem('userId', userId);
+        localStorage.setItem('LOGIN_USERID', userId);
+        localStorage.setItem('LOGIN_USERNAME', userName);
         onLogin(token, role);
         if (role === 'ADMIN') {
           redirection('/adminmain');
@@ -126,6 +128,9 @@ const Login = () => {
               className='naverbtnimg'
               src='/img/naverLoginBtn.png'
               alt='naverlogin'
+              onClick={() => {
+                window.location.href = NAVER_AUTH_URL;
+              }}
             />
           </div>
           <div className='account'>

@@ -28,6 +28,7 @@ public class NaverUserDTO {
     }
 
     public User toEntity(String accessToken) {
+        log.info("토큰", accessToken);
         String email = this.naverAccount.email;
         // '@' 기호의 위치를 찾습니다.
         int atIndex = email.indexOf('@');

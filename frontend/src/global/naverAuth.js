@@ -1,11 +1,11 @@
-const CLIENT_ID = '7828262c2008c5f7758e8c2108ed239d'; // REST API 키
-const REDIRECT_URI = 'http://localhost:3000/user/kakaologin'; //Redirect URI
+const CLIENT_ID = 'M_RTK5t__etv0bcPmp6m'; // REST API 키
+const REDIRECT_URI = 'http://localhost:3000/user/naverlogin'; //Redirect URI
 // const REDIRECT_URI =
 //   'http://gettingtest.s3-website.ap-northeast-2.amazonaws.com/oauth/callback/kakao'; //Redirect URI
 // const REDIRECT_URI = 'https://happygetting.com/oauth/callback/kakao'; //Redirect URI
 // const REDIRECT_URI = 'http://imcute.shop/oauth/callback/kakao'; //Redirect URI
 
-export const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&prompt=login`;
+export const NAVER_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}`;
 // 파라미터 시작은 ? 부터.
 
 //배포후 web플랫폼에서 배포주소 추가해주기.
