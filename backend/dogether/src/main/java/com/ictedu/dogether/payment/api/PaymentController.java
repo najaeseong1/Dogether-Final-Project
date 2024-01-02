@@ -39,7 +39,7 @@ public class PaymentController {
         try {
             UserPaymentResponse paymentList = paymentService.getPaymentList(userInfo);
             // 성공적인 경우
-            return ResponseEntity.ok(null);
+            return ResponseEntity.ok().body(paymentList);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest()
@@ -57,7 +57,7 @@ public class PaymentController {
             PaymentResponse response = paymentService.confirmPayment(paymentRequest, SecretKey);
 
             // 성공적인 경우
-            return ResponseEntity.ok(response);
+            return ResponseEntity.ok().body(response);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest()

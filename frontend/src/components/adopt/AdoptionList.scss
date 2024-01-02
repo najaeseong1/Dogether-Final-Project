@@ -5,38 +5,37 @@
 //     justify-content: center;
 //     width: 100%;
 //   }
-  
-  .index .div {
-    //border: 1px solid blue;
-    background-color: #ffffff;
-    height: 1000px;
-    overflow: hidden;
-    position: relative;
-    width: 1500px;
-    left: 30px;
-    
-  }
 
-  // .loading-pink::before {
-  //   content: '';
-  //   position: fixed;
-  //   top: 0;
-  //   left: 0;
-  //   width: 100%;
-  //   height: 100%;
-  //   background: rgba(255, 255, 255, 0.5); /* 투명한 백그라운드 색상 */
-  //   z-index: 9998; /* 로딩 바보다 한 단계 낮은 Z 인덱스 */
-  //   pointer-events: none; /* 하위 요소에 이벤트 전파 방지 */
-  // }
-
-  .index.loading {
-    pointer-events: none;
+.index .div {
+  //border: 1px solid blue;
+  background-color: #ffffff;
+  height: 1000px;
+  overflow: hidden;
+  position: relative;
+  width: 1500px;
+  left: 30px;
 }
 
-  .index .loading-pink{
-    background-color: none;
-    //border: 10px solid blueviolet;
-  }
+// .loading-pink::before {
+//   content: '';
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 100%;
+//   background: rgba(255, 255, 255, 0.5); /* 투명한 백그라운드 색상 */
+//   z-index: 9998; /* 로딩 바보다 한 단계 낮은 Z 인덱스 */
+//   pointer-events: none; /* 하위 요소에 이벤트 전파 방지 */
+// }
+
+.index.loading {
+  pointer-events: none;
+}
+
+.index .loading-pink {
+  background-color: none;
+  //border: 10px solid blueviolet;
+}
 
 /* 추가된 스타일 */
 .index .loading-overlay {
@@ -55,298 +54,290 @@
 
 /* 로딩 중일 때 컴포넌트를 다르게 스타일링하려면 이 스타일을 추가하세요 */
 .index.loading {
-    opacity: 0.7; /* 투명도를 조절하거나 다른 스타일을 추가할 수 있습니다. */
+  opacity: 0.7; /* 투명도를 조절하거나 다른 스타일을 추가할 수 있습니다. */
 }
 
-  .index .category {
-    // border: 2px solid black;
-    // border-radius: 10px;
-    // position: relative;
-    // left: 450px;
-    // height: 30px;
-    // width: 10px;
+.index .category {
+  // border: 2px solid black;
+  // border-radius: 10px;
+  // position: relative;
+  // left: 450px;
+  // height: 30px;
+  // width: 10px;
 
-   // border: 1px solid pink;
-    border-radius: 10px;
-    position: relative;
-    left: 350px;
-    top: 30px;
-    height: 30px;
-    width: 200px;
-  }
+  // border: 1px solid pink;
+  border-radius: 10px;
+  position: relative;
+  left: 350px;
+  top: 30px;
+  height: 30px;
+  width: 200px;
+}
 
-  .index .searchbar {
-    border: 2px solid pink;
-    border-radius: 10px;
-    //border-color: pink;
-    position: relative;
-    left: 600px;
-    height: 30px;
-    width: 400px;
-  }
+.index .searchbar {
+  border: 2px solid pink;
+  border-radius: 10px;
+  //border-color: pink;
+  position: relative;
+  left: 600px;
+  height: 30px;
+  width: 400px;
+}
 
-  
-  // 첫번째 사진 프레임
-  .index .frame-1 {
-    background-color: #ffffff;
-    border: 1px solid;
-    border-color: #e89b93;
-    border-radius: 10px;
-    box-shadow: 0px 4px 4px #00000040;
+// 첫번째 사진 프레임
+.index .frame-1 {
+  background-color: #ffffff;
+  border: 1px solid;
+  border-color: #e89b93;
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px #00000040;
+  height: 150px;
+  left: 300px;
+  overflow: hidden;
+  position: relative;
+  top: 73px; //103
+  width: 150px;
+  transition: filter 0.3s ease-in-out;
+
+  img {
     height: 150px;
-    left: 300px;
-    overflow: hidden;
-    position: relative;
-    top: 73px;   //103
-    width: 150px;
-    transition: filter 0.3s ease-in-out;
-  
-        img {
-          height: 150px;
-          left: 0;
-          object-fit: cover;
-          position: absolute;
-          top: 0;
-          width: 150px;         
-        }
-        &:hover img {
-          filter: brightness(0.5);
-        }
-
-  }
-   
-  // 사진 호버했을 때 나오는 정보
-  .index .frame-1 .frameInfo-1{
-    position: relative;
-    top: 30px;
-    text-align: center;
-    color: #fff; /* 폰트 색상을 흰색으로 설정 */
-    display: none;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    transition: opacity 0.7s; /* opacity 변경에 애니메이션 효과를 추가 */
-  }
-
-  .index .frame-1:hover .frameInfo-1 {
-    display: flex;
-    opacity: 1;
-  }
-  
-  
-  //두번째 사진 프레임
-  .index .frame-2 {
-    border: 1px solid;
-    border-color: #e89b93;
-    border-radius: 10px;
-    box-shadow: 0px 4px 4px #00000040;
-    height: 150px;
-    left: 520px;
-    overflow: hidden;
+    left: 0;
+    object-fit: cover;
     position: absolute;
-    top: 137px;
+    top: 0;
     width: 150px;
-
-    img {
-      height: 150px;
-      left: 0;
-      object-fit: cover;
-      position: absolute;
-      top: 0;
-      width: 150px;         
-    }
-    &:hover img {
-      filter: brightness(0.5);
-    }
   }
-
-  // 사진 호버했을 때 나오는 정보
-  .index .frame-2 .frameInfo-2{
-    //border: 1px solid black;
-    position: relative;
-    top: 30px;
-    text-align: center;
-    color: #fff; /* 폰트 색상을 흰색으로 설정 */
-    display: none;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    transition: opacity 0.7s; /* opacity 변경에 애니메이션 효과를 추가 */
+  &:hover img {
+    filter: brightness(0.5);
   }
+}
 
-  .index .frame-2:hover .frameInfo-2 {
-    display: flex;
-    opacity: 1;
-  }
+// 사진 호버했을 때 나오는 정보
+.index .frame-1 .frameInfo-1 {
+  position: relative;
+  top: 30px;
+  text-align: center;
+  color: #fff; /* 폰트 색상을 흰색으로 설정 */
+  display: none;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.7s; /* opacity 변경에 애니메이션 효과를 추가 */
+}
 
+.index .frame-1:hover .frameInfo-1 {
+  display: flex;
+  opacity: 1;
+}
 
-  // 세번째 사진 프레임
-  .index .frame-3 {
-    border: 1px solid;
-    border-color: #e89b93;
-    border-radius: 10px;
-    box-shadow: 0px 4px 4px #00000040;
+//두번째 사진 프레임
+.index .frame-2 {
+  border: 1px solid;
+  border-color: #e89b93;
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px #00000040;
+  height: 150px;
+  left: 520px;
+  overflow: hidden;
+  position: absolute;
+  top: 137px;
+  width: 150px;
+
+  img {
     height: 150px;
-    left: 740px;
-    overflow: hidden;
+    left: 0;
+    object-fit: cover;
     position: absolute;
-    top: 137px;
+    top: 0;
     width: 150px;
+  }
+  &:hover img {
+    filter: brightness(0.5);
+  }
+}
 
-    img {
-      height: 150px;
-      left: 0;
-      object-fit: cover;
-      position: absolute;
-      top: 0;
-      width: 150px;         
-    }
-    &:hover img {
-      filter: brightness(0.5);
-    }
-  }
-   // 사진 호버했을 때 나오는 정보
-   .index .frame-3 .frameInfo-3{
-    //border: 1px solid black;
-    position: relative;
-    top: 30px;
-    text-align: center;
-    color: #fff; /* 폰트 색상을 흰색으로 설정 */
-    display: none;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    transition: opacity 0.7s; /* opacity 변경에 애니메이션 효과를 추가 */
-  }
+// 사진 호버했을 때 나오는 정보
+.index .frame-2 .frameInfo-2 {
+  //border: 1px solid black;
+  position: relative;
+  top: 30px;
+  text-align: center;
+  color: #fff; /* 폰트 색상을 흰색으로 설정 */
+  display: none;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.7s; /* opacity 변경에 애니메이션 효과를 추가 */
+}
 
-  .index .frame-3:hover .frameInfo-3 {
-    display: flex;
-    opacity: 1;
-  }
-  
-  
-  // 네번째 사진 프레임
-  .index .frame-4 {
-    border: 1px solid;
-    border-color: #e89b93;
-    border-radius: 10px;
-    box-shadow: 0px 4px 4px #00000040;
+.index .frame-2:hover .frameInfo-2 {
+  display: flex;
+  opacity: 1;
+}
+
+// 세번째 사진 프레임
+.index .frame-3 {
+  border: 1px solid;
+  border-color: #e89b93;
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px #00000040;
+  height: 150px;
+  left: 740px;
+  overflow: hidden;
+  position: absolute;
+  top: 137px;
+  width: 150px;
+
+  img {
     height: 150px;
-    left: 960px;
-    overflow: hidden;
+    left: 0;
+    object-fit: cover;
     position: absolute;
-    top: 137px;
+    top: 0;
     width: 150px;
-
-    img {
-      height: 150px;
-      left: 0;
-      object-fit: cover;
-      position: absolute;
-      top: 0;
-      width: 150px;         
-    }
-    &:hover img {
-      filter: brightness(0.5);
-    }
   }
-
-  // 사진 호버했을 때 나오는 정보
-  .index .frame-4 .frameInfo-4{
-    //border: 1px solid black;
-    position: relative;
-    top: 30px;
-    text-align: center;
-    color: #fff; /* 폰트 색상을 흰색으로 설정 */
-    display: none;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    transition: opacity 0.7s; /* opacity 변경에 애니메이션 효과를 추가 */
+  &:hover img {
+    filter: brightness(0.5);
   }
+}
+// 사진 호버했을 때 나오는 정보
+.index .frame-3 .frameInfo-3 {
+  //border: 1px solid black;
+  position: relative;
+  top: 30px;
+  text-align: center;
+  color: #fff; /* 폰트 색상을 흰색으로 설정 */
+  display: none;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.7s; /* opacity 변경에 애니메이션 효과를 추가 */
+}
 
-  .index .frame-4:hover .frameInfo-4 {
-    display: flex;
-    opacity: 1;
-  }
-  
-  
-  // 다섯번째 사진 프레임
-  .index .frame-5 {
-    background-color: #ffffff;
-    border: 1px solid;
-    border-color: #9e574f;
-    border-radius: 10px;
-    box-shadow: 0px 4px 4px #00000040;
+.index .frame-3:hover .frameInfo-3 {
+  display: flex;
+  opacity: 1;
+}
+
+// 네번째 사진 프레임
+.index .frame-4 {
+  border: 1px solid;
+  border-color: #e89b93;
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px #00000040;
+  height: 150px;
+  left: 960px;
+  overflow: hidden;
+  position: absolute;
+  top: 137px;
+  width: 150px;
+
+  img {
     height: 150px;
-    left: 300px;
-    overflow: hidden;
+    left: 0;
+    object-fit: cover;
     position: absolute;
-    top: 400px;
+    top: 0;
     width: 150px;
-
-    img {
-      height: 150px;
-      left: 0;
-      object-fit: cover;
-      position: absolute;
-      top: 0;
-      width: 150px;         
-    }
-    &:hover img {
-      filter: brightness(0.5);
-    }
   }
-
-  // 사진 호버했을 때 나오는 정보
-  .index .frame-5 .frameInfo-5{
-    //border: 1px solid black;
-    position: relative;
-    top: 30px;
-    text-align: center;
-    color: #fff; /* 폰트 색상을 흰색으로 설정 */
-    display: none;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    transition: opacity 0.7s; /* opacity 변경에 애니메이션 효과를 추가 */
+  &:hover img {
+    filter: brightness(0.5);
   }
+}
 
-  .index .frame-5:hover .frameInfo-5 {
-    display: flex;
-    opacity: 1;
-  }
-  
-  
+// 사진 호버했을 때 나오는 정보
+.index .frame-4 .frameInfo-4 {
+  //border: 1px solid black;
+  position: relative;
+  top: 30px;
+  text-align: center;
+  color: #fff; /* 폰트 색상을 흰색으로 설정 */
+  display: none;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.7s; /* opacity 변경에 애니메이션 효과를 추가 */
+}
 
-  //여섯번째 사진 프레임
-  .index .frame-6 {
-    border: 1px solid;
-    border-color: #e89b93;
-    border-radius: 10px;
-    box-shadow: 0px 4px 4px #00000040;
+.index .frame-4:hover .frameInfo-4 {
+  display: flex;
+  opacity: 1;
+}
+
+// 다섯번째 사진 프레임
+.index .frame-5 {
+  background-color: #ffffff;
+  border: 1px solid;
+  border-color: #9e574f;
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px #00000040;
+  height: 150px;
+  left: 300px;
+  overflow: hidden;
+  position: absolute;
+  top: 400px;
+  width: 150px;
+
+  img {
     height: 150px;
-    left: 520px;
-    overflow: hidden;
+    left: 0;
+    object-fit: cover;
     position: absolute;
-    top: 400px;
+    top: 0;
     width: 150px;
-
-    img {
-      height: 150px;
-      left: 0;
-      object-fit: cover;
-      position: absolute;
-      top: 0;
-      width: 150px;         
-    }
-    &:hover img {
-      filter: brightness(0.5);
-    }
   }
+  &:hover img {
+    filter: brightness(0.5);
+  }
+}
 
- // 사진 호버했을 때 나오는 정보
- .index .frame-6 .frameInfo-6{
+// 사진 호버했을 때 나오는 정보
+.index .frame-5 .frameInfo-5 {
+  //border: 1px solid black;
+  position: relative;
+  top: 30px;
+  text-align: center;
+  color: #fff; /* 폰트 색상을 흰색으로 설정 */
+  display: none;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.7s; /* opacity 변경에 애니메이션 효과를 추가 */
+}
+
+.index .frame-5:hover .frameInfo-5 {
+  display: flex;
+  opacity: 1;
+}
+
+//여섯번째 사진 프레임
+.index .frame-6 {
+  border: 1px solid;
+  border-color: #e89b93;
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px #00000040;
+  height: 150px;
+  left: 520px;
+  overflow: hidden;
+  position: absolute;
+  top: 400px;
+  width: 150px;
+
+  img {
+    height: 150px;
+    left: 0;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    width: 150px;
+  }
+  &:hover img {
+    filter: brightness(0.5);
+  }
+}
+
+// 사진 호버했을 때 나오는 정보
+.index .frame-6 .frameInfo-6 {
   //border: 1px solid black;
   position: relative;
   top: 30px;
@@ -363,223 +354,216 @@
   display: flex;
   opacity: 1;
 }
-  
-  
-  
-  //7번째 사진 프레임
-  .index .frame-7 {
-    background-position: 50% 50%;
-    background-size: cover;
-    border: 1px solid;
-    border-color: #e89b93;
-    border-radius: 10px;
-    box-shadow: 0px 4px 4px #00000040;
+
+//7번째 사진 프레임
+.index .frame-7 {
+  background-position: 50% 50%;
+  background-size: cover;
+  border: 1px solid;
+  border-color: #e89b93;
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px #00000040;
+  height: 150px;
+  left: 740px;
+  position: absolute;
+  top: 400px;
+  width: 150px;
+
+  img {
     height: 150px;
-    left: 740px;
+    left: 0;
+    object-fit: cover;
     position: absolute;
-    top: 400px;
+    top: 0;
     width: 150px;
-
-    img {
-      height: 150px;
-      left: 0;
-      object-fit: cover;
-      position: absolute;
-      top: 0;
-      width: 150px;         
-    }
-    &:hover img {
-      filter: brightness(0.5);
-    }
   }
-
-  // 사진 호버했을 때 나오는 정보
-  .index .frame-7 .frameInfo-7{
-    //border: 1px solid black;
-    position: relative;
-    top: 30px;
-    text-align: center;
-    color: #fff; /* 폰트 색상을 흰색으로 설정 */
-    display: none;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    transition: opacity 0.7s; /* opacity 변경에 애니메이션 효과를 추가 */
+  &:hover img {
+    filter: brightness(0.5);
   }
+}
 
-  .index .frame-7:hover .frameInfo-7 {
-    display: flex;
-    opacity: 1;
-  }
-  
-  // 8번째 사진 프레임
-  .index .frame-8 {
-    border: 1px solid;
-    border-color: #e89b93;
-    border-radius: 10px;
-    box-shadow: 0px 4px 4px #00000040;
+// 사진 호버했을 때 나오는 정보
+.index .frame-7 .frameInfo-7 {
+  //border: 1px solid black;
+  position: relative;
+  top: 30px;
+  text-align: center;
+  color: #fff; /* 폰트 색상을 흰색으로 설정 */
+  display: none;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.7s; /* opacity 변경에 애니메이션 효과를 추가 */
+}
+
+.index .frame-7:hover .frameInfo-7 {
+  display: flex;
+  opacity: 1;
+}
+
+// 8번째 사진 프레임
+.index .frame-8 {
+  border: 1px solid;
+  border-color: #e89b93;
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px #00000040;
+  height: 150px;
+  left: 960px;
+  overflow: hidden;
+  position: absolute;
+  top: 400px;
+  width: 150px;
+
+  img {
     height: 150px;
-    left: 960px;
-    overflow: hidden;
+    left: 0;
+    object-fit: cover;
     position: absolute;
-    top: 400px;
+    top: 0;
     width: 150px;
-
-    img {
-      height: 150px;
-      left: 0;
-      object-fit: cover;
-      position: absolute;
-      top: 0;
-      width: 150px;         
-    }
-    &:hover img {
-      filter: brightness(0.5);
-    }
   }
-  
-  
-
-  // 사진 호버했을 때 나오는 정보
-  .index .frame-8 .frameInfo-8{
-    //border: 1px solid black;
-    position: relative;
-    top: 30px;
-    text-align: center;
-    color: #fff; /* 폰트 색상을 흰색으로 설정 */
-    display: none;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    transition: opacity 0.7s; /* opacity 변경에 애니메이션 효과를 추가 */
+  &:hover img {
+    filter: brightness(0.5);
   }
+}
 
-  .index .frame-8:hover .frameInfo-8 {
-    display: flex;
-    opacity: 1;
-  }
+// 사진 호버했을 때 나오는 정보
+.index .frame-8 .frameInfo-8 {
+  //border: 1px solid black;
+  position: relative;
+  top: 30px;
+  text-align: center;
+  color: #fff; /* 폰트 색상을 흰색으로 설정 */
+  display: none;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.7s; /* opacity 변경에 애니메이션 효과를 추가 */
+}
 
-  //9번째 사진 프레임
-  .index .frame-9 {
-    border: 1px solid;
-    border-color: #e89b93;
-    border-radius: 10px;
-    box-shadow: 0px 4px 4px #00000040;
+.index .frame-8:hover .frameInfo-8 {
+  display: flex;
+  opacity: 1;
+}
+
+//9번째 사진 프레임
+.index .frame-9 {
+  border: 1px solid;
+  border-color: #e89b93;
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px #00000040;
+  height: 150px;
+  left: 300px;
+  overflow: hidden;
+  position: absolute;
+  top: 663px;
+  width: 150px;
+
+  img {
     height: 150px;
-    left: 300px;
-    overflow: hidden;
+    left: 0;
+    object-fit: cover;
     position: absolute;
-    top: 663px;
+    top: 0;
     width: 150px;
-
-    img {
-      height: 150px;
-      left: 0;
-      object-fit: cover;
-      position: absolute;
-      top: 0;
-      width: 150px;         
-    }
-    &:hover img {
-      filter: brightness(0.5);
-    }
   }
-  
-  
-
-  // 사진 호버했을 때 나오는 정보
-  .index .frame-9 .frameInfo-9{
-    //border: 1px solid black;
-    position: relative;
-    top: 30px;
-    text-align: center;
-    color: #fff; /* 폰트 색상을 흰색으로 설정 */
-    display: none;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    transition: opacity 0.7s; /* opacity 변경에 애니메이션 효과를 추가 */
+  &:hover img {
+    filter: brightness(0.5);
   }
+}
 
-  .index .frame-9:hover .frameInfo-9 {
-    display: flex;
-    opacity: 1;
-  }
-  
-  //10번째 사진 프레임
-  .index .frame-10 {
-    background-position: 50% 50%;
-    background-size: cover;
-    border: 1px solid;
-    border-color: #e89b93;
-    border-radius: 10px;
-    box-shadow: 0px 4px 4px #00000040;
+// 사진 호버했을 때 나오는 정보
+.index .frame-9 .frameInfo-9 {
+  //border: 1px solid black;
+  position: relative;
+  top: 30px;
+  text-align: center;
+  color: #fff; /* 폰트 색상을 흰색으로 설정 */
+  display: none;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.7s; /* opacity 변경에 애니메이션 효과를 추가 */
+}
+
+.index .frame-9:hover .frameInfo-9 {
+  display: flex;
+  opacity: 1;
+}
+
+//10번째 사진 프레임
+.index .frame-10 {
+  background-position: 50% 50%;
+  background-size: cover;
+  border: 1px solid;
+  border-color: #e89b93;
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px #00000040;
+  height: 150px;
+  left: 520px;
+  position: absolute;
+  top: 663px;
+  width: 150px;
+
+  img {
     height: 150px;
-    left: 520px;
+    left: 0;
+    object-fit: cover;
     position: absolute;
-    top: 663px;
+    top: 0;
     width: 150px;
-
-    img {
-      height: 150px;
-      left: 0;
-      object-fit: cover;
-      position: absolute;
-      top: 0;
-      width: 150px;         
-    }
-    &:hover img {
-      filter: brightness(0.5);
-    }
   }
-  
-
-  // 사진 호버했을 때 나오는 정보
-  .index .frame-10 .frameInfo-10{
-    //border: 1px solid black;
-    position: relative;
-    top: 30px;
-    text-align: center;
-    color: #fff; /* 폰트 색상을 흰색으로 설정 */
-    display: none;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    transition: opacity 0.7s; /* opacity 변경에 애니메이션 효과를 추가 */
+  &:hover img {
+    filter: brightness(0.5);
   }
+}
 
-  .index .frame-10:hover .frameInfo-10 {
-    display: flex;
-    opacity: 1;
-  }
-  
-  //11번째 사진 프레임
-  .index .frame-11 {
-    border: 1px solid;
-    border-color: #e89b93;
-    border-radius: 10px;
-    box-shadow: 0px 4px 4px #00000040;
+// 사진 호버했을 때 나오는 정보
+.index .frame-10 .frameInfo-10 {
+  //border: 1px solid black;
+  position: relative;
+  top: 30px;
+  text-align: center;
+  color: #fff; /* 폰트 색상을 흰색으로 설정 */
+  display: none;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.7s; /* opacity 변경에 애니메이션 효과를 추가 */
+}
+
+.index .frame-10:hover .frameInfo-10 {
+  display: flex;
+  opacity: 1;
+}
+
+//11번째 사진 프레임
+.index .frame-11 {
+  border: 1px solid;
+  border-color: #e89b93;
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px #00000040;
+  height: 150px;
+  left: 740px;
+  position: absolute;
+  top: 663px;
+  width: 150px;
+
+  img {
     height: 150px;
-    left: 740px;
+    left: 0;
+    object-fit: cover;
     position: absolute;
-    top: 663px;
+    top: 0;
     width: 150px;
-
-    img {
-      height: 150px;
-      left: 0;
-      object-fit: cover;
-      position: absolute;
-      top: 0;
-      width: 150px;         
-    }
-    &:hover img {
-      filter: brightness(0.5);
-    }
   }
+  &:hover img {
+    filter: brightness(0.5);
+  }
+}
 
- // 사진 호버했을 때 나오는 정보
- .index .frame-11 .frameInfo-11{
+// 사진 호버했을 때 나오는 정보
+.index .frame-11 .frameInfo-11 {
   //border: 1px solid black;
   position: relative;
   top: 15px;
@@ -596,35 +580,35 @@
   display: flex;
   opacity: 1;
 }
-  
-  //12번째 사진 프레임
-  .index .frame-12 {
-    border: 1px solid;
-    border-color: #e89b93;
-    border-radius: 10px;
-    box-shadow: 0px 4px 4px #00000040;
+
+//12번째 사진 프레임
+.index .frame-12 {
+  border: 1px solid;
+  border-color: #e89b93;
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px #00000040;
+  height: 150px;
+  left: 960px;
+  overflow: hidden;
+  position: absolute;
+  top: 663px;
+  width: 150px;
+
+  img {
     height: 150px;
-    left: 960px;
-    overflow: hidden;
+    left: 0;
+    object-fit: cover;
     position: absolute;
-    top: 663px;
+    top: 0;
     width: 150px;
-
-    img {
-      height: 150px;
-      left: 0;
-      object-fit: cover;
-      position: absolute;
-      top: 0;
-      width: 150px;         
-    }
-    &:hover img {
-      filter: brightness(0.5);
-    }
   }
+  &:hover img {
+    filter: brightness(0.5);
+  }
+}
 
- // 사진 호버했을 때 나오는 정보
- .index .frame-12 .frameInfo-12{
+// 사진 호버했을 때 나오는 정보
+.index .frame-12 .frameInfo-12 {
   //border: 1px solid black;
   position: relative;
   top: 20px;
@@ -641,42 +625,33 @@
   display: flex;
   opacity: 1;
 }
-  
- 
 
-  .index .pageNum {
-    //border: 1px solid pink;
-    display: inline-block;
-    position: relative;
-    
+.index .pageNum {
+  //border: 1px solid pink;
+  display: inline-block;
+  position: relative;
 
-    left: 550px;
-    top: 750px;
-      
+  left: 550px;
+  top: 750px;
+}
 
-  }
+// .index .pageDiv {
+//   list-style: none;
+//   //border: 1px solid blue;
+//   display: inline-block;
+//     position: relative;
+//     // margin-top: 360px;
+//     // margin-left: 200px;
+//     color: black;
 
-  // .index .pageDiv {
-  //   list-style: none;
-  //   //border: 1px solid blue;
-  //   display: inline-block;
-  //     position: relative;
-  //     // margin-top: 360px;
-  //     // margin-left: 200px;
-  //     color: black;
-      
-  //   .pageDiv ul {
-  //     text-align: center;
-  //   }
-    
-  //   .pageDiv li {
-  //     display: inline-block;
-  //     margin: 0px 10px;
-  //     font-size: 25px;
-      
-     
-  //   }
-  // }
-  
-  
-  
+//   .pageDiv ul {
+//     text-align: center;
+//   }
+
+//   .pageDiv li {
+//     display: inline-block;
+//     margin: 0px 10px;
+//     font-size: 25px;
+
+//   }
+// }
