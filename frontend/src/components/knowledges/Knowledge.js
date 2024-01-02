@@ -2,7 +2,7 @@ import React from 'react';
 import './Knowledge.scss';
 
 const Knowledge = () => {
-  const userId = localStorage.getItem('userId');
+  const userId = localStorage.getItem('LOGIN_USERID');
   return (
     <div className='knowledge'>
       <div className='know1'>

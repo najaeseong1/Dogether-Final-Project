@@ -15,7 +15,7 @@ const AdoptionListDetail = () => {
   const [isLiked, setIsLiked] = useState(false);
   const [wishNo, setWishNo] = useState(null);
 
-  const userId = localStorage.getItem('userId');
+  const userId = localStorage.getItem('LOGIN_USERID');
   const token = localStorage.getItem('ACCESS_TOKEN');
 
   // const [profileImgStyle, setProfileImgStyle] = useState({

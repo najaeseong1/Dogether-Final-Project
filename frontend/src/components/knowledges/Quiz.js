@@ -10,7 +10,7 @@ const Quiz = () => {
   const myScore = useNavigate();
 
   const getUserIdFromLocalStorage = () => {
-    return localStorage.getItem('userId');
+    return localStorage.getItem('LOGIN_USERID');
   };
 
   const [userId, setUserId] = useState(getUserIdFromLocalStorage());
