@@ -52,10 +52,7 @@ public class UserService {
 
     @Value("${naver.redirect_uri}")
     private String NAVER_REDIRECT_URL;
-    @Value("${naver.client_id}")
-    private String NAVER_CLIENT_ID;
-    @Value("${naver.client_secret}")
-    private String NAVER_CLIENT_SECRET;
+
 
     // 회원 가입 처리
     public UserSignUpResponseDTO create(final UserRequestSignUpDTO dto) {
@@ -406,5 +403,6 @@ public class UserService {
     }
 
 
-
+    public void deleteUser(TokenUserInfo user) {
+    }
 }

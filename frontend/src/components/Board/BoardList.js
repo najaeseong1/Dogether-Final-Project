@@ -6,6 +6,7 @@ import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import { API_BASE_URL, BOARD } from '../../global/config/host-config';
 const itemsPerPage = 10; // 페이지당 보여줄 항목 수
+const BOARDLIST_URL = `${API_BASE_URL}${BOARD}`;
 
 // const API_URL = `${API_BASE_URL}${BOARD}/detail/`;
 const BoardList = () => {
@@ -19,7 +20,7 @@ const BoardList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8181/board/');
+        const response = await fetch(BOARDLIST_URL);
         const data = await response.json();
         console.log(data.boards);
         setBoardData(data.boards);
