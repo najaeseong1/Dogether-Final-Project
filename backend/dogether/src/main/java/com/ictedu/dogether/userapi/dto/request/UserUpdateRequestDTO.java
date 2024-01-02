@@ -31,7 +31,7 @@ public class UserUpdateRequestDTO {
     private String postAddr;
 
     @NotBlank
-    private int postNo;
+    private String postNo;
 
 
 

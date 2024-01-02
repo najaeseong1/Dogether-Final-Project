@@ -84,6 +84,7 @@ export const AuthContextProvider = (props) => {
     // 2. 세션 스토리지 - 브라우저가 종료되면 사라짐.
     localStorage.setItem('ACCESS_TOKEN', token);
     localStorage.setItem('USER_ROLE', role);
+    localStorage.setItem('USER_EMAIL', userEmail);
 
     setIsLoggedIn(true);
     setUserName(userName);

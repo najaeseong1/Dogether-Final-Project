@@ -20,6 +20,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.crypto.SecretKey;
 import java.util.List;
 
 @RestController
@@ -49,12 +50,13 @@ public class PaymentController {
 
     // Payment 결제 승인
     @PostMapping
-    public ResponseEntity<?> confirmPayment(@RequestHeader(value="Authorization") String SecretKey, @RequestBody PaymentRequest paymentRequest) {
+    public ResponseEntity<?> confirmPayment(@RequestHeader(value="SecretKey") String SecretKey
+            , @AuthenticationPrincipal TokenUserInfo userInfo
+            , @RequestBody PaymentRequest paymentRequest) {
+            log.info("\n\n\n\n\n 컨트롤러에 POST 요청 들어옴 SecretKey={} \n\n paymentRequest={} \n\n paymentRequest.getProductInfo()={} \n\n TokenUserInfo 가 이렇게 옴={} \n\n TokenUserInfo.getUserId 가 이렇게 옴={}"
+                    ,SecretKey,paymentRequest, paymentRequest.getProductInfo(), userInfo,userInfo.getUserId());
         try {
-            System.out.println("\n\n\n\n\n 컨트롤러에 POST 요청 들어옴 SecretKey = " + SecretKey);
-            System.out.println("컨트롤러 페이먼트 리퀘스트" + paymentRequest);
-            System.out.println("컨트롤러 겟 프로덕트 인포" + paymentRequest.getProductInfo());
-            PaymentResponse response = paymentService.confirmPayment(paymentRequest, SecretKey);
+            PaymentResponse response = paymentService.confirmPayment(paymentRequest, SecretKey, userInfo.getUserId());
 
             // 성공적인 경우
             return ResponseEntity.ok().body(response);

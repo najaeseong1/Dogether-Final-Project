@@ -37,8 +37,7 @@ public class UserRequestSignUpDTO {
     private String userEmail;
 
     @NotBlank
-    @Size(min = 5, max = 5)
-    private int postNo;
+    private String postNo;
 
     @NotBlank
     private String postAddr;
