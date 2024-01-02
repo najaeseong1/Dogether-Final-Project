@@ -73,7 +73,7 @@ export const AuthContextProvider = (props) => {
   };
 
   // 로그인 핸들러
-  const loginHandler = (token, role) => {
+  const loginHandler = (token, role, userEmail) => {
     console.log('세션 저장요청이들어옴');
     console.log('token : ', token);
     console.log('role: ', role);

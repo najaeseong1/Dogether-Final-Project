@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import AuthContext from '../../global/utils/AuthContext';
 import { API_BASE_URL, USER } from '../../global/config/host-config';
 
-const KakaoLoginHandler = () => {
+const NaverLoginHandler = () => {
   const { onLogin } = useContext(AuthContext);
   const redirection = useNavigate();
 
@@ -15,12 +15,20 @@ const KakaoLoginHandler = () => {
 
   // URL에 쿼리스트링으로 전달된 인가 코드를 얻어오는 방법.
   const code = new URL(window.location.href).searchParams.get('code');
+  const state = new URL(window.location.href).searchParams.get('state');
+  console.log(
+    '네이버 경로',
+    REQUEST_URL + '/naverlogin?code=' + code + '&state=' + state
+  );
   console.log('코드', code);
   useEffect(() => {
     // 컴포넌트가 렌더링 될 때, 인가 코드를 백엔드로 전송하는 fetch 요청
-    const kakaoLogin = async () => {
-      const res = await fetch(REQUEST_URL + '/kakaologin?code=' + code);
+    const naverLogin = async () => {
+      const res = await fetch(
+        REQUEST_URL + '/naverlogin?code=' + code + '&state=' + state
+      );
 
+      //const res = await fetch(REQUEST_URL + '/kakaologin?code=' + code);
       const { token, userName, userEmail, role } = await res.json(); // 서버에서 온 json 읽기
 
       console.log('res값', res);
@@ -41,12 +49,12 @@ const KakaoLoginHandler = () => {
       }
     };
 
-    kakaoLogin();
+    naverLogin();
   }, []);
 
   // return <div>KakaoLoginHandler</div>;
 };
 
-export default KakaoLoginHandler;
+export default NaverLoginHandler;
 
 // 토큰값 있으면
