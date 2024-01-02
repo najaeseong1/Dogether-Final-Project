@@ -31,6 +31,7 @@ import OrderManagement from './components/admin/OrderManagement';
 import OrderHistory from './components/user/OrderHistory';
 import Cart from './components/product/cart';
 import KakaoLoginHandler from './components/user/KakaoLoginHandler';
+import NaverLoginHandler from './components/user/NaverLoginHandler';
 
 function App() {
   return (
@@ -43,6 +44,10 @@ function App() {
             <Route
               path='/user/kakaologin'
               element={<KakaoLoginHandler />}
+            />
+            <Route
+              path='/user/naverlogin'
+              element={<NaverLoginHandler />}
             />
             <Route
               path='/'
