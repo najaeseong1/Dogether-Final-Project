@@ -25,7 +25,7 @@ const Header = () => {
     setIsNotFoundPage(location.pathname === '/pagenotfound');
   }, [location.pathname]);
 
-  const { isLoggedIn, onLogout } = useContext(AuthContext);
+  const { isLoggedIn, onLogout, isAdmin } = useContext(AuthContext);
 
   // 로그아웃 핸들러
   const logoutHandler = async () => {
@@ -54,6 +54,14 @@ const Header = () => {
               <>
                 <li onClick={() => toLink(`${USER}/mypage`)}>마이페이지</li>
                 <li onClick={logoutHandler}>로그아웃</li>
+                {isAdmin && (
+                  <li
+                    className='admin'
+                    onClick={() => toLink('/adminmain')}
+                  >
+                    관리자메인
+                  </li>
+                )}
               </>
             ) : (
               <>
