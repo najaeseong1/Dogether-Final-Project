@@ -26,7 +26,7 @@ export const SuccessAlert = (success_text) => {
   Swal.fire({
     text: success_text,
     icon: 'success',
-    confirmButtonColor: '#FE7968',
+    confirmButtonColor: '#e89b93',
   });
 };
 
@@ -34,9 +34,8 @@ export const SuccessAlert = (success_text) => {
 export const SuccessAlert2 = (html_text) => {
   Swal.fire({
     html: html_text,
-
     icon: 'success',
-    confirmButtonColor: '#FE7968',
+    confirmButtonColor: '#e89b93',
   });
 };
 
@@ -46,7 +45,7 @@ export const ErrorAlert = (error_text, position_text) => {
     text: error_text,
     position: position_text,
     icon: 'error',
-    confirmButtonColor: '#FE7968',
+    confirmButtonColor: '#e89b93',
     confirmButtonBorder: 'none',
   });
 };
