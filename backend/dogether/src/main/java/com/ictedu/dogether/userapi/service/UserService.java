@@ -94,6 +94,11 @@ public class UserService {
         return userRepository.existsById(userId);
     }
 
+    // 이메일 여부 확인
+    public boolean isExistEmail(String email) {
+        return userRepository.existsByUserEmail(email);
+    }
+
     // 로그인 후 토큰 발급
     public LoginResponseDTO authenticate(final LoginRequestDTO dto) {
 
@@ -193,22 +198,20 @@ public class UserService {
         // 회원가입 처리 -> 이메일 중복 검사 진행 -> 자체 jwt를 생성해서 토큰을 화면단에 리턴.
         // -> 화면단에서는 적절한 url을 선택하여 redirect를 진행.
 
-        if (!isDuplicate(dto.getKakaoAccount().getEmail())) {
+        if (!isExistEmail(dto.getKakaoAccount().getEmail())) {
             log.info("dto이메일, -{}", dto.getKakaoAccount().getEmail());
             // 이메일이 중복되지 않았다 -> 이전에 로그인 한 적이 없음 -> DB에 데이터를 세팅
             User saved = userRepository.save(dto.toEntity((String) responseData.get("access_token")));
         }
-        // 이메일이 중복됐다? -> 이전에 로그인 한 적이 있다. -> DB에 데이터를 또 넣을 필요는 없다.
+        // 이메일이 중복됐다? -> 이전에 로그인 한 적이 있다. -> DB에 데이터를 또 넣을 필요는 없음
         User foundUser = userRepository.findByUserEmail(dto.getKakaoAccount().getEmail());
 
         String token = tokenProvider.createToken(foundUser);
 
         foundUser.setAccessToken((String) responseData.get("access_token"));
         userRepository.save(foundUser);
-    //만약 사용자가
 
         return new LoginResponseDTO(foundUser, token);
-
     }
 
     private KakaoUserDTO getKakaoUserInfo(String accessToken) {
