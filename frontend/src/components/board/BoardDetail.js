@@ -149,8 +149,8 @@ const BoardDetail = () => {
         }),
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+      if (response.status === 400) {
+        alert('수정 권한이 없습니다.');
       }
 
       // 수정 완료 후 서버에서 댓글 목록을 다시 받아와서 UI 업데이트

@@ -71,10 +71,10 @@ const Board = () => {
         try {
           const errorData = await response.json();
           console.error('Server error data:', errorData);
-          alert('수정 권한이 없습니다.');
+          Swal.fire('로그인 후 이용해주시길 바랍니다.', '', 'warning');
         } catch (error) {
           console.error('Failed to parse error response:', error);
-          alert('수정 권한이 없습니다.');
+          Swal.fire('로그인 후 이용해주시길 바랍니다.', '', 'warning');
         }
         return;
       }

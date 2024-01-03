@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import './MyPage.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import { API_BASE_URL, BOARD, USER } from '../../global/config/host-config';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import AuthContext from '../../global/utils/AuthContext';
 
 const MyPage = () => {
   const navigate = useNavigate();
   const [userPosts, setUserPosts] = useState([]);
 
   const userId = localStorage.getItem('LOGIN_USERID');
-
   // 점수 70 점 이상이면 수료 /
   //const score = 75;
   const [score, setScore] = useState('');
@@ -32,6 +32,7 @@ const MyPage = () => {
       });
 
     //글 목록 가져오기
+
     axios
       .get(`${API_BASE_URL}${BOARD}/myboardlist/${userId}`)
       .then((res) => {
@@ -45,6 +46,7 @@ const MyPage = () => {
         console.log(err);
       });
   }, []);
+  console.log('왜 글 목록 안옴?', userPosts);
 
   // 게시물 상세 페이지 이동
   const toPostDetail = (boardNo) => {
