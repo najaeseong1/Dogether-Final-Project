@@ -7,9 +7,11 @@ import LoadingPink from '../../global/LoadingPink';
 function PaymentSuccess() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [userId, setUserId] = useState(localStorage.getItem('LOGIN_USERID'));
   const [cartItems, setCartItems] = useState(
     JSON.parse(localStorage.getItem('cartItems'))
+  );
+  const [userInfo, setUserInfo] = useState(
+    JSON.parse(localStorage.getItem('USER_INFO'))
   );
 
   const [paymentData, setPaymentData] = useState('');
@@ -21,7 +23,7 @@ function PaymentSuccess() {
       orderName: decodeURIComponent(searchParams.get('orderName')),
       amount: searchParams.get('amount'),
       paymentKey: searchParams.get('paymentKey'),
-      userId: userId,
+      userId: userInfo.userId,
       productInfo: cartItems,
     };
     // TODO: 개발자센터에 로그인해서 내 결제위젯 연동 키 > 시크릿 키를 입력하세요. 시크릿 키는 외부에 공개되면 안돼요.
@@ -45,11 +47,13 @@ function PaymentSuccess() {
     //       body: JSON.stringify(requestData),
     //     }
     //   );
+
     async function confirm() {
       const response = await fetch(`${API_BASE_URL}${PAYMENT}`, {
         method: 'POST',
         headers: {
-          Authorization: encryptedSecretKey,
+          Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
+          SecretKey: encryptedSecretKey,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(requestData),

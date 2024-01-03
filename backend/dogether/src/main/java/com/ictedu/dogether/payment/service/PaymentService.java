@@ -23,6 +23,10 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+
 
 @Service
 @Slf4j
@@ -46,12 +50,12 @@ public class PaymentService {
     private final UserService userService;
 
     // 결제 요청 서비스
-    public PaymentResponse confirmPayment(PaymentRequest paymentRequest, String paymentKey) {
+    public PaymentResponse confirmPayment(PaymentRequest paymentRequest, String paymentKey, String userInfo) {
 
         System.out.println("confirmPayment 서비스 요청"+ paymentRequest +"쁘라스"+ paymentKey);
 
         // userId로 User 정보 찾기
-        UserSignUpResponseDTO userDTO = userService.getAdoptInfo(paymentRequest.getUserId());
+        UserSignUpResponseDTO userDTO = userService.getAdoptInfo(userInfo);
         User user = new User();
         user.setUserId(userDTO.getUserId());
         user.setUserName(userDTO.getUserName());

@@ -230,6 +230,11 @@ const Cart = () => {
     redirection('/product');
   };
 
+  useEffect(() => {
+    localStorage.setItem('USER_INFO', JSON.stringify(userInfo));
+  }, [userInfo]);
+  console.log(userInfo);
+
   return (
     <div className='cartListTemplate'>
       <div className='cart_title'>SHOPPINNG CART</div>
@@ -344,9 +349,15 @@ const Cart = () => {
                     <input
                       type='text'
                       id='name'
-                      value={userInfo.userName}
+                      value={
+                        userInfo.userName === 'kakaoName'
+                          ? ''
+                          : userInfo.userName
+                      }
                       placeholder='이름을 입력해주세요'
-                      readOnly
+                      onChange={(e) =>
+                        setUserInfo({ ...userInfo, userName: e.target.value })
+                      }
                     />
                   </td>
                 </tr>
@@ -356,7 +367,11 @@ const Cart = () => {
                     <input
                       type='text'
                       id='phoneNum'
-                      value={userInfo.userPhone}
+                      value={
+                        userInfo.userPhone === 'kakaoPhone'
+                          ? ''
+                          : userInfo.userPhone
+                      }
                       placeholder='연락처를 입력해주세요'
                       onChange={(e) =>
                         setUserInfo({ ...userInfo, userPhone: e.target.value })
@@ -378,7 +393,7 @@ const Cart = () => {
                       placeholder='이메일을 입력해주세요'
                       readOnly
                     ></input>
-                    <button>이메일 변경</button>
+                    <button>이메일 인증</button>
                     <ul>
                       <li> - 이메일을 통해 주문처리과정을 보내드립니다.</li>
                       <li>
@@ -430,7 +445,8 @@ const Cart = () => {
                       type='text'
                       id='postNo'
                       ref={postcodeInputRef}
-                      value={userInfo.postNo}
+                      value={userInfo.postNo === 11111 ? '' : userInfo.postNo}
+                      placeholder='우편번호'
                       onChange={onChangePostCode}
                       readOnly
                     ></input>
@@ -440,9 +456,13 @@ const Cart = () => {
                     <br />
                     <input
                       type='text'
-                      placeholder='기본주소'
+                      placeholder='새로운 배송지를 선택해주세요.'
                       className='cartaddr'
-                      value={userInfo.postAddr}
+                      value={
+                        userInfo.postAddr === 'kakaoPost'
+                          ? ''
+                          : userInfo.postAddr
+                      }
                       ref={addressInputRef}
                       style={{ width: '700px' }}
                       readOnly
@@ -470,7 +490,6 @@ const Cart = () => {
                         ref={extraAddressInputRef}
                         value={userInfo.postExtraAddr}
                         style={{ width: '300px' }}
-                        readOnly
                       />
                     )}
                     <ul>
