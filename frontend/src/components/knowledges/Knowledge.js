@@ -18,11 +18,7 @@ const Knowledge = () => {
   };
 
   return (
-<<<<<<< HEAD
-    <div className='knowledge'>
-=======
     <div className='knowledge-wrapper'>
->>>>>>> ab86513867451fbef19ef0de91bdd35efe6a220c
       <span className='know1'>
         <img
           src='/img/logodog.png'
