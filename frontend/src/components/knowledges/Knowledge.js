@@ -18,7 +18,7 @@ const Knowledge = () => {
   };
 
   return (
-    <div className='knowledge'>
+    <div className='knowledge-wrapper'>
       <span className='know1'>
         <img
           src='/img/logodog.png'
