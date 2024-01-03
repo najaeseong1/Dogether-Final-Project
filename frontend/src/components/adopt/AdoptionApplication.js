@@ -279,7 +279,7 @@ const AdoptionApplication = () => {
         <input
           type='text'
           id='gender'
-          value={formData.gender}
+          value={formData.gender === 'M' ? '수컷' : '암컷'}
           readOnly
         />
       </div>

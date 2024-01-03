@@ -184,6 +184,7 @@
 
 .main2 .doginfo {
   text-align: center;
+
   width: 150px;
   border: 1px solid pink;
   border-width: 5px;
@@ -313,13 +314,18 @@
   top: 330px;
   font-weight: bold;
   button {
-    border: 1px solid pink;
+    border: 1px solid #f3ded7;
     border-width: 3px;
     border-radius: 20px;
     background-color: #f3ded7;
     width: 130px;
     height: 50px;
+    color: #989898;
+    font-weight: 800;
     font-weight: bold;
+    &:hover {
+      background-color: #f6cbbc;
+    }
   }
 }
 .main2 {
