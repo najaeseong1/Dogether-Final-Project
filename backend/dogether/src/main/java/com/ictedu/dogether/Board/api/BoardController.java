@@ -233,13 +233,11 @@ public class BoardController {
                                            @AuthenticationPrincipal TokenUserInfo userInfo,
                                            BindingResult result
         ) {
-
         if (result.hasErrors()) {
             log.warn(result.toString());
             return ResponseEntity.badRequest()
                     .body(result.getFieldError());
         }
-
         try {
             ReplyListResponseDTO replyListResponseDTO = boardService.replySave(dto, userInfo);
             return ResponseEntity.ok().body(replyListResponseDTO);

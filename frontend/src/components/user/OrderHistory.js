@@ -16,6 +16,16 @@ const orders = [
     paymentStatus: '접수',
   },
 ];
+const paymentStatusMap = {
+  READY: '배송중',
+  IN_PROGRESS: '진행중',
+  WAITING_FOR_DEPOSIT: '입금대기',
+  DONE: '결제완료',
+  CANCELED: '결제취소',
+  PARTIAL_CANCELED: '부분취소',
+  ABORTED: '승인실패',
+  EXPIRED: '기간만료',
+};
 
 // date 날짜 포맷터
 // 2024-01-01T21:55:18+09:00 ==>> 2024년 01월 01일 21시 54분 12초
@@ -247,7 +257,7 @@ const OrderHistory = () => {
                             {formatComma(formatTime(order.date))}
                           </td>
                           <td>{formatAmount(order.amount)}</td>
-                          <td>{order.paymentStatus}</td>
+                          <td>{paymentStatusMap[order.paymentStatus]}</td>
                           <td>
                             <button
                               className='orderButton'

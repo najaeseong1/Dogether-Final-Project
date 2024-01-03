@@ -25,8 +25,7 @@ public class MailController {
     public CheckResponseDTO mailSend(@RequestBody @Valid EmailRequestDTO dto){
         log.info("메일 전송 요청!!!!-{}", dto.getEmail());
 
-        mailService.joinCheckEmail(dto.getEmail());
-        String code = mailService.checkEmail(dto.getEmail());
+        String code = mailService.joinCheckEmail(dto.getEmail());
 
         CheckResponseDTO checkCode = new CheckResponseDTO(code);
         return checkCode;

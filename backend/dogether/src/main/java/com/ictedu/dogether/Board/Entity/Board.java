@@ -3,6 +3,8 @@ package com.ictedu.dogether.Board.Entity;
 import com.ictedu.dogether.userapi.entity.User;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -45,10 +47,11 @@ public class Board {
     //한명의 유저는 여러개의 게시물을 가질 수 있다.
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name =  "user_id" )
+    @OnDelete(action= OnDeleteAction.CASCADE)
     private User user;
 
 
     // 게시물 삭제될때 foreign key 오류로 인해 설정한거
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Reply> replies;
 }

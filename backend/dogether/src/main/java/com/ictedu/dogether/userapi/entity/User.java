@@ -1,6 +1,7 @@
 package com.ictedu.dogether.userapi.entity;
 
 import com.ictedu.dogether.Board.Entity.Board;
+import com.ictedu.dogether.adoptApi.Entity.Wish;
 import lombok.*;
 import javax.persistence.*;
 import java.util.List;
@@ -34,7 +35,7 @@ public class User {
     private String userEmail; // 회원 이메일
 
     @Column(name = "post_no", nullable = false)
-    private int postNo; // 회원 우편번호
+    private String postNo; // 회원 우편번호
 
     @Column(name = "post_addr", nullable = false)
     private String postAddr; // 회원 주소
@@ -50,8 +51,11 @@ public class User {
     private String accessToken;
 
     // 회원 탈퇴시 작성한 게시물도 삭제.
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     List<Board> boardList;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Wish> wishList;
 
 
 

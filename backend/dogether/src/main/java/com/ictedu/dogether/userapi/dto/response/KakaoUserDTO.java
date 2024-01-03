@@ -40,7 +40,7 @@ public class KakaoUserDTO {
                 .userPass("kakaoPass")
                 .userPhone("kakaoPhone")
                 .userEmail(email)
-                .postNo(11111)
+                .postNo("11111")
                 .postAddr("kakaoPost")
                 .accessToken(accessToken)
                 .build();

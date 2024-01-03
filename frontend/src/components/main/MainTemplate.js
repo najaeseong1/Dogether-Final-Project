@@ -79,39 +79,39 @@ const MainTemplate = () => {
   // 로딩 상태 변수를 추가합니다.
   const [loading, setLoading] = useState(true);
 
-  // useEffect(() => {
-  //   setLoading(true); // 데이터를 가져오기 전에 로딩 상태를 true로 설정
-  //   // '/adopt' 요청
-  //   axios
-  //     .get(`${API_BASE_URL}${ADOPT}`)
-  //     .then((res) => {
-  //       setAdoptList(res.data.adoptLists.slice(0, 8));
-  //       setLoading(false); // 데이터를 가져온 후 로딩 상태를 false로 설정
-  //     })
-  //     .catch((err) => {
-  //       console.error(err);
-  //       setLoading(false); // 데이터를 가져온 후 로딩 상태를 false로 설정
-  //     });
+  useEffect(() => {
+    setLoading(true); // 데이터를 가져오기 전에 로딩 상태를 true로 설정
+    // '/adopt' 요청
+    axios
+      .get(`${API_BASE_URL}${ADOPT}`)
+      .then((res) => {
+        setAdoptList(res.data.adoptLists.slice(0, 8));
+        setLoading(false); // 데이터를 가져온 후 로딩 상태를 false로 설정
+      })
+      .catch((err) => {
+        console.error(err);
+        setLoading(false); // 데이터를 가져온 후 로딩 상태를 false로 설정
+      });
 
-  //   // '/board' 요청
-
-  //   axios
-  //     .get(`${API_BASE_URL}${BOARD}`)
-  //     .then((res) => {
-  //       // console.log('board 요청', res);
-  //       const reviewData = res.data.boards.filter(
-  //         (boards) => boards.category === '후기'
-  //       );
-  //       setReviewList(reviewData.slice(0, 5)); // '후기' 데이터를 상태로 설정
-  //       const boardData = res.data.boards.filter(
-  //         (boards) => boards.category === '자유'
-  //       );
-  //       setBoardList(boardData.slice(0, 5)); // '자유' 데이터를 상태로 설정
-  //     })
-  //     .catch((err) => {
-  //       console.error(err);
-  //     });
-  // }, []);
+    // '/board' 요청
+    console.log(`${API_BASE_URL}`);
+    axios
+      .get(`${API_BASE_URL}${BOARD}`)
+      .then((res) => {
+        // console.log('board 요청', res);
+        const reviewData = res.data.boards.filter(
+          (boards) => boards.category === '후기'
+        );
+        setReviewList(reviewData.slice(0, 5)); // '후기' 데이터를 상태로 설정
+        const boardData = res.data.boards.filter(
+          (boards) => boards.category === '자유'
+        );
+        setBoardList(boardData.slice(0, 5)); // '자유' 데이터를 상태로 설정
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
 
   // console.log('입양리스트 : axios 후에', adoptList);
   // console.log(reviewList);
@@ -281,7 +281,7 @@ const MainTemplate = () => {
                       xs={12}
                       key={index}
                     >
-                      <Link to={`${BOARD}/${boardList.boardNo}`}>
+                      <Link to={`/boarddetail/${boardList.boardNo}`}>
                         <div className='category'>{boardList.category}</div>
                         <div className='title'>{boardList.title}</div>
                         <div className='regDate'>{boardList.registDate}</div>
