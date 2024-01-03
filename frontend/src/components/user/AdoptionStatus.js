@@ -4,7 +4,6 @@ import './AdoptionStatus.scss';
 import Swal from 'sweetalert2';
 import { API_BASE_URL, CONTRACT } from '../../global/config/host-config';
 import { formattedDate } from '../../global/utils/AuthContext';
-import { SuccessAlert } from '../../global/Alerts';
 
 const AdoptionStatus = () => {
   // 마이페이지 입양 목록 불러오기
@@ -51,6 +50,8 @@ const AdoptionStatus = () => {
           },
         }
       );
+      console.log(res.data);
+
       if (!res.ok) {
         if (res.status === 400) {
           Swal.fire({
@@ -63,6 +64,7 @@ const AdoptionStatus = () => {
           throw new Error(`네트워크 응답이 올바르지 않습니다: ${res.status}`);
         }
       }
+
       const detailData = await res.json();
 
       // title 설정

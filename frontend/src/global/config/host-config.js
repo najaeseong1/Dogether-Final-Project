@@ -8,10 +8,10 @@ if (clientHostName === 'localhost') {
   // 개발 중
   frontEndHostName = 'http://localhost:3000';
   backEndHostName = 'http://localhost:8181';
-} else if (clientHostName === 'http://dogether.site') {
-  // 배포해서 서비스 중 (인스턴스 계속 바뀌니까 확인 해야함)
+} else if (clientHostName === 'dogether.site') {
+  // 배포해서 서비스 중 (인스턴스 탄력적으로 고정함, 대신 aws 구동은 80번임)
   frontEndHostName = 'http://dogether.site';
-  backEndHostName = 'http://15.164.203.234';
+  backEndHostName = 'http://3.34.248.62';
 }
 export const API_BASE_URL = backEndHostName;
 export const API_FRONT_URL = frontEndHostName;

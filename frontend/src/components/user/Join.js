@@ -214,6 +214,10 @@ const Join = () => {
 
   // 이메일 발송 요청 함수
   const sendVerificationEmail = async () => {
+    console.log(
+      `이메일 발송 요청 함수 ==== ${API_BASE_URL}${USER}/checkmailsend`
+    );
+    console.log(`유 저 이메일 : ${userEmail}`);
     try {
       const response = await axios.post(
         `${API_BASE_URL}${USER}/checkmailsend`,
