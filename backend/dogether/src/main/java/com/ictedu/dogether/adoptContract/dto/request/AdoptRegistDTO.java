@@ -23,7 +23,7 @@ public class AdoptRegistDTO {
 
     private boolean petStatus;
 
-    private String job;
+        private String job;
 
     private String userEmail;
 

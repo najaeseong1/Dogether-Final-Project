@@ -1,9 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&family=Jua&family=Noto+Sans+KR:wght@100&family=Poiret+One&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+
 .joinmain {
   position: relative;
   top: 50px;
   height: 1200px;
   right: 30px;
+  font-family: 'Noto Sans KR', sans-serif;
+  height: 1500px;
+
+  input {
+    font-family: 'Noto Sans KR', sans-serif;
+  }
 }
 
 // 다음 우편번호 검색 기능 툴
@@ -28,21 +37,25 @@
   position: relative;
   text-align: center;
   bottom: 50px;
-  font-size: 25px;
-  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 40px;
+  font-family: 'Jua', sans-serif;
+
+  margin-top: 80px;
+  margin-left: 50px;
 }
 
 .joinmain .feelsudiv {
   position: relative;
   width: 650px;
-  border: 5px solid pink;
+  border: 5px solid #e89b93;
   border-top: none;
   border-left: none;
   border-right: none;
   font-size: 20px;
-  color: pink;
+  color: #6e6e6d;
   bottom: 5px;
   left: 8%;
+  font-family: 'Jua', sans-serif;
 }
 .joinmain .iddiv {
   position: relative;
@@ -52,6 +65,10 @@
   height: 40px;
   top: 20px;
   left: 150px;
+
+  &:focus-within {
+    border: 3px solid black;
+  }
 
   input {
     position: relative;
@@ -92,6 +109,9 @@
   height: 40px;
   top: 30px;
   left: 150px;
+  &:focus-within {
+    border: 3px solid black;
+  }
 
   input {
     position: relative;
@@ -120,7 +140,9 @@
   height: 40px;
   top: 40px;
   left: 150px;
-
+  &:focus-within {
+    border: 3px solid black;
+  }
   input {
     position: relative;
     border: none;
@@ -148,6 +170,9 @@
   height: 40px;
   top: 50px;
   left: 150px;
+  &:focus-within {
+    border: 3px solid black;
+  }
 
   input {
     position: relative;
@@ -169,10 +194,15 @@
   button {
     height: 40px;
     border: none;
-    background-color: pink;
-    border: 2px solid grey;
+    background-color: #e89b93;
+    font-family: 'Noto Sans KR', sans-serif;
     border-radius: 10px;
     cursor: pointer;
+    color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    &:hover {
+      background-color: #d9928a;
+    }
   }
 }
 
@@ -192,6 +222,9 @@
   height: 40px;
   top: 55px;
   left: 150px;
+  &:focus-within {
+    border: 3px solid black;
+  }
 
   input {
     position: relative;
@@ -213,10 +246,15 @@
   button {
     height: 40px;
     border: none;
-    background-color: pink;
-    border: 2px solid grey;
+    background-color: #e89b93;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    font-family: 'Noto Sans KR', sans-serif;
     border-radius: 10px;
     cursor: pointer;
+    color: #fff;
+    &:hover {
+      background-color: #d9928a;
+    }
   }
 }
 
@@ -236,6 +274,9 @@
   height: 40px;
   top: 60px;
   left: 150px;
+  &:focus-within {
+    border: 3px solid black;
+  }
 
   input {
     position: relative;
@@ -265,6 +306,10 @@
   top: 70px;
   left: 150px;
 
+  &:focus-within {
+    border: 3px solid black;
+  }
+
   input {
     position: relative;
     border: none;
@@ -287,14 +332,15 @@
 .joinmain .feelsudiv2 {
   position: relative;
   width: 650px;
-  border: 5px solid pink;
+  border: 5px solid #e89b93;
   border-top: none;
   border-left: none;
   border-right: none;
   font-size: 20px;
-  color: pink;
+  color: #6e6e6d;
   top: 60px;
   left: 8%;
+  font-family: 'Jua', sans-serif;
 }
 
 .joinmain .postdiv {
@@ -305,7 +351,9 @@
   height: 40px;
   top: 100px;
   left: 150px;
-
+  &:focus-within {
+    border: 3px solid black;
+  }
   input {
     position: relative;
     border: none;
@@ -321,14 +369,21 @@
   position: relative;
   left: 500px;
   top: 56px;
+  font-family: 'Noto Sans KR', sans-serif;
 
   input {
-    border: 2px solid grey;
-    background-color: pink;
+    background-color: #e89b93;
     border-radius: 10px;
     width: 100px;
     height: 45px;
     cursor: pointer;
+    border: 1px solid pink;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    color: #fff;
+
+    &:hover {
+      background-color: #d9928a;
+    }
   }
 }
 
@@ -359,6 +414,9 @@
   height: 40px;
   top: 105px;
   left: 150px;
+  &:focus-within {
+    border: 3px solid black;
+  }
 
   input {
     position: relative;
@@ -393,14 +451,15 @@
 .joinmain .feelsudiv3 {
   position: relative;
   width: 650px;
-  border: 5px solid pink;
+  border: 5px solid #e89b93;
   border-top: none;
   border-left: none;
   border-right: none;
   font-size: 20px;
-  color: pink;
+  color: #6e6e6d;
   top: 180px;
   left: 8%;
+  font-family: 'Jua', sans-serif;
 }
 
 .joinmain .dongebtn {
@@ -430,7 +489,7 @@
   button {
     color: white;
     border: none;
-    background-color: pink;
+    background-color: #e89b93;
     border-radius: 10px;
     width: 200px;
     height: 45px;
@@ -438,7 +497,7 @@
     font-family: 'Noto Sans KR', sans-serif;
     cursor: pointer;
     &:hover {
-      background-color: #e89b93;
+      background-color: #d9928a;
     }
   }
 }
