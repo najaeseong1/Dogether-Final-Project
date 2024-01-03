@@ -11,7 +11,6 @@ const MyPage = () => {
   const [userPosts, setUserPosts] = useState([]);
 
   const userId = localStorage.getItem('LOGIN_USERID');
-  console.log('userId', userId);
   // 점수 70 점 이상이면 수료 /
   //const score = 75;
   const [score, setScore] = useState('');

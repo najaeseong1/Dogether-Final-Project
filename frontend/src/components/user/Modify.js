@@ -208,40 +208,44 @@ const Modify = () => {
   };
 
   // 회원탈퇴
+  const handleWithdrawal = async () => {
+    const confirmResult = await Swal.fire({
+      title: '회원탈퇴',
+      text: '탈퇴한 아이디는 복구가 불가하오니 신중하게 선택하시기 바랍니다',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: '확인',
+      cancelButtonText: '취소',
+    });
 
-  const withdrawalButton = () => {
-    const handleWithdrawal = async () => {
+    // 확인 버튼이 눌렸을 때 탈퇴 수행
+    if (confirmResult.isConfirmed) {
       try {
         await axios.delete(`${API_BASE_URL}${USER}/deleteuser`, {
           headers: {
             Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
           },
         });
-        Swal.fire({
-          title: '회원탈퇴',
-          text: '탈퇴한 아이디는 복구가 불가하오니 신중하게 선택하시기 바랍니다',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: '확인',
-          cancelButtonText: '취소',
-        }).then((result) => {
-          if (result.isConfirmed) {
-            Swal.fire(
-              '회원탈퇴가 완료되었습니다.',
-              '이용해 주셔서 감사합니다.',
-              'success'
-            ).then(() => {
-              redirection('/');
-            });
-          }
+
+        Swal.fire(
+          '회원탈퇴가 완료되었습니다.',
+          '이용해 주셔서 감사합니다.',
+          'success'
+        ).then(() => {
+          // 로그아웃 수행
+          onLogout();
+          // 홈페이지로 리다이렉션
+          redirection('/');
         });
-        onLogout();
       } catch (error) {
-        console.log('error : ', error);
+        console.error('회원 탈퇴 중 오류:', error);
       }
-    };
+    }
+  };
+
+  const withdrawalButton = () => {
     handleWithdrawal();
   };
 

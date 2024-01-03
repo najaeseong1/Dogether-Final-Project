@@ -16,6 +16,7 @@ const Knowledge = () => {
   const handleHead1Click3 = () => {
     setText1Visible3(!isText1Visible3);
   };
+
   return (
     <div className='knowledge'>
       <span className='know1'>

@@ -1,4 +1,3 @@
-// ApiService.java
 package com.ictedu.dogether.adoptApi.service;
 
 import com.google.gson.JsonArray;
