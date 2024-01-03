@@ -1,13 +1,18 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import './Join.scss';
 import DaumPostcode from 'react-daum-postcode';
 import { useNavigate } from 'react-router-dom';
 import { API_BASE_URL, USER } from '../../global/config/host-config';
 import axios from 'axios';
+import AuthContext from '../../global/utils/AuthContext';
+import { SuccessAlert } from '../../global/Alerts';
+import Swal from 'sweetalert2';
 
 const Join = () => {
   const redirect = useNavigate();
-  // const API_URL_USER = 'http://localhost:8181/user/join';
+
+  const {setIsLoggedIn} = useContext(AuthContext);
+  const [readOnly, setReadOnly] = useState(false);
 
   // 초기값 세팅 (아이디(이메일?))
   const [userId, setUserId] = useState(''); //아이디
@@ -32,11 +37,6 @@ const Join = () => {
   const addressInputRef = useRef(); //기본 주소
   const detailAddressInputRef = useRef(); // 상세주소
   const extraAddressInputRef = useRef(); //첨부주소
-
-  // const [postcode, setPostcode] = useState(""); //우편번호 (04108)
-  // const [address, setAddress] = useState(""); //기본주소 (서울 마포구 백범로 23)
-  // const [selectedAddress, setSelectedAddress] = useState(""); //상세주소 (사용자가 직접 입력)
-  // const [refAddress, setRefAddress] = useState(""); //첨부주소(목동, 청담동)
 
   // 오류 메세지 상태 저장
   const [userIdMessage, setUserIdMessage] = useState('');
@@ -106,13 +106,16 @@ const Join = () => {
     } else {
       try {
         // 중복 확인 요청
-        await checkDuplicateId(currentId);
+        const isDuplicate = await checkDuplicateId(currentId);
+        console.log('IsUserId after duplicate check:', isDuplicate);
+        //setIsUserId(isDuplicate);
       } catch (error) {
         console.error(error);
         setUserIdMessage('중복 확인 중 오류가 발생했습니다.');
         setIsUserId(false);
       }
     }
+    
   };
 
   // 이름 유효성 검사
@@ -143,6 +146,7 @@ const Join = () => {
     } else {
       setUserPassMessage('사용 가능한 비밀번호 입니다.');
       setIsUserPass(true);
+      console.log('Current Password:', currentPassword);
     }
   };
 
@@ -160,7 +164,7 @@ const Join = () => {
   };
 
   // 이메일 유효성 검사
-  const onChangeEmail = (e) => {
+  const onChangeEmail = async(e) => {
     const currentEmail = e.target.value;
     setUserEmail(currentEmail);
     const emailRegExp =
@@ -172,6 +176,8 @@ const Join = () => {
     } else {
       setUserEmailMessage('사용 가능한 이메일 입니다.');
       setIsUserEmail(true);
+
+      
     }
   };
 
@@ -226,13 +232,15 @@ const Join = () => {
       );
 
       console.log('이메일 발송 응답:', response.data);
-
-      // 서버에서 받은 인증 코드를 상태로 저장
       setVerificationCodeFromServer(response.data.code);
-      //alert(`이메일이 성공적으로 발송되었습니다. 코드: ${response.data.code}`);
+      Swal.fire({
+        text: '이메일이 발송되었습니다!',
+        confirmButtonColor: '#e89b93',
+        confirmButtonText: '확인',
+        icon: 'success',
+      });
     } catch (error) {
       console.error('이메일 발송 중 오류 발생:', error);
-      // 오류 처리 로직을 추가할 수 있습니다.
     }
   };
 
@@ -254,15 +262,29 @@ const Join = () => {
     }
   };
 
+
+
   //회원가입 요청 처리
   const onSubmit = async () => {
     try {
-      // 필수 필드가 모두 채워져 있고 동의가 되어있는지 확인
+      let emailToUse =  userEmail;
+      const storedUserEmail = localStorage.getItem('USER_EMAIL');
+      if (storedUserEmail) {
+        emailToUse = storedUserEmail;
+        const extractedUserId = storedUserEmail.split('@')[0];
+        setUserId(extractedUserId);
+        setUserEmail(storedUserEmail);
+        setReadOnly(true);
+        //emailToUse = storedUserEmail;
+      }
+      console.log('Before sending to server - User Pass:', userPass);
+     
+
       if (
-        isUserId &&
-        isUserPass &&
+        // isUserId &&
+        // isUserPass &&
         isUserPassCheck &&
-        isUserEmail &&
+        // isUserEmail &&
         isUserPhone &&
         mustCheckbox
       ) {
@@ -283,20 +305,28 @@ const Join = () => {
             },
           }
         );
+        
 
         // 서버 응답 확인
         if (response.status === 200) {
           // 등록 성공
-          console.log('사용자 등록 성공:', response.data);
+          Swal.fire({
+            text: '회원 가입이 완료되었습니다!',
+            confirmButtonColor: '#e89b93',
+            confirmButtonText: '확인',
+            icon: 'success',
+          });
+          console.log('회원가입 완료:', response.data);
           redirect(`${USER}/login`);
+          
         } else {
-          console.error('사용자 등록 실패:', response.data);
+          console.error('회원가입 실패:', response.data);
         }
       } else {
         console.error('모든 필수 필드를 작성하고 약관에 동의하세요.');
       }
     } catch (error) {
-      console.error('사용자 등록 중 오류 발생:', error);
+      console.error('회원가입 중 오류 발생:', error);
     }
   };
 
@@ -375,6 +405,35 @@ const Join = () => {
     setAllCheckBox(checkboxes.every((checkbox) => checkbox === true));
   }, [mustCheckbox, agreeCheckBox]);
 
+    useEffect(() => {
+      const storedUserEmail = localStorage.getItem('USER_EMAIL');
+      
+    
+      if (storedUserEmail) {
+        const extractedUserId = storedUserEmail.split('@')[0];
+        setUserId(extractedUserId);
+        setUserEmail(storedUserEmail);
+        setReadOnly(true);
+      }
+      console.log('Initial readOnly value:', readOnly);
+    }, []);
+    
+  
+
+    useEffect(() => {
+      // userName이 변경될 때 로컬 스토리지의 USER_NAME을 업데이트
+      localStorage.setItem('USER_NAME', userName);
+      console.log(userName);
+    }, [userName]);
+
+    useEffect(() => {
+      // 이메일 인증이 완료되면 userEmail input을 readOnly로 처리
+      if (isEmailCheck) {
+        setReadOnly(true);
+      }
+    }, [isEmailCheck]);
+    
+
   return (
     <div className='joinmain'>
       <div className='joinmsg'>회원가입</div>
@@ -387,6 +446,7 @@ const Join = () => {
           value={userId}
           onChange={onChangeId}
           placeholder='아이디를 입력하세요.'
+          readOnly={readOnly}
         ></input>
       </div>
 
@@ -439,6 +499,7 @@ const Join = () => {
           id='eamil'
           value={userEmail}
           onChange={onChangeEmail}
+          readOnly={readOnly}
         ></input>
         <div className='emailCheckBtn'>
           <button onClick={sendVerificationEmail}>이메일 발송받기</button>
@@ -610,10 +671,10 @@ const Join = () => {
         <button
           type='submit'
           disabled={
-            isUserId === true &&
-            isUserPass === true &&
+            //isUserId === true &&
+            //isUserPass === true &&
             isUserPassCheck === true &&
-            isUserEmail === true &&
+            //isUserEmail === true &&
             isUserPhone === true &&
             mustCheckbox
               ? false
