@@ -5,6 +5,7 @@ import axios from 'axios';
 import { error } from 'jquery';
 import { json, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { API_BASE_URL, CONTRACT } from '../../global/config/host-config';
+import Swal from 'sweetalert2';
 
 const AdoptionApplication = () => {
   const location = useLocation();
@@ -12,7 +13,11 @@ const AdoptionApplication = () => {
   const { desertionNo } = useParams();
 
   const [modalVisible, setModalVisible] = useState(true);
-
+  const [registData, setRegistData] = useState({
+    job: '',
+    petStatus: false,
+    reason: '',
+  });
   const handleImageClick = () => {
     setModalVisible(false);
   };
@@ -42,7 +47,6 @@ const AdoptionApplication = () => {
     neuterYn: '',
     reasonRefusal: '',
     colorCd: '',
-    petStatus: false,
   });
 
   useEffect(() => {
@@ -51,34 +55,55 @@ const AdoptionApplication = () => {
   }, [location]);
 
   const handleInputChange = (event) => {
-    console.log(formData);
     const { id, value } = event.target;
+
+    if (id === 'userAge' && parseInt(value, 10) > 150) {
+      Swal.fire('올바른 나이를 입력해주세요.', '', 'error');
+      return;
+    }
+    if (id === 'job' && value.trim() !== '' && !isNaN(value)) {
+      Swal.fire('올바른 직업을 입력해주세요.', '', 'error');
+      return;
+    }
+
+    console.log('id,value', id, value);
     // 펫 여부확인 버튼(radio)가 true면 petStatus를 true로 만듬
     // 서버 type 설정이 그렇게 되어 있어서 맞춰준거임
-    if (id === 'petStatusFalse' || 'petStatusTrue') {
-      setFormData((prevData) => ({
+    if (id === 'petStatusFalse' || id === 'petStatusTrue') {
+      setRegistData((prevData) => ({
         ...prevData,
         petStatus: value === 'true' ? true : false,
       }));
     } else {
-      setFormData((prevData) => ({ ...prevData, [id]: value }));
+      setRegistData((prevData) => ({
+        ...prevData,
+        [id]: value,
+        job: id === 'job' ? value : prevData.job,
+        reason: id === 'reason' ? value : prevData.reason,
+      }));
     }
   };
+  console.log('새로운 폼데이터 정보', registData.job);
+  console.log('폼데이터 정보', formData);
+  const handleSummit = async (e) => {
+    if (registData.job.trim() === '' && registData.reason.trim() === '') {
+      Swal.fire('입력값이 비었습니다.', '', 'error');
+      return;
+    }
 
-  const handleSummit = async () => {
     try {
       const response = await axios.post(
         `${API_BASE_URL}${CONTRACT}/regist`,
         {
           desertionNo: desertionNo,
           userName: formData.userName,
-          userAge: formData.userAge,
+          userAge: registData.userAge,
           petStatus: formData.petStatus,
-          job: formData.job,
+          job: registData.job,
           userEmail: formData.userEmail,
           userPhone: formData.userPhone,
           postAddr: formData.postAddr,
-          reason: formData.reason,
+          reason: registData.reason,
         },
         {
           headers: {
@@ -87,11 +112,18 @@ const AdoptionApplication = () => {
         }
       );
       console.log('응답:', response.data);
-      alert('입양 신청이 완료되었습니다.');
+      Swal.fire('입양 신청이 완료되었습니다.', '', 'success');
       navigate('/');
     } catch (error) {
       // 에러 처리
-      console.error('입양 신청 제출 오류:', error);
+      if (error.response) {
+        const statusCode = error.response.status;
+        console.log('999의 값', statusCode);
+        if (statusCode === 500) {
+          Swal.fire('중복된 신청입니다.', '', 'error');
+        }
+      }
+      // Swal.fire('입력값이 비었습니다.', '', 'error');
     }
   };
 

@@ -232,7 +232,7 @@ public class UserController {
     @DeleteMapping("/deleteuser")
     public ResponseEntity<?> deleteUser(@AuthenticationPrincipal TokenUserInfo user) {
 
-        log.info("/user/deleteuser - DELETE! - user {}",user);
+        log.info("/user/deleteuser - DELETE! - user {}",user.getUserId());
         userService.deleteUser(user);
 
         return ResponseEntity.ok().build();

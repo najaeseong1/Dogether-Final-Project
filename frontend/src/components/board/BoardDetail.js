@@ -64,6 +64,11 @@ const BoardDetail = () => {
 
   // 댓글 등록 핸들러
   const handleCommentSubmit = () => {
+    if (newComment === '') {
+      Swal.fire('댓글을 입력해주세요', '', 'error');
+      return;
+    }
+
     console.log(boardNo, newComment);
     fetch(ReplyRegist_URL, {
       method: 'POST',
@@ -131,11 +136,16 @@ const BoardDetail = () => {
     const updatedComments = comments.map((c) =>
       c.replyNo === comment.replyNo ? { ...c, replyContent: e.target.value } : c
     );
+
     setComments(updatedComments);
   };
 
   // 수정 완료 버튼을 누르면 호출되는 핸들러
   const handleEditSubmit = async (comment) => {
+    if (comment.replyContent === '') {
+      Swal.fire('1자 이상 입력해주세요.', '', 'error');
+      return;
+    }
     console.log(ReplyUpdate_URL);
     console.log('값', boardNo, comment.replyContent, comment.replyNo);
     try {
