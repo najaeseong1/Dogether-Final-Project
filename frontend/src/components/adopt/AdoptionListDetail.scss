@@ -37,6 +37,9 @@
     width: 100px;
     position: relative;
     bottom: 20px;
+    &:hover {
+      cursor: pointer;
+    }
   }
 }
 
@@ -79,7 +82,6 @@
 
   &::-webkit-scrollbar {
     width: 12px; /* 스크롤바 너비 */
-   
   }
 
   &::-webkit-scrollbar-thumb {

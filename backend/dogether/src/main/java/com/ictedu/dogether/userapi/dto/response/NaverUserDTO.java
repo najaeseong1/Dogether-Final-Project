@@ -43,7 +43,7 @@ public class NaverUserDTO {
                 .userPass("NaverPass")
                 .userPhone(this.naverAccount.phone)
                 .userEmail(email)
-                .postNo(11111)
+                .postNo("11111")
                 .postAddr("kakaoPost")
                 .accessToken(accessToken)
                 .build();

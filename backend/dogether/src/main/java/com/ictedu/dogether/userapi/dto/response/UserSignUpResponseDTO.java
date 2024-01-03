@@ -22,7 +22,7 @@ public class UserSignUpResponseDTO {
 
     private String userPhone;
 
-    private int postNo;
+    private String postNo;
 
     private String postAddr;
 

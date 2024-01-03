@@ -94,7 +94,7 @@ const MainTemplate = () => {
       });
 
     // '/board' 요청
-
+    console.log(`${API_BASE_URL}`);
     axios
       .get(`${API_BASE_URL}${BOARD}`)
       .then((res) => {
