@@ -330,8 +330,8 @@ public class ApiService {
         }
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic");
         urlBuilder.append("?" + "serviceKey" + "=" + apiKey);
-        urlBuilder.append("&" + URLEncoder.encode("bgnde", "UTF-8") + "=" + URLEncoder.encode("20231205", "UTF-8")); /*유기날짜(검색 시작일) (YYYYMMDD)*/
-        urlBuilder.append("&" + URLEncoder.encode("endde", "UTF-8") + "=" + URLEncoder.encode("20231219", "UTF-8")); /*유기날짜(검색 종료일) (YYYYMMDD)*/
+        urlBuilder.append("&" + URLEncoder.encode("bgnde", "UTF-8") + "=" + URLEncoder.encode("20231210", "UTF-8")); /*유기날짜(검색 시작일) (YYYYMMDD)*/
+        urlBuilder.append("&" + URLEncoder.encode("endde", "UTF-8") + "=" + URLEncoder.encode("20231215", "UTF-8")); /*유기날짜(검색 종료일) (YYYYMMDD)*/
         urlBuilder.append("&" + URLEncoder.encode("upkind", "UTF-8") + "=" + URLEncoder.encode("417000", "UTF-8")); /*축종코드 (개 : 417000, 고양이 : 422400, 기타 : 429900)*/
         if (uprCd != null && !uprCd.isEmpty()) {
             urlBuilder.append("&" + URLEncoder.encode("upr_cd", "UTF-8") + "=" + URLEncoder.encode(uprCd, "UTF-8"));
@@ -373,7 +373,7 @@ public class ApiService {
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic");
         urlBuilder.append("?" + "serviceKey" + "=" + apiKey);
         urlBuilder.append("&" + URLEncoder.encode("bgnde", "UTF-8") + "=" + URLEncoder.encode("20231210", "UTF-8")); /*유기날짜(검색 시작일) (YYYYMMDD)*/
-        urlBuilder.append("&" + URLEncoder.encode("endde", "UTF-8") + "=" + URLEncoder.encode("20231220", "UTF-8")); /*유기날짜(검색 종료일) (YYYYMMDD)*/
+        urlBuilder.append("&" + URLEncoder.encode("endde", "UTF-8") + "=" + URLEncoder.encode("20231215", "UTF-8")); /*유기날짜(검색 종료일) (YYYYMMDD)*/
         urlBuilder.append("&" + URLEncoder.encode("upkind", "UTF-8") + "=" + URLEncoder.encode("417000", "UTF-8")); /*축종코드 (개 : 417000, 고양이 : 422400, 기타 : 429900)*/
         urlBuilder.append("&" + URLEncoder.encode("state", "UTF-8") + "=" + URLEncoder.encode("protect", "UTF-8")); /*상태(전체 : null(빈값), 공고중 : notice, 보호중 : protect)*/
         urlBuilder.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(1), "UTF-8")); /*페이지 번호 (기본값 : 1)*/
@@ -387,7 +387,7 @@ public class ApiService {
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic");
         urlBuilder.append("?" + "serviceKey" + "=" + apiKey);
         urlBuilder.append("&" + URLEncoder.encode("bgnde", "UTF-8") + "=" + URLEncoder.encode("20231210", "UTF-8")); /*유기날짜(검색 시작일) (YYYYMMDD)*/
-        urlBuilder.append("&" + URLEncoder.encode("endde", "UTF-8") + "=" + URLEncoder.encode("20231220", "UTF-8")); /*유기날짜(검색 종료일) (YYYYMMDD)*/
+        urlBuilder.append("&" + URLEncoder.encode("endde", "UTF-8") + "=" + URLEncoder.encode("20231215", "UTF-8")); /*유기날짜(검색 종료일) (YYYYMMDD)*/
         urlBuilder.append("&" + URLEncoder.encode("upkind", "UTF-8") + "=" + URLEncoder.encode("417000", "UTF-8")); /*축종코드 (개 : 417000, 고양이 : 422400, 기타 : 429900)*/
         urlBuilder.append("&" + URLEncoder.encode("state", "UTF-8") + "=" + URLEncoder.encode("protect", "UTF-8")); /*상태(전체 : null(빈값), 공고중 : notice, 보호중 : protect)*/
         urlBuilder.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(1), "UTF-8")); /*페이지 번호 (기본값 : 1)*/

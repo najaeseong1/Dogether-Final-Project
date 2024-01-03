@@ -15,7 +15,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/user")
 @Slf4j
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 public class MailController {
 
     private final MailSendService mailService;

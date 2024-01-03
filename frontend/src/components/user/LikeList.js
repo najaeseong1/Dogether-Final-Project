@@ -5,6 +5,7 @@ import { FaHeartCircleMinus } from 'react-icons/fa6';
 import { API_BASE_URL } from '../../global/config/host-config';
 import axios from 'axios';
 import AuthContext from '../../global/utils/AuthContext';
+import Swal from 'sweetalert2';
 
 const LikeList = () => {
   // 좋아요 상태 관리
@@ -29,24 +30,35 @@ const LikeList = () => {
   };
 
   // 하트를 눌렀을 때 삭제 되도록
-
   const handleRemoveLike = async (wishNo) => {
-    console.log('Received wishNo:', wishNo); // 추가된 부분
-    try {
-      await axios.delete(`${API_BASE_URL}/adopt/wish/${wishNo}`, {
-        headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
-        },
-      });
-
-      // 서버에서 정상적으로 응답을 받았을 때 클라이언트에서 목록 업데이트
-      setLikedInfo((prevLikedInfo) =>
-        prevLikedInfo.filter((item) => item.wishNo !== wishNo)
-      );
-      console.log(wishNo);
-      console.log('좋아요가 성공적으로 취소되었습니다.');
-    } catch (error) {
-      console.error('좋아요 취소 중 오류 발생:', error);
+    const confirmLike = await Swal.fire({
+      title: '좋아요 취소',
+      text: '항목을 삭제하시겠습니까?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#e89b93',
+      cancelButtonColor: '#aba6a6',
+      confirmButtonText: '확인',
+      cancelButtonText: '취소',
+    });
+    if (confirmLike.isConfirmed) {
+      try {
+        await axios.delete(`${API_BASE_URL}/adopt/wish/${wishNo}`, {
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
+          },
+        });
+        setLikedInfo((prevLikedInfo) =>
+          prevLikedInfo.filter((item) => item.wishNo !== wishNo)
+        );
+        Swal.fire({
+          title: '삭제되었습니다.',
+          confirmButtonText: '확인',
+          confirmButtonColor: '#e89b93',
+        });
+      } catch (error) {
+        console.error('좋아요 취소 중 오류 발생:', error);
+      }
     }
   };
   useEffect(() => {
@@ -81,7 +93,12 @@ const LikeList = () => {
                   <p className='text'>좋아요를 누른 목록</p>
                   <div className='info-tab-main'>
                     <span className='info-tab'>강아지 정보</span>
-                    <span className='info-tab2'>좋아요취소</span>
+                    <span
+                      className='info-tab2'
+                      onClick={handleRemoveLike}
+                    >
+                      좋아요취소
+                    </span>
                   </div>
                   {likedInfo.map((item) => (
                     <div
