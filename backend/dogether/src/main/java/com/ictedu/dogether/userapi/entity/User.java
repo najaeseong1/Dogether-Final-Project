@@ -1,6 +1,7 @@
 package com.ictedu.dogether.userapi.entity;
 
 import com.ictedu.dogether.Board.Entity.Board;
+import com.ictedu.dogether.adoptApi.Entity.Wish;
 import lombok.*;
 import javax.persistence.*;
 import java.util.List;
@@ -52,6 +53,9 @@ public class User {
     // 회원 탈퇴시 작성한 게시물도 삭제.
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Board> boardList;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Wish> wishList;
 
 
 
