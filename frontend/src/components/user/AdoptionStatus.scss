@@ -1,11 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&family=Jua&family=Noto+Sans+KR:wght@100&family=Poiret+One&display=swap');
+
 .mypage-title {
   font-size: 30px;
   border-bottom: 2px solid #e89b93;
   position: relative;
-  left: 500px;
+  left: 600px;
   text-align: center;
   width: 200px;
-  padding-bottom: 10px;
+  padding-bottom: 5px;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 .adoption-status {
   position: absolute;
@@ -47,9 +50,9 @@
   }
 
   .result-button {
-    font-size: 30px;
+    font-size: 25px;
     position: relative;
-    left: 730px;
+    left: 710px;
     bottom: 320px;
     align-items: center;
 
@@ -82,7 +85,7 @@
   margin-left: 250px;
 }
 #in-progress {
-  font-size: 30px;
+  font-size: 20px;
   position: relative;
   left: 730px;
   bottom: 310px;
