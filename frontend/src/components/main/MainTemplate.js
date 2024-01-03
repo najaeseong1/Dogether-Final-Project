@@ -281,7 +281,7 @@ const MainTemplate = () => {
                       xs={12}
                       key={index}
                     >
-                      <Link to={`${BOARD}/${boardList.boardNo}`}>
+                      <Link to={`/boarddetail/${boardList.boardNo}`}>
                         <div className='category'>{boardList.category}</div>
                         <div className='title'>{boardList.title}</div>
                         <div className='regDate'>{boardList.registDate}</div>

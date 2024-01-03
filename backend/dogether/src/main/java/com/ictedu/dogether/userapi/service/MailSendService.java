@@ -51,6 +51,13 @@ public class MailSendService {
         return Integer.toString(authNumber);
     }
 
+    public String checkNum(String email) {
+        makeRandomNumber();
+        String toMail = email;
+
+        return Integer.toString(authNumber);
+    }
+
     // 회원가입 인증메세지
     public String joinCheckEmail(String email) {
         makeRandomNumber();
