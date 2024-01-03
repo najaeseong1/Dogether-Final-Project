@@ -409,6 +409,5 @@ public class UserService {
     }
 
 
-    public void deleteUser(TokenUserInfo user) {
-    }
+
 }

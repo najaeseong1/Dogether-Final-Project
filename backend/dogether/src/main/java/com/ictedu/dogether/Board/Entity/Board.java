@@ -49,6 +49,6 @@ public class Board {
 
 
     // 게시물 삭제될때 foreign key 오류로 인해 설정한거
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Reply> replies;
 }
