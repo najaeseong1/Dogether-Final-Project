@@ -4,6 +4,7 @@ import './AdoptionStatus.scss';
 import Swal from 'sweetalert2';
 import { API_BASE_URL, CONTRACT } from '../../global/config/host-config';
 import { formattedDate } from '../../global/utils/AuthContext';
+import { SuccessAlert } from '../../global/Alerts';
 
 const AdoptionStatus = () => {
   // 마이페이지 입양 목록 불러오기
@@ -30,8 +31,6 @@ const AdoptionStatus = () => {
         );
         setAdoptionList(userAdoptionList);
         console.log(userAdoptionList);
-        //setAdoptionList(data.dtoList);
-        //console.log(data.dtoList);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -40,6 +39,7 @@ const AdoptionStatus = () => {
     fetchData();
   }, []);
 
+  // 입양 신청 승인/ 거절 로직
   const handleShowModal = async (contractNo, status) => {
     try {
       const res = await fetch(
@@ -51,12 +51,8 @@ const AdoptionStatus = () => {
           },
         }
       );
-      console.log(res.data);
-
       if (!res.ok) {
-        // 400 Bad Request인 경우
         if (res.status === 400) {
-          // 모달 표시
           Swal.fire({
             title: '승인되지 않았습니다.',
             text: '입양 상세 정보를 가져오는 중 오류가 발생했습니다.',
@@ -67,7 +63,6 @@ const AdoptionStatus = () => {
           throw new Error(`네트워크 응답이 올바르지 않습니다: ${res.status}`);
         }
       }
-
       const detailData = await res.json();
 
       // title 설정
@@ -77,14 +72,16 @@ const AdoptionStatus = () => {
       } else if (detailData.adoptionStatus === 'REJECTED') {
         title = '거절되었습니다.';
       } else {
-        title = '알 수 없는 상태입니다.';
+        title = '처리중입니다.';
       }
 
-      const reasonsRefusal = detailData.reasonsRefusal;
-
+      const reasonsRefusal =
+        detailData.adoptionStatus !== 'APPROVED'
+          ? `사유 : ${detailData.reasonsRefusal}`
+          : '';
       Swal.fire({
         title: title,
-        text: `사유 : ${reasonsRefusal}`,
+        text: reasonsRefusal,
         confirmButtonColor: '#e89b93',
         confirmButtonText: '확인',
       });

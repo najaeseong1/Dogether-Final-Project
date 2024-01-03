@@ -113,21 +113,17 @@ const FindPassword = () => {
       setbuttonDisabled(true);
     }
   };
-
   // 비밀번호 변경
   const changePassword = async () => {
     if (userPass !== userPassCheck) {
-      ErrorAlert2('비밀번호가 일치하지 않습니다.');
-
+      setMessage('비밀번호가 일치하지 않습니다.');
       return;
     }
-
     try {
       const res = await axios.post(`${API_BASE_URL}/user/modifypass`, {
         userId: userId,
         userPass: userPass,
       });
-
       if (res.status === 200) {
         SuccessAlert2('비밀번호가 성공적으로 변경되었습니다.');
         toLink(`${USER}/login`);
@@ -199,7 +195,8 @@ const FindPassword = () => {
               value={userPassCheck}
               onChange={(e) => setUserPassCheck(e.target.value)}
             />
-            <p className='changepassowordtext'></p>
+            <p className='changepassowordtext'>{message}</p>
+
             <button
               className='change-btn'
               onClick={changePassword}
