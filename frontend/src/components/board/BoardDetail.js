@@ -3,6 +3,7 @@ import './BoardDetail.scss';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { API_BASE_URL, BOARD } from '../../global/config/host-config';
 import Swal from 'sweetalert2';
+import { WarningAlert2 } from '../../global/Alerts';
 
 let today = new Date();
 const BoardDetail = () => {
@@ -64,6 +65,15 @@ const BoardDetail = () => {
 
   // 댓글 등록 핸들러
   const handleCommentSubmit = () => {
+    if (!currentUserId) {
+      WarningAlert2(
+        '로그인 이후에 이용해 주세요',
+        '',
+        '로그인되어 있지 않습니다.'
+      );
+
+      return;
+    }
     if (newComment === '') {
       Swal.fire('댓글을 입력해주세요', '', 'error');
       return;
