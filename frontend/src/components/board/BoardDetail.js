@@ -213,7 +213,7 @@ const BoardDetail = () => {
         console.error('상세 페이지로 이동 중 에러 발생:', error);
       });
   };
-  const currentUserId = localStorage.getItem('LOGIN_USERID');
+  const currentUserId = localStorage.getItem('USER_ID');
   return (
     <div className='post-detail'>
       <h2>{boardDetail?.title}</h2>
