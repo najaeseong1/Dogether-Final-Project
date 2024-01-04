@@ -83,7 +83,7 @@ const Cart = () => {
 
     const updatedCart = [...cartItems, { ...product }];
     setCartItems(updatedCart);
-    // 이미 해당 제품에 대한 수량이 있다면 기존 수량을 사용, 없다면 1로 초기화
+   
     const newQuantityMap = {
       ...quantityMap,
       [cartItems.length]: quantityMap[cartItems.length] || 1,

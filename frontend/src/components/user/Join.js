@@ -115,7 +115,6 @@ const Join = () => {
         setIsUserId(false);
       }
     }
-    
   };
 
   // 이름 유효성 검사
@@ -176,8 +175,6 @@ const Join = () => {
     } else {
       setUserEmailMessage('사용 가능한 이메일 입니다.');
       setIsUserEmail(true);
-
-      
     }
   };
 
@@ -262,8 +259,6 @@ const Join = () => {
     }
   };
 
-
-
   //회원가입 요청 처리
   const onSubmit = async () => {
     try {
@@ -304,7 +299,6 @@ const Join = () => {
             },
           }
         );
-        
 
         // 서버 응답 확인
         if (response.status === 200) {
@@ -317,7 +311,6 @@ const Join = () => {
           });
           console.log('회원가입 완료:', response.data);
           redirect(`${USER}/login`);
-          
         } else {
           console.error('회원가입 실패:', response.data);
         }
