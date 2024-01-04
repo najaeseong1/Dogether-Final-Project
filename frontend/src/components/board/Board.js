@@ -186,12 +186,17 @@ const Board = () => {
             <option value='자유'>자유 게시판</option>
           </select>
         </label>
-        <label>
+        <label
+          for='file'
+          className='fileLabel'
+        >
           파일 첨부
           <input
             type='file'
+            id='file'
             onChange={handleFileChange}
             ref={$fileTag}
+            hidden
           />
         </label>
 

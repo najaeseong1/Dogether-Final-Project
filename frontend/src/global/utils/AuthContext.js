@@ -13,7 +13,7 @@ const AuthContext = React.createContext({
 // 위에서 생성한 Context를 제공할 수 있는 provider
 // 이 컴포넌트를 통해 자식 컴포넌트에게 인증 상태와 관련된 함수들을 전달할 수 있음.
 export const AuthContextProvider = (props) => {
-  console.log('AuthContextProvider called');
+  // console.log('AuthContextProvider called');
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState(
@@ -25,7 +25,7 @@ export const AuthContextProvider = (props) => {
 
   // 컴포넌트가 렌더링 될 때 localStorage에서 로그인 정보를 가지고 와서 상태를 설정.
   useEffect(() => {
-    console.log('AuthContext useEffect called');
+    // console.log('AuthContext useEffect called');
     const testFunction = async () => {
       // console.log(
       //   'AuthContext useEffect token: ',
@@ -41,9 +41,9 @@ export const AuthContextProvider = (props) => {
         method: 'GET',
         headers: requestHeader,
       });
-      console.log('status: ', res.status);
+      // console.log('status: ', res.status);
       if (res.status === 401) {
-        console.log('토큰값 유효하지 않음!');
+        // console.log('토큰값 유효하지 않음!');
         localStorage.clear();
       }
       setLoading(false);
@@ -74,9 +74,9 @@ export const AuthContextProvider = (props) => {
 
   // 로그인 핸들러
   const loginHandler = (token, role, userEmail, userName, userId) => {
-    console.log('세션 저장요청이들어옴');
-    console.log('token : ', token);
-    console.log('role: ', role);
+    // console.log('세션 저장요청이들어옴');
+    // console.log('token : ', token);
+    // console.log('role: ', role);
 
     localStorage.setItem('isLoggedIn', '1');
     //json에 담긴 인증정보를 클라이언트에 보관
@@ -86,17 +86,17 @@ export const AuthContextProvider = (props) => {
     localStorage.setItem('USER_ROLE', role);
     localStorage.setItem('USER_EMAIL', userEmail);
     localStorage.setItem('USER_NAME', userName);
-    localStorage.setItem('userId', userId);
+    localStorage.setItem('USER_ID', userId);
 
     setIsLoggedIn(true);
     setUserName(userName);
     setRole(role);
-    console.log(role);
+    // console.log(role);
   };
 
   // 관리자 여부 확인
   const isAdminFlag = () => role === 'ADMIN';
-  console.log('role: ', role);
+  // console.log('role: ', role);
   // 카카오 로그인 핸들러
   // const kakaoLogin = (token, userEmail, role) => {
   //   localStorage.setItem('isLoggedIn', '1');
@@ -111,8 +111,8 @@ export const AuthContextProvider = (props) => {
   //   setUserName(userName);
   // };
 
-  console.log('AuthContext의 마지막 부분');
-  console.log('isAdminFlag: ', isAdminFlag());
+  // console.log('AuthContext의 마지막 부분');
+  // console.log('isAdminFlag: ', isAdminFlag());
 
   return (
     <AuthContext.Provider

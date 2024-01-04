@@ -42,7 +42,7 @@ const Header = () => {
 
   // 로그인 상태가 바뀔때마다
   useEffect(() => {
-    console.log('상태변경', isLoggedIn);
+    // console.log('상태변경', isLoggedIn);
   }, [isLoggedIn]); // 로그인 상태가 바뀔때마다
 
   return (
