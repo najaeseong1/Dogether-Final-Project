@@ -114,12 +114,11 @@ const AdoptionList = () => {
       .then((res) => {
         console.log(res.data.adoptLists);
         setAdoptList(res.data.adoptLists); //.slice(0,12)
-        setFilteredAdoptList(res.data.adoptLists);
       })
       .catch((err) => {
         console.error(err);
       });
-  }, []);
+  }, [adoptList]);
 
   // 카테고리 선택에 따른 필터링
   useEffect(() => {
@@ -128,11 +127,12 @@ const AdoptionList = () => {
       setFilteredAdoptList(filteredList);
     } else {
       // 카테고리가 선택되지 않은 경우 전체 목록 표시
-      setFilteredAdoptList(adoptList);
+      setAdoptList(adoptList);
     }
   }, [uprCd, adoptList]);
 
-  console.log('입양리스트 : axios 후에', adoptList);
+  console.log('adoptList : axios 후에', adoptList);
+  console.log('filteredAdoptList : axios 후에', adoptList);
 
   const cutAdoptList = adoptList.slice(0, 12);
 

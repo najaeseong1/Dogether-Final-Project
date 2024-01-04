@@ -2,8 +2,9 @@ import { React, useState, useEffect } from 'react';
 import './OrderHistory.scss';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { API_BASE_URL, PAYMENT } from '../../global/config/host-config';
+import { ADMIN, API_BASE_URL, PAYMENT } from '../../global/config/host-config';
 import { formattedAmount, formattedDate } from '../../global/utils/AuthContext';
+import axios from 'axios';
 
 const orders = [
   {
@@ -40,10 +41,10 @@ const formatComma = (productList) => {
 };
 
 const OrderHistory = () => {
+  const [refresh, setRefresh] = useState();
+  const [rejectionReason, setRejectionReason] = useState('');
   const orderPayment = (order) => {
     // productInfo에서 orderId가 order.OrderNumber와 같은 항목들을 필터링
-    console.log('오더 페이먼츠 함수 에서 찎은 프로덕트 인포', productInfo);
-    console.log('오더 페이먼츠 함수 에서 찎은 오더', order);
 
     const matchingProductInfos = productInfo.filter(
       (productInfo) => productInfo.orderId === order.OrderNumber
@@ -97,6 +98,7 @@ const OrderHistory = () => {
        <p>상품명: ${order.product}</p>
        <p>결제 비용: ${order.amount}원</p>
        <p>배송지 정보<br> ${order.addr}원</p>
+      
    </div>
 `,
       icon: 'warning',
@@ -105,21 +107,36 @@ const OrderHistory = () => {
       // 만약 Promise리턴을 받으면,
       if (result.isConfirmed) {
         // 만약 모달창에서 결제 취소 버튼을 눌렀다면
-        const Toast = Swal.mixin({
-          toast: true,
-          position: 'center-center',
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer);
-            toast.addEventListener('mouseleave', Swal.resumeTimer);
-          },
-        });
-        Toast.fire({
-          icon: 'success',
-          title: '결제 취소가 진행중입니다.',
-        });
+        if (result.isConfirmed) {
+          // 만약 모달창에서 결제 취소 버튼을 눌렀다면
+          console.log(
+            ` 삭제 요청 경로 ==== ${API_BASE_URL}${PAYMENT}/${order.OrderNumber}`
+          );
+          axios
+            .delete(`${API_BASE_URL}${PAYMENT}/${order.OrderNumber}`, {
+              headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
+              },
+            })
+            .then((response) => {
+              const Toast = Swal.mixin({
+                toast: true,
+                position: 'center-center',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                  toast.addEventListener('mouseenter', Swal.stopTimer);
+                  toast.addEventListener('mouseleave', Swal.resumeTimer);
+                },
+              });
+              Toast.fire({
+                icon: 'success',
+                title: '결제 취소가 진행중입니다.',
+              });
+              window.location.reload();
+            });
+        }
       }
     });
   };
@@ -128,7 +145,6 @@ const OrderHistory = () => {
   const [paymentResponse, setPaymentResponse] = useState([]);
   const [productInfo, setProductInfo] = useState([]);
   const [orders, setOrders] = useState([]);
-  console.log(`${API_BASE_URL}${PAYMENT}`);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -177,6 +193,40 @@ const OrderHistory = () => {
 
     fetchData();
   }, []);
+
+  // 관리자의 거절 사유 가져오기
+  const fetchRejectionReason = async (orderId) => {
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}${PAYMENT}/canceled/${orderId}`, // 올바른 엔드포인트로 교체
+        {
+          method: 'POST',
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('네트워크 응답이 올바르지 않습니다');
+      }
+
+      const data = await response.json();
+
+      // 응답 JSON이 'reasonsRefusal' 필드를 가지고 있다고 가정합니다.
+      const reasonsRefusal = data.reasonsRefusal;
+
+      Swal.fire({
+        title: '거절 사유',
+        text: reasonsRefusal,
+        icon: 'error',
+        confirmButtonText: '확인',
+      });
+    } catch (error) {
+      console.error('거절 사유를 가져오는 중 오류 발생:', error);
+      Swal.fire('에러가 발생했습니다.', '', 'error');
+    }
+  };
 
   return (
     <>
@@ -233,7 +283,13 @@ const OrderHistory = () => {
                             {formatComma(formattedDate(order.date))}
                           </td>
                           <td>{formattedAmount(order.amount)}</td>
-                          <td>{paymentStatusMap[order.paymentStatus]}</td>
+                          <td
+                          // onClick={() =>
+                          //   fetchRejectionReason(order.OrderNumber)
+                          // }
+                          >
+                            {paymentStatusMap[order.paymentStatus]}
+                          </td>
                           <td>
                             <button
                               className='orderButton'

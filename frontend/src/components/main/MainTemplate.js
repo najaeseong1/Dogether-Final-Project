@@ -105,7 +105,7 @@ const MainTemplate = () => {
       });
 
     // '/board' 요청
-    console.log(`${API_BASE_URL}`);
+    // console.log(`${API_BASE_URL}`);
     axios
       .get(`${API_BASE_URL}${BOARD}`)
       .then((res) => {
@@ -189,7 +189,7 @@ const MainTemplate = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        navigate(`/boarddetail/${boardNo}`, {
+        navigate(`/board/detail/${boardNo}`, {
           state: { boarddetail: data },
         });
         console.log('상세 페이지 데이터:', data);
