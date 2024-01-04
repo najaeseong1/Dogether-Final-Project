@@ -26,7 +26,7 @@ const AdoptionStatus = () => {
         }
         const data = await response.json();
         const userAdoptionList = data.dtoList.filter(
-          (adoption) => adoption.userId === localStorage.getItem('LOGIN_USERID')
+          (adoption) => adoption.userId === localStorage.getItem('USER_ID')
         );
         setAdoptionList(userAdoptionList);
         console.log(userAdoptionList);

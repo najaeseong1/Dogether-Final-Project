@@ -229,11 +229,12 @@ const Modify = () => {
           },
         });
 
-        Swal.fire(
-          '회원탈퇴가 완료되었습니다.',
-          '이용해 주셔서 감사합니다.',
-          'success'
-        ).then(() => {
+        Swal.fire({
+          title: '회원탈퇴가 완료되었습니다.',
+          text: '이용해 주셔서 감사합니다.',
+          confirmButtonColor: '#e89b93',
+          icon: 'success',
+        }).then(() => {
           // 로그아웃 수행
           onLogout();
           // 홈페이지로 리다이렉션

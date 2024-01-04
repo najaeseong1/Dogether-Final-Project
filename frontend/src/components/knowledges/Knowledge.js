@@ -5,7 +5,7 @@ const Knowledge = () => {
   const [isText1Visible1, setText1Visible1] = useState(false);
   const [isText1Visible2, setText1Visible2] = useState(false);
   const [isText1Visible3, setText1Visible3] = useState(false);
-  const userId = localStorage.getItem('LOGIN_USERID');
+  const userId = localStorage.getItem('USER_ID');
 
   const handleHead1Click1 = () => {
     setText1Visible1(!isText1Visible1);
