@@ -16,7 +16,6 @@ const BoardDetail = () => {
   const { boardNo } = useParams();
   const location = useLocation();
   const [image, setImage] = useState(null);
-  z;
   const ReplyRegist_URL = `${API_BASE_URL}${BOARD}/reply`;
   const API_URL = `${API_BASE_URL}${BOARD}/${boardNo}`;
   const MODIFY_URL = `${API_BASE_URL}${BOARD}/${boardNo}`;
@@ -187,21 +186,28 @@ const BoardDetail = () => {
   };
   //게시물 삭제 요청
   const deleteBoard = async () => {
-    if (window.confirm('게시글을 삭제하시겠습니까?')) {
-      const res = await fetch(MODIFY_URL, {
-        method: 'DELETE',
-        headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
-        },
-      });
+    Swal.fire({
+      title: '게시글을 삭제하시겠습니까?',
+      showDenyButton: true,
+      confirmButtonText: '예',
+      denyButtonText: '아니오',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await fetch(MODIFY_URL, {
+          method: 'DELETE',
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
+          },
+        });
 
-      if (res.status === 200) {
-        Swal.fire('게시물이 삭제되었습니다.', '', 'success');
-        redirection('/board');
-      } else {
-        Swal.fire('삭제 권한이 없습니다.', '', 'warning');
+        if (res.status === 200) {
+          Swal.fire('게시물이 삭제되었습니다.', '', 'success');
+          redirection('/board');
+        } else {
+          Swal.fire('삭제 권한이 없습니다.', '', 'warning');
+        }
       }
-    }
+    });
   };
 
   //게시물 수정 요청 베이스 끌고오기
