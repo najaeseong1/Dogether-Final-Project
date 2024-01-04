@@ -102,12 +102,13 @@ const MainTemplate = () => {
       .then((res) => {
         // console.log('board 요청', res);
         const reviewData = res.data.boards.filter(
-          (boards) => boards.category === '후기'
+          (board) => board.image === null
         );
-        setReviewList(reviewData.slice(0, 5)); // '후기' 데이터를 상태로 설정
         const boardData = res.data.boards.filter(
-          (boards) => boards.category === '자유'
+          (board) => board.image !== null
         );
+
+        setReviewList(reviewData.slice(0, 5)); // '후기' 데이터를 상태로 설정
         setBoardList(boardData.slice(0, 5)); // '자유' 데이터를 상태로 설정
       })
       .catch((err) => {
@@ -275,7 +276,7 @@ const MainTemplate = () => {
               </Link>
               <hr />
               <div className='reviewList'>
-                {limitedBoardList.length > 0 ? (
+                {limitedReviewList.length > 0 ? (
                   limitedReviewList.map((reviewList, index) => (
                     <Grid
                       item

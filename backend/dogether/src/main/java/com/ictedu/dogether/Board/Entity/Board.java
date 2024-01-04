@@ -30,8 +30,6 @@ public class Board {
     @Column(nullable = false)
     private String content; //글 내용
 
-
-
     @UpdateTimestamp
     private LocalDateTime updateDate; //수정 일자
 
@@ -54,4 +52,6 @@ public class Board {
     // 게시물 삭제될때 foreign key 오류로 인해 설정한거
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<Reply> replies;
+
+
 }
