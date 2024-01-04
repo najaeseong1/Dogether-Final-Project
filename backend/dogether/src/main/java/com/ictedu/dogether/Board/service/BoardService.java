@@ -248,11 +248,12 @@ public class BoardService {
 
     }
     public String findImagePath(int boardNo) {
+        log.info("\n\n\nfindImagePath 의 게시판 번호로 보드 객체 얻기");
         Board board = boardRepository.findById(boardNo).orElseThrow();
 
         //지워도 됨.
 //        return uploadRootPath + "/" + board.getImage();
-
+        log.info("Board 객체 {} , Board 객체의 getImage {}", board, board.getImage());
         //s3일때
         return board.getImage();
     }
@@ -271,9 +272,11 @@ public class BoardService {
             String uniqueFileName = UUID.randomUUID() + "-" + imageFile.getOriginalFilename();
             log.info("파일이름 -{}",uniqueFileName);
 
-//            //파일 저장하기(이것도 지워도됨)
-//            File uploadFile = new File(uploadRootPath + "/" + uniqueFileName);
-//            imageFile.transferTo(uploadFile);
+            if(!imageFile.getOriginalFilename().contains("https:")){
+                //파일 저장하기(이것도 지워도됨)
+                File uploadFile = new File(uploadRootPath + "/" + uniqueFileName);
+                imageFile.transferTo(uploadFile);
+            }
 
 //            return uniqueFileName;
             //파일 s3에 저장

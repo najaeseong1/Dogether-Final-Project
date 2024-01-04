@@ -13,6 +13,7 @@ import com.ictedu.dogether.Board.ReplyDto.response.ReplyModifyResponseDTO;
 import com.ictedu.dogether.Board.ReplyDto.response.ReplyRegistResponseDTO;
 import com.ictedu.dogether.Board.service.BoardService;
 import com.ictedu.dogether.auth.TokenUserInfo;
+import com.ictedu.dogether.aws.S3Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -36,6 +37,8 @@ import java.io.IOException;
 public class BoardController {
 
     private final BoardService boardService;
+
+    private final S3Service s3Service;
 
 
     //자유게시판 글 작성하기
@@ -87,21 +90,44 @@ public class BoardController {
         }
 
     }
+
     //사진 이미지 데이터 응답 처리
     @GetMapping("load-profile/{boardNo}")
     public  ResponseEntity<?> loadFile(@PathVariable int boardNo) {
         log.info("\n\n\n\n@GetMapping(\"load-profile/{boardNo}\") 요청이 들어왔어요 히히 ");
         try {
+            // 클라이언트가 요청한 프로필 사진을 응답해야 함.
+            // 1. 사진의 경로부터 얻어야 한다!
             String imagePath = boardService.findImagePath(boardNo);
+            log.info("\n\n\n 컨트롤러에서 사진의 경로 얻기 boardService.findImagePath(boardNo); === {} ",imagePath);
+            // 1-2 얻어낸 사진의 경로가 S3에 저장된 것을 확인하기 위해 https: 가 포함된 것을 확인
+            if(imagePath.contains("https:")) {
+                byte[] fileData = s3Service.downloadFromS3Bucket(imagePath);
 
+                // 2-2. S3에서 발견된 파일을 따로 처리 하기 위함
+                HttpHeaders headers = new HttpHeaders();
+                MediaType contentType = findExtensionAndGetMediaType(imagePath);
+                if (contentType == null) {
+                    return ResponseEntity.internalServerError()
+                            .body("발견된 파일은 이미지 파일이 아닙니다.");
+                }
+                headers.setContentType(contentType);
+                return ResponseEntity.ok().headers(headers).body(fileData);
+            }
+            // 2. 얻어낸 파일 경로를 통해 실제 파일 데이터를 로드하기.
             File imageFile = new File(imagePath);
 
+            log.info("\n\n\n 실제로 파일 데이터로 만드는게 실패하는거임? NEW imageFile === {}", imageFile);
+
+            // 모든 게시글은 사진을 가지는 것은 아니다. -> 사진이 없는 사람들은 경로가 존재하지 않을 것이다.
+            // 만약 존재하지 않는 경로라면 클라이언트로 404 status를 리턴.
             if(!imageFile.exists()) {
                 return ResponseEntity.notFound().build();
             }
-
+            // 해당 경로에 저장된 파일을 바이트 배열로 직렬화 해서 리턴.
             byte[] fileData = FileCopyUtils.copyToByteArray(imageFile);
 
+            // 3. 응답 헤더에 컨텐츠 타입을 설정.
             HttpHeaders headers = new HttpHeaders();
             MediaType contentType = findExtensionAndGetMediaType(imagePath);
             if(contentType == null) {

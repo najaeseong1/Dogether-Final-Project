@@ -6,12 +6,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.GetObjectRequest;
+import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 import javax.annotation.PostConstruct;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 @Service
 @Slf4j
@@ -69,6 +74,47 @@ public class S3Service {
         log.info("\n\n\n uploadToS3Bucket 버킷 저장 완료 및 리턴 : {}",UploadFileUrl);
         // 업로드 된 파일의 url을 반환
         return UploadFileUrl;
+    }
+
+    public byte[] downloadFromS3Bucket(String fileName) {
+        log.info("\n\n\n downloadFromS3Bucket(String fileName) 다운로드 요청 들어옴 fileName === {}",fileName);
+        // 다운로드 요청 들어옴 fileName === https://s3.ap-northeast-2.amazonaws.com/dogether.site/34f74421-44a7-4dab-a434-78bb377b64d5-map-marker-icon_34392%20%281%29.png
+        // 이런식으로 들어와서 앞부분 dogether.site/ 까지 잘라야 할듯
+        String fileRawName = extractKeyFromUrl(fileName);
+
+        try {
+            // S3에서 파일을 가져오는 요청 생성
+            GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+                    .bucket(bucketName)
+                    .key(fileRawName)
+                    .build();
+
+            // S3 버킷에서 파일을 가져와서 바이트 배열로 반환
+            ResponseBytes<GetObjectResponse> objectBytes = s3.getObjectAsBytes(getObjectRequest);
+            byte[] data = objectBytes.asByteArray();
+
+            log.info("\n\n\n S3 버킷에서 파일 다운로드 완료");
+
+            return data;
+        } catch (Exception e) {
+            log.error("S3 버킷에서 파일을 다운로드하는 중 예외 발생: {}", e.getMessage());
+            throw e; // 혹은 적절한 예외 처리를 여기서 진행
+        }
+    }
+
+    public String extractKeyFromUrl(String fileUrl) {
+        try {
+            URL url = new URL(fileUrl);
+            // URL에서 파일 경로를 얻어옵니다.
+            String filePath = url.getPath();
+            // 'dogether.site/' 문자열 이후의 부분을 추출합니다.
+            String fileOriginName = filePath.substring(filePath.indexOf("dogether.site/") + "dogether.site/".length());
+            log.info("\n\n\n extractKeyFromUrl에서 뽑아낸 fileOriginName === {}", fileOriginName);
+            return fileOriginName;
+        } catch (MalformedURLException e) {
+            log.error("잘못된 URL 형식입니다: {}", fileUrl);
+            throw new IllegalArgumentException("잘못된 URL 형식", e);
+        }
     }
 
 
