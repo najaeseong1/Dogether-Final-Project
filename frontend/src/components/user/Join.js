@@ -212,7 +212,7 @@ const Join = () => {
     setPostNo(e.target.value);
   };
 
-  // 이메일 발송 요청 함수
+  // 인증메일 발송 요청 함수
   const sendVerificationEmail = async () => {
     try {
       const response = await axios.post(
@@ -230,7 +230,7 @@ const Join = () => {
       console.log('이메일 발송 응답:', response.data);
       setVerificationCodeFromServer(response.data.code);
       Swal.fire({
-        text: '이메일이 발송되었습니다!',
+        text: '인증메일이 발송되었습니다!',
         confirmButtonColor: '#e89b93',
         confirmButtonText: '확인',
         icon: 'success',
