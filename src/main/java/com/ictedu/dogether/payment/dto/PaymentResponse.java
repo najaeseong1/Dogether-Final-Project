@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.persistence.Column;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -28,7 +30,7 @@ public class PaymentResponse {
     private String method;          // 지불 수단
 
     @JsonProperty("status")
-    private String status;          // 결제 상태
+    private PaymentStatus status;          // 결제 상태
 
     @JsonProperty("card")
     private CardInfo card;          // 카드 정보

@@ -192,10 +192,15 @@ public class UserController {
 
     // 네이버 로그인
     @GetMapping("/naverlogin")
-    public ResponseEntity<?> naverLogin( @RequestParam (name = "code") String code,
-                                         @RequestParam (name = "state") String state) throws UnsupportedEncodingException {
-        log.info("왜 암것도 안찍혀?: {}, {}", code, state);
-        LoginResponseDTO responseDTO = userService.naverService(code, state);
+    public ResponseEntity<?> naverLogin(@RequestParam(name = "code") String code,
+                                        @RequestParam(name = "state") String state) throws UnsupportedEncodingException {
+        log.info("/user/naverlogin - GET! -code, state: {}, {}", code, state);
+        LoginResponseDTO responseDTO = null;
+        try {
+            responseDTO = userService.naverService(code, state);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
         log.info("responseData : {}", responseDTO);
         return ResponseEntity.ok().body(responseDTO);
     }
@@ -227,7 +232,7 @@ public class UserController {
     @DeleteMapping("/deleteuser")
     public ResponseEntity<?> deleteUser(@AuthenticationPrincipal TokenUserInfo user) {
 
-        log.info("/user/deleteuser - DELETE! - user {}",user);
+        log.info("/user/deleteuser - DELETE! - user {}",user.getUserId());
         userService.deleteUser(user);
 
         return ResponseEntity.ok().build();
@@ -264,5 +269,15 @@ public class UserController {
         }
 
     }
+
+//     네이버 로그인
+//    @GetMapping("/naverlogin")
+//    public ResponseEntity<?> naverLogin( @RequestParam (name = "code") String code,
+//                                         @RequestParam (name = "state") String state) throws UnsupportedEncodingException {
+//        log.info("왜 암것도 안찍혀?: {}, {}", code, state);
+//        LoginResponseDTO responseDTO = userService.naverService(code, state);
+//        log.info("responseData : {}", responseDTO);
+//        return ResponseEntity.ok().body(responseDTO);
+//    }
 
 }

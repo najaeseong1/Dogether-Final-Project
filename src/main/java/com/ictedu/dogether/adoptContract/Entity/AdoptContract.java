@@ -7,6 +7,8 @@ import com.ictedu.dogether.adoptApi.Entity.Adopt;
 import com.ictedu.dogether.userapi.entity.User;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -78,6 +80,7 @@ public class AdoptContract {
     //유저 한명에 입양신청서 여러개가 있을 수 있다.
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name =  "user_id" )
+    @OnDelete(action= OnDeleteAction.CASCADE)
     private User user;
 //
 //    //관리자 한명이 입양 신청서 여러개 가질 수 있다

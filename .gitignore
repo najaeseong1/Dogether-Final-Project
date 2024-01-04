@@ -1,6 +1,7 @@
 
 *.yml
 
+test/
 .idea
 .gradle
 build/
