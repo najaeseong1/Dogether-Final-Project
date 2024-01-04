@@ -58,9 +58,9 @@ public class BoardService {
             //회원 정보 찾기
         
         User user = getUser(userInfo.getUserId());
-         log.info("서비스 쪽에서 회원정보-{}", user);
-
-        log.info("현재 파일", uploadRootPath);
+//         log.info("서비스 쪽에서 회원정보-{}", user);
+//
+//        log.info("현재 파일", uploadRootPath);
 
 
         Board saved = boardRepository.save(dto.toEntity(uploadRootPath, user));
@@ -271,9 +271,9 @@ public class BoardService {
             String uniqueFileName = UUID.randomUUID() + "-" + imageFile.getOriginalFilename();
             log.info("파일이름 -{}",uniqueFileName);
 
-            //파일 저장하기(이것도 지워도됨)
-            File uploadFile = new File(uploadRootPath + "/" + uniqueFileName);
-            imageFile.transferTo(uploadFile);
+//            //파일 저장하기(이것도 지워도됨)
+//            File uploadFile = new File(uploadRootPath + "/" + uniqueFileName);
+//            imageFile.transferTo(uploadFile);
 
 //            return uniqueFileName;
             //파일 s3에 저장

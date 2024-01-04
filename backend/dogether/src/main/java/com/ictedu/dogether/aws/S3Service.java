@@ -51,7 +51,7 @@ public class S3Service {
      * @return - 버킷에 업로드 된 버킷 경로(url)
      */
     public String uploadToS3Bucket(byte[] uploadFile, String fileName) {
-
+        log.info("\n\n\n uploadToS3Bucket(byte[] uploadFile, String fileName) 업로드 버킷 요청 들어옴");
         // 업로드 할 파일을 S3 오브젝트로 생성
         PutObjectRequest request
                 = PutObjectRequest.builder()
@@ -59,13 +59,16 @@ public class S3Service {
                 .key(fileName) // 파일명
                 .build();
 
+        log.info("\n\n\n uploadToS3Bucket 버킷 생성 완료 : {}",request);
         // 오브젝트를 버킷에 업로드(위에서 생성한 오브젝트, 업로드 하고자 하는 파일(바이트 배열)
         s3.putObject(request, RequestBody.fromBytes(uploadFile));
 
-        // 업로드 된 파일의 url을 반환
-        return s3.utilities()
+        String UploadFileUrl = s3.utilities()
                 .getUrl(b -> b.bucket(bucketName).key(fileName))
                 .toString();
+        log.info("\n\n\n uploadToS3Bucket 버킷 저장 완료 및 리턴 : {}",UploadFileUrl);
+        // 업로드 된 파일의 url을 반환
+        return UploadFileUrl;
     }
 
 

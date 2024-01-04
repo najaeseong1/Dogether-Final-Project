@@ -51,12 +51,13 @@ public class BoardController {
 
 
         if (result.hasErrors()) {
-            log.warn(result.toString());
+//            log.warn(result.toString());
             return ResponseEntity.badRequest()
                     .body(result.getFieldError());
         }
         try {
             String uploadFilePath = getUploadFilePath(imageFile); //여기 메서드 추출한 거 사용
+            log.info("보드 컨트롤러 에서 String uploadFilePath = getUploadFilePath(imageFile); 받은 값 {} ",uploadFilePath);
 
             BoardRegistResponseDTO responseDTO = boardService.regist(dto, uploadFilePath, userInfo);
             log.info("받아온 dto -{}", responseDTO);
@@ -89,6 +90,7 @@ public class BoardController {
     //사진 이미지 데이터 응답 처리
     @GetMapping("load-profile/{boardNo}")
     public  ResponseEntity<?> loadFile(@PathVariable int boardNo) {
+        log.info("\n\n\n\n@GetMapping(\"load-profile/{boardNo}\") 요청이 들어왔어요 히히 ");
         try {
             String imagePath = boardService.findImagePath(boardNo);
 
