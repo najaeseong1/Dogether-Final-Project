@@ -46,12 +46,10 @@ const MyPage = () => {
         console.log(err);
       });
   }, []);
-  console.log('왜 글 목록 안옴?', userPosts);
-
   // 게시물 상세 페이지 이동
   const toPostDetail = (boardNo) => {
     console.log('boardNo:', boardNo);
-    const postDetailPath = `/boardDetail/${boardNo}`;
+    const postDetailPath = `${BOARD}/detail/${boardNo}`;
     navigate(postDetailPath);
   };
 

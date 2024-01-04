@@ -213,7 +213,7 @@ const BoardDetail = () => {
         console.error('상세 페이지로 이동 중 에러 발생:', error);
       });
   };
-
+  const currentUserId = localStorage.getItem('LOGIN_USERID');
   return (
     <div className='post-detail'>
       <h2>{boardDetail?.title}</h2>
@@ -230,18 +230,22 @@ const BoardDetail = () => {
       )}
       <p>{boardDetail?.content}</p>
 
-      <button
-        onClick={deleteBoard}
-        className='detail-btn'
-      >
-        삭제
-      </button>
-      <button
-        onClick={() => modifyHandler(boardDetail.boardNo)}
-        className='detail-btn'
-      >
-        수정
-      </button>
+      {currentUserId === boardDetail?.userId && (
+        <>
+          <button
+            onClick={deleteBoard}
+            className='detail-btn'
+          >
+            삭제
+          </button>
+          <button
+            onClick={() => modifyHandler(boardDetail.boardNo)}
+            className='detail-btn'
+          >
+            수정
+          </button>
+        </>
+      )}
       <div className='comment-section'>
         <ul>
           <h3>댓글 {comments.length}</h3>
@@ -272,14 +276,14 @@ const BoardDetail = () => {
                       className='replybutton'
                       onClick={() => replyDeleteHandler(comment.replyNo)}
                     >
-                      삭제
+                      {comment.userId === currentUserId && <>삭제&nbsp;</>}
                     </span>
                     &nbsp;
                     <span
                       className='replybutton'
                       onClick={() => setEditingComment(comment.replyNo)}
                     >
-                      수정
+                      {comment.userId === currentUserId && <>수정&nbsp;</>}
                     </span>
                   </p>
                 </>

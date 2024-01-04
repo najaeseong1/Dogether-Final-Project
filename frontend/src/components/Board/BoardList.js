@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import { API_BASE_URL, BOARD } from '../../global/config/host-config';
+import { WarningAlert2 } from '../../global/Alerts';
 const itemsPerPage = 10; // 페이지당 보여줄 항목 수
 const BOARDLIST_URL = `${API_BASE_URL}${BOARD}`;
 
@@ -31,6 +32,21 @@ const BoardList = () => {
 
     fetchData();
   }, []);
+  const userId = localStorage.getItem('LOGIN_USERID');
+
+  const BoardRegist = () => {
+    if (!userId) {
+      WarningAlert2(
+        '로그인 이후에 이용해 주세요',
+        '',
+        '로그인되어 있지 않습니다.'
+      );
+
+      return;
+    }
+
+    redirection('/boardRegist');
+  };
 
   //게시판 상세보기 요청
   const boardDetailHandler = (boardNo) => {
@@ -80,6 +96,12 @@ const BoardList = () => {
     setCurrentPage(page);
   };
 
+  // 테이블에서 글 번호를 계산하는 함수
+  const calculateRowNumber = (index) => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return filteredData.length - (startIndex + index);
+  };
+
   return (
     <div className='BoardListTemplate1'>
       <div className='boardTitile'>자유게시판</div>
@@ -113,12 +135,12 @@ const BoardList = () => {
           </tr>
         </thead>
         <tbody>
-          {paginatedData.map((post, index) => (
+          {paginatedData.reverse().map((post, index) => (
             <tr
               key={post.boardNo}
               onClick={() => boardDetailHandler(post.boardNo)}
             >
-              <td>{index + 1}</td>
+              <td>{calculateRowNumber(index)}</td>
               <td>{post.category}</td>
               <td>{post.title}</td>
               <td>{post.registDate}</td>
@@ -138,9 +160,12 @@ const BoardList = () => {
         </Stack>
       </div>
       <div className='listButtonDiv'>
-        <Link to={'/boardRegist'}>
-          <button className='listButton'>글쓰기</button>
-        </Link>
+        <button
+          className='listButton'
+          onClick={BoardRegist}
+        >
+          글쓰기
+        </button>
       </div>
     </div>
   );

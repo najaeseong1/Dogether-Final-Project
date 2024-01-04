@@ -95,11 +95,14 @@ public class PaymentService {
                 .orderName(response.getBody().getOrderName())
                 .amount(response.getBody().getTotalAmount())
                 .method(response.getBody().getMethod())
-                .status(response.getBody().getStatus())
                 .requestedAt(response.getBody().getRequestedAt())
                 .approvedAt(response.getBody().getApprovedAt())
+                .status(response.getBody().getStatus())
                 .user(user) // User 정보 설정
                 .build();
+        log.info("\n\n\n\n 토스에게 전달 받은 값 status {}", response.getBody().getStatus());
+
+        log.info("\n\n\n\n 페이먼츠에 넣은 전달 받은 값 status === {}  타입 === {} ", payment.getStatus());
 
         CardInfo cardInfo = null;
         if(response.getBody().getCard() != null) {
@@ -258,7 +261,8 @@ public class PaymentService {
         }
         Payment targetInfo = paymentEntityRepository.findByOrderId(orderId);
         targetInfo.setStatus(PaymentStatus.READY);
-
+        paymentEntityRepository.save(targetInfo);
+        log.info("타겟상품 -{}", targetInfo);
         log.info("\n\n\n 관리자가 사용할 결제된 내역 상태 변경 서비스 에서 타겟 Payment 정보 {}", targetInfo);
     }
 
@@ -282,13 +286,13 @@ public class PaymentService {
     }
 
     // 관리자의 READY 내역 조회 서비스
-    public List<PaymentResponse> getPaymentCanceledList(){
+    public List<PaymentResponse> getPaymentReadyList(){
         return paymentEntityRepository.findByStatus(PaymentStatus.READY).stream().map(PaymentResponse ::new)
                 .collect(Collectors.toList());
     }
 
     // 관리자의 CANCLED 내역 조회 서비스
-    public List<PaymentResponse> getPaymentReadyList(){
+    public List<PaymentResponse>  getPaymentCanceledList(){
         return paymentEntityRepository.findByStatus(PaymentStatus.CANCELED).stream().map(PaymentResponse ::new)
                 .collect(Collectors.toList());
     }

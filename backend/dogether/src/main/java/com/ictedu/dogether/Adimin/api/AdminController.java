@@ -85,7 +85,7 @@ public class AdminController {
     }
 
     //관리자 페이지 결제 status === READY 목록 불러오기
-    @PostMapping("/processList")
+    @GetMapping("/processList")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> processList() {
         try {
@@ -98,7 +98,7 @@ public class AdminController {
     }
 
     //관리자 페이지 결제 status === CANCELED 목록 불러오기
-    @PostMapping("/cancelList")
+    @GetMapping("/cancelList")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> cancelList() {
         try {
