@@ -2,7 +2,8 @@ import { React, useState, useEffect } from 'react';
 import './OrderHistory.scss';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { API_BASE_URL, PAYMENT } from '../../global/config/host-config';
+import { ADMIN, API_BASE_URL, PAYMENT } from '../../global/config/host-config';
+import { formattedAmount, formattedDate } from '../../global/utils/AuthContext';
 
 const orders = [
   {
@@ -27,26 +28,6 @@ const paymentStatusMap = {
   EXPIRED: '기간만료',
 };
 
-// date 날짜 포맷터
-// 2024-01-01T21:55:18+09:00 ==>> 2024년 01월 01일 21시 54분 12초
-const formatTime = (time) => {
-  // time을 Date 객체로 변환
-  const date = new Date(time);
-
-  // 각 부분 추출
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1; // 월은 0부터 시작하므로 1을 추가
-  const day = date.getDate();
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-  const seconds = date.getSeconds();
-
-  // 결과 문자열 생성
-  return `${year}년 ${month.toString().padStart(2, '0')}월 ${day
-    .toString()
-    .padStart(2, '0')}일, ${hours}시 ${minutes}분 ${seconds}초`;
-};
-
 // , 콤마 포맷터
 // , 가 나올때 마다 줄 바꿈 시켜줌
 const formatComma = (productList) => {
@@ -58,12 +39,8 @@ const formatComma = (productList) => {
   ));
 };
 
-const formatAmount = (amount) => {
-  const numberAmount = Number(amount);
-  return numberAmount.toLocaleString() + '원';
-};
-
 const OrderHistory = () => {
+  const [rejectionReason, setRejectionReason] = useState('');
   const orderPayment = (order) => {
     // productInfo에서 orderId가 order.OrderNumber와 같은 항목들을 필터링
     console.log('오더 페이먼츠 함수 에서 찎은 프로덕트 인포', productInfo);
@@ -93,7 +70,7 @@ const OrderHistory = () => {
       <div class= "swal_title">
         결제 내역
         <p class="order-number">주문번호: ${order.OrderNumber}</p>
-        <p class="order-number">주문 날짜: ${formatTime(order.date)}</p>
+        <p class="order-number">주문 날짜: ${formattedDate(order.date)}</p>
       </div>
       ${orderDetailsHtml}
     `,
@@ -121,6 +98,7 @@ const OrderHistory = () => {
        <p>상품명: ${order.product}</p>
        <p>결제 비용: ${order.amount}원</p>
        <p>배송지 정보<br> ${order.addr}원</p>
+      
    </div>
 `,
       icon: 'warning',
@@ -202,6 +180,40 @@ const OrderHistory = () => {
     fetchData();
   }, []);
 
+  // 관리자의 거절 사유 가져오기
+  const fetchRejectionReason = async (orderId) => {
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}${PAYMENT}/canceled/${orderId}`, // 올바른 엔드포인트로 교체
+        {
+          method: 'POST',
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('네트워크 응답이 올바르지 않습니다');
+      }
+
+      const data = await response.json();
+
+      // 응답 JSON이 'reasonsRefusal' 필드를 가지고 있다고 가정합니다.
+      const reasonsRefusal = data.reasonsRefusal;
+
+      Swal.fire({
+        title: '거절 사유',
+        text: reasonsRefusal,
+        icon: 'error',
+        confirmButtonText: '확인',
+      });
+    } catch (error) {
+      console.error('거절 사유를 가져오는 중 오류 발생:', error);
+      Swal.fire('에러가 발생했습니다.', '', 'error');
+    }
+  };
+
   return (
     <>
       <div className='mypage-fixed'>
@@ -254,10 +266,16 @@ const OrderHistory = () => {
                             {formatComma(order.product)}
                           </td>
                           <td className='order-date'>
-                            {formatComma(formatTime(order.date))}
+                            {formatComma(formattedDate(order.date))}
                           </td>
-                          <td>{formatAmount(order.amount)}</td>
-                          <td>{paymentStatusMap[order.paymentStatus]}</td>
+                          <td>{formattedAmount(order.amount)}</td>
+                          <td
+                          // onClick={() =>
+                          //   fetchRejectionReason(order.OrderNumber)
+                          // }
+                          >
+                            {paymentStatusMap[order.paymentStatus]}
+                          </td>
                           <td>
                             <button
                               className='orderButton'

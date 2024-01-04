@@ -35,8 +35,8 @@ const KakaoLoginHandler = () => {
 
       // const existEmail = localStorage.getItem('USER_EMAIL');
 
-      SuccessAlert2('추가 정보를 입력 해주세요.');
       if (userName === 'kakaoName') {
+        SuccessAlert2('추가 정보를 입력 해주세요.');
         redirection('/user/join');
       } else {
         redirection('/');

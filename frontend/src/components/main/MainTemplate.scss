@@ -132,10 +132,12 @@
             }
             &:hover img {
               filter: brightness(0.5);
+              cursor: pointer;
             }
 
             &:hover div {
               opacity: 1;
+              cursor: pointer;
             }
           }
         }
@@ -146,6 +148,9 @@
             flex-wrap: nowrap;
             justify-content: space-around;
             height: 30px;
+            &:hover {
+              cursor: pointer;
+            }
             .category {
               min-width: 40px;
             }

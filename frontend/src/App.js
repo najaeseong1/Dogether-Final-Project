@@ -68,7 +68,7 @@ function App() {
               element={<Board />}
             />
             <Route
-              path='/boardDetail/:boardNo'
+              path='/board/detail/:boardNo'
               element={<BoardDetail />}
             />
             <Route

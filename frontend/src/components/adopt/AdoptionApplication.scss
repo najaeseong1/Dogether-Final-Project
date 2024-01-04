@@ -324,7 +324,10 @@
     font-weight: 800;
     font-weight: bold;
     &:hover {
+      color: #0e0d0d;
       background-color: #f6cbbc;
+      border-color: #f6cbbc;
+      cursor: pointer;
     }
   }
 }

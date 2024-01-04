@@ -10,7 +10,7 @@ const MyPage = () => {
   const navigate = useNavigate();
   const [userPosts, setUserPosts] = useState([]);
 
-  const userId = localStorage.getItem('LOGIN_USERID');
+  const userId = localStorage.getItem('USER_ID');
   // 점수 70 점 이상이면 수료 /
   //const score = 75;
   const [score, setScore] = useState('');
@@ -46,12 +46,10 @@ const MyPage = () => {
         console.log(err);
       });
   }, []);
-  console.log('왜 글 목록 안옴?', userPosts);
-
   // 게시물 상세 페이지 이동
   const toPostDetail = (boardNo) => {
     console.log('boardNo:', boardNo);
-    const postDetailPath = `/boardDetail/${boardNo}`;
+    const postDetailPath = `${BOARD}/detail/${boardNo}`;
     navigate(postDetailPath);
   };
 

@@ -54,7 +54,7 @@ const AdoptionStatus = () => {
 
         // 사용자의 아이디와 일치하는 입양신청서만 필터링
         const userAdoptionList = data.dtoList.filter(
-          (adoption) => adoption.userId === localStorage.getItem('LOGIN_USERID')
+          (adoption) => adoption.userId === localStorage.getItem('USER_ID')
         );
 
         setAdoptionList(userAdoptionList);

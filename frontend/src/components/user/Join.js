@@ -209,7 +209,7 @@ const Join = () => {
     setPostNo(e.target.value);
   };
 
-  // 이메일 발송 요청 함수
+  // 인증메일 발송 요청 함수
   const sendVerificationEmail = async () => {
     console.log(
       `이메일 발송 요청 함수 ==== ${API_BASE_URL}${USER}/checkmailsend`
@@ -231,7 +231,7 @@ const Join = () => {
       console.log('이메일 발송 응답:', response.data);
       setVerificationCodeFromServer(response.data.code);
       Swal.fire({
-        text: '이메일이 발송되었습니다!',
+        text: '인증메일이 발송되었습니다!',
         confirmButtonColor: '#e89b93',
         confirmButtonText: '확인',
         icon: 'success',
@@ -607,7 +607,6 @@ const Join = () => {
             id='sample6_extraAddress'
             placeholder='참고항목'
             ref={extraAddressInputRef}
-            value={extraAddress}
             readOnly
           />
         </div>
@@ -674,8 +673,6 @@ const Join = () => {
           회원가입
         </button>
       </div>
-
-      {/* </form>  */}
     </div>
   );
 };

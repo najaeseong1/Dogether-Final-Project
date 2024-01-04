@@ -21,13 +21,18 @@ const Board = () => {
   const handleSubmit = (e) => {
     // 비동기 함수로 변경
     e.preventDefault();
-    if (title.length === 0 || content.length === 0) {
-      alert('입력창이 비었습니다.');
+    if (title.length === 0) {
+      Swal.fire('제목을 입력해 주시기 바랍니다', '', 'warning');
+      return;
+    }
+
+    if (content.length === 0) {
+      Swal.fire('내용을 입력해 주시기 바랍니다', '', 'warning');
       return;
     }
 
     if (!category) {
-      alert('카테고리를 선택해주세요');
+      Swal.fire('카테고리를 선택해 주시기 바랍니다', '', 'warning');
       return;
     }
 
@@ -181,12 +186,17 @@ const Board = () => {
             <option value='자유'>자유 게시판</option>
           </select>
         </label>
-        <label>
+        <label
+          for='file'
+          className='fileLabel'
+        >
           파일 첨부
           <input
             type='file'
+            id='file'
             onChange={handleFileChange}
             ref={$fileTag}
+            hidden
           />
         </label>
 

@@ -1,8 +1,9 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react';
 import './MainTemplate.scss';
 import ImageSlider from './ImageSlider';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Grid } from '@mui/material';
 import { API_BASE_URL, ADOPT, BOARD } from '../../global/config/host-config';
 import LoadingPink from '../../global/LoadingPink';
@@ -27,6 +28,7 @@ const Modal = ({ children, visible, onClose }) => {
 };
 
 const MainTemplate = () => {
+  const navigate = useNavigate();
   const [popupVisible, setPopupVisible] = useState(() => {
     const dontShowToday = localStorage.getItem('dontShowToday');
     if (dontShowToday) {
@@ -79,6 +81,15 @@ const MainTemplate = () => {
   // 로딩 상태 변수를 추가합니다.
   const [loading, setLoading] = useState(true);
 
+  // 이미지 URL을 저장할 새로운 상태
+  const [reviewImages, setReviewImages] = useState({});
+
+  // 이미지 로딩이 되었는지 확인하는 상태 추가
+  const [imagesLoaded, setImagesLoaded] = useState(false);
+
+  const limitedAdoptList = adoptList.slice(0, 8);
+  const limitedBoardList = boardList.slice(0, 5);
+
   useEffect(() => {
     setLoading(true); // 데이터를 가져오기 전에 로딩 상태를 true로 설정
     // '/adopt' 요청
@@ -94,18 +105,19 @@ const MainTemplate = () => {
       });
 
     // '/board' 요청
-    console.log(`${API_BASE_URL}`);
+    // console.log(`${API_BASE_URL}`);
     axios
       .get(`${API_BASE_URL}${BOARD}`)
       .then((res) => {
         // console.log('board 요청', res);
-        const reviewData = res.data.boards.filter(
-          (boards) => boards.category === '후기'
-        );
-        setReviewList(reviewData.slice(0, 5)); // '후기' 데이터를 상태로 설정
         const boardData = res.data.boards.filter(
-          (boards) => boards.category === '자유'
+          (board) => board.image === null
         );
+        const reviewData = res.data.boards.filter(
+          (board) => board.image !== null
+        );
+
+        setReviewList(reviewData.slice(0, 5)); // '후기' 데이터를 상태로 설정
         setBoardList(boardData.slice(0, 5)); // '자유' 데이터를 상태로 설정
       })
       .catch((err) => {
@@ -113,14 +125,83 @@ const MainTemplate = () => {
       });
   }, []);
 
+  // s3 이미지 따로 요청 보내야 함
+  useEffect(() => {
+    // 'reviewList' 상태가 변경될 때마다 'limitedReviewList'를 계산합니다.
+    const limitedReviewList = reviewList.slice(0, 5);
+
+    const loadImages = async () => {
+      const promises = limitedReviewList.map(async (review) => {
+        const response = await fetch(
+          `${API_BASE_URL}${BOARD}/load-profile/${review.boardNo}`
+        );
+        if (!response.ok) {
+          // 이미지를 불러오는 데 실패한 경우, 리뷰에 default_image_url을 할당
+          return [review.boardNo, 'default_image_url'];
+        }
+        const imageBlob = await response.blob();
+        console.log('무한 요청 얘임?' + response);
+        return [review.boardNo, URL.createObjectURL(imageBlob)];
+      });
+
+      // 로딩된 이미지를 상태에 저장하는 로직...
+      const images = await Promise.all(promises);
+      // images는 [boardNo, imageURL] 쌍을 포함하는 배열입니다.
+      // 이를 객체로 변환하여 상태에 저장합니다.
+      setReviewImages(
+        images.reduce((acc, [boardNo, imageURL]) => {
+          acc[boardNo] = imageURL;
+          return acc;
+        }, {})
+      );
+    };
+    if (reviewList.length > 0 && !imagesLoaded) {
+      loadImages();
+    }
+  }, [reviewList, imagesLoaded]); // 의존성 배열에 'imagesLoaded'를 추가합니다
+
+  // 입양 상세페이지로 요청
+  const goAdoptionListDetail = (desertionNo) => {
+    fetch(`${API_BASE_URL}${ADOPT}/detail/${desertionNo}`)
+      .then((response) => response.json())
+      .then((data) => {
+        fetch(`${API_BASE_URL}${ADOPT}/detail/${desertionNo}`);
+        // 상세 페이지로 이동하는 로직을 추가
+        // const selectedDog = adoptList.find(item => item.desertionNo === desertionNo);
+        navigate(`${ADOPT}/detail/${desertionNo}`, {
+          state: { adoptListDetail: data },
+        });
+        console.log('상세 페이지 데이터:', data);
+      })
+      .catch((error) => {
+        console.error('상세 페이지로 이동 중 에러 발생:', error);
+      });
+  };
+
+  //게시판 상세보기 요청
+  const boardDetailHandler = (boardNo) => {
+    const token = localStorage.getItem('ACCESS_TOKEN');
+
+    fetch(`${API_BASE_URL}${BOARD}/detail/${boardNo}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        navigate(`/boarddetail/${boardNo}`, {
+          state: { boarddetail: data },
+        });
+        console.log('상세 페이지 데이터:', data);
+      })
+      .catch((error) => {
+        console.error('상세 페이지로 이동 중 에러 발생:', error);
+      });
+  };
+
   // console.log('입양리스트 : axios 후에', adoptList);
   // console.log(reviewList);
   // console.log(boardList);
-
-  // 각 리스트의 처음 8개 또는 5개 항목만 선택
-  const limitedAdoptList = adoptList.slice(0, 8);
-  const limitedReviewList = reviewList.slice(0, 5);
-  const limitedBoardList = boardList.slice(0, 5);
 
   // 로딩 상태와 컴포넌트 렌더링 부분을 분리합니다.
   let content;
@@ -132,18 +213,40 @@ const MainTemplate = () => {
         item
         className='image'
         key={index}
+        onClick={() => goAdoptionListDetail(adoptList.desertionNo)}
       >
-        <Link to={`${ADOPT}/detail/${adoptList.desertionNo}`}>
-          <img
-            src={adoptList.profileImg}
-            alt='분양게시판 강아지사진'
-          />
-          <div className='category'>
-            {adoptList.kindCd}
-            {adoptList.gender === 'M' ? '수컷' : '암컷'}
-            {adoptList.age}
-          </div>
-        </Link>
+        <img
+          src={adoptList.profileImg}
+          alt='분양게시판 강아지사진'
+        />
+        <div className='category'>
+          {adoptList.kindCd}
+          {adoptList.gender === 'M' ? '수컷' : '암컷'}
+          {adoptList.age}
+        </div>
+      </Grid>
+    ));
+  }
+  let reviewContent;
+  if (!imagesLoaded) {
+    reviewContent = <LoadingPink />; // 로딩 상태이면 LoadingPink 컴포넌트를 보여주기
+  } else {
+    reviewContent = limitedAdoptList.map((adoptList, index) => (
+      <Grid
+        item
+        className='image'
+        key={index}
+        onClick={() => goAdoptionListDetail(adoptList.desertionNo)}
+      >
+        <img
+          src={adoptList.profileImg}
+          alt='분양게시판 강아지사진'
+        />
+        <div className='category'>
+          {adoptList.kindCd}
+          {adoptList.gender === 'M' ? '수컷' : '암컷'}
+          {adoptList.age}
+        </div>
       </Grid>
     ));
   }
@@ -236,22 +339,24 @@ const MainTemplate = () => {
               </Link>
               <hr />
               <div className='reviewList'>
-                {limitedBoardList.length > 0 ? (
-                  limitedReviewList.map((reviewList, index) => (
+                {reviewList.length > 0 ? (
+                  reviewList.slice(0, 5).map((review, index) => (
                     <Grid
                       item
                       className='image'
                       key={index}
                     >
-                      <Link to={`${BOARD}/${reviewList.boardNo}`}>
+                      <a onClick={() => boardDetailHandler(review.boardNo)}>
                         <img
-                          src={reviewList.imgage}
+                          src={
+                            reviewImages[review.boardNo] || 'default_image_url'
+                          } // reviewImages에서 해당 boardNo의 이미지 URL을 찾아서 사용
                           alt='강아지후기사진'
                         />
                         <div className='category'>
-                          후기 게시글 {reviewList.title} {reviewList.regDate}
+                          후기 게시글 {review.title} {review.regDate}
                         </div>
-                      </Link>
+                      </a>
                     </Grid>
                   ))
                 ) : (
@@ -281,11 +386,11 @@ const MainTemplate = () => {
                       xs={12}
                       key={index}
                     >
-                      <Link to={`/boarddetail/${boardList.boardNo}`}>
+                      <a onClick={() => boardDetailHandler(boardList.boardNo)}>
                         <div className='category'>{boardList.category}</div>
                         <div className='title'>{boardList.title}</div>
                         <div className='regDate'>{boardList.registDate}</div>
-                      </Link>
+                      </a>
                     </Grid>
                   ))
                 ) : (

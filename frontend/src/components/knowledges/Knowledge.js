@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './Knowledge.scss';
+import AuthContext from '../../global/utils/AuthContext';
 
 const Knowledge = () => {
   const [isText1Visible1, setText1Visible1] = useState(false);
   const [isText1Visible2, setText1Visible2] = useState(false);
   const [isText1Visible3, setText1Visible3] = useState(false);
-  const userId = localStorage.getItem('LOGIN_USERID');
+  const userId = localStorage.getItem('USER_ID');
 
   const handleHead1Click1 = () => {
     setText1Visible1(!isText1Visible1);
@@ -17,6 +18,9 @@ const Knowledge = () => {
     setText1Visible3(!isText1Visible3);
   };
 
+  const { isLoggedIn } = useContext(AuthContext);
+  useEffect(() => {}, []);
+
   return (
     <div className='knowledge-wrapper'>
       <span className='know1'>
@@ -26,13 +30,21 @@ const Knowledge = () => {
         />
       </span>
 
-      <div className='startmsg'>
-        <p>
-          안녕하세요 {userId}님&nbsp; <br />
-          필수&nbsp;지식&nbsp;튜토리얼을&nbsp;시작할게요.
-        </p>
-      </div>
-
+      {isLoggedIn ? (
+        <div className='startmsg'>
+          <p>
+            안녕하세요 {userId}님&nbsp; <br />
+            필수&nbsp;지식&nbsp;튜토리얼을&nbsp;시작할게요.
+          </p>
+        </div>
+      ) : (
+        <div className='startmsg'>
+          <p>
+            안녕하세요 <br />
+            필수&nbsp;지식&nbsp;튜토리얼을&nbsp;시작할게요.
+          </p>
+        </div>
+      )}
       <div className='head1'></div>
 
       <div>

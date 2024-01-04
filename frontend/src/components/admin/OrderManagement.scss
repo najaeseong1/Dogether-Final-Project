@@ -1,0 +1,23 @@
+.box {
+  position: absolute;
+  width: 900px;
+  margin-top: 20px;
+  padding: 20px;
+  border: 4px solid #6e6e6d;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-family: 'IBM Plex Sans KR', sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
+  max-height: 780px;
+  overflow-y: auto;
+  top: 262px;
+  border-bottom: none;
+
+  &::-webkit-scrollbar {
+    width: 12px; /* 스크롤바 너비 */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #6e6e6d; /* 스크롤바 색상 */
+    border-radius: 4px; /* 스크롤바 모서리 둥글게 */
+  }
+}
