@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
 const Join = () => {
   const redirect = useNavigate();
 
-  const {setIsLoggedIn} = useContext(AuthContext);
+  const { setIsLoggedIn } = useContext(AuthContext);
   const [readOnly, setReadOnly] = useState(false);
 
   // 초기값 세팅 (아이디(이메일?))
@@ -115,7 +115,6 @@ const Join = () => {
         setIsUserId(false);
       }
     }
-    
   };
 
   // 이름 유효성 검사
@@ -164,7 +163,7 @@ const Join = () => {
   };
 
   // 이메일 유효성 검사
-  const onChangeEmail = async(e) => {
+  const onChangeEmail = async (e) => {
     const currentEmail = e.target.value;
     setUserEmail(currentEmail);
     const emailRegExp =
@@ -176,8 +175,6 @@ const Join = () => {
     } else {
       setUserEmailMessage('사용 가능한 이메일 입니다.');
       setIsUserEmail(true);
-
-      
     }
   };
 
@@ -262,12 +259,10 @@ const Join = () => {
     }
   };
 
-
-
   //회원가입 요청 처리
   const onSubmit = async () => {
     try {
-      let emailToUse =  userEmail;
+      let emailToUse = userEmail;
       const storedUserEmail = localStorage.getItem('USER_EMAIL');
       if (storedUserEmail) {
         emailToUse = storedUserEmail;
@@ -278,7 +273,6 @@ const Join = () => {
         //emailToUse = storedUserEmail;
       }
       console.log('Before sending to server - User Pass:', userPass);
-     
 
       if (
         // isUserId &&
@@ -305,7 +299,6 @@ const Join = () => {
             },
           }
         );
-        
 
         // 서버 응답 확인
         if (response.status === 200) {
@@ -318,7 +311,6 @@ const Join = () => {
           });
           console.log('회원가입 완료:', response.data);
           redirect(`${USER}/login`);
-          
         } else {
           console.error('회원가입 실패:', response.data);
         }
@@ -405,38 +397,35 @@ const Join = () => {
     setAllCheckBox(checkboxes.every((checkbox) => checkbox === true));
   }, [mustCheckbox, agreeCheckBox]);
 
-    useEffect(() => {
-      const storedUserEmail = localStorage.getItem('USER_EMAIL');
-      
-    
-      if (storedUserEmail) {
-        const extractedUserId = storedUserEmail.split('@')[0];
-        setUserId(extractedUserId);
-        setUserEmail(storedUserEmail);
-        setReadOnly(true);
-      }
-      console.log('Initial readOnly value:', readOnly);
-    }, []);
-    
-  
+  useEffect(() => {
+    const storedUserEmail = localStorage.getItem('USER_EMAIL');
 
-    useEffect(() => {
-      // userName이 변경될 때 로컬 스토리지의 USER_NAME을 업데이트
-      localStorage.setItem('USER_NAME', userName);
-      console.log(userName);
-    }, [userName]);
+    if (storedUserEmail) {
+      const extractedUserId = storedUserEmail.split('@')[0];
+      setUserId(extractedUserId);
+      setUserEmail(storedUserEmail);
+      setReadOnly(true);
+    }
+    console.log('Initial readOnly value:', readOnly);
+  }, []);
 
-    useEffect(() => {
-      // 이메일 인증이 완료되면 userEmail input을 readOnly로 처리
-      if (isEmailCheck) {
-        setReadOnly(true);
-      }
-    }, [isEmailCheck]);
-    
+  useEffect(() => {
+    // userName이 변경될 때 로컬 스토리지의 USER_NAME을 업데이트
+    localStorage.setItem('USER_NAME', userName);
+    console.log(userName);
+  }, [userName]);
+
+  useEffect(() => {
+    // 이메일 인증이 완료되면 userEmail input을 readOnly로 처리
+    if (isEmailCheck) {
+      setReadOnly(true);
+    }
+  }, [isEmailCheck]);
 
   return (
     <div className='joinmain'>
-      <div className='joinmsg'>회원가입</div>
+      <div className='headerjoin'></div>
+      <div className='joinmsg'>회원정보 입력</div>
       <div className='feelsudiv'>필수 정보 입력</div>
       <div className='iddiv'>
         <input
@@ -475,7 +464,7 @@ const Join = () => {
       <div className='passwordcheck'>
         <input
           type='password'
-          placeholder='비밀번호 확인.'
+          placeholder='비밀번호 확인'
           id='passwordcheck'
           value={userPassCheck}
           onChange={onChangePasswordCheck}
@@ -618,7 +607,6 @@ const Join = () => {
             id='sample6_extraAddress'
             placeholder='참고항목'
             ref={extraAddressInputRef}
-            value={extraAddress}
             readOnly
           />
         </div>
@@ -685,8 +673,6 @@ const Join = () => {
           회원가입
         </button>
       </div>
-
-      {/* </form>  */}
     </div>
   );
 };

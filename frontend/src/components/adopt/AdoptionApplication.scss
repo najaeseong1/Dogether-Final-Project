@@ -2,6 +2,9 @@
   position: relative;
   top: 80px;
   height: 1200px;
+  input {
+    font-size: 15px;
+  }
 }
 
 .main2 .modal-overlayy {
@@ -50,7 +53,7 @@
   border-top: none;
   position: relative;
   bottom: 30px;
-  left: 300px;
+  left: 290px;
 }
 
 .main2 .name {
@@ -181,6 +184,7 @@
 
 .main2 .doginfo {
   text-align: center;
+
   width: 150px;
   border: 1px solid pink;
   border-width: 5px;
@@ -289,6 +293,7 @@
   left: 25px;
   top: 280px;
   font-weight: bold;
+  font-family: 'IBM Plex Sans KR', sans-serif;
 
   input {
     border: 1px solid #e89b93;
@@ -309,13 +314,21 @@
   top: 330px;
   font-weight: bold;
   button {
-    border: 1px solid pink;
+    border: 1px solid #f3ded7;
     border-width: 3px;
     border-radius: 20px;
     background-color: #f3ded7;
     width: 130px;
     height: 50px;
+    color: #989898;
+    font-weight: 800;
     font-weight: bold;
+    &:hover {
+      color: #0e0d0d;
+      background-color: #f6cbbc;
+      border-color: #f6cbbc;
+      cursor: pointer;
+    }
   }
 }
 .main2 {

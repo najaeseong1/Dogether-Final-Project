@@ -199,26 +199,6 @@ const AdoptionList = () => {
                   defaultValue={online[0]}
                   value={selectOnline}
                 />
-                {/* <select  className='category'  >
-            <option >ALL</option>
-            <option value='6110000'>서울특별시</option>
-            <option value='6260000'>부산광역시</option>
-            <option value='6270000'>대구광역시</option>
-            <option value='6280000'>인천광역시</option>
-            <option value='6290000'>광주광역시</option>
-            <option value='5690000'>세종특별자치시</option>
-            <option value='6300000'>대전광역시</option>
-            <option value='6310000'>울산광역시</option>
-            <option value='6410000'>경기도</option>
-            <option value='6530000'>강원특별자치도</option>
-            <option value='6430000'>충청북도</option>
-            <option value='6440000'>충청남도</option>
-            <option value='6450000'>전라북도</option>
-            <option value='6460000'>전라남도</option>
-            <option value='6270000'>경상북도</option>
-            <option value='6480000'>경상남도</option>
-            <option value='6500000'>제주특별자치도</option>     
-          </select> */}
               </label>
 
               <label>
@@ -229,22 +209,6 @@ const AdoptionList = () => {
                 ></input>
               </label>
             </form>
-
-            {/* {cutAdoptList.map((adoptList, index) => (
-          <div key={index} className={`frame-${index + 1}`} onClick={goAdoptionListDetail}>        
-            <img className={`image-${index + 1}`} src={adoptList.profileImg} alt={`dogImg ${index + 1}`} />
-              <div className={`frameInfo-${index + 1}`}>
-                견종: {adoptList.kindCd} <br/>
-                성별: {adoptList.gender} <br/>
-                나이: {adoptList.age} <br/>
-                중성화여부: {adoptList.neuterYn}
-              </div>
-          </div>
-          
-        ))} */}
-
-            {/* 여기에 폼 코드를 추가하세요 */}
-
             {paginatedData.map((item, index) => (
               <div
                 key={index}
@@ -264,14 +228,6 @@ const AdoptionList = () => {
                 </div>
               </div>
             ))}
-
-            {/* 현재 페이지에 해당하는 데이터 표시
-          <ul>
-            {paginatedData.map(item => (
-              <li key={item.id}>{item.name}</li>
-            ))}
-          </ul> */}
-
             <div className='pageNum'>
               <Stack spacing={2}>
                 <Pagination

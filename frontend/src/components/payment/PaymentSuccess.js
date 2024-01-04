@@ -48,6 +48,7 @@ function PaymentSuccess() {
     //     }
     //   );
 
+    console.log('전달받은 requestData', requestData);
     async function confirm() {
       const response = await fetch(`${API_BASE_URL}${PAYMENT}`, {
         method: 'POST',
