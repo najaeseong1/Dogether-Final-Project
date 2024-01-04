@@ -17,6 +17,8 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import javax.annotation.PostConstruct;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 
 @Service
 @Slf4j
@@ -56,7 +58,8 @@ public class S3Service {
      * @return - 버킷에 업로드 된 버킷 경로(url)
      */
     public String uploadToS3Bucket(byte[] uploadFile, String fileName) {
-        log.info("\n\n\n uploadToS3Bucket(byte[] uploadFile, String fileName) 업로드 버킷 요청 들어옴");
+        log.info("\n\n\n uploadToS3Bucket(byte[] uploadFile, String {}) 업로드 버킷 요청 들어옴",fileName);
+
         // 업로드 할 파일을 S3 오브젝트로 생성
         PutObjectRequest request
                 = PutObjectRequest.builder()
@@ -81,6 +84,7 @@ public class S3Service {
         // 다운로드 요청 들어옴 fileName === https://s3.ap-northeast-2.amazonaws.com/dogether.site/34f74421-44a7-4dab-a434-78bb377b64d5-map-marker-icon_34392%20%281%29.png
         // 이런식으로 들어와서 앞부분 dogether.site/ 까지 잘라야 할듯
         String fileRawName = extractKeyFromUrl(fileName);
+        log.info("\n\n\n downloadFromS3Bucket에서 extractKeyFromUrl 뽑아낸 경로 얘가 key가 되야 함 fileName === {}",fileRawName);
 
         try {
             // S3에서 파일을 가져오는 요청 생성
@@ -88,6 +92,8 @@ public class S3Service {
                     .bucket(bucketName)
                     .key(fileRawName)
                     .build();
+
+
 
             // S3 버킷에서 파일을 가져와서 바이트 배열로 반환
             ResponseBytes<GetObjectResponse> objectBytes = s3.getObjectAsBytes(getObjectRequest);
@@ -109,12 +115,19 @@ public class S3Service {
             String filePath = url.getPath();
             // 'dogether.site/' 문자열 이후의 부분을 추출합니다.
             String fileOriginName = filePath.substring(filePath.indexOf("dogether.site/") + "dogether.site/".length());
+            String decodedKey = decodeS3Key(fileOriginName);
             log.info("\n\n\n extractKeyFromUrl에서 뽑아낸 fileOriginName === {}", fileOriginName);
-            return fileOriginName;
+            log.info("\n\n\n extractKeyFromUrl에서 뽑아낸 decodedKey === {}", decodedKey);
+            return decodedKey;
         } catch (MalformedURLException e) {
             log.error("잘못된 URL 형식입니다: {}", fileUrl);
             throw new IllegalArgumentException("잘못된 URL 형식", e);
         }
+    }
+
+    public String decodeS3Key(String encodedKey) {
+        // URL 인코딩된 키 값을 디코딩합니다.
+        return URLDecoder.decode(encodedKey, StandardCharsets.UTF_8);
     }
 
 

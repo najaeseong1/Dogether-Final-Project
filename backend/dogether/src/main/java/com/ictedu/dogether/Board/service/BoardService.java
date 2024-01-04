@@ -263,20 +263,9 @@ public class BoardService {
         public String uploadImage(MultipartFile imageFile) throws IOException {
             log.info("uploadImage 메서드 요청 들어옴 ");
 
-           //이거 지워도됨
-            File rootDir = new File(uploadRootPath);
-            if(!rootDir.exists()) rootDir.mkdir();
-
-
             //이름 충돌 가능성 배제하기
             String uniqueFileName = UUID.randomUUID() + "-" + imageFile.getOriginalFilename();
             log.info("파일이름 -{}",uniqueFileName);
-
-            if(!imageFile.getOriginalFilename().contains("https:")){
-                //파일 저장하기(이것도 지워도됨)
-                File uploadFile = new File(uploadRootPath + "/" + uniqueFileName);
-                imageFile.transferTo(uploadFile);
-            }
 
 //            return uniqueFileName;
             //파일 s3에 저장

@@ -150,7 +150,7 @@ public class BoardController {
     private String getUploadFilePath(MultipartFile imageFile) throws IOException {
         String uploadFilePath = null; //기본값이  null임
         if (imageFile != null) {
-            log.info("이미지 파일 요청 들어왔음");
+            log.info("이미지 파일 요청 들어왔음 MultipartFile === {} ", imageFile);
             uploadFilePath = boardService.uploadImage(imageFile);
             log.info("이미지 경로 요청 들어옴 ");
         }
