@@ -42,6 +42,7 @@ public class PaymentController {
             return ResponseEntity.ok().body(paymentList);
         } catch (Exception e) {
             e.printStackTrace();
+            log.info("getPaymentList 컨트롤러 실패 응답 ");
             return ResponseEntity.badRequest()
                     .body(e.getMessage());
         }
