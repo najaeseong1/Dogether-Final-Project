@@ -10,7 +10,7 @@ const MyPage = () => {
   const navigate = useNavigate();
   const [userPosts, setUserPosts] = useState([]);
 
-  const userId = localStorage.getItem('LOGIN_USERID');
+  const userId = localStorage.getItem('USER_ID');
   // 점수 70 점 이상이면 수료 /
   //const score = 75;
   const [score, setScore] = useState('');

@@ -15,7 +15,7 @@ const AdoptionListDetail = () => {
   const [isLiked, setIsLiked] = useState(false);
   const [wishNo, setWishNo] = useState(null);
 
-  const userId = localStorage.getItem('LOGIN_USERID');
+  const userId = localStorage.getItem('USER_ID');
   const token = localStorage.getItem('ACCESS_TOKEN');
 
   // const [profileImgStyle, setProfileImgStyle] = useState({
@@ -33,7 +33,7 @@ const AdoptionListDetail = () => {
         WarningAlert2(
           '로그인 이후에 이용해 주세요',
           '',
-          '로그인되어 있지 않습니다.'
+          '로그인 되어 있지 않습니다.'
         );
         // console.error('사용자가 로그인되어 있지 않습니다.');
         // alert('사용자가 로그인되어 있지 않습니다.');

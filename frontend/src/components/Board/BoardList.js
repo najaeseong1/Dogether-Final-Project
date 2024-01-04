@@ -43,7 +43,7 @@ const BoardList = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        navigate(`/boardDetail/${boardNo}`, {
+        navigate(`${BOARD}/detail/${boardNo}`, {
           state: { boarddetail: data },
         });
         console.log('상세 페이지 데이터:', data);
