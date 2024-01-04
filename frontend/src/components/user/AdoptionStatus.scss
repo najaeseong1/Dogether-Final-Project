@@ -1,23 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&family=Jua&family=Noto+Sans+KR:wght@100&family=Poiret+One&display=swap');
+
 .mypage-title {
   font-size: 30px;
   border-bottom: 2px solid #e89b93;
   position: relative;
-  left: 500px;
+  left: 600px;
   text-align: center;
   width: 200px;
-  padding-bottom: 10px;
-  
+  padding-bottom: 5px;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 .adoption-status {
-  // border: 1px solid pink;
-  // border-radius: 10px;
-  // width: 900px;
-  // height: 200px;
-  // margin-top: 20px;
-  // position: relative;
-  // top: 40px;
-  // left: 300px;
-
   position: absolute;
   left: 300px;
   width: 900px;
@@ -30,16 +23,15 @@
   font-family: 'Noto Sans KR', sans-serif;
   max-height: 500px;
   overflow-y: auto;
-  overflow-x: hidden; /* 가로 스크롤바 감춤 */
+  overflow-x: hidden;
 
   &::-webkit-scrollbar {
-    width: 12px; /* 스크롤바 너비 */
-   
+    width: 12px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #6e6e6d; /* 스크롤바 색상 */
-    border-radius: 4px; /* 스크롤바 모서리 둥글게 */
+    background-color: #6e6e6d;
+    border-radius: 4px;
   }
 
   img {
@@ -53,13 +45,22 @@
     font-size: 30px;
     position: relative;
     left: 730px;
-    //bottom: 50%;
     bottom: 350px;
-    border: 1px solid pink;
     align-items: center;
-
   }
 
+  .result-button {
+    font-size: 25px;
+    position: relative;
+    left: 710px;
+    bottom: 320px;
+    align-items: center;
+
+    &:hover {
+      background-color: white;
+      color: #aba6a6;
+    }
+  }
   .divv {
     border: 1px solid #aba6a6;
     border-top: none;
@@ -68,18 +69,31 @@
     height: 200px;
   }
 
-  .dog-profil{
+  .dog-profil {
     position: relative;
     right: 200px;
     bottom: 10px;
   }
-  .dog-profil2{
+  .dog-profil2 {
     position: relative;
-    left: 400px;
+    left: 300px;
     bottom: 220px;
   }
 }
 .dog-profil {
   margin-top: 20px;
   margin-left: 250px;
+}
+#in-progress {
+  font-size: 20px;
+  position: relative;
+  left: 730px;
+  bottom: 310px;
+  align-items: center;
+  background-color: white;
+  color: inherit;
+  padding: 0;
+  border: none;
+  color: red;
+  cursor: not-allowed;
 }

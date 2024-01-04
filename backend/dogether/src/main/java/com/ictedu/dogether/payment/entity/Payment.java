@@ -1,6 +1,7 @@
 package com.ictedu.dogether.payment.entity;
 
 import com.ictedu.dogether.ownproduct.entity.Product;
+import com.ictedu.dogether.payment.dto.PaymentStatus;
 import com.ictedu.dogether.userapi.entity.User;
 import lombok.*;
 
@@ -35,7 +36,7 @@ public class Payment {
     private String method;                  // 지불 수단
 
     @Column(name = "status",nullable = false)
-    private String status;                  // 결제 상태
+    private PaymentStatus status;                  // 결제 상태
 
 // - READY: 결제를 생성하면 가지게 되는 초기 상태입니다. 인증 전까지는 READY 상태를 유지합니다.
 // - IN_PROGRESS: 결제수단 정보와 해당 결제수단의 소유자가 맞는지 인증을 마친 상태입니다. 결제 승인 API를 호출하면 결제가 완료됩니다.
@@ -63,6 +64,11 @@ public class Payment {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private CardInfo card;                  // 카드 정보
+
+    @Column(name = "payment_canceled")
+    private String reasonsRefusal; // 거절 사유
+
+
 
 
 }

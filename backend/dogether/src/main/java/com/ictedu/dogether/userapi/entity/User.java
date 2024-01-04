@@ -1,7 +1,9 @@
 package com.ictedu.dogether.userapi.entity;
 
 import com.ictedu.dogether.Board.Entity.Board;
+import com.ictedu.dogether.Board.Entity.Reply;
 import com.ictedu.dogether.adoptApi.Entity.Wish;
+import com.ictedu.dogether.adoptContract.Entity.AdoptContract;
 import lombok.*;
 import javax.persistence.*;
 import java.util.List;
@@ -51,10 +53,18 @@ public class User {
     private String accessToken;
 
     // 회원 탈퇴시 작성한 게시물도 삭제.
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     List<Board> boardList;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    // 회원 탈퇴시 작성한 댓글도 삭제.
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    List<Reply> replyList;
+
+    // 회원 탈퇴시 작성한 입양신청서도 삭제.
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    List<AdoptContract> AdoptContract;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     List<Wish> wishList;
 
 

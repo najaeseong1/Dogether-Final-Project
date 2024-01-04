@@ -173,8 +173,8 @@ const AdoptionListDetail = () => {
             <p> 견종: {adoptListDetail?.kindCd}</p>
             <p> 색상: {adoptListDetail?.colorCd}</p>
             <p> 무게: {adoptListDetail?.weight}</p>
-            <p> 성별: {adoptListDetail?.gender}</p>
-            <p> 중성화 여부: {adoptListDetail?.neuterYn}</p>
+            <p> 성별: {adoptListDetail?.gender === 'M' ? '수컷' : '암컷'}</p>
+            <p> 중성화 여부: {adoptListDetail?.neuterYn === 'Y' ? '0' : 'x'}</p>
             <p> 특이사항: {adoptListDetail?.specialMark}</p>
             <p> 보호소 이름: {adoptListDetail?.careNm}</p>
             <p> 보호소 전화번호: {adoptListDetail?.careTel}</p>
@@ -188,15 +188,14 @@ const AdoptionListDetail = () => {
           </div>
 
           <div className='dog-info2'></div>
-        </div>
-
-        <div className='adopt-button'>
-          <Button
-            variant='outlined'
-            onClick={goAdoptionApplication}
-          >
-            입양신청서
-          </Button>
+          <div className='adopt-button'>
+            <Button
+              variant='outlined'
+              onClick={goAdoptionApplication}
+            >
+              입양신청서
+            </Button>
+          </div>
         </div>
       </div>
     </div>

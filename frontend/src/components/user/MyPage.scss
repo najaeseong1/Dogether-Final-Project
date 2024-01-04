@@ -85,7 +85,6 @@
     top: 210px;
     width: 240px;
     left: 0;
-    font-family: 'Noto Sans KR', sans-serif;
   }
 
   .like-list-tap {
@@ -237,7 +236,8 @@
     align-items: flex-start;
     width: 600px;
     position: relative;
-    font-size: 20px;
+    // font-size: 20px;
+    font-family: 'Noto Sans KR', sans-serif;
     margin: 20px;
     margin-top: 20px;
     top: 400px;
@@ -250,8 +250,8 @@
     }
     .text {
       margin-left: 0;
-      width: 200px;
-      margin-left: 120px;
+      width: 310px;
+      margin-left: 50px;
     }
     .date {
       position: absolute;

@@ -79,11 +79,13 @@ const AdoptionManagement = () => {
   const handleApprovedlist = async (item) => {
     try {
       const result = await new Promise((resolve) => {
-        // 모달 열기
         Swal.fire({
           title: '입양신청을 승인하시겠습니까?',
           confirmButtonText: '승인',
           showCancelButton: true,
+          confirmButtonColor: '#e89b93',
+          cancelButtonColor: '#aba6a6',
+          cancelButtonText: '취소',
           didOpen: () => {
             // 여기서 상세보기 모달을 닫도록 설정
             setAdoptionDetail(null);
@@ -91,6 +93,7 @@ const AdoptionManagement = () => {
         }).then((result) => {
           // 모달이 닫힌 후의 로직
           resolve(result);
+          window.location.reload();
         });
       });
 
@@ -112,7 +115,12 @@ const AdoptionManagement = () => {
         // 승인된 목록 업데이트
         setApprovedList((prevList) => [...prevList, item]);
 
-        Swal.fire('입양이 승인되었습니다!', '', 'success');
+        Swal.fire({
+          text: '입양이 승인되었습니다!',
+          confirmButtonColor: '#e89b93',
+          confirmButtonText: '확인',
+          icon: 'success',
+        });
       }
     } catch (error) {
       console.error('입양 승인 중 오류 발생:', error);
@@ -143,6 +151,8 @@ const AdoptionManagement = () => {
       inputLabel: '거절 이유를 입력하세요',
       inputPlaceholder: '거절 이유를 자세히 적어주세요',
       showCancelButton: true,
+      confirmButtonColor: '#e89b93',
+      cancelButtonColor: '#aba6a6',
       confirmButtonText: '입력 완료',
       cancelButtonText: '취소',
       inputValidator: (value) => {
@@ -153,18 +163,19 @@ const AdoptionManagement = () => {
     });
 
     if (result.isConfirmed) {
-      const rejectionReason = result.value;
+      const refusalReason = result.value;
+      console.log('rrejectionReason', refusalReason);
       item.adoptionStatus = 'REJECTED';
 
       const requestData = {
         contractNo: item.contractNo,
         adoptionStatus: 'REJECTED',
-        rejectionReason,
+        refusalReason,
       };
 
       try {
         // 입양 상태를 업데이트하기 위한 API 호출
-        await axios.post(
+        const res = await axios.post(
           `${API_BASE_URL}/contract/adminrejected`,
           requestData,
           {
@@ -173,6 +184,7 @@ const AdoptionManagement = () => {
             },
           }
         );
+        console.log('서버응답', res.data);
 
         // 상태 업데이트
         setAdoptionList((prevList) =>
@@ -180,10 +192,14 @@ const AdoptionManagement = () => {
         );
         setRejectedList((prevList) => [
           ...prevList,
-          { ...item, rejectionReason },
+          { ...item, refusalReason },
         ]);
-
-        Swal.fire('정상적으로 처리되었습니다.');
+        Swal.fire({
+          text: '정상적으로 처리되었습니다.',
+          confirmButtonColor: '#e89b93',
+          confirmButtonText: '확인',
+          icon: 'success',
+        });
       } catch (error) {
         console.error('입양 거절 중 오류 발생:', error);
         Swal.fire('에러가 발생했습니다.', '', 'error');
