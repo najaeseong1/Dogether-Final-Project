@@ -115,6 +115,7 @@ const Join = () => {
         setIsUserId(false);
       }
     }
+    
   };
 
   // 이름 유효성 검사
@@ -175,6 +176,8 @@ const Join = () => {
     } else {
       setUserEmailMessage('사용 가능한 이메일 입니다.');
       setIsUserEmail(true);
+
+      
     }
   };
 
@@ -209,7 +212,7 @@ const Join = () => {
     setPostNo(e.target.value);
   };
 
-  // 이메일 발송 요청 함수
+  // 인증메일 발송 요청 함수
   const sendVerificationEmail = async () => {
     console.log(
       `이메일 발송 요청 함수 ==== ${API_BASE_URL}${USER}/checkmailsend`
@@ -231,7 +234,7 @@ const Join = () => {
       console.log('이메일 발송 응답:', response.data);
       setVerificationCodeFromServer(response.data.code);
       Swal.fire({
-        text: '이메일이 발송되었습니다!',
+        text: '인증메일이 발송되었습니다!',
         confirmButtonColor: '#e89b93',
         confirmButtonText: '확인',
         icon: 'success',
@@ -258,6 +261,8 @@ const Join = () => {
       }
     }
   };
+
+
 
   //회원가입 요청 처리
   const onSubmit = async () => {
@@ -299,6 +304,7 @@ const Join = () => {
             },
           }
         );
+        
 
         // 서버 응답 확인
         if (response.status === 200) {
@@ -311,6 +317,7 @@ const Join = () => {
           });
           console.log('회원가입 완료:', response.data);
           redirect(`${USER}/login`);
+          
         } else {
           console.error('회원가입 실패:', response.data);
         }
