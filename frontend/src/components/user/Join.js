@@ -607,7 +607,6 @@ const Join = () => {
             id='sample6_extraAddress'
             placeholder='참고항목'
             ref={extraAddressInputRef}
-            value={extraAddress}
             readOnly
           />
         </div>
@@ -674,8 +673,6 @@ const Join = () => {
           회원가입
         </button>
       </div>
-
-      {/* </form>  */}
     </div>
   );
 };

@@ -1,8 +1,9 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react';
 import './MainTemplate.scss';
 import ImageSlider from './ImageSlider';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Grid } from '@mui/material';
 import { API_BASE_URL, ADOPT, BOARD } from '../../global/config/host-config';
 import LoadingPink from '../../global/LoadingPink';
@@ -27,6 +28,7 @@ const Modal = ({ children, visible, onClose }) => {
 };
 
 const MainTemplate = () => {
+  const navigate = useNavigate();
   const [popupVisible, setPopupVisible] = useState(() => {
     const dontShowToday = localStorage.getItem('dontShowToday');
     if (dontShowToday) {
@@ -113,6 +115,44 @@ const MainTemplate = () => {
       });
   }, []);
 
+  // 입양 상세페이지로 요청
+  const goAdoptionListDetail = (desertionNo) => {
+    fetch(`${API_BASE_URL}${ADOPT}/detail/${desertionNo}`)
+      .then((response) => response.json())
+      .then((data) => {
+        // 상세 페이지로 이동하는 로직을 추가
+        // const selectedDog = adoptList.find(item => item.desertionNo === desertionNo);
+        navigate(`${ADOPT}/detail/${desertionNo}`, {
+          state: { adoptListDetail: data },
+        });
+        console.log('상세 페이지 데이터:', data);
+      })
+      .catch((error) => {
+        console.error('상세 페이지로 이동 중 에러 발생:', error);
+      });
+  };
+
+  //게시판 상세보기 요청
+  const boardDetailHandler = (boardNo) => {
+    const token = localStorage.getItem('ACCESS_TOKEN');
+
+    fetch(`${API_BASE_URL}${BOARD}/detail/${boardNo}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        navigate(`/boardDetail/${boardNo}`, {
+          state: { boarddetail: data },
+        });
+        console.log('상세 페이지 데이터:', data);
+      })
+      .catch((error) => {
+        console.error('상세 페이지로 이동 중 에러 발생:', error);
+      });
+  };
+
   // console.log('입양리스트 : axios 후에', adoptList);
   // console.log(reviewList);
   // console.log(boardList);
@@ -132,18 +172,17 @@ const MainTemplate = () => {
         item
         className='image'
         key={index}
+        onClick={() => goAdoptionListDetail(adoptList.desertionNo)}
       >
-        <Link to={`${ADOPT}/detail/${adoptList.desertionNo}`}>
-          <img
-            src={adoptList.profileImg}
-            alt='분양게시판 강아지사진'
-          />
-          <div className='category'>
-            {adoptList.kindCd}
-            {adoptList.gender === 'M' ? '수컷' : '암컷'}
-            {adoptList.age}
-          </div>
-        </Link>
+        <img
+          src={adoptList.profileImg}
+          alt='분양게시판 강아지사진'
+        />
+        <div className='category'>
+          {adoptList.kindCd}
+          {adoptList.gender === 'M' ? '수컷' : '암컷'}
+          {adoptList.age}
+        </div>
       </Grid>
     ));
   }
@@ -243,7 +282,7 @@ const MainTemplate = () => {
                       className='image'
                       key={index}
                     >
-                      <Link to={`${BOARD}/${reviewList.boardNo}`}>
+                      <a onClick={() => boardDetailHandler(reviewList.boardNo)}>
                         <img
                           src={reviewList.imgage}
                           alt='강아지후기사진'
@@ -251,7 +290,7 @@ const MainTemplate = () => {
                         <div className='category'>
                           후기 게시글 {reviewList.title} {reviewList.regDate}
                         </div>
-                      </Link>
+                      </a>
                     </Grid>
                   ))
                 ) : (
@@ -281,11 +320,11 @@ const MainTemplate = () => {
                       xs={12}
                       key={index}
                     >
-                      <Link to={`/boarddetail/${boardList.boardNo}`}>
+                      <a onClick={() => boardDetailHandler(boardList.boardNo)}>
                         <div className='category'>{boardList.category}</div>
                         <div className='title'>{boardList.title}</div>
                         <div className='regDate'>{boardList.registDate}</div>
-                      </Link>
+                      </a>
                     </Grid>
                   ))
                 ) : (

@@ -134,4 +134,8 @@ export const formattedDate = (dateString) => {
   return format(new Date(dateString), 'yyyy-MM-dd');
 };
 
+export const formattedAmount = (amount) => {
+  return Number(amount).toLocaleString() + '원';
+};
+
 export default AuthContext;

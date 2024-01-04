@@ -93,6 +93,7 @@ const AdoptionManagement = () => {
         }).then((result) => {
           // 모달이 닫힌 후의 로직
           resolve(result);
+          window.location.reload();
         });
       });
 
