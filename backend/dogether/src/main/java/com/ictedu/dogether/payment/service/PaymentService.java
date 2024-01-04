@@ -258,7 +258,8 @@ public class PaymentService {
         }
         Payment targetInfo = paymentEntityRepository.findByOrderId(orderId);
         targetInfo.setStatus(PaymentStatus.READY);
-
+        paymentEntityRepository.save(targetInfo);
+        log.info("타겟상품 -{}", targetInfo);
         log.info("\n\n\n 관리자가 사용할 결제된 내역 상태 변경 서비스 에서 타겟 Payment 정보 {}", targetInfo);
     }
 
@@ -282,13 +283,13 @@ public class PaymentService {
     }
 
     // 관리자의 READY 내역 조회 서비스
-    public List<PaymentResponse> getPaymentCanceledList(){
+    public List<PaymentResponse> getPaymentReadyList(){
         return paymentEntityRepository.findByStatus(PaymentStatus.READY).stream().map(PaymentResponse ::new)
                 .collect(Collectors.toList());
     }
 
     // 관리자의 CANCLED 내역 조회 서비스
-    public List<PaymentResponse> getPaymentReadyList(){
+    public List<PaymentResponse>  getPaymentCanceledList(){
         return paymentEntityRepository.findByStatus(PaymentStatus.CANCELED).stream().map(PaymentResponse ::new)
                 .collect(Collectors.toList());
     }
