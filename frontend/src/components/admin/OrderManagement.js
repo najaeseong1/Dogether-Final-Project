@@ -24,7 +24,7 @@ const OrderManagement = () => {
   const toLink = (loc) => {
     redirection(loc);
   };
-  const [tab, setTab] = useState('접수'); // 탭 상태 관리
+  const [tab, setTab] = useState('접수');
 
   // 접수대기 목록
   const [receptionList, setReceptionList] = useState([]);
@@ -38,8 +38,6 @@ const OrderManagement = () => {
   //  처리목록 없을 때
   const [listText, setlistText] = useState('');
 
-  const [paymentDetail, setPaymentDetail] = useState([]);
-
   const handleChangeTab = (Tab) => {
     setTab(Tab);
   };
@@ -52,16 +50,19 @@ const OrderManagement = () => {
           Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
         },
       });
-      console.log('넘어온 데이터 :', res.data);
-      if (res.data.length > 0) {
-        setReceptionList(res.data.paymentResponse);
+      if (res.data.paymentResponse.length > 0) {
+        const filteredList = res.data.paymentResponse.filter(
+          (item) => item.status === 'DONE'
+        );
+        console.log(res.data.status);
+
+        setReceptionList(filteredList);
+        setReceptionList(filteredList);
         setlistText('');
       } else {
         setReceptionList([]);
         setlistText('접수된 목록이 없습니다.');
       }
-      setReceptionList(res.data.paymentResponse);
-      setPaymentDetail(res.data.paymentDetail);
     } catch (error) {
       console.error('Error fetching adoption data:', error);
     }
@@ -86,29 +87,23 @@ const OrderManagement = () => {
       loadRejectedList();
     }
   }, [tab]);
+
   // 상품 주문 승인 핸들러
   const handleApprovedlist = async (item) => {
-    console.log('아이템', item);
     try {
-      const result = await new Promise((resolve) => {
-        Swal.fire({
-          title: '주문된 상품 승인하시겠습니까?',
-          confirmButtonText: '승인',
-          showCancelButton: true,
-          confirmButtonColor: '#e89b93',
-          cancelButtonColor: '#aba6a6',
-          cancelButtonText: '취소',
-        }).then((result) => {
-          // 모달이 닫힌 후의 로직
-          resolve(result);
-          window.location.reload();
-        });
+      const result = await Swal.fire({
+        title: '주문된 상품 승인하시겠습니까?',
+        confirmButtonText: '승인',
+        showCancelButton: true,
+        confirmButtonColor: '#e89b93',
+        cancelButtonColor: '#aba6a6',
+        cancelButtonText: '취소',
       });
 
-      // 확인 버튼이 눌렸을 때의 로직
       if (result.isConfirmed) {
         item.status = 'READY';
-        // 주문 버튼 DONE 라면 !
+
+        // 주문 승인 API 호출
         await axios.post(
           `${API_BASE_URL}${PAYMENT}/${item.orderId}`,
           { status: 'READY' },
@@ -118,14 +113,20 @@ const OrderManagement = () => {
             },
           }
         );
-        // 해당 항목을 접수 목록에서 제거 히고
+
+        // 해당 항목을 접수 목록에서 제거하고
         setReceptionList((prevList) =>
           prevList.filter(
             (paymentResponse) => paymentResponse.orderId !== item.orderId
           )
         );
+
+        // 목록 다시 불러오기
+        handleReception(tab);
+
         // 해당 항목을 승인 목록에 추가
-        processList((prevList) => [...prevList, item]);
+        setProcessList((prevList) => [...prevList, item]);
+
         Swal.fire({
           text: '주문이 승인되었습니다!',
           confirmButtonColor: '#e89b93',
@@ -134,11 +135,10 @@ const OrderManagement = () => {
         });
       }
     } catch (error) {
-      console.error('입양 승인 중 오류 발생:', error);
+      console.error('주문 승인 중 오류 발생:', error);
       Swal.fire('에러가 발생했습니다.', '', 'error');
     }
   };
-
   // 승인된 주문 목록 불러오기 STATUS === READY
   const loadApprovedList = async () => {
     try {
@@ -147,8 +147,9 @@ const OrderManagement = () => {
           Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
         },
       });
-      console.log('READY 승인된 목록:', res.data);
+      console.log('READY 승인된 목록:', res.data.status);
       setProcessList(res.data);
+      console.log('데이터 확인:', res.data);
     } catch (error) {
       console.error(error);
     }
@@ -156,37 +157,37 @@ const OrderManagement = () => {
 
   // 승인 취소 핸들러
   const handleRejected = async (item) => {
-    const result = await Swal.fire({
-      title: '주문 거절',
-      input: 'textarea',
-      inputLabel: '거절 이유를 입력하세요',
-      inputPlaceholder: '거절 이유를 자세히 적어주세요',
-      showCancelButton: true,
-      confirmButtonColor: '#e89b93',
-      cancelButtonColor: '#aba6a6',
-      confirmButtonText: '입력 완료',
-      cancelButtonText: '취소',
-      inputValidator: (value) => {
-        if (!value) {
-          return '거절 이유를 입력해야 합니다!';
-        }
-      },
-    });
+    try {
+      const result = await Swal.fire({
+        title: '주문 거절',
+        input: 'textarea',
+        inputLabel: '거절 이유를 입력하세요',
+        inputPlaceholder: '거절 이유를 자세히 적어주세요',
+        showCancelButton: true,
+        confirmButtonColor: '#e89b93',
+        cancelButtonColor: '#aba6a6',
+        confirmButtonText: '입력 완료',
+        cancelButtonText: '취소',
+        inputValidator: (value) => {
+          if (!value) {
+            return '거절 이유를 입력해야 합니다!';
+          }
+        },
+      });
 
-    if (result.isConfirmed) {
-      const refusalReason = result.value;
-      console.log('rrejectionReason', refusalReason);
-      item.status = 'CANCELED';
+      if (result.isConfirmed) {
+        const refusalReason = result.value;
+        item.status = 'CANCELED';
 
-      const requestData = {
-        orderId: item.orderId,
-        status: 'CANCELED',
-        refusalReason,
-      };
-      try {
+        const requestData = {
+          orderId: item.orderId,
+          status: 'CANCELED',
+          refusalReason,
+        };
+
         // 주문 상태를 CANCELED 업데이트하기 위한 API 호출
         const res = await axios.post(
-          `${API_BASE_URL}${PAYMENT}/canceled`,
+          `${API_BASE_URL}${PAYMENT}/canceled/${item.orderId}`,
           requestData,
           {
             headers: {
@@ -194,23 +195,28 @@ const OrderManagement = () => {
             },
           }
         );
-        console.log('CANCELED 요청 서버응답', res.data);
 
-        // 상태 업데이트
+        // 목록에서 해당 항목 제거
         setReceptionList((prevList) =>
           prevList.filter((adoption) => adoption.orderId !== item.orderId)
         );
+
+        // 목록 다시 불러오기
+        handleReception(tab);
+
+        // 해당 항목을 거절 목록에 추가
         setCancelList((prevList) => [...prevList, { ...item, refusalReason }]);
+
         Swal.fire({
           text: '정상적으로 처리되었습니다.',
           confirmButtonColor: '#e89b93',
           confirmButtonText: '확인',
           icon: 'success',
         });
-      } catch (error) {
-        console.error('주문 거절 중 오류 발생:', error);
-        Swal.fire('에러가 발생했습니다.', '', 'error');
       }
+    } catch (error) {
+      console.error('주문 거절 중 오류 발생:', error);
+      Swal.fire('에러가 발생했습니다.', '', 'error');
     }
   };
 
@@ -333,11 +339,8 @@ const OrderManagement = () => {
                       <div className='item-info'>
                         <p className='time'>{formattedDate(item.approvedAt)}</p>
                         <div className='item-info'>
-                          <p className='time'>
-                            {formattedDate(item.approvedAt)}
-                          </p>
                           <p className='applicant'>
-                            주문번호{item.orderId} <br /> 주문이름 :
+                            주문번호 : {item.orderId} <br /> 주문이름 :
                             {formatComma(item.orderName)}
                           </p>
                         </div>
@@ -357,11 +360,8 @@ const OrderManagement = () => {
                       <div className='item-info'>
                         <p className='time'>{formattedDate(item.approvedAt)}</p>
                         <div className='item-info'>
-                          <p className='time'>
-                            {formattedDate(item.approvedAt)}
-                          </p>
                           <p className='applicant'>
-                            주문번호{item.orderId} <br /> 주문이름 :
+                            주문번호 : {item.orderId} <br /> 주문이름 :
                             {formatComma(item.orderName)}
                           </p>
                         </div>

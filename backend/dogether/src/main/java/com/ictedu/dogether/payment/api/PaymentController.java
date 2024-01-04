@@ -100,7 +100,7 @@ public class PaymentController {
     }
 
     //주문 결제 상태 변경 로직 DONE --> READY
-    @PostMapping("/payment/{orderId}")
+    @PostMapping("/{orderId}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> adminPaymentApproved(
             @AuthenticationPrincipal TokenUserInfo userInfo,

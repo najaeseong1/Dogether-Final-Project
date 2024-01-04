@@ -15,7 +15,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "user")
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
