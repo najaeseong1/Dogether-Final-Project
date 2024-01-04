@@ -16,6 +16,7 @@ const BoardDetail = () => {
   const { boardNo } = useParams();
   const location = useLocation();
   const [image, setImage] = useState(null);
+  z;
   const ReplyRegist_URL = `${API_BASE_URL}${BOARD}/reply`;
   const API_URL = `${API_BASE_URL}${BOARD}/${boardNo}`;
   const MODIFY_URL = `${API_BASE_URL}${BOARD}/${boardNo}`;
@@ -223,7 +224,7 @@ const BoardDetail = () => {
         console.error('상세 페이지로 이동 중 에러 발생:', error);
       });
   };
-  const currentUserId = localStorage.getItem('LOGIN_USERID');
+  const currentUserId = localStorage.getItem('USER_ID');
   return (
     <div className='post-detail'>
       <h2>{boardDetail?.title}</h2>
