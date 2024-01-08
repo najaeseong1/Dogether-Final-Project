@@ -1,0 +1,55 @@
+/*Dogether 글씨체 */
+
+@import url('https://fonts.googleapis.com/css2?family=Courgette&display=swap');
+/*푸터 공지사항 */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;400&display=swap');
+/* 푸터 상호명쪽 글씨체*/
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
+.footerContainer1 {
+  padding-bottom: 30px;
+  padding-left: 50px;
+  /* width: 100%; */
+  margin-top: 100px; //이건 바꿔도 될듯
+
+  ul {
+    list-style: none;
+    display: flex;
+    display: block;
+    padding: 0;
+  }
+  ul > li {
+    border-right: 1px solid #7a7272;
+    padding: 5px 5px;
+    font-size: 15px;
+    margin: 0;
+    display: inline;
+    width: 100;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: #7a7272;
+  }
+  ul > li:last-child {
+    border: 0;
+  }
+  #footerDogether {
+    color: #e89b93;
+    font-family: 'Courgette', cursive;
+    font-size: 30px;
+  }
+  div {
+    font-family: 'Noto Sans KR', sans-serif;
+    color: #7a7272;
+  }
+}
+.footerContainer2 {
+  height: 100px;
+  background-color: #f3ded7;
+}
+
+@media (max-width: 768px) {
+  .footerContainer1 {
+    padding-left: 0;
+    div {
+      font-size: 12px;
+    }
+  }
+}

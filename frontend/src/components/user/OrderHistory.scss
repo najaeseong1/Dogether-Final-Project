@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@200&family=Noto+Sans+KR:wght@100&display=swap');
+.ProductOrderList {
+  position: absolute;
+  left: 300px;
+  width: 900px;
+  margin-top: 20px;
+  padding: 20px;
+  border: 4px solid #6e6e6d;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-family: 'IBM Plex Sans KR', sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
+  max-height: 500px;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 12px; /* 스크롤바 너비 */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #6e6e6d; /* 스크롤바 색상 */
+    border-radius: 4px; /* 스크롤바 모서리 둥글게 */
+  }
+}
+
+.boardTitle {
+  font-size: 1.8em;
+  color: #000000;
+  margin-bottom: 20px;
+}
+
+.orderhistory_table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+
+  th:last-child {
+    width: 100px;
+  }
+
+  th,
+  td {
+    padding: 15px;
+    color: #000000;
+    text-align: center;
+  }
+  td {
+    border-bottom: 0.4px solid #d7d7d7;
+  }
+  // 상품 정보 이름
+  .order-product {
+    span {
+      font-size: 14px;
+    }
+  }
+
+  th {
+    border-top: 3px solid #f3c2bd;
+    border-bottom: 3px solid #f3c2bd;
+    font-weight: bold;
+
+    font-size: 13px;
+  }
+
+  tbody tr:hover {
+    background-color: #d7d7d7;
+    cursor: pointer;
+  }
+  .orderButton,
+  .cancelButton {
+    margin: 5px;
+    padding: 10px;
+    background-color: #f3ded7;
+    color: #6e6e6d;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s;
+    font-weight: 800;
+    &:hover {
+      background-color: #e89b93;
+    }
+  }
+}
+.order-history {
+  color: #969696;
+  font-family: 'Days One', Helvetica;
+  font-size: 25px;
+  font-weight: 400;
+  position: absolute;
+  top: 380px;
+  width: 240px;
+  left: 0;
+  background-color: #ff0000;
+}
+
+.myCancelButtonClass {
+  background-color: #ff0000;
+  color: #ffffff;
+  border: 2px solid #ff0000;
+}
+
+.swal_title {
+  padding: 10px;
+  font-size: 25px;
+  background-color: #f3c2bd;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  color: #000000;
+  font-family: 'IBM Plex Sans KR', sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 800;
+}
+
+.order-details {
+  text-align: center;
+  padding: 20px;
+  border: 4px solid #6e6e6d;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  font-family: 'IBM Plex Sans KR', sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
+  margin-bottom: 1em;
+  p {
+    font-size: 16px;
+  }
+}
+
+.product-image {
+  width: 100px;
+  border-radius: 5px;
+}
+
+.order-number {
+  font-weight: bold;
+  font-size: 13px;
+}

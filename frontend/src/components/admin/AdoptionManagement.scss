@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&family=Jua&family=Noto+Sans+KR:wght@100&family=Poiret+One&display=swap');
+.adoption-management {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.order-title {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.adop-profil {
+  display: flex;
+  flex-direction: row;
+  margin-left: 20px;
+  align-items: center;
+  background-color: #fff;
+  padding: 100px 60px 30px;
+  font-size: 20px;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.tab-bar {
+  display: flex;
+
+  button {
+    background-color: #aba6a6;
+    border: none;
+    border-radius: 5px;
+
+    font-size: 16px;
+    cursor: pointer;
+    color: #fff;
+    transition: background-color 0.3s, color 0.3s;
+    font-family: 'Noto Sans KR', sans-serif;
+
+    &:hover {
+      background-color: #e89b93;
+    }
+
+    &.active {
+      background-color: #e89b93;
+    }
+  }
+}
+
+.list-container {
+  width: 100%;
+  max-width: 800px;
+}
+
+.list-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: #d5d5d5;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-family: 'Noto Sans KR', sans-serif;
+  height: 150px;
+
+  .item-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    margin-bottom: 0;
+    cursor: pointer;
+
+    .time {
+      width: 100px;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+
+    .applicant {
+      font-size: 14px;
+      color: #555;
+      margin: 0;
+      bottom: 0;
+      width: 200px;
+    }
+  }
+
+  .detail-button {
+    background-color: #aba6a6;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    height: 50px;
+
+    margin-left: 5px;
+
+    &:hover {
+      background-color: #e89b93;
+    }
+  }
+
+  .main-management {
+    display: table-cell;
+    width: 100%;
+    vertical-align: top;
+  }
+
+  .box {
+    max-height: 780px; /* 최대 높이 설정 */
+    overflow-y: auto;
+    padding: 16px 17px 0;
+    border-radius: 12px;
+    box-shadow: 2px 2px 14px 0 rgba(0, 164, 73, 0.08);
+    border: solid 1px rgba(3, 213, 128, 0.8);
+    background-color: #fff;
+    box-sizing: border-box;
+  }
+}
+
+.left-menu {
+  margin-bottom: 80px;
+}
+.left-menu li {
+  text-decoration: none;
+  cursor: pointer;
+  margin-top: 19px;
+  list-style: none;
+  font-size: 20px;
+
+  &:hover {
+    color: #aba6a6;
+  }
+}
+
+.adopt-btn {
+  display: block;
+  width: 90%;
+  padding: 10px 0;
+  background-color: #d6d6d6;
+  color: #000;
+  border: none;
+  font-size: 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Noto Sans KR', sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+  margin-top: 20px;
+  height: 50px;
+
+  &:hover {
+    background-color: #d4776b;
+    color: #fff;
+  }
+}

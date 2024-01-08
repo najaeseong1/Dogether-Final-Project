@@ -1,0 +1,503 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&family=Jua&family=Noto+Sans+KR:wght@100&family=Poiret+One&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+
+.joinmain {
+  position: relative;
+  top: 50px;
+  height: 1200px;
+  right: 30px;
+  font-family: 'Noto Sans KR', sans-serif;
+  height: 1500px;
+
+  input {
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+}
+
+// 다음 우편번호 검색 기능 툴
+.daum {
+  display: none;
+}
+
+.red-message {
+  color: red;
+}
+
+.blue-message {
+  color: green;
+}
+
+.joinmain .joinmain2 {
+  position: relative;
+  bottom: 130px;
+}
+
+.joinmain .joinmsg {
+  position: relative;
+  text-align: center;
+  bottom: 50px;
+  font-size: 40px;
+  font-family: 'Jua', sans-serif;
+
+  margin-top: 80px;
+  margin-left: 50px;
+}
+
+.joinmain .feelsudiv {
+  position: relative;
+  width: 650px;
+  border: 5px solid #e89b93;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  font-size: 20px;
+  color: #6e6e6d;
+  bottom: 5px;
+  left: 8%;
+  font-family: 'Jua', sans-serif;
+}
+.joinmain .iddiv {
+  position: relative;
+  border: 1px solid gray;
+  border-radius: 10px;
+  width: 450px;
+  height: 40px;
+  top: 20px;
+  left: 150px;
+
+  &:focus-within {
+    border: 3px solid black;
+  }
+
+  input {
+    position: relative;
+    border: none;
+    top: 10px;
+    width: 380px;
+    height: 20px;
+    left: 50px;
+    padding: 0;
+    outline: none;
+  }
+}
+
+.joinmain .joogbokid {
+  position: relative;
+  font-weight: bold;
+  font-size: 13px;
+  top: 15px;
+  left: 160px;
+}
+
+.joinmain .idcheckbtn {
+  position: relative;
+  left: 460px;
+
+  button {
+    border: 2px solid grey;
+    background-color: pink;
+    border-radius: 10px;
+  }
+}
+
+.joinmain .passworddiv {
+  position: relative;
+  border: 1px solid gray;
+  border-radius: 10px;
+  width: 450px;
+  height: 40px;
+  top: 30px;
+  left: 150px;
+  &:focus-within {
+    border: 3px solid black;
+  }
+
+  input {
+    position: relative;
+    border: none;
+    left: 10px;
+    top: 10px;
+    left: 50px;
+    outline: none;
+    width: 380px;
+  }
+}
+
+.joinmain .joogbokpassword {
+  position: relative;
+  font-weight: bold;
+  font-size: 13px;
+  top: 25px;
+  left: 160px;
+}
+
+.joinmain .passwordcheck {
+  position: relative;
+  border: 1px solid gray;
+  border-radius: 10px;
+  width: 450px;
+  height: 40px;
+  top: 40px;
+  left: 150px;
+  &:focus-within {
+    border: 3px solid black;
+  }
+  input {
+    position: relative;
+    border: none;
+    left: 10px;
+    top: 10px;
+    left: 50px;
+    outline: none;
+    width: 380px;
+  }
+}
+
+.joinmain .joogbokpasswordcheck {
+  position: relative;
+  font-weight: bold;
+  font-size: 13px;
+  top: 35px;
+  left: 160px;
+}
+
+.joinmain .emailinput {
+  position: relative;
+  border: 1px solid gray;
+  border-radius: 10px;
+  width: 330px;
+  height: 40px;
+  top: 50px;
+  left: 150px;
+  &:focus-within {
+    border: 3px solid black;
+  }
+
+  input {
+    position: relative;
+    border: none;
+    left: 10px;
+    top: 10px;
+    left: 50px;
+    outline: none;
+    width: 260px;
+  }
+}
+
+.joinmain .emailCheckBtn {
+  position: absolute;
+  width: 120px;
+  bottom: 0px;
+  left: 340px;
+
+  button {
+    height: 40px;
+    border: none;
+    background-color: #e89b93;
+    font-family: 'Noto Sans KR', sans-serif;
+    border-radius: 10px;
+    cursor: pointer;
+    color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    &:hover {
+      background-color: #d9928a;
+    }
+  }
+}
+
+.joinmain .joogbokemail {
+  position: relative;
+  font-weight: bold;
+  font-size: 13px;
+  top: 45px;
+  left: 160px;
+}
+
+.joinmain .emailinput2 {
+  position: relative;
+  border: 1px solid gray;
+  border-radius: 10px;
+  width: 330px;
+  height: 40px;
+  top: 55px;
+  left: 150px;
+  &:focus-within {
+    border: 3px solid black;
+  }
+
+  input {
+    position: relative;
+    border: none;
+    left: 10px;
+    top: 10px;
+    left: 50px;
+    outline: none;
+    width: 260px;
+  }
+}
+
+.joinmain .emailVerifyBtn {
+  position: absolute;
+  width: 120px;
+  bottom: 0px;
+  left: 340px;
+
+  button {
+    height: 40px;
+    border: none;
+    background-color: #e89b93;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    font-family: 'Noto Sans KR', sans-serif;
+    border-radius: 10px;
+    cursor: pointer;
+    color: #fff;
+    &:hover {
+      background-color: #d9928a;
+    }
+  }
+}
+
+.joinmain .joogbokemailcheck {
+  position: relative;
+  font-weight: bold;
+  font-size: 13px;
+  top: 50px;
+  left: 160px;
+}
+
+.joinmain .namediv {
+  position: relative;
+  border: 1px solid gray;
+  border-radius: 10px;
+  width: 450px;
+  height: 40px;
+  top: 60px;
+  left: 150px;
+  &:focus-within {
+    border: 3px solid black;
+  }
+
+  input {
+    position: relative;
+    border: none;
+    left: 10px;
+    top: 10px;
+    left: 50px;
+    outline: none;
+    width: 380px;
+  }
+}
+
+.joinmain .joogbokname {
+  position: relative;
+  font-weight: bold;
+  font-size: 13px;
+  top: 50px;
+  left: 160px;
+}
+
+.joinmain .phonediv {
+  position: relative;
+  border: 1px solid gray;
+  border-radius: 10px;
+  width: 450px;
+  height: 40px;
+  top: 70px;
+  left: 150px;
+
+  &:focus-within {
+    border: 3px solid black;
+  }
+
+  input {
+    position: relative;
+    border: none;
+    left: 10px;
+    top: 10px;
+    left: 50px;
+    outline: none;
+    width: 380px;
+  }
+}
+
+.joinmain .joogbokphone {
+  position: relative;
+  font-weight: bold;
+  font-size: 13px;
+  top: 60px;
+  left: 160px;
+}
+
+.joinmain .feelsudiv2 {
+  position: relative;
+  width: 650px;
+  border: 5px solid #e89b93;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  font-size: 20px;
+  color: #6e6e6d;
+  top: 60px;
+  left: 8%;
+  font-family: 'Jua', sans-serif;
+}
+
+.joinmain .postdiv {
+  position: relative;
+  border: 1px solid gray;
+  border-radius: 10px;
+  width: 330px;
+  height: 40px;
+  top: 100px;
+  left: 150px;
+  &:focus-within {
+    border: 3px solid black;
+  }
+  input {
+    position: relative;
+    border: none;
+    left: 10px;
+    top: 10px;
+    left: 50px;
+    outline: none;
+    width: 260px;
+  }
+}
+
+.joinmain .postbtn {
+  position: relative;
+  left: 500px;
+  top: 56px;
+  font-family: 'Noto Sans KR', sans-serif;
+
+  input {
+    background-color: #e89b93;
+    border-radius: 10px;
+    width: 100px;
+    height: 45px;
+    cursor: pointer;
+    border: 1px solid pink;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    color: #fff;
+
+    &:hover {
+      background-color: #d9928a;
+    }
+  }
+}
+
+.joinmain .addrdiv {
+  position: relative;
+  border: 1px solid gray;
+  border-radius: 10px;
+  width: 450px;
+  height: 40px;
+  top: 80px;
+  left: 150px;
+
+  input {
+    position: relative;
+    border: none;
+    left: 10px;
+    top: 10px;
+    left: 50px;
+    outline: none;
+  }
+}
+
+.joinmain .addrdetaildiv {
+  position: relative;
+  border: 1px solid gray;
+  border-radius: 10px;
+  width: 450px;
+  height: 40px;
+  top: 105px;
+  left: 150px;
+  &:focus-within {
+    border: 3px solid black;
+  }
+
+  input {
+    position: relative;
+    border: none;
+    left: 10px;
+    top: 10px;
+    left: 50px;
+    outline: none;
+    width: 380px;
+  }
+}
+
+.joinmain .refaddrdiv {
+  position: relative;
+  border: 1px solid gray;
+  border-radius: 10px;
+  width: 450px;
+  height: 40px;
+  top: 130px;
+  left: 150px;
+
+  input {
+    position: relative;
+    border: none;
+    left: 10px;
+    top: 10px;
+    left: 50px;
+    outline: none;
+  }
+}
+
+.joinmain .feelsudiv3 {
+  position: relative;
+  width: 650px;
+  border: 5px solid #e89b93;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  font-size: 20px;
+  color: #6e6e6d;
+  top: 180px;
+  left: 8%;
+  font-family: 'Jua', sans-serif;
+}
+
+.joinmain .dongebtn {
+  position: relative;
+  top: 150px;
+  left: 600px;
+}
+
+.joinmain .dongetext {
+  position: relative;
+  left: 70px;
+
+  top: 170px;
+}
+
+.joinmain .dongebtn2 {
+  position: relative;
+  left: 600px;
+  top: 150px;
+}
+
+.joinmain .lastjoinbtn {
+  position: relative;
+  left: 250px;
+  top: 300px;
+
+  button {
+    color: white;
+    border: none;
+    background-color: #e89b93;
+    border-radius: 10px;
+    width: 200px;
+    height: 45px;
+    font-size: 20px;
+    font-family: 'Noto Sans KR', sans-serif;
+    cursor: pointer;
+    &:hover {
+      background-color: #d9928a;
+    }
+  }
+}

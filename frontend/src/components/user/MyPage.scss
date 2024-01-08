@@ -1,0 +1,295 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&family=Jua&family=Noto+Sans+KR:wght@100&family=Poiret+One&display=swap');
+
+.mypage-fixed {
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  button {
+    border: none;
+
+    height: 50px;
+    background-color: #fff;
+    padding: 0;
+    cursor: pointer;
+    transition: 0.4s;
+    font-family: 'Noto Sans KR', sans-serif;
+
+    &:hover {
+      color: white;
+      background-color: #f3c2bd;
+    }
+  }
+
+  .group-wrapper {
+    background-color: #ffffff;
+    height: 800px;
+    width: 1440px;
+  }
+
+  .group {
+    height: 500px;
+    left: 90px;
+    position: relative;
+    width: 240px;
+    background-color: #fff;
+    box-shadow: 5px 1px 8px 0 rgba(0, 0, 0, 0.06);
+    border-left: 1px solid rgba(0, 0, 0, 0.08);
+    vertical-align: top;
+
+    &.fixed {
+      position: fixed;
+      top: 0;
+      left: 50%; /* Adjust the left value as needed */
+      transform: translateX(-50%);
+    }
+  }
+
+  .mypage-tap,
+  .modify-tap {
+    color: #969696;
+    font-family: 'Days One', Helvetica;
+    font-size: 25px;
+    font-weight: 400px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 30px;
+    width: 240px;
+    left: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+
+  .modify-tap {
+    font-size: 25px;
+    font-weight: 400;
+    position: absolute;
+    top: 120px;
+    width: 240px;
+    left: 0;
+  }
+
+  .like-list-tap,
+  .adoptionstatus {
+    color: #969696;
+    font-family: 'Days One', Helvetica;
+    font-size: 25px;
+    font-weight: 400;
+    position: absolute;
+    top: 210px;
+    width: 240px;
+    left: 0;
+  }
+
+  .like-list-tap {
+    top: 210px;
+  }
+
+  .adoptionstatus {
+    top: 300px;
+  }
+
+  .completion-group {
+    height: 234px;
+    left: 593px;
+    position: relative;
+    top: 20px;
+    background-color: #ffffff;
+    border: 1px solid;
+    border-color: #f3ded7;
+    border-radius: 10px;
+    height: 234px;
+    position: absolute;
+    width: 252px;
+
+    .completion {
+      position: relative;
+      font-family: 'Courgette', Helvetica;
+      font-size: 40px;
+      top: 20px;
+      text-align: center;
+    }
+    .completion-status {
+      position: relative;
+      color: #e89b93;
+      font-family: 'Courgette', Helvetica;
+      font-size: 36px;
+      letter-spacing: 0;
+      line-height: normal;
+      text-align: center;
+    }
+  }
+
+  .know-group {
+    border: 1px solid #f3ded7;
+    border-radius: 10px;
+    height: 234px;
+    left: 320px;
+    position: absolute;
+    top: 20px;
+    width: 252px;
+
+    .knowledge {
+      position: relative;
+      font-family: 'Courgette', Helvetica;
+      font-size: 40px;
+      top: 20px;
+      text-align: center;
+    }
+
+    .knowledgecon {
+      position: relative;
+      color: #e89b93;
+      font-family: 'Courgette', Helvetica;
+      font-size: 36px;
+      letter-spacing: 0;
+      line-height: normal;
+      text-align: center;
+    }
+  }
+
+  .quiz-group {
+    border: 1px solid #f3ded7;
+    border-radius: 10px;
+    height: 234px;
+    left: 866px;
+    position: absolute;
+    top: 20px;
+    width: 256px;
+
+    .quiz {
+      position: relative;
+      color: #000000;
+      font-family: 'Courgette', Helvetica;
+      font-size: 40px;
+      top: 20px;
+      text-align: center;
+    }
+
+    .quiz-score {
+      position: relative;
+      color: #e89b93;
+      font-family: 'Courgette', Helvetica;
+      font-size: 36px;
+      letter-spacing: 0;
+      line-height: normal;
+      text-align: center;
+    }
+    .toquiz {
+      position: relative;
+      color: #e89b93;
+      font-family: 'Courgette', Helvetica;
+      font-size: 36px;
+      letter-spacing: 0;
+      line-height: normal;
+      text-align: center;
+    }
+  }
+
+  .board {
+    padding-bottom: 7px;
+    border-bottom: 3px solid pink;
+    font-size: 25px;
+    font-weight: 400;
+    left: 320px;
+    position: absolute;
+    top: 310px;
+    width: 790px;
+    margin-bottom: 5px;
+    font-family: 'Courgette', Helvetica;
+  }
+
+  .board-list {
+    display: flex;
+    font-size: 20px;
+    left: 320px;
+    padding-bottom: 7px;
+    border-bottom: 1px solid pink;
+    position: absolute;
+    top: 360px;
+    width: 790px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-family: 'Courgette', Helvetica;
+    .category {
+      margin-left: 30px;
+      font-family: 'Courgette', Helvetica;
+    }
+    .text {
+      margin-left: 110px;
+      left: 20px;
+    }
+    .date {
+      position: absolute;
+      right: 200px;
+    }
+  }
+  .board-content {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    width: 600px;
+    position: relative;
+    // font-size: 20px;
+    font-family: 'Noto Sans KR', sans-serif;
+    margin: 20px;
+    margin-top: 20px;
+    top: 400px;
+    left: 350px;
+    cursor: pointer;
+
+    .category {
+      margin-right: 10px;
+      font-family: 'Courgette', Helvetica;
+    }
+    .text {
+      margin-left: 0;
+      width: 310px;
+      margin-left: 50px;
+    }
+    .date {
+      position: absolute;
+      right: -40px;
+      top: 0;
+      width: 200px;
+    }
+    &:hover {
+      color: rgb(153, 153, 153);
+    }
+  }
+
+  .board-content-not {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    width: 600px;
+    position: relative;
+    font-size: 20px;
+    margin: 20px;
+    margin-top: 20px;
+    top: 400px;
+    left: 550px;
+  }
+
+  @media only screen and (max-width: 768px) {
+    .group {
+      width: 100%;
+      left: 0;
+    }
+
+    .joinform-box {
+      width: 90%;
+    }
+
+    .board {
+      left: 10px;
+      width: calc(100% - 20px);
+    }
+  }
+}
